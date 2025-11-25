@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Project Intelligence - Subscription Selection</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+
+/* EXACT MATCH TO GOLD STANDARD - Top Bar */
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+
+/* EXACT MATCH TO GOLD STANDARD - Layout */
+.layout { display: flex; min-height: calc(100vh - 70px); }
+.sidebar { width: 75px; background: #2c3e50; display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-icon { width: 40px; height: 40px; background: #34495e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; margin-bottom: 3px; }
+.nav-icon:hover { background: #3d5a73; }
+.nav-icon.selected { background: #1976d2; }
+.nav-label { color: #fff; font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; }
+
+/* EXACT MATCH TO GOLD STANDARD - Main Content */
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+/* EXACT MATCH TO GOLD STANDARD - Header & Tabs */
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+h1 { margin: 0 0 15px 0; font-size: 28px; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+
+/* Content Area */
+.content { padding: 32px; }
+
+/* Split View */
+.split-view { display: flex; height: 700px; }
+.left-panel { flex: 1; padding: 24px; border-right: 2px solid #e0e0e0; overflow-y: auto; }
+.right-panel { flex: 1; padding: 24px; background: #fafafa; overflow-y: auto; display: flex; align-items: flex-start; justify-content: center; }
+
+/* User Table */
+.search-box { position: relative; margin-bottom: 16px; }
+.search-box input { width: 100%; padding: 8px 12px 8px 36px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #999; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 12px 8px; background: #f0f0f0; border-bottom: 2px solid #e0e0e0; font-size: 13px; font-weight: 600; }
+td { padding: 12px 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+tr:hover { background: #f9f9f9; }
+.user-role { font-size: 12px; color: #666; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.user-role::before { content: ''; width: 10px; height: 10px; background: #666; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.zone-badge { padding: 4px 12px; background: #f0f0f0; border-radius: 12px; font-size: 13px; display: inline-block; }
+.no-access { color: #999; }
+
+/* Subscription Selection Cards */
+.subscription-selection { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 500px; }
+.subscription-option { 
+  background: #fff; 
+  border: 2px solid #e0e0e0; 
+  border-radius: 12px; 
+  padding: 24px; 
+  cursor: pointer; 
+  transition: all 0.2s; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+}
+.subscription-option:hover { 
+  border-color: #1976d2; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+}
+.subscription-content { flex: 1; }
+.subscription-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.subscription-subtitle { font-size: 14px; color: #666; margin-bottom: 12px; }
+.subscription-seats { font-size: 13px; color: #666; }
+.subscription-arrow { font-size: 24px; color: #666; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="logo">ConstructConnect</div>
+  <div class="user-menu">
+    <span>Christopher Donaldson</span>
+    <div class="avatar">CD</div>
+  </div>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item">
+      <div class="nav-icon">🏢</div>
+      <div class="nav-label">Company</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👥</div>
+      <div class="nav-label">Users &<br>Groups</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">Roles</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon selected">📋</div>
+      <div class="nav-label">Subs &<br>Licenses</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">💳</div>
+      <div class="nav-label">Billing</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <h1>Subscriptions and Licenses</h1>
+        <div class="tabs">
+          <button class="tab" onclick="window.location.href='subscription-overview-multi.html'">Organization Overview</button>
+          <button class="tab active">Project Intelligence</button>
+          <button class="tab">Bid Management</button>
+          <button class="tab">Takeoff and Estimating</button>
+          <button class="tab" style="display: none;">API Apps</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Split View -->
+        <div class="split-view">
+          
+          <!-- Left Panel - User List -->
+          <div class="left-panel">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search users...">
+            </div>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Market Zone(s)</th>
+                  <th>Last Login Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div><strong>Sarah Chen</strong></div>
+                    <div class="user-role">Chief Estimator</div>
+                  </td>
+                  <td><span class="zone-badge no-access">No Access</span></td>
+                  <td>Nov 5, 2025</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div><strong>Malcolm Reynolds</strong></div>
+                    <div class="user-role">Chief Estimator</div>
+                  </td>
+                  <td><span class="zone-badge">1 Zone <span style="background: #fff; padding: 2px 6px; border-radius: 8px; font-size: 11px; border: 1px solid #ddd;">Pro</span></span></td>
+                  <td>Nov 5, 2025</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div><strong>Reiver Tam</strong></div>
+                    <div class="user-role">Chief Estimator</div>
+                  </td>
+                  <td><span class="zone-badge">1 Zone <span style="background: #fff; padding: 2px 6px; border-radius: 8px; font-size: 11px; border: 1px solid #ddd;">Pro</span></span></td>
+                  <td>Nov 5, 2025</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div><strong>Zoe Washburne</strong></div>
+                    <div class="user-role">Estimator</div>
+                  </td>         
+                  <td><span class="zone-badge">1 Zone <span style="background: #fff; padding: 2px 6px; border-radius: 8px; font-size: 11px; border: 1px solid #ddd;">Pro</span></span></td>
+                  <td>Nov 5, 2025</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div><strong>Kaylee Fry</strong></div>
+                    <div class="user-role">Estimator</div>
+                  </td>
+                  <td><span class="zone-badge">1 Zone <span style="background: #fff; padding: 2px 6px; border-radius: 8px; font-size: 11px; border: 1px solid #ddd;">Premium</span></span></td>
+                  <td>Nov 5, 2025</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div><strong>Simon Tam</strong></div>
+                    <div class="user-role">Estimator</div>
+                  </td>
+                  <td><span class="zone-badge">1 Zone <span style="background: #fff; padding: 2px 6px; border-radius: 8px; font-size: 11px; border: 1px solid #ddd;">Premium</span></span></td>
+                  <td>Nov 5, 2025</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Right Panel - Subscription Selection -->
+          <div class="right-panel">
+            <div class="subscription-selection">
+              
+              <div class="subscription-option" onclick="window.location.href='zone-prototype-pro.html'">
+                <div class="subscription-content">
+                  <div class="subscription-title">Project Intelligence Pro</div>
+                  <div class="subscription-subtitle">Grant access to all subscribed zones and counties.</div>
+                  <div class="subscription-seats">3 / 20 Seats - 17 seats available</div>
+                </div>
+                <div class="subscription-arrow">▶</div>
+              </div>
+
+              <div class="subscription-option" onclick="window.location.href='zone-prototype-premium.html'">
+                <div class="subscription-content">
+                  <div class="subscription-title">Project Intelligence Premium</div>
+                  <div class="subscription-subtitle">Grant access to all subscribed zones and counties.</div>
+                  <div class="subscription-seats">3 / 20 Seats - 17 seats available</div>
+                </div>
+                <div class="subscription-arrow">▶</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
