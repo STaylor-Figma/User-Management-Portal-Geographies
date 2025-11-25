@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Zone Assignment - MARK Scenario</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+.layout { display: flex; min-height: calc(100vh - 70px); }
+.sidebar { width: 75px; background: #2c3e50; display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-icon { width: 40px; height: 40px; background: #34495e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; margin-bottom: 3px; }
+.nav-icon:hover { background: #3d5a73; }
+.nav-icon.selected { background: #1976d2; }
+.nav-label { color: #fff; font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; }
+.disabled-checkbox-label { position: relative; }
+.disabled-checkbox-label input[disabled] { cursor: not-allowed; }
+.disabled-checkbox-label[data-disabled="true"] { cursor: not-allowed; }
+.tooltip-disabled { position: fixed; top: auto; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 12px; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.tooltip-disabled::after { content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #333; }
+.disabled-checkbox-label:hover .tooltip-disabled { opacity: 1; visibility: visible; }
+.disabled-checkbox-label { position: relative; }
+.disabled-checkbox-label:hover .tooltip-disabled { 
+  opacity: 1; 
+  visibility: visible; 
+}
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+h1 { margin: 0 0 15px 0; font-size: 28px; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+.split-view { display: flex; height: 700px; }
+.left-panel { flex: 1; padding: 24px; border-right: 2px solid #e0e0e0; overflow-y: auto; }
+.right-panel { flex: 1; padding: 0; background: #fafafa; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
+.search-box { position: relative; margin-bottom: 16px; }
+.search-box input { width: 100%; padding: 8px 12px 8px 36px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #999; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 12px 8px; background: #f0f0f0; border-bottom: 2px solid #e0e0e0; font-size: 13px; font-weight: 600; }
+td { padding: 12px 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+tr:hover { background: #f9f9f9; }
+tr.selected { background: #e3f2fd; }
+tr.disabled { opacity: 0.5; cursor: not-allowed; }
+tr.disabled:hover { background: transparent; }
+.user-role { font-size: 12px; color: #666; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.user-role::before { content: ''; width: 10px; height: 10px; background: #666; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.zone-badge { padding: 4px 12px; background: #f0f0f0; border-radius: 12px; font-size: 13px; display: inline-block; }
+.no-access { color: #999; }
+input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+.subscription-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.subscription-subtitle { font-size: 13px; color: #666; }
+.seat-info { font-size: 13px; margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.info-icon { width: 16px; height: 16px; background: #666; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: help; position: relative; }
+.info-icon:hover .tooltip { display: block; }
+.tooltip { display: none; position: absolute; bottom: auto; top: 50%; left: 30px; transform: translateY(-50%); background: #333; color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 12px; white-space: normal; width: 280px; max-height: 50px; overflow: hidden; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.3; }
+.tooltip::after { content: ''; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); border: 6px solid transparent; border-right-color: #333; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.seat-fill { height: 100%; background: #424242; width: 30%; }
+.divider { text-align: center; margin: 20px 0; position: relative; color: #666; font-size: 13px; font-weight: 600; }
+.divider span { background: #fafafa; padding: 0 15px; position: relative; z-index: 1; }
+.divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ccc; }
+.zone-panel { opacity: 1; flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; }
+.zone-panel .zone-card input[type="checkbox"] { opacity: 0.4; pointer-events: none; }
+.zone-panel.active .zone-card input[type="checkbox"] { opacity: 1; pointer-events: auto; }
+.zone-content { flex: 1; overflow-y: auto; }
+.zone-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-top: 8px; }
+.zone-card { background: #fff; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+.zone-header { display: flex; align-items: center; padding: 16px; gap: 12px; }
+.zone-header:hover { background: #f5f5f5; }
+.zone-info { flex: 1; }
+.zone-name { font-weight: 600; margin-bottom: 4px; }
+.zone-details { font-size: 13px; color: #666; }
+.zone-users { background: #f0f0f0; padding: 4px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.expand-arrow { width: 20px; height: 20px; transition: transform 0.2s; cursor: pointer; flex-shrink: 0; }
+.zone-card.expanded .expand-arrow { transform: rotate(180deg); }
+.zone-counties { display: none; padding: 16px; background: #fafafa; border-top: 1px solid #e0e0e0; }
+.zone-card.expanded .zone-counties { display: block; }
+.county-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.county-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.county-count { font-size: 12px; color: #666; margin-top: 8px; }
+.show-all { text-align: center; padding: 8px; color: #1976d2; font-size: 13px; cursor: pointer; text-decoration: underline; }
+.actions { display: flex; gap: 12px; justify-content: flex-end; padding: 16px 24px; background: #fafafa; border-top: 2px solid #e0e0e0; flex-shrink: 0; }
+.btn { padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+.btn-secondary { background: #e0e0e0; color: #424242; }
+.btn-primary { background: #424242; color: #fff; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+.modal.show { display: flex; }
+.modal-content { background: #fff; padding: 32px; border-radius: 8px; text-align: center; max-width: 400px; }
+.success-icon { width: 64px; height: 64px; background: #4caf50; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 32px; }
+</style>
+</head>
+<body>
+<div class="top-bar">
+<div class="logo">ConstructConnect</div>
+<div class="user-menu">
+<span>Christopher Donaldson</span>
+<div class="avatar">CD</div>
+</div>
+</div>
+<div class="layout">
+<div class="sidebar">
+<div class="nav-item">
+<div class="nav-icon">🏢</div>
+<div class="nav-label">Company</div>
+</div>
+<div class="nav-item">
+<div class="nav-icon">👥</div>
+<div class="nav-label">Users &<br>Groups</div>
+</div>
+<div class="nav-item">
+<div class="nav-icon">👤</div>
+<div class="nav-label">Roles</div>
+</div>
+<div class="nav-item">
+<div class="nav-icon selected">📋</div>
+<div class="nav-label">Subs &<br>Licenses</div>
+</div>
+<div class="nav-item">
+<div class="nav-icon">💳</div>
+<div class="nav-label">Billing</div>
+</div>
+</div>
+<div class="main-content">
+<div class="container">
+<div class="header">
+<h1>Subscriptions and Licenses</h1>
+<div class="tabs">
+<button class="tab" onclick="window.location.href='subscription-detail-landing.html'">Organization Overview</button>
+<button class="tab active">Project Intelligence</button>
+<button class="tab">Bid Management</button>
+<button class="tab">Takeoff and Estimating</button>
+<button class="tab" style="display: none;">API Apps</button>
+</div>
+</div>
+<div class="split-view">
+<div class="left-panel">
+<div class="search-box">
+<span class="search-icon">🔍</span>
+<input type="text" placeholder="Search users...">
+</div>
+<table>
+<thead>
+<tr>
+<th style="width:40px"><input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()"></th>
+<th>User Name</th>
+<th>Market Zone(s)</th>
+<th>Last Login Date</th>
+</tr>
+</thead>
+<tbody id="users"></tbody>
+</table>
+</div>
+<div class="right-panel">
+<div style="padding:24px">
+<div class="subscription-card">
+<div class="subscription-title" style="display: flex; align-items: center; gap: 12px;">
+<span onclick="window.location.href='zone-subscription-selector.html'" style="cursor: pointer; font-size: 20px; color: #666;">◀</span>
+Project Intelligence Premium
+</div>
+<div class="subscription-subtitle">Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Premium access.</div>
+<div class="seat-info">
+3 / 20 Seats - 17 seats available
+<div class="info-icon">
+i
+<div class="tooltip">Assigning geography to a user activates one seat.</div>
+</div>
+</div>
+<div class="seat-bar"><div class="seat-fill"></div></div>
+</div>
+<div class="divider"><span>Please choose one of the zones below to assign to the selected user.</span></div>
+</div>
+<div id="zonePanel" class="zone-panel">
+<div class="zone-content">
+<div class="zone-controls">
+<label id="selectAllLabel" class="disabled-checkbox-label" style="font-weight:600;display:flex;align-items:center;gap:8px" data-disabled="true">
+<input type="checkbox" id="selectAll" disabled> Select All Zones
+<div class="tooltip-disabled">Select a user first to enable zone assignment</div>
+</label>
+<div class="search-box" style="width:200px;margin:0">
+<span class="search-icon">🔍</span>
+<input type="text" placeholder="Search zones...">
+</div>
+</div>
+<div id="zones"></div>
+</div>
+<div class="actions">
+<button class="btn btn-secondary" onclick="reset()">Reset</button>
+<button class="btn btn-primary" id="saveBtn" disabled onclick="save()">Save Updates</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="modal" class="modal">
+<div class="modal-content">
+<div class="success-icon">✓</div>
+<h2 style="margin:0 0 10px 0">Geography Assigned Successfully</h2>
+<p id="msg" style="color:#666;font-size:14px;margin-bottom:24px"></p>
+<button class="btn btn-primary" onclick="closeModal()">Close</button>
+</div>
+</div>
+<script>
+var data={users:[
+{id:1,name:'Malcolm Reynolds',role:'Chief Estimator',zones:'1 Zone',login:'Nov 5, 2025',subscription:'Pro',disabled:true},
+{id:2,name:'Reiver Tam',role:'Chief Estimator',zones:'1 Zone',login:'Nov 5, 2025',subscription:'Pro',disabled:true},
+{id:3,name:'Zoe Washburne',role:'Estimator',zones:'1 Zone',login:'Nov 5, 2025',subscription:'Pro',disabled:true},
+{id:4,name:'Kaylee Fry',role:'Estimator',zones:'1 Zone',login:'Nov 5, 2025',subscription:'Starter'},
+{id:5,name:'Simon Tam',role:'Estimator',zones:'1 Zone',login:'Nov 5, 2025',subscription:'Starter'}
+],zones:[
+{id:'fl',name:'Florida',info:'FL (67)',counties:67,users:'1/6',countyList:['Alachua County','Baker County','Bay County','Bradford County','Brevard County','Broward County','Calhoun County','Charlotte County','Citrus County','Clay County','Collier County','Columbia County','DeSoto County','Dixie County','Duval County','Escambia County','Flagler County','Franklin County','Gadsden County','Gilchrist County','Glades County','Gulf County','Hamilton County','Hardee County','Hendry County','Hernando County','Highlands County','Hillsborough County','Holmes County','Indian River County','Jackson County','Jefferson County','Lafayette County','Lake County','Lee County','Leon County','Levy County','Liberty County','Madison County','Manatee County','Marion County','Martin County','Miami-Dade County','Monroe County','Nassau County','Okaloosa County','Okeechobee County','Orange County','Osceola County','Palm Beach County','Pasco County','Pinellas County','Polk County','Putnam County','St. Johns County','St. Lucie County','Santa Rosa County','Sarasota County','Seminole County','Sumter County','Suwannee County','Taylor County','Union County','Volusia County','Wakulla County','Walton County','Washington County']},
+{id:'tx',name:'Texas - Major Metro',info:'TX (12)',counties:12,users:'2/6',countyList:['Harris County','Dallas County','Tarrant County','Bexar County','Travis County','Collin County','Denton County','Fort Bend County','Montgomery County','Williamson County','El Paso County','Hidalgo County']},
+{id:'il',name:'IL - Chicago',info:'IL (14), IN (4), WI (1)',counties:19,users:'2/6',countyList:['Cook County (IL)','DuPage County (IL)','Lake County (IL)','Will County (IL)','Kane County (IL)','McHenry County (IL)','Kendall County (IL)','Grundy County (IL)','DeKalb County (IL)','Boone County (IL)','Kankakee County (IL)','LaSalle County (IL)','Winnebago County (IL)','Stephenson County (IL)','Lake County (IN)','Porter County (IN)','LaPorte County (IN)','Newton County (IN)','Kenosha County (WI)']}
+]};
+var sel={users:{},zones:{},counties:{}};
+var expanded={};
+var showAll={};
+
+function render(){
+var h='';
+for(var i=0;i<data.users.length;i++){
+var u=data.users[i];
+var rowClass = sel.users[u.id] ? 'selected' : '';
+if(u.disabled) rowClass += ' disabled';
+h+='<tr class="'+rowClass+'" '+(u.disabled?'':'onclick="toggleUser('+u.id+')')+'">';
+h+='<td><input type="checkbox" '+(sel.users[u.id]?'checked':'')+' '+(u.disabled?'disabled':'')+' onclick="event.stopPropagation();'+(u.disabled?'':'toggleUser('+u.id+')')+'" ></td>';
+h+='<td><div><strong>'+u.name+'</strong><div class="user-role">'+u.role+'</div></div></td>';
+h+='<td><span class="zone-badge '+(u.noAccess?'no-access':'')+'">'+u.zones+' <span style="background: #fff; padding: 2px 6px; border-radius: 8px; font-size: 11px; border: 1px solid #ddd;">'+u.subscription+'</span></span></td>';
+h+='<td>'+u.login+'</td></tr>';
+}
+document.getElementById('users').innerHTML=h;
+
+h='';
+for(var i=0;i<data.zones.length;i++){
+var z=data.zones[i];
+var isExp=expanded[z.id];
+h+='<div class="zone-card '+(isExp?'expanded':'')+'" id="card-'+z.id+'">';
+h+='<div class="zone-header" onclick="toggleExpand(\''+z.id+'\')" style="cursor:pointer">';
+var countyState = getZoneCheckboxState(z.id);
+h+='<input type="checkbox" id="zone-'+z.id+'" '+(countyState.checked?'checked':'')+ ' onclick="event.stopPropagation();toggleZone(\''+z.id+'\')">';
+h+='<div class="zone-info">';
+h+='<div class="zone-name">'+z.name+'</div>';
+h+='<div class="zone-details">'+z.info+' - '+z.counties+' counties available</div>';
+h+='</div>';
+h+='<div class="zone-users">👥 '+z.users+'</div>';
+h+='<svg class="expand-arrow" fill="currentColor" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>';
+h+='</div>';
+if(isExp){
+h+='<div class="zone-counties">';
+h+='<div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="Search counties..."></div>';
+h+='<div class="county-grid">';
+var displayCount=showAll[z.id]?z.countyList.length:15;
+for(var j=0;j<Math.min(displayCount,z.countyList.length);j++){
+var countyKey = z.id + '-' + j;
+h+='<label class="county-item"><input type="checkbox" id="county-'+countyKey+'" '+(sel.counties[countyKey]?'checked':'')+ ' onclick="toggleCounty(\''+z.id+'\', '+j+')"><span>'+z.countyList[j]+'</span></label>';
+}
+h+='</div>';
+if(!showAll[z.id]){
+if(z.countyList.length>15){
+h+='<div class="county-count">Showing 15 of '+z.counties+' counties</div>';
+h+='<div class="show-all" onclick="toggleShowAll(\''+z.id+'\')">Show All</div>';
+}else{
+h+='<div class="county-count">Showing all '+z.countyList.length+' counties</div>';
+}
+}else{
+h+='<div class="county-count">Showing all '+z.countyList.length+' counties</div>';
+h+='<div class="show-all" onclick="toggleShowAll(\''+z.id+'\')">Show Less</div>';
+}
+h+='</div>';
+}
+h+='</div>';
+}
+document.getElementById('zones').innerHTML=h;
+
+// Set indeterminate states after DOM update
+for(var i=0;i<data.zones.length;i++){
+var z=data.zones[i];
+var state = getZoneCheckboxState(z.id);
+var checkbox = document.getElementById('zone-'+z.id);
+if(checkbox && state.indeterminate){
+checkbox.indeterminate = true;
+}
+}
+
+var hasU=false,hasSelection=false;
+for(var k in sel.users)if(sel.users[k])hasU=true;
+for(var k in sel.counties)if(sel.counties[k])hasSelection=true;
+document.getElementById('zonePanel').className=hasU?'zone-panel active':'zone-panel';
+document.getElementById('saveBtn').disabled=!(hasU&&hasSelection);
+updateUserHeaderState();
+updateSelectAllState();
+}
+
+function toggleUser(id){sel.users[id]=!sel.users[id];updateSelectAllState();render();}
+
+function updateUserHeaderState(){
+var totalUsers = 0;
+var selectedUsers = 0;
+for(var i=0;i<data.users.length;i++){
+var u = data.users[i];
+if(!u.disabled){
+totalUsers++;
+if(sel.users[u.id]) selectedUsers++;
+}
+}
+var headerCheckbox = document.getElementById('selectAllUsers');
+if(headerCheckbox){
+if(selectedUsers === 0){
+headerCheckbox.checked = false;
+headerCheckbox.indeterminate = false;
+}else if(selectedUsers === totalUsers){
+headerCheckbox.checked = true;
+headerCheckbox.indeterminate = false;
+}else{
+headerCheckbox.checked = false;
+headerCheckbox.indeterminate = true;
+}
+}
+}
+
+function toggleAllUsers(){
+var headerCheckbox = document.getElementById('selectAllUsers');
+var shouldSelect = headerCheckbox.checked;
+for(var i=0;i<data.users.length;i++){
+var u = data.users[i];
+if(!u.disabled){
+sel.users[u.id] = shouldSelect;
+}
+}
+render();
+}
+
+function updateSelectAllState(){
+var hasSelectedUsers=false;
+for(var id in sel.users){if(sel.users[id]){hasSelectedUsers=true;break;}}
+var selectAllEl = document.getElementById('selectAll');
+var labelEl = document.getElementById('selectAllLabel');
+selectAllEl.disabled=!hasSelectedUsers;
+labelEl.setAttribute('data-disabled', !hasSelectedUsers);
+if(!hasSelectedUsers){
+selectAllEl.checked=false;
+selectAllEl.indeterminate=false;
+sel.counties={};
+return;
+}
+// Check select all state based on counties
+var totalCounties = 0;
+var selectedCounties = 0;
+for(var i=0;i<data.zones.length;i++){
+var zone = data.zones[i];
+totalCounties += zone.countyList.length;
+for(var j=0;j<zone.countyList.length;j++){
+if(sel.counties[zone.id + '-' + j]) selectedCounties++;
+}
+}
+if(selectedCounties === 0){
+selectAllEl.checked = false;
+selectAllEl.indeterminate = false;
+}else if(selectedCounties === totalCounties){
+selectAllEl.checked = true;
+selectAllEl.indeterminate = false;
+}else{
+selectAllEl.checked = false;
+selectAllEl.indeterminate = true;
+}
+}
+
+function getZoneCheckboxState(zoneId){
+var zone = data.zones.find(z => z.id === zoneId);
+if(!zone) return {checked: false, indeterminate: false};
+var selectedCount = 0;
+for(var i = 0; i < zone.countyList.length; i++){
+if(sel.counties[zoneId + '-' + i]) selectedCount++;
+}
+if(selectedCount === 0) return {checked: false, indeterminate: false};
+if(selectedCount === zone.countyList.length) return {checked: true, indeterminate: false};
+return {checked: false, indeterminate: true};
+}
+
+function toggleZone(id){
+var zone = data.zones.find(z => z.id === id);
+if(!zone) return;
+var state = getZoneCheckboxState(id);
+var newState = !state.checked && !state.indeterminate;
+for(var i = 0; i < zone.countyList.length; i++){
+sel.counties[id + '-' + i] = newState;
+}
+render();
+}
+
+function toggleCounty(zoneId, countyIndex){
+var countyKey = zoneId + '-' + countyIndex;
+sel.counties[countyKey] = !sel.counties[countyKey];
+render();
+}
+
+function toggleExpand(id){expanded[id]=!expanded[id];render();}
+function toggleShowAll(id){showAll[id]=!showAll[id];render();}
+function reset(){sel={users:{},zones:{},counties:{}};expanded={};showAll={};var selectAllEl=document.getElementById('selectAll');selectAllEl.checked=false;selectAllEl.indeterminate=false;selectAllEl.disabled=true;document.getElementById('selectAllLabel').setAttribute('data-disabled', 'true');render()}
+
+function save(){
+var un=[],selections=[];
+for(var i=0;i<data.users.length;i++)if(sel.users[data.users[i].id])un.push(data.users[i].name);
+for(var i=0;i<data.zones.length;i++){
+var z=data.zones[i];
+var selectedCounties=[];
+for(var j=0;j<z.countyList.length;j++){
+if(sel.counties[z.id+'-'+j])selectedCounties.push(z.countyList[j]);
+}
+if(selectedCounties.length>0){
+if(selectedCounties.length===z.countyList.length){
+selections.push(z.name+' (All '+z.countyList.length+' counties)');
+}else{
+selections.push(z.name+' ('+selectedCounties.length+' of '+z.countyList.length+' counties)');
+}
+}
+}
+document.getElementById('msg').innerHTML='Geography assigned to: '+un.join(', ')+'<br><br>Selections: '+selections.join(', ');
+document.getElementById('modal').className='modal show';
+var totalSelections = 0;
+for(var k in sel.counties)if(sel.counties[k])totalSelections++;
+for(var i=0;i<data.users.length;i++){
+if(sel.users[data.users[i].id]){
+data.users[i].zones=selections.length+' Zone'+(selections.length>1?'s':'');
+data.users[i].noAccess=false;
+}
+}
+}
+
+function closeModal(){document.getElementById('modal').className='modal';sel={users:{},zones:{},counties:{}};expanded={};showAll={};var selectAllEl=document.getElementById('selectAll');selectAllEl.disabled=true;selectAllEl.checked=false;selectAllEl.indeterminate=false;document.getElementById('selectAllLabel').setAttribute('data-disabled', 'true');render();}
+
+document.getElementById('selectAll').onchange=function(){
+if(this.checked){
+for(var i=0;i<data.zones.length;i++){
+var zone = data.zones[i];
+for(var j=0;j<zone.countyList.length;j++){
+sel.counties[zone.id + '-' + j] = true;
+}
+}
+}else{
+sel.counties={};
+}
+render();
+};
+
+// Add tooltip positioning
+document.getElementById('selectAllLabel').addEventListener('mouseenter', function() {
+  var tooltip = this.querySelector('.tooltip-disabled');
+  var rect = this.getBoundingClientRect();
+  tooltip.style.top = (rect.bottom + 10) + 'px';
+  tooltip.style.left = (rect.left + rect.width/2) + 'px';
+});
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Organization Overview - Landing Page</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+
+/* EXACT MATCH TO GOLD STANDARD - Top Bar */
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+
+/* EXACT MATCH TO GOLD STANDARD - Layout */
+.layout { display: flex; min-height: calc(100vh - 70px); }
+.sidebar { width: 75px; background: #2c3e50; display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-icon { width: 40px; height: 40px; background: #34495e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; margin-bottom: 3px; }
+.nav-icon:hover { background: #3d5a73; }
+.nav-icon.selected { background: #1976d2; }
+.nav-label { color: #fff; font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; }
+
+/* EXACT MATCH TO GOLD STANDARD - Main Content */
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+/* EXACT MATCH TO GOLD STANDARD - Header & Tabs */
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+h1 { margin: 0 0 15px 0; font-size: 28px; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+
+/* Content Area */
+.content { padding: 32px; }
+
+/* Subscription Cards Grid */
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
+
+/* Subscription Card */
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; }
+.card-header { font-size: 16px; font-weight: 600; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+
+/* Alert Banners */
+.alert { padding: 10px 12px; border-radius: 4px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.alert-error { background: #fee; border: 1px solid #fcc; color: #c00; }
+.alert-success { background: #efe; border: 1px solid #cfc; color: #060; }
+.alert-warning { background: #ffeaa7; border: 1px solid #fdcb6e; color: #8B4513; }
+
+/* Seat Usage */
+.seat-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
+.seat-label { font-weight: 500; }
+.seat-count { color: #666; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+.seat-fill { height: 100%; }
+.seat-fill.full { background: #c00; }
+.seat-fill.warning { background: #ffa500; }
+.seat-fill.ok { background: #424242; }
+
+/* Market Zones Section */
+.zones-section { margin-top: 16px; }
+.zones-label { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; }
+.zone-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.zone-badge { padding: 4px 10px; background: #f0f0f0; border-radius: 12px; font-size: 12px; }
+
+/* Core Features */
+.features-section { margin-top: 16px; }
+.features-label { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; }
+.feature-item { font-size: 13px; color: #666; margin-bottom: 4px; padding-left: 12px; position: relative; }
+.feature-item:before { content: '•'; position: absolute; left: 0; }
+
+/* Filter Buttons */
+.filter-section { display: flex; gap: 12px; margin-bottom: 24px; }
+.filter-btn { padding: 8px 16px; background: #e0e0e0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.filter-btn:hover { background: #d0d0d0; }
+
+/* User Table */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 12px 8px; background: #f0f0f0; border-bottom: 2px solid #e0e0e0; font-size: 13px; font-weight: 600; }
+td { padding: 12px 8px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: top; }
+tr:hover { background: #f9f9f9; cursor: pointer; }
+.user-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.user-name { font-weight: 500; color: #1976d2; }
+.role-badge { padding: 2px 8px; background: #999; color: #fff; border-radius: 3px; font-size: 11px; text-transform: uppercase; }
+.user-role { font-size: 12px; color: #666; display: flex; align-items: center; gap: 6px; }
+.user-icon { font-size: 14px; color: #666; }
+/* Pill Component Styles - matching Figma design system */
+.pill { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 6px;
+  padding: 6px 8px; 
+  background: #e7e6e5; 
+  border-radius: 30px; 
+  font-size: 12px; 
+  font-weight: 600;
+  color: #4a4f55;
+  white-space: nowrap;
+  height: 26px;
+  box-sizing: border-box;
+}
+.pill-green { background: #d4f4dd; color: #2d5016; }
+.pill-gray { background: #e7e6e5; color: #4a4f55; }
+.pill-purple { background: #e8e4f3; color: #5a3d8a; }
+.pill-counter {
+  background: #fffffa;
+  padding: 2px 6px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a4f55;
+  min-width: 20px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pill-wrapper { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+
+/* Pagination */
+.pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e0e0e0; }
+.pagination-info { font-size: 13px; color: #666; }
+.pagination-controls { display: flex; gap: 8px; align-items: center; }
+.pagination-select { padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; }
+.pagination-btn { width: 32px; height: 32px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pagination-btn:hover { background: #d0d0d0; }
+</style>
+</head>
+<body>
+
+<!-- EXACT MATCH TO GOLD STANDARD - Top Bar -->
+<div class="top-bar">
+  <div class="logo">ConstructConnect</div>
+  <div class="user-menu">
+    <span>Christopher Donaldson</span>
+    <div class="avatar">CD</div>
+  </div>
+</div>
+
+<!-- EXACT MATCH TO GOLD STANDARD - Layout -->
+<div class="layout">
+  
+  <!-- EXACT MATCH TO GOLD STANDARD - Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item">
+      <div class="nav-icon">🏢</div>
+      <div class="nav-label">Company</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👥</div>
+      <div class="nav-label">Users &<br>Groups</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">Roles</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon selected">📋</div>
+      <div class="nav-label">Subs &<br>Licenses</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">💳</div>
+      <div class="nav-label">Billing</div>
+    </div>
+  </div>
+
+  <!-- EXACT MATCH TO GOLD STANDARD - Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- EXACT MATCH TO GOLD STANDARD - Header & Tabs -->
+      <div class="header">
+        <h1>Subscriptions and Licenses</h1>
+        <div class="tabs">
+          <button class="tab active">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='zone-prototype-working.html'">Project Intelligence</button>
+          <button class="tab">Bid Management</button>
+          <button class="tab">Takeoff and Estimating</button>
+          <button class="tab" style="display: none;">API Apps</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Three Subscription Cards -->
+        <div class="cards-grid">
+          
+          <!-- Project Intelligence Card -->
+          <div class="subscription-card" onclick="window.location.href='zone-prototype-working.html'" style="cursor: pointer;">
+            <div class="card-header">Project Intelligence</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Project Intelligence Pro Seats</span>
+              <span class="seat-count">6/20 Used - 14 seats available</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill ok" style="width: 30%"></div>
+            </div>
+            
+            <div class="zones-section">
+              <div class="zones-label">Available Market Zone(s)</div>
+              <div class="zone-list">
+                <div class="zone-badge">Florida</div>
+                <div class="zone-badge">Texas - Major Metro</div>
+                <div class="zone-badge">IL - Chicago</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Management Card -->
+          <div class="subscription-card">
+            <div class="card-header">Bid Management</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Seats</span>
+              <span class="seat-count">4/20 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill ok" style="width: 20%"></div>
+            </div>
+            
+            <div class="features-section">
+              <div class="features-label">Core Features</div>
+              <div class="feature-item">Create projects</div>
+              <div class="feature-item">Send, Manage, Monitor ITBs</div>
+              <div class="feature-item">Monitor Coverage</div>
+              <div class="feature-item">Bid Evaluation</div>
+              <div class="feature-item">Document Management</div>
+            </div>
+          </div>
+
+          <!-- Takeoff & Estimating Card -->
+          <div class="subscription-card">
+            <div class="card-header">Takeoff & Estimating</div>
+            
+            <div class="alert alert-warning">⚠️ You are running low on Quick Bid seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Web Takeoff with AI</span>
+              <span class="seat-count">4/10 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill ok" style="width: 40%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">OnScreen Takeoff with AI</span>
+              <span class="seat-count">4/10 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill ok" style="width: 40%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Onscreen Takeoff with AI & Quick Bid</span>
+              <span class="seat-count">4/5 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill warning" style="width: 80%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">PlanViewer</span>
+              <span class="seat-count">4/5 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill warning" style="width: 80%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Shared Licenses - OST</span>
+              <span class="seat-count">8 Available / 20 Total</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill ok" style="width: 40%"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-section">
+          <button class="filter-btn">Show All Subscriptions ▼</button>
+          <button class="filter-btn">Show All Roles ▼</button>
+          <button class="filter-btn">Show All Groups ▼</button>
+        </div>
+
+        <!-- User Table -->
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Project Intelligence Zones</th>
+                <th>Bid Management</th>
+                <th>Takeoff & Estimating</th>
+                <th>Last Access Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="viewUser('malcolm')">
+                <td>
+                  <div class="user-name-row">
+                    <span class="user-name">Malcom Reynolds</span>
+                    <span class="role-badge">OWNER</span>
+                  </div>
+                  <div class="user-role"><span class="user-icon">👤</span> Chief Estimator</div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-purple">IL - Chicago <span class="pill-counter">5</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-green">BM - Team Member</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-green">Estimator <span class="pill-counter">OST + AI</span></div>
+                  </div>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              <tr onclick="viewUser('reiver')">
+                <td>
+                  <div class="user-name-row">
+                    <span class="user-name">Reiver Tam</span>
+                    <span class="role-badge">ADMIN</span>
+                  </div>
+                  <div class="user-role"><span class="user-icon">👤</span> Chief Estimator</div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-purple">IL - Chicago <span class="pill-counter">5</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-green">BM - Admin</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-gray">Not Assigned</div>
+                  </div>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              <tr onclick="viewUser('zoe')">
+                <td>
+                  <div class="user-name-row">
+                    <span class="user-name">Zoe Washburne</span>
+                    <span class="role-badge">ADMIN</span>
+                  </div>
+                  <div class="user-role"><span class="user-icon">👤</span> Estimator</div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-purple">Texas - Major Metro <span class="pill-counter">4</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-green">BM - Team Member</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-gray">Not Assigned</div>
+                  </div>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              <tr onclick="viewUser('kaylee')">
+                <td>
+                  <div class="user-name-row">
+                    <span class="user-name">Kaylee Fry</span>
+                  </div>
+                  <div class="user-role"><span class="user-icon">👤</span> Estimator</div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-purple">Texas - Major Metro <span class="pill-counter">4</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-gray">Not Assigned</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-green">Estimator <span class="pill-counter">OST + AI</span></div>
+                  </div>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              <tr onclick="viewUser('simon')">
+                <td>
+                  <div class="user-name-row">
+                    <span class="user-name">Simon Tam</span>
+                  </div>
+                  <div class="user-role"><span class="user-icon">👤</span> Estimator</div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-purple">Texas - Major Metro <span class="pill-counter">4</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-gray">Not Assigned</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="pill-wrapper">
+                    <div class="pill pill-green">Estimator <span class="pill-counter">OST + AI</span></div>
+                  </div>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <div class="pagination-info">1-5 of 5</div>
+          <div class="pagination-controls">
+            <span style="font-size: 13px; margin-right: 8px;">Rows per page</span>
+            <select class="pagination-select">
+              <option>50</option>
+              <option>25</option>
+              <option>10</option>
+            </select>
+            <button class="pagination-btn">◀</button>
+            <button class="pagination-btn">▶</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function viewUser(userId) {
+  alert('Clicking a user would navigate to their detail page where you can manage their subscriptions.\n\nUser clicked: ' + userId);
+}
+</script>
+
+</body>
+</html>
