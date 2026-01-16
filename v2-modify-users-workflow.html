@@ -385,14 +385,14 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 // Initialize data
 var data = {
   users: [
-    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:5, accessType:'modified', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified', zoneCount:3, accessType:'modified', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false}
+    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:5, accessType:'modified', assignedCounties:{'0-0':true,'0-1':true,'0-2':true,'1-0':true,'1-1':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified', zoneCount:3, accessType:'modified', assignedCounties:{'2-0':true,'2-1':true,'3-0':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false}
   ],
   zones: COMPLETE_ZONE_DATA.zones.slice(0, 10) // First 10 zones for performance
 };
@@ -564,6 +564,14 @@ function updateRightPanel() {
     }
     
     infoHtml += '</div>';
+    
+    // Add note for No Access users
+    if(selectedNoAccess > 0) {
+      infoHtml += '<div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 4px;">';
+      infoHtml += '<p style="margin: 0; font-size: 13px; line-height: 18px; color: #0c4a6e;"><strong>Note:</strong> Adding user(s) with No Access will give them Full Access to the application. They can be modified later.</p>';
+      infoHtml += '</div>';
+    }
+    
     selectedUserInfo.innerHTML = infoHtml;
     defaultInfoText.style.display = 'none';
   } else {
@@ -714,6 +722,22 @@ function addSelectedUsers() {
 
 // Show modify view (switch to zone selection)
 function showModifyView() {
+  // Clear current county selections
+  sel.counties = {};
+  
+  // Pre-populate with counties from selected modified users
+  // If multiple users selected, merge their counties
+  for(var i = 0; i < data.users.length; i++) {
+    var u = data.users[i];
+    if(sel.users[u.id] && u.accessType === 'modified' && u.assignedCounties) {
+      for(var key in u.assignedCounties) {
+        if(u.assignedCounties[key]) {
+          sel.counties[key] = true;
+        }
+      }
+    }
+  }
+  
   // Show zone selection view
   var defaultView = document.getElementById('defaultView');
   var zoneView = document.getElementById('zoneSelectionView');
@@ -722,7 +746,7 @@ function showModifyView() {
   zoneView.style.display = 'flex';
   zoneView.classList.add('active');
   
-  // Render zones (they start blank as per requirement)
+  // Render zones with pre-populated selections
   renderZones();
   updateSaveButton();
 }
