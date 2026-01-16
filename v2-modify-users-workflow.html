@@ -59,7 +59,8 @@ tr.disabled { opacity: 0.5; cursor: not-allowed; }
 tr.disabled:hover { background: transparent; }
 .user-role { font-size: 12px; color: #666; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
 .user-role::before { content: ''; width: 10px; height: 10px; background: #666; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-.zone-badge { padding: 4px 12px; background: #f0f0f0; border-radius: 12px; font-size: 13px; display: inline-block; }
+.zone-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
+.zone-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
 .no-access { color: #999; }
 input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
 input[type="checkbox"]:disabled { cursor: not-allowed; }
@@ -406,8 +407,20 @@ function render() {
          '<div class="user-role">' + u.role + '</div></td>';
     
     // Geography
-    h += '<td><span class="zone-badge ' + (u.zones === 'No Access' ? 'no-access' : '') + '">' + 
-         u.zones + '</span></td>';
+    var zoneText = u.zones;
+    var zoneHtml = '';
+    if(u.zones === 'No Access') {
+      zoneHtml = '<span class="zone-badge no-access">' + u.zones + '</span>';
+    } else {
+      // Split "Full Access 123" into label and counter
+      var parts = u.zones.match(/^(.+?)\s+(\d+)$/);
+      if(parts) {
+        zoneHtml = '<span class="zone-badge">' + parts[1] + '<span class="zone-counter">' + parts[2] + '</span></span>';
+      } else {
+        zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
+      }
+    }
+    h += '<td>' + zoneHtml + '</td>';
     
     // Actions
     h += '<td><div class="user-actions">';
