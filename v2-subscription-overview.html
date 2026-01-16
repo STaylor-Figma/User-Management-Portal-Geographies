@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Organization Overview - Version Two</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+
+/* Top Bar */
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+
+/* Layout */
+.layout { display: flex; min-height: calc(100vh - 70px); }
+
+/* Sidebar */
+.sidebar { width: 120px; background: #fafafa; border-right: 1px solid #e0e0e0; padding: 20px 0; }
+.nav-item { padding: 16px 12px; text-align: center; cursor: pointer; transition: background 0.2s; }
+.nav-item:hover { background: #f0f0f0; }
+.nav-icon { font-size: 24px; margin-bottom: 6px; }
+.nav-icon.selected { background: #e3f2fd; border-radius: 8px; padding: 8px; }
+.nav-label { font-size: 12px; color: #666; line-height: 1.3; }
+
+/* Main Content */
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+/* Header & Tabs */
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+h1 { margin: 0 0 15px 0; font-size: 28px; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+
+/* Content Area */
+.content { padding: 32px; }
+
+/* Subscription Cards Grid */
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
+
+/* Subscription Card */
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; transition: all 0.2s; }
+.subscription-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); transform: translateY(-2px); cursor: pointer; }
+.card-header { font-size: 16px; font-weight: 600; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+
+/* Alert Banners */
+.alert { padding: 10px 12px; border-radius: 4px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.alert-success { background: #efe; border: 1px solid #cfc; color: #060; }
+
+/* Seat Usage */
+.seat-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
+.seat-label { font-weight: 500; }
+.seat-count { color: #666; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+.seat-fill { height: 100%; background: #424242; }
+
+/* Market Zones Section */
+.zones-section { margin-top: 16px; }
+.zones-label { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; }
+.zone-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.zone-badge { padding: 4px 10px; background: #f0f0f0; border-radius: 12px; font-size: 12px; }
+
+/* User Summary Section */
+.user-summary { margin-top: 24px; padding: 24px; background: #fafafa; border-radius: 8px; }
+.summary-header { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+.summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+.stat-card { background: #fff; padding: 16px; border-radius: 6px; border: 1px solid #e0e0e0; }
+.stat-label { font-size: 12px; color: #666; margin-bottom: 4px; }
+.stat-value { font-size: 24px; font-weight: 600; color: #424242; }
+
+/* Quick Actions */
+.quick-actions { display: flex; gap: 12px; }
+.action-btn { padding: 10px 20px; background: #424242; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+.action-btn:hover { background: #333; }
+.action-btn.secondary { background: #e0e0e0; color: #424242; }
+.action-btn.secondary:hover { background: #d0d0d0; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="logo">ConstructConnect</div>
+  <div class="user-menu">
+    <span>Christopher Donaldson</span>
+    <div class="avatar">CD</div>
+  </div>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item">
+      <div class="nav-icon">🏢</div>
+      <div class="nav-label">Company</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👥</div>
+      <div class="nav-label">Users &<br>Groups</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">Roles</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon selected">📋</div>
+      <div class="nav-label">Subs &<br>Licenses</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">💳</div>
+      <div class="nav-label">Billing</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <h1>Subscriptions and Licenses</h1>
+        <div class="tabs">
+          <button class="tab active">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
+          <button class="tab">Bid Management</button>
+          <button class="tab">Takeoff and Estimating</button>
+          <button class="tab" style="display: none;">API Apps</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Subscription Card -->
+        <div class="cards-grid">
+          
+          <!-- Project Intelligence Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow.html'">
+            <div class="card-header">Project Intelligence</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Project Intelligence Starter Seats</span>
+              <span class="seat-count">7/20 Used - 13 seats available</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 35%"></div>
+            </div>
+            
+            <div class="zones-section">
+              <div class="zones-label">Available Market Zone(s)</div>
+              <div class="zone-list">
+                <div class="zone-badge">Alabama Plus</div>
+                <div class="zone-badge">Alaska</div>
+                <div class="zone-badge">Arizona</div>
+                <div class="zone-badge">Arkansas</div>
+                <div class="zone-badge">+6 more zones</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Management Card - Placeholder -->
+          <div class="subscription-card" style="opacity: 0.5; cursor: default;">
+            <div class="card-header">Bid Management</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Seats</span>
+              <span class="seat-count">4/20 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 20%"></div>
+            </div>
+          </div>
+
+          <!-- Takeoff & Estimating Card - Placeholder -->
+          <div class="subscription-card" style="opacity: 0.5; cursor: default;">
+            <div class="card-header">Takeoff & Estimating</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Web Takeoff with AI</span>
+              <span class="seat-count">4/10 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 40%"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- User Summary Section -->
+        <div class="user-summary">
+          <div class="summary-header">Project Intelligence Users</div>
+          
+          <div class="summary-stats">
+            <div class="stat-card">
+              <div class="stat-label">Total Users</div>
+              <div class="stat-value">8</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Full Access</div>
+              <div class="stat-value">2</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Modified Access</div>
+              <div class="stat-value">2</div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="action-btn" onclick="window.location.href='v2-modify-users-workflow.html'">
+              Manage Geographic Access
+            </button>
+            <button class="action-btn secondary" onclick="alert('User management coming soon')">
+              View All Users
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
