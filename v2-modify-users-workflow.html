@@ -422,8 +422,8 @@ function render() {
     
     // Geography
     var zoneHtml = '';
-    if(u.zones === 'No Access') {
-      zoneHtml = '<span class="zone-badge no-access">' + u.zones + '</span>';
+    if(u.accessType === 'none') {
+      zoneHtml = '<span class="zone-badge no-access">No Access</span>';
     } else if(u.accessType === 'full') {
       // Full Access - no counter
       zoneHtml = '<span class="zone-badge">Full Access</span>';
@@ -437,7 +437,7 @@ function render() {
     
     // Actions
     h += '<td><div class="user-actions">';
-    if(u.zones === 'No Access') {
+    if(u.accessType === 'none') {
       h += '<button class="action-btn add" onclick="addUserFromTable(' + u.id + ')">+ Add</button>';
     } else {
       h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ')">✕ Remove</button>';
