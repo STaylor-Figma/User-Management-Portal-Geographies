@@ -243,10 +243,10 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
               </p>
             </div>
 
-            <!-- Disabled Buttons -->
+            <!-- Action Buttons -->
             <div class="actions">
-              <button class="btn btn-secondary" disabled>Add Selected User(s)</button>
-              <button class="btn btn-primary" disabled>Modify Selected Users</button>
+              <button class="btn btn-primary" id="addSelectedBtn" disabled onclick="addSelectedUsers()">Add Selected User(s)</button>
+              <button class="btn btn-primary" id="modifySelectedBtn" disabled onclick="showModifyView()">Modify Selected Users</button>
             </div>
           </div>
 
@@ -471,24 +471,37 @@ function renderZones() {
 
 // Update right panel based on user selection
 function updateRightPanel() {
-  // Count selected users with subscriptions
-  var selectedWithSubs = 0;
-  for(var i = 0; i < data.users.length; i++) {
-    if(sel.users[data.users[i].id] && !data.users[i].disabled) {
-      selectedWithSubs++;
-    }
-  var selectedCount = 0;
+  // Count selected users by type
+  var selectedNoAccess = 0;
+  var selectedWithAccess = 0;
+  
   for(var i = 0; i < data.users.length; i++) {
     if(sel.users[data.users[i].id]) {
-      selectedCount++;
+      if(data.users[i].zones === 'No Access') {
+        selectedNoAccess++;
+      } else {
+        selectedWithAccess++;
+      }
     }
   }
   
-  // Toggle between default view and zone selection view
+  // Update button states in default view
+  var addBtn = document.getElementById('addSelectedBtn');
+  var modifyBtn = document.getElementById('modifySelectedBtn');
+  
+  if(addBtn) addBtn.disabled = selectedNoAccess === 0;
+  if(modifyBtn) modifyBtn.disabled = selectedWithAccess === 0;
+  
+  // Only show zone selection view if users with existing access are selected
   var defaultView = document.getElementById('defaultView');
   var zoneView = document.getElementById('zoneSelectionView');
   
-  if(selectedCount.display = 'block';
+  if(selectedWithAccess > 0) {
+    defaultView.style.display = 'none';
+    zoneView.style.display = 'flex';
+    zoneView.classList.add('active');
+  } else {
+    defaultView.style.display = 'block';
     zoneView.style.display = 'none';
     zoneView.classList.remove('active');
   }
@@ -580,6 +593,29 @@ function toggleSelectAll(){
     }
   }
   render();
+}
+
+// Add selected users (assign subscriptions)
+function addSelectedUsers() {
+  var selectedUsers = [];
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id] && data.users[i].zones === 'No Access') {
+      selectedUsers.push(data.users[i].name);
+      data.users[i].zones = 'Full Access 123';
+    }
+  }
+  
+  if(selectedUsers.length > 0) {
+    alert('Added subscription and Full Access for: ' + selectedUsers.join(', '));
+    reset();
+  }
+}
+
+// Show modify view (switch to zone selection)
+function showModifyView() {
+  // This is already handled by updateRightPanel
+  // Just ensure we're in the right state
+  updateRightPanel();
 }
 
 // Add user drawer
