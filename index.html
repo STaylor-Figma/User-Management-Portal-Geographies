@@ -45,6 +45,14 @@
       line-height: 1.5;
     }
 
+    .version-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
     .version-link {
       display: inline-block;
       background: #1a3a52;
@@ -68,6 +76,14 @@
       transform: translateY(0);
     }
 
+    .version-link.secondary {
+      background: #667eea;
+    }
+
+    .version-link.secondary:hover {
+      background: #7b8ff0;
+    }
+
     .footer {
       margin-top: 48px;
       color: #999;
@@ -82,7 +98,10 @@
       User Management Portal - Zone & County Assignment System
     </p>
     
-    <a href="version-one.html" class="version-link">Version One →</a>
+    <div class="version-links">
+      <a href="version-one.html" class="version-link">Version One →</a>
+      <a href="version-two.html" class="version-link secondary">Version Two →</a>
+    </div>
     
     <div class="footer">
       ConstructConnect Platform Services
