@@ -114,6 +114,18 @@ h1 { margin: 0; font-size: 28px; }
 .page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 18px; color: #4a4f55; }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 .page-btn:not(:disabled):hover { background: #f0f0f0; border-radius: 50%; }
+
+/* Drawer */
+.drawer { display: none; position: fixed; top: 0; right: 0; width: 500px; height: 100vh; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.2); z-index: 2000; padding: 32px; overflow-y: auto; }
+.drawer.show { display: block; animation: slideInRight 0.3s ease; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
+.drawer-overlay.show { display: block; }
+
+/* Button Styles */
+.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+.btn-primary { background: #424242; color: #fff; }
+.btn-primary:hover { background: #333; }
 </style>
 </head>
 <body>
@@ -426,10 +438,49 @@ h1 { margin: 0; font-size: 28px; }
 
 </div>
 
+<!-- Add User Drawer (Slide from Right) -->
+<div id="addUserDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">Add User Flow</h2>
+    <button onclick="closeAddUserDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">📝</div>
+    <h3 style="margin-bottom: 16px; color: #424242;">Add User Workflow Coming Soon</h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      When implemented, this interface will allow admins to:
+    </p>
+    <ul style="text-align: left; color: #666; line-height: 1.8; margin-left: 40px; margin-bottom: 32px;">
+      <li>Assign subscription seat to user</li>
+      <li>Automatically grant Full Access to all purchased Market Zones</li>
+      <li>Provide confirmation before activating</li>
+    </ul>
+    <p style="color: #999; font-size: 13px;">
+      For now, use the "Modify" workflow to manage geographic access for existing subscription users.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeAddUserDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
+
 <script>
-// Placeholder function for invite drawer (to be implemented)
+// Open invite drawer
 function openInviteDrawer() {
-  alert('Invite user functionality - to be implemented');
+  document.getElementById('addUserDrawer').classList.add('show');
+  document.getElementById('drawerOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAddUserDrawer() {
+  document.getElementById('addUserDrawer').classList.remove('show');
+  document.getElementById('drawerOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
 }
 </script>
 
