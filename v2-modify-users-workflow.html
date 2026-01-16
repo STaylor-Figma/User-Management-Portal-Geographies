@@ -752,24 +752,35 @@ function toggleSelectAll(){
 
 // Add selected users (assign subscriptions)
 function addSelectedUsers() {
+  console.log('addSelectedUsers called');
+  console.log('Current sel.users:', sel.users);
+  console.log('Current data.users:', data.users);
+  
   var selectedUsers = [];
   for(var i = 0; i < data.users.length; i++) {
     if(sel.users[data.users[i].id] && data.users[i].accessType === 'none') {
+      console.log('Adding user:', data.users[i].name);
       selectedUsers.push(data.users[i].name);
       // Update user to Full Access
       data.users[i].zones = 'Full Access';
       data.users[i].accessType = 'full';
       data.users[i].zoneCount = null;
       data.users[i].assignedCounties = {};
+      console.log('Updated user:', data.users[i]);
     }
   }
+  
+  console.log('selectedUsers:', selectedUsers);
+  console.log('Data after updates:', data.users);
   
   if(selectedUsers.length > 0) {
     alert('Added subscription and Full Access for: ' + selectedUsers.join(', '));
     // Clear selections and re-render
     sel.users = {};
     sel.counties = {};
+    console.log('About to render');
     render();
+    console.log('Render complete');
   }
 }
 
