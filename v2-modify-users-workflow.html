@@ -59,6 +59,7 @@ tr.disabled { opacity: 0.5; cursor: not-allowed; }
 tr.disabled:hover { background: transparent; }
 .user-role { font-size: 12px; color: #666; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
 .user-role::before { content: ''; width: 10px; height: 10px; background: #666; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; cursor: pointer; }
 .zone-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
 .zone-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
 .no-access { color: #999; }
@@ -443,7 +444,7 @@ function render() {
          ' onclick="toggleUser(' + u.id + ')"></td>';
     
     // User name
-    h += '<td><div><strong><a onclick="openUserProfileDrawer(\'' + u.name + '\')" style="color: #0c79a8; text-decoration: underline; cursor: pointer;">' + u.name + '</a></strong></div>' +
+    h += '<td><div><a onclick="openUserProfileDrawer(\'' + u.name + '\')" class="user-link">' + u.name + '</a></div>' +
          '<div class="user-role">' + u.role + '</div></td>';
     
     // Geography
