@@ -725,18 +725,26 @@ function showModifyView() {
   // Clear current county selections
   sel.counties = {};
   
+  console.log('showModifyView called');
+  console.log('Selected users:', sel.users);
+  
   // Pre-populate with counties from selected modified users
   // If multiple users selected, merge their counties
   for(var i = 0; i < data.users.length; i++) {
     var u = data.users[i];
+    console.log('Checking user:', u.name, 'Selected?', sel.users[u.id], 'AccessType:', u.accessType);
     if(sel.users[u.id] && u.accessType === 'modified' && u.assignedCounties) {
+      console.log('User has assignedCounties:', u.assignedCounties);
       for(var key in u.assignedCounties) {
         if(u.assignedCounties[key]) {
           sel.counties[key] = true;
+          console.log('Added county:', key);
         }
       }
     }
   }
+  
+  console.log('Final sel.counties:', sel.counties);
   
   // Show zone selection view
   var defaultView = document.getElementById('defaultView');
