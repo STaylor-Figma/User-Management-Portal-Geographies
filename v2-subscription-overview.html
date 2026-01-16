@@ -30,7 +30,12 @@ body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
 
 /* Header & Tabs */
 .header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
-h1 { margin: 0 0 15px 0; font-size: 28px; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+h1 { margin: 0; font-size: 28px; }
+.header-icons { display: flex; gap: 12px; align-items: center; }
+.header-icon { background: none; border: none; padding: 0; cursor: pointer; font-size: 20px; color: #666; transition: opacity 0.2s; }
+.header-icon:hover { opacity: 0.7; }
+.header-icon.primary { color: #1976d2; }
 .tabs { display: flex; gap: 8px; }
 .tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
 .tab.active { background: #424242; color: #fff; }
@@ -155,7 +160,14 @@ h1 { margin: 0 0 15px 0; font-size: 28px; }
       
       <!-- Header & Tabs -->
       <div class="header">
-        <h1>Subscriptions and Licenses</h1>
+        <div class="header-top">
+          <h1>Subscriptions and Licenses</h1>
+          <div class="header-icons">
+            <button class="header-icon primary" onclick="openInviteDrawer()" title="Invite User">👤+</button>
+            <button class="header-icon" title="Recent Activity">🕐</button>
+            <button class="header-icon" title="User Profile">👤</button>
+          </div>
+        </div>
         <div class="tabs">
           <button class="tab active">Organization Overview</button>
           <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
@@ -413,6 +425,13 @@ h1 { margin: 0 0 15px 0; font-size: 28px; }
   </div>
 
 </div>
+
+<script>
+// Placeholder function for invite drawer (to be implemented)
+function openInviteDrawer() {
+  alert('Invite user functionality - to be implemented');
+}
+</script>
 
 </body>
 </html>
