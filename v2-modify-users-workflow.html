@@ -134,9 +134,18 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 .modal-content .btn { min-width: 120px; }
 
 /* Two-State Right Panel */
-#defaultView { display: block; padding: 24px; }
-#zoneSelectionView { display: none; padding: 24px; flex: 1; flex-direction: column; }
+#defaultView { display: flex; flex-direction: column; height: 100%; }
+#defaultView .content-wrapper { flex: 1; padding: 24px; overflow-y: auto; }
+#defaultView .actions { position: sticky; bottom: 0; background: #fafafa; border-top: 2px solid #e0e0e0; margin: 0; }
+#zoneSelectionView { display: none; flex: 1; flex-direction: column; }
 #zoneSelectionView.active { display: flex; }
+#zoneSelectionView .zone-content { flex: 1; overflow-y: auto; padding: 0 24px; }
+#zoneSelectionView .subscription-card, #zoneSelectionView > p, #zoneSelectionView .zone-controls { margin: 0 24px; }
+#zoneSelectionView .subscription-card { margin-top: 24px; }
+#zoneSelectionView .actions { position: sticky; bottom: 0; background: #fafafa; border-top: 2px solid #e0e0e0; margin: 0; z-index: 10; }
+.selected-user-info { background: #e3f2fd; padding: 16px; border-radius: 6px; margin-bottom: 16px; }
+.selected-user-info h3 { margin: 0 0 12px 0; font-size: 16px; color: #1976d2; }
+.selected-user-info p { margin: 0; font-size: 14px; color: #666; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -229,37 +238,42 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
           
           <!-- STATE 1: Default Info View (shows when no users selected) -->
           <div id="defaultView">
-            <div class="subscription-card">
-              <div class="subscription-title">Project Intelligence Starter Seats</div>
-              <div class="subscription-subtitle">
-                Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Starter access.
-              </div>
-              <div class="seat-info">
-                7 / 20 Seats - 13 seats available
-                <div class="info-icon">
-                  i
-                  <div class="tooltip">Assigning geography to a user activates one seat.</div>
+            <div class="content-wrapper">
+              <div class="subscription-card">
+                <div class="subscription-title">Project Intelligence Starter Seats</div>
+                <div class="subscription-subtitle">
+                  Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Starter access.
                 </div>
+                <div class="seat-info">
+                  7 / 20 Seats - 13 seats available
+                  <div class="info-icon">
+                    i
+                    <div class="tooltip">Assigning geography to a user activates one seat.</div>
+                  </div>
+                </div>
+                <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
               </div>
-              <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
+
+              <!-- Selected User Info (dynamic) -->
+              <div id="selectedUserInfo"></div>
+
+              <!-- Informational Content -->
+              <div id="defaultInfoText" style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
+                <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
+                <ul style="margin-left: 20px; margin-bottom: 16px;">
+                  <li>2 Full access</li>
+                  <li>2 Modified</li>
+                </ul>
+                <p style="margin-bottom: 12px;">
+                  By clicking 'add' you assign a seat and provide the user full access.
+                </p>
+                <p>
+                  Once a user has been added, you can then modify their access to specific counties.
+                </p>
+              </div>
             </div>
 
-            <!-- Informational Content -->
-            <div style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
-              <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
-              <ul style="margin-left: 20px; margin-bottom: 16px;">
-                <li>2 Full access</li>
-                <li>2 Modified</li>
-              </ul>
-              <p style="margin-bottom: 12px;">
-                By clicking 'add' you assign a seat and provide the user full access.
-              </p>
-              <p>
-                Once a user has been added, you can then modify their access to specific counties.
-              </p>
-            </div>
-
-            <!-- Action Buttons -->
+            <!-- Action Buttons (Sticky Footer) -->
             <div class="actions">
               <button class="btn btn-primary" id="addSelectedBtn" disabled onclick="addSelectedUsers()">Add Selected User(s)</button>
               <button class="btn btn-primary" id="modifySelectedBtn" disabled onclick="showModifyView()">Modify Selected Users</button>
@@ -287,7 +301,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
             </p>
 
             <!-- Zone Controls -->
-            <div class="zone-controls">
+            <div class="zone-controls" style="margin-bottom: 16px;">
               <label id="selectAllLabel" class="disabled-checkbox-label" style="font-weight:600;" data-disabled="false">
                 <input type="checkbox" id="selectAll" onclick="toggleSelectAll()">
                 <span>Select All Zones</span>
@@ -298,10 +312,10 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
             <!-- Zone List (scrollable) -->
             <div class="zone-content" id="zones"></div>
 
-            <!-- Save Button -->
+            <!-- Save Button (Sticky Footer) -->
             <div class="actions">
               <button class="btn btn-secondary" onclick="reset()">Cancel</button>
-              <button class="btn btn-primary" onclick="save()">Save Updates</button>
+              <button class="btn btn-primary" id="saveUpdatesBtn" onclick="save()" disabled>Save Updates</button>
             </div>
 
           </div>
@@ -371,14 +385,14 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 // Initialize data
 var data = {
   users: [
-    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false}
+    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:5, accessType:'modified', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified', zoneCount:3, accessType:'modified', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', login:'Nov 5, 2025', subscription:'Starter', disabled:false}
   ],
   zones: COMPLETE_ZONE_DATA.zones.slice(0, 10) // First 10 zones for performance
 };
@@ -407,18 +421,17 @@ function render() {
          '<div class="user-role">' + u.role + '</div></td>';
     
     // Geography
-    var zoneText = u.zones;
     var zoneHtml = '';
     if(u.zones === 'No Access') {
       zoneHtml = '<span class="zone-badge no-access">' + u.zones + '</span>';
+    } else if(u.accessType === 'full') {
+      // Full Access - no counter
+      zoneHtml = '<span class="zone-badge">Full Access</span>';
+    } else if(u.accessType === 'modified' && u.zoneCount) {
+      // Modified - show zone count
+      zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
     } else {
-      // Split "Full Access 123" into label and counter
-      var parts = u.zones.match(/^(.+?)\s+(\d+)$/);
-      if(parts) {
-        zoneHtml = '<span class="zone-badge">' + parts[1] + '<span class="zone-counter">' + parts[2] + '</span></span>';
-      } else {
-        zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
-      }
+      zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
     }
     h += '<td>' + zoneHtml + '</td>';
     
@@ -511,16 +524,52 @@ function renderZones() {
 function updateRightPanel() {
   // Count selected users by type
   var selectedNoAccess = 0;
-  var selectedWithAccess = 0;
+  var selectedFull = 0;
+  var selectedModified = 0;
+  var selectedUsers = [];
   
   for(var i = 0; i < data.users.length; i++) {
     if(sel.users[data.users[i].id]) {
-      if(data.users[i].zones === 'No Access') {
+      selectedUsers.push(data.users[i]);
+      if(data.users[i].accessType === 'none') {
         selectedNoAccess++;
-      } else {
-        selectedWithAccess++;
+      } else if(data.users[i].accessType === 'full') {
+        selectedFull++;
+      } else if(data.users[i].accessType === 'modified') {
+        selectedModified++;
       }
     }
+  }
+  
+  // Update selected user info display
+  var selectedUserInfo = document.getElementById('selectedUserInfo');
+  var defaultInfoText = document.getElementById('defaultInfoText');
+  
+  if(selectedFull > 0 || selectedModified > 0) {
+    // Show selected user info
+    var infoHtml = '<div class="selected-user-info">';
+    infoHtml += '<h3>Selected User' + (selectedUsers.length > 1 ? 's' : '') + '</h3>';
+    
+    for(var j = 0; j < selectedUsers.length; j++) {
+      var u = selectedUsers[j];
+      if(u.accessType !== 'none') {
+        infoHtml += '<p><strong>' + u.name + '</strong> - ' + u.zones;
+        if(u.accessType === 'full') {
+          infoHtml += ' (has access to all zones in subscription)';
+        } else if(u.accessType === 'modified' && u.zoneCount) {
+          infoHtml += ' (' + u.zoneCount + ' zone' + (u.zoneCount > 1 ? 's' : '') + ')';
+        }
+        infoHtml += '</p>';
+      }
+    }
+    
+    infoHtml += '</div>';
+    selectedUserInfo.innerHTML = infoHtml;
+    defaultInfoText.style.display = 'none';
+  } else {
+    // Hide selected user info, show default text
+    selectedUserInfo.innerHTML = '';
+    defaultInfoText.style.display = 'block';
   }
   
   // Update button states in default view
@@ -528,21 +577,14 @@ function updateRightPanel() {
   var modifyBtn = document.getElementById('modifySelectedBtn');
   
   if(addBtn) addBtn.disabled = selectedNoAccess === 0;
-  if(modifyBtn) modifyBtn.disabled = selectedWithAccess === 0;
+  if(modifyBtn) modifyBtn.disabled = (selectedFull + selectedModified) === 0;
   
-  // Only show zone selection view if users with existing access are selected
+  // Don't auto-show zone selection - only show when Modify button is clicked
   var defaultView = document.getElementById('defaultView');
   var zoneView = document.getElementById('zoneSelectionView');
   
-  if(selectedWithAccess > 0) {
-    defaultView.style.display = 'none';
-    zoneView.style.display = 'flex';
-    zoneView.classList.add('active');
-  } else {
-    defaultView.style.display = 'block';
-    zoneView.style.display = 'none';
-    zoneView.classList.remove('active');
-  }
+  // Keep current view state unless explicitly changed
+}
 }
 
 // Toggle user selection
@@ -597,6 +639,7 @@ function toggleZone(id){
   for(var i = 0; i < zone.counties.length; i++){
     sel.counties[id + '-' + i] = newState;
   }
+  updateSaveButton();
   render();
 }
 
@@ -604,7 +647,25 @@ function toggleZone(id){
 function toggleCounty(zoneId, countyIndex){
   var countyKey = zoneId + '-' + countyIndex;
   sel.counties[countyKey] = !sel.counties[countyKey];
+  updateSaveButton();
   render();
+}
+
+// Update Save Updates button state
+function updateSaveButton() {
+  var saveBtn = document.getElementById('saveUpdatesBtn');
+  if(!saveBtn) return;
+  
+  // Check if any counties are selected
+  var hasSelection = false;
+  for(var key in sel.counties) {
+    if(sel.counties[key]) {
+      hasSelection = true;
+      break;
+    }
+  }
+  
+  saveBtn.disabled = !hasSelection;
 }
 
 // Toggle expand
@@ -630,6 +691,7 @@ function toggleSelectAll(){
       sel.counties[zone.id + '-' + j] = newState;
     }
   }
+  updateSaveButton();
   render();
 }
 
@@ -637,9 +699,11 @@ function toggleSelectAll(){
 function addSelectedUsers() {
   var selectedUsers = [];
   for(var i = 0; i < data.users.length; i++) {
-    if(sel.users[data.users[i].id] && data.users[i].zones === 'No Access') {
+    if(sel.users[data.users[i].id] && data.users[i].accessType === 'none') {
       selectedUsers.push(data.users[i].name);
-      data.users[i].zones = 'Full Access 123';
+      data.users[i].zones = 'Full Access';
+      data.users[i].accessType = 'full';
+      data.users[i].zoneCount = null;
     }
   }
   
@@ -651,9 +715,17 @@ function addSelectedUsers() {
 
 // Show modify view (switch to zone selection)
 function showModifyView() {
-  // This is already handled by updateRightPanel
-  // Just ensure we're in the right state
-  updateRightPanel();
+  // Show zone selection view
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  
+  defaultView.style.display = 'none';
+  zoneView.style.display = 'flex';
+  zoneView.classList.add('active');
+  
+  // Render zones (they start blank as per requirement)
+  renderZones();
+  updateSaveButton();
 }
 
 // Open invite drawer (for adding NEW users to organization)
@@ -757,6 +829,14 @@ function reset(){
   sel = {users:{}, counties:{}};
   expanded = {};
   showAll = {};
+  
+  // Return to default view
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  defaultView.style.display = 'flex';
+  zoneView.style.display = 'none';
+  zoneView.classList.remove('active');
+  
   render();
 }
 
