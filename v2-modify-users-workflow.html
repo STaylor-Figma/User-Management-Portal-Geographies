@@ -349,10 +349,10 @@ var data = {
     {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
     {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
     {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified 123', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:true},
-    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:true},
-    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:true},
-    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:true}
+    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', login:'Nov 5, 2025', subscription:'Starter', disabled:false}
   ],
   zones: COMPLETE_ZONE_DATA.zones.slice(0, 10) // First 10 zones for performance
 };
@@ -369,17 +369,12 @@ function render() {
   for(var i = 0; i < data.users.length; i++) {
     var u = data.users[i];
     var rowClass = sel.users[u.id] ? 'selected' : '';
-    if(u.disabled) rowClass += ' disabled';
     
     h += '<tr class="' + rowClass + '">';
     
     // Checkbox
-    if(u.disabled) {
-      h += '<td title="Assign subscription first via Add button"><input type="checkbox" disabled></td>';
-    } else {
-      h += '<td><input type="checkbox" ' + (sel.users[u.id] ? 'checked' : '') + 
-           ' onclick="toggleUser(' + u.id + ')"></td>';
-    }
+    h += '<td><input type="checkbox" ' + (sel.users[u.id] ? 'checked' : '') + 
+         ' onclick="toggleUser(' + u.id + ')"></td>';
     
     // User name
     h += '<td><div><strong>' + u.name + '</strong></div>' +
@@ -391,7 +386,7 @@ function render() {
     
     // Actions
     h += '<td><div class="user-actions">';
-    if(u.disabled) {
+    if(u.zones === 'No Access') {
       h += '<button class="action-btn add" onclick="showAddUserDrawer(' + u.id + ')">+ Add</button>';
     } else {
       h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ')">✕ Remove</button>';
@@ -482,18 +477,18 @@ function updateRightPanel() {
     if(sel.users[data.users[i].id] && !data.users[i].disabled) {
       selectedWithSubs++;
     }
+  var selectedCount = 0;
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id]) {
+      selectedCount++;
+    }
   }
   
   // Toggle between default view and zone selection view
   var defaultView = document.getElementById('defaultView');
   var zoneView = document.getElementById('zoneSelectionView');
   
-  if(selectedWithSubs > 0) {
-    defaultView.style.display = 'none';
-    zoneView.style.display = 'flex';
-    zoneView.classList.add('active');
-  } else {
-    defaultView.style.display = 'block';
+  if(selectedCount.display = 'block';
     zoneView.style.display = 'none';
     zoneView.classList.remove('active');
   }
@@ -511,25 +506,22 @@ function toggleAllUsers() {
   var newState = checkbox.checked;
   
   for(var i = 0; i < data.users.length; i++) {
-    if(!data.users[i].disabled) {
-      sel.users[data.users[i].id] = newState;
-    }
+    sel.users[data.users[i].id] = newState;
   }
   render();
 }
 
 // Update header checkbox state
 function updateUserHeaderState() {
-  var selectableUsers = data.users.filter(u => !u.disabled);
   var selectedCount = 0;
   
-  for(var i = 0; i < selectableUsers.length; i++) {
-    if(sel.users[selectableUsers[i].id]) selectedCount++;
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id]) selectedCount++;
   }
   
   var checkbox = document.getElementById('selectAllUsers');
-  checkbox.checked = selectedCount === selectableUsers.length && selectableUsers.length > 0;
-  checkbox.indeterminate = selectedCount > 0 && selectedCount < selectableUsers.length;
+  checkbox.checked = selectedCount === data.users.length && data.users.length > 0;
+  checkbox.indeterminate = selectedCount > 0 && selectedCount < data.users.length;
 }
 
 // Zone checkbox state
