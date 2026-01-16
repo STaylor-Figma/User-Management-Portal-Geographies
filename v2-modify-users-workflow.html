@@ -28,7 +28,13 @@ body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
 .main-content { flex: 1; padding: 30px; }
 .container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
-h1 { margin: 0 0 15px 0; font-size: 28px; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+h1 { margin: 0; font-size: 28px; }
+.header-icons { display: flex; gap: 8px; align-items: center; }
+.header-icon { width: 40px; height: 40px; background: #f0f0f0; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: background 0.2s; }
+.header-icon:hover { background: #e0e0e0; }
+.header-icon.primary { background: #1976d2; color: #fff; }
+.header-icon.primary:hover { background: #1565c0; }
 .tabs { display: flex; gap: 8px; }
 .tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
 .tab.active { background: #424242; color: #fff; }
@@ -121,8 +127,11 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 /* Modal */
 .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
 .modal.show { display: flex; }
-.modal-content { background: #fff; padding: 32px; border-radius: 8px; text-align: center; max-width: 400px; }
+.modal-content { background: #fff; padding: 32px; border-radius: 8px; text-align: center; max-width: 450px; }
 .success-icon { width: 64px; height: 64px; background: #4caf50; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 32px; }
+.modal-content h2 { margin: 0 0 12px 0; font-size: 20px; }
+.modal-content p { margin: 0 0 24px 0; font-size: 14px; color: #666; line-height: 1.5; }
+.modal-content .btn { min-width: 120px; }
 
 /* Two-State Right Panel */
 #defaultView { display: block; padding: 24px; }
@@ -174,7 +183,14 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
       
       <!-- Header & Tabs -->
       <div class="header">
-        <h1>Subscriptions and Licenses</h1>
+        <div class="header-top">
+          <h1>Subscriptions and Licenses</h1>
+          <div class="header-icons">
+            <button class="header-icon primary" onclick="openInviteDrawer()" title="Invite User">👤+</button>
+            <button class="header-icon" title="Recent Activity">🕐</button>
+            <button class="header-icon" title="User Profile">👤</button>
+          </div>
+        </div>
         <div class="tabs">
           <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
           <button class="tab active">Project Intelligence</button>
@@ -340,6 +356,16 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   </div>
 </div>
 
+<!-- Confirmation Modal -->
+<div class="modal" id="confirmationModal">
+  <div class="modal-content">
+    <div class="success-icon">✓</div>
+    <h2 style="margin-bottom: 12px;">User Added Successfully</h2>
+    <p id="confirmationMessage" style="color: #666; line-height: 1.5; margin-bottom: 24px;"></p>
+    <button onclick="closeConfirmationModal()" class="btn btn-primary">OK</button>
+  </div>
+</div>
+
 <script src="complete-zone-data.js"></script>
 <script>
 // Initialize data
@@ -387,7 +413,7 @@ function render() {
     // Actions
     h += '<td><div class="user-actions">';
     if(u.zones === 'No Access') {
-      h += '<button class="action-btn add" onclick="showAddUserDrawer(' + u.id + ')">+ Add</button>';
+      h += '<button class="action-btn add" onclick="addUserFromTable(' + u.id + ')">+ Add</button>';
     } else {
       h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ')">✕ Remove</button>';
     }
@@ -618,8 +644,8 @@ function showModifyView() {
   updateRightPanel();
 }
 
-// Add user drawer
-function showAddUserDrawer(userId) {
+// Open invite drawer (for adding NEW users to organization)
+function openInviteDrawer() {
   document.getElementById('addUserDrawer').classList.add('show');
   document.getElementById('drawerOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -629,6 +655,32 @@ function closeAddUserDrawer() {
   document.getElementById('addUserDrawer').classList.remove('show');
   document.getElementById('drawerOverlay').classList.remove('show');
   document.body.style.overflow = 'auto';
+}
+
+// Add user from table (assign seat to existing No Access user)
+function addUserFromTable(userId) {
+  // Find the user
+  var user = data.users.find(function(u) { return u.id === userId; });
+  if (!user) return;
+  
+  // Assign full access
+  user.zones = 'Full Access 123';
+  
+  // Unselect the user
+  delete sel.users[userId];
+  
+  // Re-render and update panel
+  render();
+  
+  // Show confirmation modal
+  var modal = document.getElementById('confirmationModal');
+  var message = document.getElementById('confirmationMessage');
+  message.textContent = user.name + ' has been assigned a full seat to this subscription.';
+  modal.classList.add('show');
+}
+
+function closeConfirmationModal() {
+  document.getElementById('confirmationModal').classList.remove('show');
 }
 
 // Remove user
