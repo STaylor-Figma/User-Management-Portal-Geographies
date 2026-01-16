@@ -360,6 +360,32 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 <!-- Drawer Overlay -->
 <div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
 
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: 13px;">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
 <!-- Success Modal -->
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -417,7 +443,7 @@ function render() {
          ' onclick="toggleUser(' + u.id + ')"></td>';
     
     // User name
-    h += '<td><div><strong>' + u.name + '</strong></div>' +
+    h += '<td><div><strong><a onclick="openUserProfileDrawer(\'' + u.name + '\')" style="color: #0c79a8; text-decoration: underline; cursor: pointer;">' + u.name + '</a></strong></div>' +
          '<div class="user-role">' + u.role + '</div></td>';
     
     // Geography
@@ -917,6 +943,20 @@ function reset(){
   zoneView.classList.remove('active');
   
   render();
+}
+
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
 }
 
 // Initialize

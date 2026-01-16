@@ -99,7 +99,7 @@ h1 { margin: 0; font-size: 28px; }
 .user-table td { padding: 12px 10px; border-bottom: 1px solid #dad8d7; vertical-align: top; }
 .user-table tbody tr:hover { background: #f9f9f9; }
 .user-name { display: flex; flex-direction: column; gap: 4px; }
-.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; cursor: pointer; }
 .user-badge { display: inline-flex; padding: 4px 8px; background: #88888e; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 600; margin-left: 8px; }
 .user-role { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #4a4f55; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
@@ -291,7 +291,7 @@ h1 { margin: 0; font-size: 28px; }
                 <td>
                   <div class="user-name">
                     <div>
-                      <a href="#" class="user-link">Malcom Reynolds</a>
+                      <a onclick="openUserProfileDrawer('Malcom Reynolds')" class="user-link">Malcom Reynolds</a>
                       <span class="user-badge">OWNER</span>
                     </div>
                     <div class="user-role">
@@ -316,7 +316,7 @@ h1 { margin: 0; font-size: 28px; }
                 <td>
                   <div class="user-name">
                     <div>
-                      <a href="#" class="user-link">River Tam</a>
+                      <a onclick="openUserProfileDrawer('River Tam')" class="user-link">River Tam</a>
                       <span class="user-badge">ADMIN</span>
                     </div>
                     <div class="user-role">
@@ -341,7 +341,7 @@ h1 { margin: 0; font-size: 28px; }
                 <td>
                   <div class="user-name">
                     <div>
-                      <a href="#" class="user-link">Zoe Washburne</a>
+                      <a onclick="openUserProfileDrawer('Zoe Washburne')" class="user-link">Zoe Washburne</a>
                       <span class="user-badge">ADMIN</span>
                     </div>
                     <div class="user-role">
@@ -366,7 +366,7 @@ h1 { margin: 0; font-size: 28px; }
                 <td>
                   <div class="user-name">
                     <div>
-                      <a href="#" class="user-link">Kaylee Fry</a>
+                      <a onclick="openUserProfileDrawer('Kaylee Fry')" class="user-link">Kaylee Fry</a>
                     </div>
                     <div class="user-role">
                       <span>👤</span>
@@ -390,7 +390,7 @@ h1 { margin: 0; font-size: 28px; }
                 <td>
                   <div class="user-name">
                     <div>
-                      <a href="#" class="user-link">Simon Tam</a>
+                      <a onclick="openUserProfileDrawer('Simon Tam')" class="user-link">Simon Tam</a>
                     </div>
                     <div class="user-role">
                       <span>👤</span>
@@ -469,6 +469,32 @@ h1 { margin: 0; font-size: 28px; }
 <!-- Drawer Overlay -->
 <div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
 
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: 13px;">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
 <script>
 // Open invite drawer
 function openInviteDrawer() {
@@ -480,6 +506,20 @@ function openInviteDrawer() {
 function closeAddUserDrawer() {
   document.getElementById('addUserDrawer').classList.remove('show');
   document.getElementById('drawerOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
   document.body.style.overflow = 'auto';
 }
 </script>
