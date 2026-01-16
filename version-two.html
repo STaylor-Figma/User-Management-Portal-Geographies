@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Version Two - Prototype Variants</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+ 
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 48px;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #666;
+      text-decoration: none;
+      margin-bottom: 24px;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #1a3a52;
+    }
+
+    h1 {
+      color: #1a3a52;
+      font-size: 32px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 16px;
+      margin-bottom: 48px;
+      line-height: 1.5;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    h2 {
+      color: #1a3a52;
+      font-size: 20px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .variant-card {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .variant-card:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .variant-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .variant-title {
+      color: #1a3a52;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .variant-description {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-top: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.coming-soon {
+      background: #999;
+    }
+
+    .placeholder-text {
+      text-align: center;
+      color: #999;
+      font-style: italic;
+      padding: 40px 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 2px dashed #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to Index</a>
+    
+    <h1>Version Two</h1>
+    <p class="subtitle">
+      Revised prototype variants for the geographic entitlements and zone assignment system.
+    </p>
+
+    <div class="section">
+      <div class="placeholder-text">
+        Variant prototypes coming soon...
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
