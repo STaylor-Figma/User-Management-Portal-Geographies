@@ -756,15 +756,20 @@ function addSelectedUsers() {
   for(var i = 0; i < data.users.length; i++) {
     if(sel.users[data.users[i].id] && data.users[i].accessType === 'none') {
       selectedUsers.push(data.users[i].name);
+      // Update user to Full Access
       data.users[i].zones = 'Full Access';
       data.users[i].accessType = 'full';
       data.users[i].zoneCount = null;
+      data.users[i].assignedCounties = {};
     }
   }
   
   if(selectedUsers.length > 0) {
     alert('Added subscription and Full Access for: ' + selectedUsers.join(', '));
-    reset();
+    // Clear selections and re-render
+    sel.users = {};
+    sel.counties = {};
+    render();
   }
 }
 
