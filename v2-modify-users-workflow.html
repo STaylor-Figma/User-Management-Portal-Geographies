@@ -461,6 +461,8 @@ function render() {
 // Render zones
 function renderZones() {
   var h = '';
+  var indeterminateZones = []; // Track which zones need indeterminate state
+  
   for(var i = 0; i < data.zones.length; i++) {
     var z = data.zones[i];
     var zoneState = getZoneCheckboxState(z.id);
@@ -470,11 +472,15 @@ function renderZones() {
     h += '<div class="zone-card' + (isExpanded ? ' expanded' : '') + '">';
     h += '<div class="zone-header" onclick="toggleExpand(' + z.id + ')">';
     
-    // Zone checkbox
-    h += '<input type="checkbox" ' +
+    // Zone checkbox with data-zone-id for later indeterminate setting
+    h += '<input type="checkbox" data-zone-id="' + z.id + '" ' +
          (zoneState.checked ? 'checked' : '') +
-         (zoneState.indeterminate ? ' style="opacity:0.5"' : '') +
          ' onclick="event.stopPropagation(); toggleZone(' + z.id + ')">';
+    
+    // Track indeterminate zones
+    if(zoneState.indeterminate) {
+      indeterminateZones.push(z.id);
+    }
     
     // Zone info
     h += '<div class="zone-info">';
@@ -517,7 +523,49 @@ function renderZones() {
     
     h += '</div>';
   }
+  
   document.getElementById('zones').innerHTML = h;
+  
+  // Set indeterminate state via JavaScript (can't be done in HTML)
+  for(var i = 0; i < indeterminateZones.length; i++) {
+    var checkbox = document.querySelector('input[data-zone-id="' + indeterminateZones[i] + '"]');
+    if(checkbox) {
+      checkbox.indeterminate = true;
+    }
+  }
+  
+  // Update "Select All Zones" checkbox state
+  updateSelectAllZonesState();
+}
+
+// Update "Select All Zones" checkbox state
+function updateSelectAllZonesState() {
+  var selectAllCheckbox = document.getElementById('selectAll');
+  if(!selectAllCheckbox) return;
+  
+  var totalCounties = 0;
+  var selectedCounties = 0;
+  
+  for(var i = 0; i < data.zones.length; i++) {
+    var zone = data.zones[i];
+    totalCounties += zone.counties.length;
+    for(var j = 0; j < zone.counties.length; j++) {
+      if(sel.counties[zone.id + '-' + j]) {
+        selectedCounties++;
+      }
+    }
+  }
+  
+  if(selectedCounties === 0) {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = false;
+  } else if(selectedCounties === totalCounties) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
+  } else {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = true;
+  }
 }
 
 // Update right panel based on user selection
@@ -725,26 +773,18 @@ function showModifyView() {
   // Clear current county selections
   sel.counties = {};
   
-  console.log('showModifyView called');
-  console.log('Selected users:', sel.users);
-  
   // Pre-populate with counties from selected modified users
   // If multiple users selected, merge their counties
   for(var i = 0; i < data.users.length; i++) {
     var u = data.users[i];
-    console.log('Checking user:', u.name, 'Selected?', sel.users[u.id], 'AccessType:', u.accessType);
     if(sel.users[u.id] && u.accessType === 'modified' && u.assignedCounties) {
-      console.log('User has assignedCounties:', u.assignedCounties);
       for(var key in u.assignedCounties) {
         if(u.assignedCounties[key]) {
           sel.counties[key] = true;
-          console.log('Added county:', key);
         }
       }
     }
   }
-  
-  console.log('Final sel.counties:', sel.counties);
   
   // Show zone selection view
   var defaultView = document.getElementById('defaultView');
