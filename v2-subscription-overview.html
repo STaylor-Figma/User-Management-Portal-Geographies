@@ -77,6 +77,38 @@ h1 { margin: 0 0 15px 0; font-size: 28px; }
 .action-btn:hover { background: #333; }
 .action-btn.secondary { background: #e0e0e0; color: #424242; }
 .action-btn.secondary:hover { background: #d0d0d0; }
+
+/* User Table Section */
+.table-section { margin-top: 32px; background: #fff; border-radius: 8px; padding: 24px; }
+.table-controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 16px; }
+.filters { display: flex; gap: 8px; }
+.filter-btn { padding: 8px 12px; border: 1px solid #4a4f55; background: #fff; border-radius: 4px; font-size: 14px; color: #4a4f55; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.filter-btn:hover { background: #f5f5f5; }
+.search-btn { width: 32px; height: 32px; border: none; background: #f0f0f0; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.search-btn:hover { background: #e0e0e0; }
+
+/* User Table */
+.user-table { width: 100%; border-collapse: collapse; }
+.user-table thead { background: #fff; position: sticky; top: 0; }
+.user-table th { text-align: left; padding: 12px 10px; font-size: 12px; font-weight: 700; color: #4a4f55; border-bottom: 2px solid #4a4f55; }
+.user-table td { padding: 12px 10px; border-bottom: 1px solid #dad8d7; vertical-align: top; }
+.user-table tbody tr:hover { background: #f9f9f9; }
+.user-name { display: flex; flex-direction: column; gap: 4px; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; }
+.user-badge { display: inline-flex; padding: 4px 8px; background: #88888e; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+.user-role { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #4a4f55; }
+.pill { display: inline-block; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; }
+.pill-counter { display: inline-flex; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; margin-left: 4px; }
+
+/* Table Footer */
+.table-footer { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding: 10px 0; border-top: 1px solid #dad8d7; margin-top: 8px; }
+.rows-per-page { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #4a4f55; }
+.rows-select { padding: 7px 10px; border: 1px solid #dad8d7; border-radius: 4px; font-size: 14px; color: #88888e; background: #fff; }
+.page-nav { display: flex; align-items: center; gap: 8px; }
+.page-info { font-size: 14px; color: #4a4f55; }
+.page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 18px; color: #4a4f55; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-btn:not(:disabled):hover { background: #f0f0f0; border-radius: 50%; }
 </style>
 </head>
 <body>
@@ -224,6 +256,184 @@ h1 { margin: 0 0 15px 0; font-size: 28px; }
               View All Users
             </button>
           </div>
+        </div>
+
+        <!-- User Table Section -->
+        <div class="table-section">
+          
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="filters">
+              <button class="filter-btn">
+                Show All Subscriptions
+                <span>▼</span>
+              </button>
+              <button class="filter-btn">
+                Show All Roles
+                <span>▼</span>
+              </button>
+              <button class="filter-btn">
+                Show All Groups
+                <span>▼</span>
+              </button>
+            </div>
+            <button class="search-btn">🔍</button>
+          </div>
+
+          <!-- User Table -->
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Project Intelligence</th>
+                <th>Bid Management</th>
+                <th>Takeoff & Estimating</th>
+                <th>Last Access Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a href="#" class="user-link">Malcom Reynolds</a>
+                      <span class="user-badge">OWNER</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a href="#" class="user-link">River Tam</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Admin</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a href="#" class="user-link">Zoe Washburne</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a href="#" class="user-link">Kaylee Fry</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a href="#" class="user-link">Simon Tam</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Table Footer -->
+          <div class="table-footer">
+            <div class="rows-per-page">
+              <span>Rows per page</span>
+              <select class="rows-select">
+                <option>50</option>
+                <option>25</option>
+                <option>10</option>
+              </select>
+            </div>
+            <div class="page-nav">
+              <span class="page-info">1-5 of 5</span>
+              <button class="page-btn" disabled>‹</button>
+              <button class="page-btn">›</button>
+            </div>
+          </div>
+
         </div>
 
       </div>
