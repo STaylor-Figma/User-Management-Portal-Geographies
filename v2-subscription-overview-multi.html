@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Organization Overview - Multiple Subscriptions</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+
+/* Top Bar */
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+
+/* Layout */
+.layout { display: flex; min-height: calc(100vh - 70px); }
+
+/* Sidebar */
+.sidebar { width: 75px; background: #2c3e50; display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-icon { width: 40px; height: 40px; background: #34495e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; margin-bottom: 3px; }
+.nav-icon:hover { background: #3d5a73; }
+.nav-icon.selected { background: #1976d2; }
+.nav-label { color: #fff; font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; }
+
+/* Main Content */
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+/* Header & Tabs */
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+h1 { margin: 0; font-size: 28px; }
+.header-icons { display: flex; gap: 12px; align-items: center; }
+.header-icon { background: none; border: none; padding: 0; cursor: pointer; font-size: 20px; color: #666; transition: opacity 0.2s; }
+.header-icon:hover { opacity: 0.7; }
+.header-icon.primary { color: #1976d2; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+
+/* Content Area */
+.content { padding: 32px; }
+
+/* Subscription Cards Grid */
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
+
+/* Subscription Card */
+.subscription-card { background: #fff; border: 2px solid #185a7d; border-radius: 8px; overflow: hidden; transition: all 0.2s; }
+.subscription-card:hover { border-color: #00a1e0; box-shadow: 0 4px 12px rgba(0, 161, 224, 0.15); transform: translateY(-2px); cursor: pointer; }
+.card-header { background: #185a7d; color: #feffff; font-size: 18px; font-weight: 500; padding: 8px 15px 8px 15px; height: 53px; display: flex; align-items: center; }
+
+/* Toast Messages */
+.toast { padding: 10px; margin: 0; font-size: 12px; font-weight: 600; display: flex; align-items: flex-start; gap: 8px; position: relative; min-height: 42px; }
+.toast-icon { font-size: 18px; margin-top: 8px; flex-shrink: 0; width: 18px; }
+.toast-message { flex: 1; padding-top: 8px; }
+.toast-error { background: rgba(183, 9, 0, 0.1); color: #4a4f55; }
+.toast-error .toast-icon { color: #b70900; }
+.toast-info { background: rgba(0, 161, 224, 0.1); color: #4a4f55; }
+.toast-info .toast-icon { color: #00a1e0; }
+.toast-warning { background: rgba(237, 120, 0, 0.1); color: #4a4f55; }
+.toast-warning .toast-icon { color: #ed7800; }
+
+/* Card Content */
+.card-content { padding: 11px 2px 10px 2px; }
+
+/* Seat Usage */
+.seat-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; margin-bottom: 4px; padding: 0 5px; color: #1c1f22; }
+.seat-label { font-weight: 600; }
+.seat-count { color: #1c1f22; text-align: right; width: 80px; }
+.seat-bar-container { width: 100%; height: 20px; background: #feffff; border: 1px solid #dad8d7; border-radius: 15px; padding: 4px; margin-bottom: 10px; }
+.seat-bar-fill { height: 100%; border-radius: 100px; transition: width 0.3s; }
+.fill-starter { background: #00a1e0; }
+.fill-pro { background: #459d13; }
+
+/* Market Zones Section */
+.zones-section { margin-top: 0px; padding: 0 7px; }
+.zones-header { display: flex; align-items: center; gap: 4px; padding: 5px 0; border-bottom: 1px solid #88888e; margin-bottom: 7px; }
+.zones-label { font-size: 12px; font-weight: 600; color: #1c1f22; }
+.info-icon { font-size: 14px; color: #88888e; }
+.zone-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.zone-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
+.zone-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
+
+/* User Table Section */
+.table-section { margin-top: 32px; background: #fff; border-radius: 8px; padding: 24px; }
+.table-controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 16px; }
+.filters { display: flex; gap: 8px; }
+.filter-btn { padding: 8px 12px; border: 1px solid #4a4f55; background: #fff; border-radius: 4px; font-size: 14px; color: #4a4f55; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.filter-btn:hover { background: #f5f5f5; }
+.search-btn { width: 32px; height: 32px; border: none; background: #f0f0f0; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.search-btn:hover { background: #e0e0e0; }
+
+/* User Table */
+.user-table { width: 100%; border-collapse: collapse; }
+.user-table thead { background: #fff; position: sticky; top: 0; }
+.user-table th { text-align: left; padding: 12px 10px; font-size: 12px; font-weight: 700; color: #4a4f55; border-bottom: 2px solid #4a4f55; }
+.user-table td { padding: 12px 10px; border-bottom: 1px solid #dad8d7; vertical-align: top; }
+.user-table tbody tr:hover { background: #f9f9f9; }
+.user-name { display: flex; flex-direction: column; gap: 4px; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; cursor: pointer; }
+.user-badge { display: inline-flex; padding: 4px 8px; background: #88888e; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+.user-role { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #4a4f55; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
+.pill-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
+.pro-badge { display: inline-flex; padding: 2px 6px; background: #459d13; color: #fff; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 4px; height: 16px; align-items: center; }
+
+/* Table Footer */
+.table-footer { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding: 10px 0; border-top: 1px solid #dad8d7; margin-top: 8px; }
+.rows-per-page { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #4a4f55; }
+.rows-select { padding: 7px 10px; border: 1px solid #dad8d7; border-radius: 4px; font-size: 14px; color: #88888e; background: #fff; }
+.page-nav { display: flex; align-items: center; gap: 8px; }
+.page-info { font-size: 14px; color: #4a4f55; }
+.page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 18px; color: #4a4f55; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-btn:not(:disabled):hover { background: #f0f0f0; border-radius: 50%; }
+
+/* Drawer */
+.drawer { display: none; position: fixed; top: 0; right: 0; width: 500px; height: 100vh; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.2); z-index: 2000; padding: 32px; overflow-y: auto; }
+.drawer.show { display: block; animation: slideInRight 0.3s ease; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
+.drawer-overlay.show { display: block; }
+
+/* Button Styles */
+.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+.btn-primary { background: #424242; color: #fff; }
+.btn-primary:hover { background: #333; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="logo">ConstructConnect</div>
+  <div class="user-menu">
+    <span>Christopher Donaldson</span>
+    <div class="avatar">CD</div>
+  </div>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item">
+      <div class="nav-icon">🏢</div>
+      <div class="nav-label">Company</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👥</div>
+      <div class="nav-label">Users &<br>Groups</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">Roles</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon selected">📋</div>
+      <div class="nav-label">Subs &<br>Licenses</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">💳</div>
+      <div class="nav-label">Billing</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="header-icon primary" onclick="openInviteDrawer()" title="Invite User">👤+</button>
+            <button class="header-icon" title="Recent Activity">🕐</button>
+            <button class="header-icon" title="User Profile">👤</button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow-multi.html'">Project Intelligence</button>
+          <button class="tab">Bid Management</button>
+          <button class="tab">Takeoff & Estimating</button>
+          <button class="tab">API Apps <span style="background: #88888e; color: #fff; border-radius: 12px; padding: 2px 6px; font-size: 10px; margin-left: 4px;">2</span></button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Subscription Cards -->
+        <div class="cards-grid">
+          
+          <!-- Project Intelligence Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow-multi.html'">
+            <div class="card-header">Project Intelligence</div>
+            
+            <!-- Toast Message -->
+            <div class="toast toast-error">
+              <div class="toast-icon">⚠</div>
+              <div class="toast-message">You are currently out of Pro seats.</div>
+            </div>
+            
+            <div class="card-content">
+              <!-- PI Starter Seats -->
+              <div style="margin-bottom: 4px;">
+                <div class="seat-row">
+                  <span class="seat-label">Project Intelligence Starter Seats</span>
+                  <span class="seat-count">7/20 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill fill-starter" style="width: 35%"></div>
+                </div>
+              </div>
+              
+              <!-- PI Pro Seats -->
+              <div style="margin-bottom: 10px;">
+                <div class="seat-row">
+                  <span class="seat-label">Project Intelligence Pro Seats</span>
+                  <span class="seat-count">7/7 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill fill-pro" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <!-- Market Zones -->
+              <div class="zones-section">
+                <div class="zones-header">
+                  <span class="zones-label">Available Market Zone(s)</span>
+                  <span class="info-icon">ℹ</span>
+                </div>
+                <div class="zone-list">
+                  <div class="zone-badge">Alaska - Statewide<span class="zone-counter">123</span></div>
+                  <div class="zone-badge">IL - Chicago<span class="zone-counter">123</span></div>
+                  <div class="zone-badge">CA - Northern<span class="zone-counter">123</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Management Card -->
+          <div class="subscription-card">
+            <div class="card-header">Bid Management</div>
+            
+            <!-- Toast Message -->
+            <div class="toast toast-info">
+              <div class="toast-icon">ℹ</div>
+              <div class="toast-message">You have plenty of available seats.</div>
+            </div>
+            
+            <div class="card-content">
+              <div style="margin-bottom: 12px;">
+                <div class="seat-row">
+                  <span class="seat-label">Seats</span>
+                  <span class="seat-count">4/20 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill fill-starter" style="width: 20%"></div>
+                </div>
+              </div>
+              
+              <!-- Core Features -->
+              <div class="zones-section">
+                <div class="zones-header">
+                  <span class="zones-label">Core Features</span>
+                </div>
+                <div style="font-size: 11px; font-weight: 600; color: #88888e; display: flex; flex-direction: column; gap: 6px; padding-top: 7px;">
+                  <div>Create projects</div>
+                  <div>Send, Manage, Monitor ITBs</div>
+                  <div>Monitor Coverage</div>
+                  <div>Bid Evaluation</div>
+                  <div>Document Management</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Takeoff & Estimating Card -->
+          <div class="subscription-card">
+            <div class="card-header">Takeoff & Estimating</div>
+            
+            <!-- Toast Message -->
+            <div class="toast toast-warning">
+              <div class="toast-icon">⚠</div>
+              <div class="toast-message">You are running low on Quick Bid seats.</div>
+            </div>
+            
+            <div class="card-content" style="max-height: 200px; overflow-y: auto; padding-right: 8px;">
+              <!-- Web Takeoff -->
+              <div style="margin-bottom: 12px;">
+                <div class="seat-row">
+                  <span class="seat-label">Web Takeoff with AI</span>
+                  <span class="seat-count">4/10 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill" style="width: 40%; background: #00a398;"></div>
+                </div>
+              </div>
+              
+              <!-- User Licenses -->
+              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;">
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">OnScreen Takeoff with AI</span>
+                    <span class="seat-count">4/10 Used</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div class="seat-bar-fill fill-starter" style="width: 40%"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">Onscreen Takeoff with AI & Quick Bid</span>
+                    <span class="seat-count">4/5 Used</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div class="seat-bar-fill fill-starter" style="width: 80%"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">PlanViewer</span>
+                    <span class="seat-count">4/5 Used</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div class="seat-bar-fill fill-starter" style="width: 80%"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Shared Licenses -->
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">Shared Licenses - OST</span>
+                    <span class="seat-count" style="width: 131px;">8 Available / 20 Total</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div style="display: flex; height: 100%; gap: 0;">
+                      <div style="width: 42%; background: #459d13; border-radius: 100px 0 0 100px;"></div>
+                      <div style="width: 58%; background: #dad8d7; border-radius: 0 100px 100px 0;"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">Shared Licenses - QB</span>
+                    <span class="seat-count" style="width: 131px;">2 Available / 20 Total</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div style="display: flex; height: 100%; gap: 0;">
+                      <div style="width: 90%; background: #b70900; border-radius: 100px 0 0 100px;"></div>
+                      <div style="width: 10%; background: #dad8d7; border-radius: 0 100px 100px 0;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- User Table Section -->
+        <div class="table-section">
+          
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="filters">
+              <button class="filter-btn">
+                Show All Subscriptions
+                <span>▼</span>
+              </button>
+              <button class="filter-btn">
+                Show All Roles
+                <span>▼</span>
+              </button>
+              <button class="filter-btn">
+                Show All Groups
+                <span>▼</span>
+              </button>
+            </div>
+            <button class="search-btn">🔍</button>
+          </div>
+
+          <!-- User Table -->
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Project Intelligence</th>
+                <th>Bid Management</th>
+                <th>Takeoff & Estimating</th>
+                <th>Last Access Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Malcom Reynolds')" class="user-link">Malcom Reynolds</a>
+                      <span class="user-badge">OWNER</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access<span class="pro-badge">PRO</span></span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('River Tam')" class="user-link">River Tam</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Admin</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Zoe Washburne')" class="user-link">Zoe Washburne</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Modified<span class="pro-badge">PRO</span><span class="pill-counter">123</span></span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Kaylee Fry')" class="user-link">Kaylee Fry</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Modified<span class="pill-counter">123</span></span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Simon Tam')" class="user-link">Simon Tam</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Table Footer -->
+          <div class="table-footer">
+            <div class="rows-per-page">
+              <span>Rows per page</span>
+              <select class="rows-select">
+                <option>50</option>
+                <option>25</option>
+                <option>10</option>
+              </select>
+            </div>
+            <div class="page-nav">
+              <span class="page-info">1-5 of 5</span>
+              <button class="page-btn" disabled>‹</button>
+              <button class="page-btn">›</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Add User Drawer (Slide from Right) -->
+<div id="addUserDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">Add User Flow</h2>
+    <button onclick="closeAddUserDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">📝</div>
+    <h3 style="margin-bottom: 16px; color: #424242;">Add User Workflow Coming Soon</h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      When implemented, this interface will allow admins to:
+    </p>
+    <ul style="text-align: left; color: #666; line-height: 1.8; margin-left: 40px; margin-bottom: 32px;">
+      <li>Assign subscription seat to user</li>
+      <li>Automatically grant Full Access to all purchased Market Zones</li>
+      <li>Provide confirmation before activating</li>
+    </ul>
+    <p style="color: #999; font-size: 13px;">
+      For now, use the "Modify" workflow to manage geographic access for existing subscription users.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeAddUserDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
+
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: 13px;">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
+<script>
+// Open invite drawer
+function openInviteDrawer() {
+  document.getElementById('addUserDrawer').classList.add('show');
+  document.getElementById('drawerOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAddUserDrawer() {
+  document.getElementById('addUserDrawer').classList.remove('show');
+  document.getElementById('drawerOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+</script>
+
+</body>
+</html>
