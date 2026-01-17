@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Modify Users - Multiple Subscriptions</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+
+/* Top Bar */
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+
+/* Layout */
+.layout { display: flex; min-height: calc(100vh - 70px); }
+
+/* Sidebar */
+.sidebar { width: 75px; background: #2c3e50; display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-icon { width: 40px; height: 40px; background: #34495e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; margin-bottom: 3px; }
+.nav-icon:hover { background: #3d5a73; }
+.nav-icon.selected { background: #1976d2; }
+.nav-label { color: #fff; font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; }
+
+/* Main Content */
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+h1 { margin: 0; font-size: 28px; }
+.header-icons { display: flex; gap: 12px; align-items: center; }
+.header-icon { background: none; border: none; padding: 0; cursor: pointer; font-size: 20px; color: #666; transition: opacity 0.2s; }
+.header-icon:hover { opacity: 0.7; }
+.header-icon.primary { color: #1976d2; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+
+/* Split View */
+.split-view { display: flex; height: 700px; }
+.left-panel { width: 50%; border-right: 1px solid #e0e0e0; display: flex; flex-direction: column; }
+.right-panel { width: 50%; background: #fafafa; overflow-y: auto; display: flex; flex-direction: column; }
+
+/* Search Box */
+.search-box { padding: 16px; border-bottom: 1px solid #e0e0e0; position: relative; background: #fff; }
+.search-box input { width: 100%; padding: 8px 8px 8px 35px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+.search-icon { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #999; }
+
+/* User Table */
+table { width: 100%; border-collapse: collapse; }
+thead { background: #f0f0f0; position: sticky; top: 0; }
+th { text-align: left; padding: 12px 8px; background: #f0f0f0; border-bottom: 2px solid #e0e0e0; font-size: 13px; font-weight: 600; }
+td { padding: 12px 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+tr:hover { background: #f9f9f9; }
+tr.selected { background: #e3f2fd; }
+tr.disabled { opacity: 0.5; cursor: not-allowed; }
+tr.disabled:hover { background: transparent; }
+.user-role { font-size: 12px; color: #666; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.user-role::before { content: ''; width: 10px; height: 10px; background: #666; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; cursor: pointer; }
+.zone-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
+.zone-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
+.no-access { color: #999; }
+input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+input[type="checkbox"]:disabled { cursor: not-allowed; }
+
+/* User Actions */
+.user-actions { display: flex; gap: 8px; align-items: center; }
+.action-btn { padding: 6px 12px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.2s; }
+.action-btn:hover { background: #d0d0d0; }
+.action-btn.add { color: #1976d2; }
+.action-btn.remove { color: #d32f2f; }
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Subscription Card */
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+.subscription-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.subscription-subtitle { font-size: 13px; color: #666; }
+.seat-info { font-size: 13px; margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.info-icon { width: 16px; height: 16px; background: #666; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: help; position: relative; }
+.info-icon:hover .tooltip { display: block; }
+.tooltip { display: none; position: absolute; bottom: auto; top: 50%; left: 30px; transform: translateY(-50%); background: #333; color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 12px; white-space: normal; width: 280px; max-height: 50px; overflow: hidden; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.3; }
+.tooltip::after { content: ''; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); border: 6px solid transparent; border-right-color: #333; }
+.tooltip-disabled { display: none; position: absolute; bottom: auto; top: 50%; left: 30px; transform: translateY(-50%); background: #333; color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 12px; white-space: nowrap; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.tooltip-disabled::after { content: ''; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); border: 6px solid transparent; border-right-color: #333; }
+.disabled-checkbox-label:hover .tooltip-disabled { display: block; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.seat-fill { height: 100%; background: #424242; }
+
+/* Zone Panel */
+.zone-panel { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; }
+.zone-content { flex: 1; overflow-y: auto; }
+.zone-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-top: 8px; }
+.disabled-checkbox-label { position: relative; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.disabled-checkbox-label[data-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.zone-card { background: #fff; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+.zone-header { display: flex; align-items: center; padding: 16px; gap: 12px; cursor: pointer; }
+.zone-header:hover { background: #f5f5f5; }
+.zone-info { flex: 1; }
+.zone-name { font-weight: 600; margin-bottom: 4px; }
+.zone-details { font-size: 13px; color: #666; }
+.zone-users { background: #f0f0f0; padding: 4px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.expand-arrow { width: 20px; height: 20px; transition: transform 0.2s; cursor: pointer; flex-shrink: 0; }
+.zone-card.expanded .expand-arrow { transform: rotate(180deg); }
+.zone-counties { display: none; padding: 16px; background: #fafafa; border-top: 1px solid #e0e0e0; }
+.zone-card.expanded .zone-counties { display: block; }
+.county-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.county-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.county-count { font-size: 12px; color: #666; margin-top: 8px; }
+.show-all { text-align: center; padding: 8px; color: #1976d2; font-size: 13px; cursor: pointer; text-decoration: underline; }
+
+/* Actions */
+.actions { display: flex; gap: 12px; justify-content: flex-end; padding: 16px 24px; background: #fafafa; border-top: 2px solid #e0e0e0; flex-shrink: 0; margin-top: auto; }
+.btn { padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+.btn-secondary { background: #e0e0e0; color: #424242; }
+.btn-primary { background: #424242; color: #fff; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Add User Drawer */
+.drawer { display: none; position: fixed; top: 0; right: 0; width: 500px; height: 100vh; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.2); z-index: 2000; padding: 32px; overflow-y: auto; }
+.drawer.show { display: block; animation: slideInRight 0.3s ease; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
+.drawer-overlay.show { display: block; }
+
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+.modal.show { display: flex; }
+.modal-content { background: #fff; padding: 32px; border-radius: 8px; text-align: center; max-width: 450px; }
+.success-icon { width: 64px; height: 64px; background: #4caf50; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 32px; }
+.modal-content h2 { margin: 0 0 12px 0; font-size: 20px; }
+.modal-content p { margin: 0 0 24px 0; font-size: 14px; color: #666; line-height: 1.5; }
+.modal-content .btn { min-width: 120px; }
+
+/* Two-State Right Panel */
+#defaultView { display: flex; flex-direction: column; height: 100%; }
+#defaultView .content-wrapper { flex: 1; padding: 24px; overflow-y: auto; }
+#defaultView .actions { position: sticky; bottom: 0; background: #fafafa; border-top: 2px solid #e0e0e0; margin: 0; }
+#zoneSelectionView { display: none; flex: 1; flex-direction: column; }
+#zoneSelectionView.active { display: flex; }
+#zoneSelectionView .zone-content { flex: 1; overflow-y: auto; padding: 0 24px; }
+#zoneSelectionView .subscription-card, #zoneSelectionView > p, #zoneSelectionView .zone-controls { margin: 0 24px; }
+#zoneSelectionView .subscription-card { margin-top: 24px; }
+#zoneSelectionView .actions { position: sticky; bottom: 0; background: #fafafa; border-top: 2px solid #e0e0e0; margin: 0; z-index: 10; }
+.selected-user-info { background: #e3f2fd; padding: 16px; border-radius: 6px; margin-bottom: 16px; }
+.selected-user-info h3 { margin: 0 0 12px 0; font-size: 16px; color: #1976d2; }
+.selected-user-info p { margin: 0; font-size: 14px; color: #666; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="logo">ConstructConnect</div>
+  <div class="user-menu">
+    <span>Christopher Donaldson</span>
+    <div class="avatar">CD</div>
+  </div>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="nav-item">
+      <div class="nav-icon">🏢</div>
+      <div class="nav-label">Company</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👥</div>
+      <div class="nav-label">Users &<br>Groups</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">Roles</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon selected">📋</div>
+      <div class="nav-label">Subs &<br>Licenses</div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-icon">💳</div>
+      <div class="nav-label">Billing</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions and Licenses</h1>
+          <div class="header-icons">
+            <button class="header-icon primary" onclick="openInviteDrawer()" title="Invite User">👤+</button>
+            <button class="header-icon" title="Recent Activity">🕐</button>
+            <button class="header-icon" title="User Profile">👤</button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab" onclick="window.location.href='v2-subscription-overview-multi.html'">Organization Overview</button>
+          <button class="tab active">Project Intelligence</button>
+          <button class="tab">Bid Management</button>
+          <button class="tab">Takeoff & Estimating</button>
+          <button class="tab">API Apps <span style="background: #88888e; color: #fff; border-radius: 12px; padding: 2px 6px; font-size: 10px; margin-left: 4px;">2</span></button>
+        </div>
+      </div>
+
+      <!-- Split View -->
+      <div class="split-view">
+        
+        <!-- LEFT PANEL: User Table -->
+        <div class="left-panel">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search users...">
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px">
+                  <input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()">
+                </th>
+                <th>User Name</th>
+                <th>Assigned Geography</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users"></tbody>
+          </table>
+        </div>
+
+        <!-- RIGHT PANEL: Two-State Dynamic View -->
+        <div class="right-panel">
+          
+          <!-- STATE 1: Default Info View (shows when no users selected) -->
+          <div id="defaultView">
+            <div class="content-wrapper">
+              <div class="subscription-card">
+                <div class="subscription-title">Project Intelligence Starter Seats</div>
+                <div class="subscription-subtitle">
+                  Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Starter access.
+                </div>
+                <div class="seat-info">
+                  7 / 20 Seats - 13 seats available
+                  <div class="info-icon">
+                    i
+                    <div class="tooltip">Assigning geography to a user activates one seat.</div>
+                  </div>
+                </div>
+                <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
+              </div>
+
+              <!-- Selected User Info (dynamic) -->
+              <div id="selectedUserInfo"></div>
+
+              <!-- Informational Content -->
+              <div id="defaultInfoText" style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
+                <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
+                <ul style="margin-left: 20px; margin-bottom: 16px;">
+                  <li>2 Full access</li>
+                  <li>2 Modified</li>
+                </ul>
+                <p style="margin-bottom: 12px;">
+                  By clicking 'add' you assign a seat and provide the user full access.
+                </p>
+                <p>
+                  Once a user has been added, you can then modify their access to specific counties.
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Buttons (Sticky Footer) -->
+            <div class="actions">
+              <button class="btn btn-primary" id="addSelectedBtn" disabled onclick="addSelectedUsers()">Add Selected User(s)</button>
+              <button class="btn btn-primary" id="modifySelectedBtn" disabled onclick="showModifyView()">Modify Selected Users</button>
+            </div>
+          </div>
+
+          <!-- STATE 2: Zone Selection View (shows when users WITH subscriptions selected) -->
+          <div id="zoneSelectionView">
+            
+            <!-- Subscription Card (stays at top) -->
+            <div class="subscription-card" style="margin-bottom: 16px;">
+              <div class="subscription-title">Project Intelligence Starter Seats</div>
+              <div class="subscription-subtitle">
+                Select zones and counties to assign to selected users.
+              </div>
+              <div class="seat-info">
+                7 / 20 Seats - 13 seats available
+              </div>
+              <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
+            </div>
+
+            <!-- Instruction Text -->
+            <p style="margin-bottom: 16px; font-size: 14px; color: #666;">
+              Select one or more of the zones below to assign to the selected user(s)
+            </p>
+
+            <!-- Zone Controls -->
+            <div class="zone-controls" style="margin-bottom: 16px;">
+              <label id="selectAllLabel" class="disabled-checkbox-label" style="font-weight:600;" data-disabled="false">
+                <input type="checkbox" id="selectAll" onclick="toggleSelectAll()">
+                <span>Select All Zones</span>
+              </label>
+              <input type="text" placeholder="🔍 Search zones..." style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; width: 250px;">
+            </div>
+
+            <!-- Zone List (scrollable) -->
+            <div class="zone-content" id="zones"></div>
+
+            <!-- Save Button (Sticky Footer) -->
+            <div class="actions">
+              <button class="btn btn-secondary" onclick="reset()">Cancel</button>
+              <button class="btn btn-primary" id="saveUpdatesBtn" onclick="save()" disabled>Save Updates</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Add User Drawer (Slide from Right) -->
+<div id="addUserDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">Add User Flow</h2>
+    <button onclick="closeAddUserDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">📝</div>
+    <h3 style="margin-bottom: 16px; color: #424242;">Add User Workflow Coming Soon</h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      When implemented, this interface will allow admins to:
+    </p>
+    <ul style="text-align: left; color: #666; line-height: 1.8; margin-left: 40px; margin-bottom: 32px;">
+      <li>Assign subscription seat to user</li>
+      <li>Automatically grant Full Access to all purchased Market Zones</li>
+      <li>Provide confirmation before activating</li>
+    </ul>
+    <p style="color: #999; font-size: 13px;">
+      For now, use the "Modify" workflow to manage geographic access for existing subscription users.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeAddUserDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
+
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: 13px;">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
+<!-- Success Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="success-icon">✓</div>
+    <h2 style="margin-bottom: 16px;">Geography Updated!</h2>
+    <p id="msg" style="color: #666; line-height: 1.6;"></p>
+    <button onclick="closeModal()" class="btn btn-primary" style="margin-top: 24px;">Close</button>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal" id="confirmationModal">
+  <div class="modal-content">
+    <div class="success-icon">✓</div>
+    <h2 style="margin-bottom: 12px;">User Added Successfully</h2>
+    <p id="confirmationMessage" style="color: #666; line-height: 1.5; margin-bottom: 24px;"></p>
+    <button onclick="closeConfirmationModal()" class="btn btn-primary">OK</button>
+  </div>
+</div>
+
+<script src="complete-zone-data.js"></script>
+<script>
+// Initialize data
+var data = {
+  users: [
+    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:5, accessType:'modified', assignedCounties:{'1-0':true,'1-1':true,'1-2':true,'2-0':true,'2-1':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified', zoneCount:3, accessType:'modified', assignedCounties:{'3-0':true,'3-1':true,'4-0':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false}
+  ],
+  zones: COMPLETE_ZONE_DATA.zones.slice(0, 10) // First 10 zones for performance
+};
+
+// Selection state
+var sel = {users:{}, counties:{}};
+var expanded = {};
+var showAll = {};
+
+// Render function
+function render() {
+  // Render user table
+  var h = '';
+  for(var i = 0; i < data.users.length; i++) {
+    var u = data.users[i];
+    var rowClass = sel.users[u.id] ? 'selected' : '';
+    
+    h += '<tr class="' + rowClass + '">';
+    
+    // Checkbox
+    h += '<td><input type="checkbox" ' + (sel.users[u.id] ? 'checked' : '') + 
+         ' onclick="toggleUser(' + u.id + ')"></td>';
+    
+    // User name
+    h += '<td><div><a onclick="openUserProfileDrawer(\'' + u.name + '\')" class="user-link">' + u.name + '</a></div>' +
+         '<div class="user-role">' + u.role + '</div></td>';
+    
+    // Geography
+    var zoneHtml = '';
+    if(u.accessType === 'none') {
+      zoneHtml = '<span class="zone-badge no-access">No Access</span>';
+    } else if(u.accessType === 'full') {
+      // Full Access - no counter
+      zoneHtml = '<span class="zone-badge">Full Access</span>';
+    } else if(u.accessType === 'modified' && u.zoneCount) {
+      // Modified - show zone count
+      zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
+    } else {
+      zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
+    }
+    h += '<td>' + zoneHtml + '</td>';
+    
+    // Actions
+    h += '<td><div class="user-actions">';
+    if(u.accessType === 'none') {
+      h += '<button class="action-btn add" onclick="addUserFromTable(' + u.id + ')">+ Add</button>';
+    } else {
+      h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ')">✕ Remove</button>';
+    }
+    h += '</div></td>';
+    
+    h += '</tr>';
+  }
+  document.getElementById('users').innerHTML = h;
+  
+  // Render zones if zone view is active
+  renderZones();
+  
+  // Update right panel view
+  updateRightPanel();
+  
+  // Update header checkbox state
+  updateUserHeaderState();
+}
+
+// Render zones
+function renderZones() {
+  var h = '';
+  var indeterminateZones = []; // Track which zones need indeterminate state
+  
+  for(var i = 0; i < data.zones.length; i++) {
+    var z = data.zones[i];
+    var zoneState = getZoneCheckboxState(z.id);
+    var isExpanded = expanded[z.id];
+    var displayAll = showAll[z.id];
+    
+    h += '<div class="zone-card' + (isExpanded ? ' expanded' : '') + '">';
+    h += '<div class="zone-header" onclick="toggleExpand(' + z.id + ')">';
+    
+    // Zone checkbox with data-zone-id for later indeterminate setting
+    h += '<input type="checkbox" data-zone-id="' + z.id + '" ' +
+         (zoneState.checked ? 'checked' : '') +
+         ' onclick="event.stopPropagation(); toggleZone(' + z.id + ')">';
+    
+    // Track indeterminate zones
+    if(zoneState.indeterminate) {
+      indeterminateZones.push(z.id);
+    }
+    
+    // Zone info
+    h += '<div class="zone-info">';
+    h += '<div class="zone-name">' + z.name + '</div>';
+    h += '<div class="zone-details">' + z.states.join(', ') + ' - ' + z.countyCount + ' Counties Available</div>';
+    h += '</div>';
+    
+    // User count badge
+    h += '<div class="zone-users">👥 5</div>';
+    
+    // Expand arrow
+    h += '<div class="expand-arrow">▼</div>';
+    h += '</div>';
+    
+    // Counties (expandable)
+    if(isExpanded) {
+      h += '<div class="zone-counties">';
+      h += '<div class="county-grid">';
+      
+      var countiesToShow = displayAll ? z.counties.length : Math.min(20, z.counties.length);
+      for(var j = 0; j < countiesToShow; j++) {
+        var county = z.counties[j];
+        var countyKey = z.id + '-' + j;
+        h += '<div class="county-item">';
+        h += '<input type="checkbox" ' + (sel.counties[countyKey] ? 'checked' : '') +
+             ' onclick="toggleCounty(' + z.id + ', ' + j + ')">';
+        h += '<span>' + county.name + ' (' + county.state + ')</span>';
+        h += '</div>';
+      }
+      
+      h += '</div>';
+      
+      // Show all button if more than 20 counties
+      if(z.counties.length > 20 && !displayAll) {
+        h += '<div class="show-all" onclick="toggleShowAll(' + z.id + ')">Show all ' + z.counties.length + ' counties</div>';
+      }
+      
+      h += '</div>';
+    }
+    
+    h += '</div>';
+  }
+  
+  document.getElementById('zones').innerHTML = h;
+  
+  // Set indeterminate state via JavaScript (can't be done in HTML)
+  for(var i = 0; i < indeterminateZones.length; i++) {
+    var checkbox = document.querySelector('input[data-zone-id="' + indeterminateZones[i] + '"]');
+    if(checkbox) {
+      checkbox.indeterminate = true;
+    }
+  }
+  
+  // Update "Select All Zones" checkbox state
+  updateSelectAllZonesState();
+}
+
+// Update "Select All Zones" checkbox state
+function updateSelectAllZonesState() {
+  var selectAllCheckbox = document.getElementById('selectAll');
+  if(!selectAllCheckbox) return;
+  
+  var totalCounties = 0;
+  var selectedCounties = 0;
+  
+  for(var i = 0; i < data.zones.length; i++) {
+    var zone = data.zones[i];
+    totalCounties += zone.counties.length;
+    for(var j = 0; j < zone.counties.length; j++) {
+      if(sel.counties[zone.id + '-' + j]) {
+        selectedCounties++;
+      }
+    }
+  }
+  
+  if(selectedCounties === 0) {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = false;
+  } else if(selectedCounties === totalCounties) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
+  } else {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = true;
+  }
+}
+
+// Update right panel based on user selection
+function updateRightPanel() {
+  // Count selected users by type
+  var selectedNoAccess = 0;
+  var selectedFull = 0;
+  var selectedModified = 0;
+  var selectedUsers = [];
+  
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id]) {
+      selectedUsers.push(data.users[i]);
+      if(data.users[i].accessType === 'none') {
+        selectedNoAccess++;
+      } else if(data.users[i].accessType === 'full') {
+        selectedFull++;
+      } else if(data.users[i].accessType === 'modified') {
+        selectedModified++;
+      }
+    }
+  }
+  
+  // Update selected user info display
+  var selectedUserInfo = document.getElementById('selectedUserInfo');
+  var defaultInfoText = document.getElementById('defaultInfoText');
+  
+  if(selectedFull > 0 || selectedModified > 0) {
+    // Show selected user info
+    var infoHtml = '<div class="selected-user-info">';
+    infoHtml += '<h3>Selected User' + (selectedUsers.length > 1 ? 's' : '') + '</h3>';
+    
+    for(var j = 0; j < selectedUsers.length; j++) {
+      var u = selectedUsers[j];
+      if(u.accessType !== 'none') {
+        infoHtml += '<p><strong>' + u.name + '</strong> - ' + u.zones;
+        if(u.accessType === 'full') {
+          infoHtml += ' (has access to all zones in subscription)';
+        } else if(u.accessType === 'modified' && u.zoneCount) {
+          infoHtml += ' (' + u.zoneCount + ' zone' + (u.zoneCount > 1 ? 's' : '') + ')';
+        }
+        infoHtml += '</p>';
+      }
+    }
+    
+    infoHtml += '</div>';
+    
+    // Add note for No Access users
+    if(selectedNoAccess > 0) {
+      infoHtml += '<div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 4px;">';
+      infoHtml += '<p style="margin: 0; font-size: 13px; line-height: 18px; color: #0c4a6e;"><strong>Note:</strong> Adding user(s) with No Access will give them Full Access to the application. They can be modified later.</p>';
+      infoHtml += '</div>';
+    }
+    
+    selectedUserInfo.innerHTML = infoHtml;
+    defaultInfoText.style.display = 'none';
+  } else {
+    // Hide selected user info, show default text
+    selectedUserInfo.innerHTML = '';
+    defaultInfoText.style.display = 'block';
+  }
+  
+  // Update button states in default view
+  var addBtn = document.getElementById('addSelectedBtn');
+  var modifyBtn = document.getElementById('modifySelectedBtn');
+  
+  if(addBtn) addBtn.disabled = selectedNoAccess === 0;
+  if(modifyBtn) modifyBtn.disabled = (selectedFull + selectedModified) === 0;
+  
+  // Don't auto-show zone selection - only show when Modify button is clicked
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  
+  // Keep current view state unless explicitly changed
+}
+
+// Toggle user selection
+function toggleUser(id) {
+  sel.users[id] = !sel.users[id];
+  render();
+}
+
+// Toggle all users
+function toggleAllUsers() {
+  var checkbox = document.getElementById('selectAllUsers');
+  var newState = checkbox.checked;
+  
+  for(var i = 0; i < data.users.length; i++) {
+    sel.users[data.users[i].id] = newState;
+  }
+  render();
+}
+
+// Update header checkbox state
+function updateUserHeaderState() {
+  var selectedCount = 0;
+  
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id]) selectedCount++;
+  }
+  
+  var checkbox = document.getElementById('selectAllUsers');
+  checkbox.checked = selectedCount === data.users.length && data.users.length > 0;
+  checkbox.indeterminate = selectedCount > 0 && selectedCount < data.users.length;
+}
+
+// Zone checkbox state
+function getZoneCheckboxState(zoneId){
+  var zone = data.zones.find(z => z.id === zoneId);
+  if(!zone) return {checked: false, indeterminate: false};
+  var selectedCount = 0;
+  for(var i = 0; i < zone.counties.length; i++){
+    if(sel.counties[zoneId + '-' + i]) selectedCount++;
+  }
+  if(selectedCount === 0) return {checked: false, indeterminate: false};
+  if(selectedCount === zone.counties.length) return {checked: true, indeterminate: false};
+  return {checked: false, indeterminate: true};
+}
+
+// Toggle zone
+function toggleZone(id){
+  var zone = data.zones.find(z => z.id === id);
+  if(!zone) return;
+  var state = getZoneCheckboxState(id);
+  var newState = !state.checked && !state.indeterminate;
+  for(var i = 0; i < zone.counties.length; i++){
+    sel.counties[id + '-' + i] = newState;
+  }
+  updateSaveButton();
+  render();
+}
+
+// Toggle county
+function toggleCounty(zoneId, countyIndex){
+  var countyKey = zoneId + '-' + countyIndex;
+  sel.counties[countyKey] = !sel.counties[countyKey];
+  updateSaveButton();
+  render();
+}
+
+// Update Save Updates button state
+function updateSaveButton() {
+  var saveBtn = document.getElementById('saveUpdatesBtn');
+  if(!saveBtn) return;
+  
+  // Check if any counties are selected
+  var hasSelection = false;
+  for(var key in sel.counties) {
+    if(sel.counties[key]) {
+      hasSelection = true;
+      break;
+    }
+  }
+  
+  saveBtn.disabled = !hasSelection;
+}
+
+// Toggle expand
+function toggleExpand(id){
+  expanded[id] = !expanded[id];
+  render();
+}
+
+// Toggle show all counties
+function toggleShowAll(id){
+  showAll[id] = !showAll[id];
+  render();
+}
+
+// Toggle select all zones
+function toggleSelectAll(){
+  var checkbox = document.getElementById('selectAll');
+  var newState = checkbox.checked;
+  
+  for(var i = 0; i < data.zones.length; i++){
+    var zone = data.zones[i];
+    for(var j = 0; j < zone.counties.length; j++){
+      sel.counties[zone.id + '-' + j] = newState;
+    }
+  }
+  updateSaveButton();
+  render();
+}
+
+// Add selected users (assign subscriptions)
+function addSelectedUsers() {
+  var selectedUsers = [];
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id] && data.users[i].accessType === 'none') {
+      selectedUsers.push(data.users[i].name);
+      // Update user to Full Access
+      data.users[i].zones = 'Full Access';
+      data.users[i].accessType = 'full';
+      data.users[i].zoneCount = null;
+      data.users[i].assignedCounties = {};
+    }
+  }
+  
+  if(selectedUsers.length > 0) {
+    alert('Added subscription and Full Access for: ' + selectedUsers.join(', '));
+    // Clear selections and re-render
+    sel.users = {};
+    sel.counties = {};
+    render();
+  }
+}
+
+// Show modify view (switch to zone selection)
+function showModifyView() {
+  // Clear current county selections
+  sel.counties = {};
+  
+  // Pre-populate with counties from selected modified users
+  // If multiple users selected, merge their counties
+  for(var i = 0; i < data.users.length; i++) {
+    var u = data.users[i];
+    if(sel.users[u.id] && u.accessType === 'modified' && u.assignedCounties) {
+      for(var key in u.assignedCounties) {
+        if(u.assignedCounties[key]) {
+          sel.counties[key] = true;
+        }
+      }
+    }
+  }
+  
+  // Show zone selection view
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  
+  defaultView.style.display = 'none';
+  zoneView.style.display = 'flex';
+  zoneView.classList.add('active');
+  
+  // Render zones with pre-populated selections
+  renderZones();
+  updateSaveButton();
+}
+
+// Open invite drawer (for adding NEW users to organization)
+function openInviteDrawer() {
+  document.getElementById('addUserDrawer').classList.add('show');
+  document.getElementById('drawerOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAddUserDrawer() {
+  document.getElementById('addUserDrawer').classList.remove('show');
+  document.getElementById('drawerOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Add user from table (assign seat to existing No Access user)
+function addUserFromTable(userId) {
+  // Find the user
+  var user = data.users.find(function(u) { return u.id === userId; });
+  if (!user) return;
+  
+  // Assign full access - update ALL properties
+  user.zones = 'Full Access';
+  user.accessType = 'full';
+  user.zoneCount = null;
+  user.assignedCounties = {};
+  
+  // Unselect the user
+  delete sel.users[userId];
+  
+  // Re-render and update panel
+  render();
+  
+  // Show confirmation modal
+  var modal = document.getElementById('confirmationModal');
+  var message = document.getElementById('confirmationMessage');
+  message.textContent = user.name + ' has been assigned a full seat to this subscription.';
+  modal.classList.add('show');
+}
+
+function closeConfirmationModal() {
+  document.getElementById('confirmationModal').classList.remove('show');
+}
+
+// Remove user
+function removeUser(userId) {
+  if(confirm('Remove this user\'s subscription and geographic access?')) {
+    var user = data.users.find(u => u.id === userId);
+    if(user) {
+      user.zones = 'No Access';
+      user.disabled = true;
+      sel.users[userId] = false;
+      render();
+    }
+  }
+}
+
+// Save
+function save(){
+  var un = [], selections = [];
+  
+  // Get selected user names
+  for(var i=0; i<data.users.length; i++) {
+    if(sel.users[data.users[i].id]) un.push(data.users[i].name);
+  }
+  
+  // Get selected geography summary
+  for(var i=0; i<data.zones.length; i++){
+    var z = data.zones[i];
+    var selectedCounties = [];
+    for(var j=0; j<z.counties.length; j++){
+      if(sel.counties[z.id+'-'+j]) selectedCounties.push(z.counties[j]);
+    }
+    if(selectedCounties.length > 0){
+      if(selectedCounties.length === z.counties.length){
+        selections.push(z.name + ' (All ' + z.counties.length + ' counties)');
+      } else {
+        selections.push(z.name + ' (' + selectedCounties.length + ' of ' + z.counties.length + ' counties)');
+      }
+    }
+  }
+  
+  // Show modal
+  document.getElementById('msg').innerHTML = 
+    'Geography assigned to: ' + un.join(', ') + '<br><br>Selections: ' + selections.join(', ');
+  document.getElementById('modal').className = 'modal show';
+  
+  // Update user data
+  for(var i=0; i<data.users.length; i++){
+    if(sel.users[data.users[i].id]){
+      data.users[i].zones = 'Modified ' + selections.length;
+    }
+  }
+}
+
+// Close modal
+function closeModal(){
+  document.getElementById('modal').className = 'modal';
+  reset();
+}
+
+// Reset
+function reset(){
+  sel = {users:{}, counties:{}};
+  expanded = {};
+  showAll = {};
+  
+  // Return to default view
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  defaultView.style.display = 'flex';
+  zoneView.style.display = 'none';
+  zoneView.classList.remove('active');
+  
+  render();
+}
+
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Initialize
+render();
+</script>
+
+</body>
+</html>
