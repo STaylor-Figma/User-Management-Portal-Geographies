@@ -67,10 +67,11 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
 
 /* User Actions */
 .user-actions { display: flex; gap: 8px; align-items: center; }
-.action-btn { padding: 6px 12px; background: #fff; border: 1px solid #4caf50; color: #4caf50; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
-.action-btn:hover { background: #4caf50; color: #fff; }
-.action-btn.remove { border-color: #d32f2f; color: #d32f2f; }
-.action-btn.remove:hover { background: #d32f2f; color: #fff; }
+.action-btn { padding: 6px 12px; background: #fff; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+.action-btn.add { color: #4caf50; border-color: #4caf50; }
+.action-btn.add:hover { background: #f1f8f4; }
+.action-btn.remove { color: #d32f2f; border-color: #d32f2f; }
+.action-btn.remove:hover { background: #fef5f5; }
 .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Subscription Section */
@@ -88,9 +89,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
 .btn { padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
 .btn-secondary { background: #e0e0e0; color: #424242; }
 .btn-primary { background: #424242; color: #fff; }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-danger { background: #d32f2f; color: #fff; }
-.btn-success { background: #4caf50; color: #fff; }
+.btn-primary:disabled { opacity: 0.3; cursor: not-allowed; background: #e0e0e0; color: #999; }
 
 /* Drawer */
 .drawer { display: none; position: fixed; top: 0; right: 0; width: 500px; height: 100vh; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.2); z-index: 2000; padding: 32px; overflow-y: auto; }
@@ -212,9 +211,8 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
             <div class="button-row" id="proButtons">
               <button class="btn btn-success" id="addProBtn" disabled>+ Add</button>
               <button class="btn btn-primary" id="modifyProBtn" disabled>Modify Selected Users</button>
-              <button class="btn btn-danger" id="removeProBtn" disabled>✕ Remove</button>
-            </div>
-          </div>
+              <button class="btn btn-decondary" id="addProBtn" disabled>Add Selected User(s)</button>
+              <button class="btn btn-secondary" id="modifyProBtn" disabled>Modify Selected Users
 
           <!-- PROJECT INTELLIGENCE STARTER SEATS Section -->
           <div class="subscription-section">
@@ -239,9 +237,8 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
             
             <div class="button-row" id="starterButtons">
               <button class="btn btn-success" id="addStarterBtn" disabled>+ Add</button>
-              <button class="btn btn-primary" id="modifyStarterBtn" disabled>Modify Selected Users</button>
-              <button class="btn btn-danger" id="removeStarterBtn" disabled>✕ Remove</button>
-            </div>
+              <button class="btn btn-pecondary" id="addStarterBtn" disabled>Add Selected User(s)</button>
+              <button class="btn btn-secondary" id="modifyStarterBtn" disabled>Modify Selected Users
           </div>
 
         </div>
@@ -329,7 +326,7 @@ function render() {
     h += '<td><div class="user-actions">';
     if(u.accessType === 'none') {
       h += '<button class="action-btn" onclick="addUser(' + u.id + ', \'choose\')">+ Add</button>';
-    } else if(u.subscription === 'Pro') {
+    } else if(u.subscription === 'Pro add') {
       h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ', \'Pro\')">✕ Remove</button>';
     } else if(u.subscription === 'Starter') {
       h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ', \'Starter\')">✕ Remove</button>';
@@ -364,15 +361,45 @@ function updateButtonStates() {
   }
   
   // Pro buttons
-  document.getElementById('addProBtn').disabled = !hasNoAccessUsers;
-  document.getElementById('modifyProBtn').disabled = !hasProUsers;
-  document.getElementById('removeProBtn').disabled = !hasProUsers;
+  documensection buttons - only active when selecting no-access or pro users
+  var addProBtn = document.getElementById('addProBtn');
+  var modifyProBtn = document.getElementById('modifyProBtn');
   
-  // Starter buttons  
-  document.getElementById('addStarterBtn').disabled = !hasNoAccessUsers;
-  document.getElementById('modifyStarterBtn').disabled = !hasStarterUsers;
-  document.getElementById('removeStarterBtn').disabled = !hasStarterUsers;
-}
+  if(hasNoAccessUsers) {
+    addProBtn.disabled = false;
+    addProBtn.className = 'btn btn-primary';
+  } else {
+    addProBtn.disabled = true;
+    addProBtn.className = 'btn btn-secondary';
+  }
+  
+  if(hasProUsers) {
+    modifyProBtn.disabled = false;
+    modifyProBtn.className = 'btn btn-primary';
+  } else {
+    modifyProBtn.disabled = true;
+    modifyProBtn.className = 'btn btn-secondary';
+  }
+  
+  // Starter section buttons - only active when selecting no-access or starter users
+  var addStarterBtn = document.getElementById('addStarterBtn');
+  var modifyStarterBtn = document.getElementById('modifyStarterBtn');
+  
+  if(hasNoAccessUsers) {
+    addStarterBtn.disabled = false;
+    addStarterBtn.className = 'btn btn-primary';
+  } else {
+    addStarterBtn.disabled = true;
+    addStarterBtn.className = 'btn btn-secondary';
+  }
+  
+  if(hasStarterUsers) {
+    modifyStarterBtn.disabled = false;
+    modifyStarterBtn.className = 'btn btn-primary';
+  } else {
+    modifyStarterBtn.disabled = true;
+    modifyStarterBtn.className = 'btn btn-secondary';
+  }
 
 function addUser(userId, subscription) {
   if(subscription === 'choose') {
