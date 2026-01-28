@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Multiple Subscriptions - Geographic Assignment</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -147,6 +148,136 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 .selected-user-info { background: #e3f2fd; padding: 16px; border-radius: 6px; margin-bottom: 16px; }
 .selected-user-info h3 { margin: 0 0 12px 0; font-size: 16px; color: #1976d2; }
 .selected-user-info p { margin: 0; font-size: 14px; color: #666; line-height: 1.5; }
+
+/* ============================================ */
+/* RESPONSIVE / ADAPTIVE DESIGN */
+/* ============================================ */
+
+/* Tablet (Portrait) - 768px to 1024px */
+@media (max-width: 1024px) {
+  .main-content { padding: 20px; }
+  .header { padding: 20px 24px; }
+  h1 { font-size: 24px; }
+  .split-view { height: auto; min-height: 600px; }
+}
+
+/* Tablet (Small) & Mobile (Landscape) - 600px to 768px */
+@media (max-width: 768px) {
+  /* Hide sidebar */
+  .sidebar { display: none; }
+  
+  /* Stack split view vertically */
+  .split-view { flex-direction: column; height: auto; }
+  .left-panel { width: 100%; border-right: none; border-bottom: 2px solid #e0e0e0; min-height: 400px; }
+  .right-panel { width: 100%; min-height: 400px; }
+  
+  /* Adjust top bar */
+  .top-bar { padding: 12px 16px; }
+  .logo { font-size: 16px; }
+  .user-menu span { display: none; }
+  
+  /* Reduce padding */
+  .main-content { padding: 16px; }
+  .header { padding: 16px; }
+  h1 { font-size: 20px; }
+  
+  /* Stack header elements */
+  .header-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .header-icons { width: 100%; justify-content: flex-end; }
+  
+  /* Tabs */
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 12px; }
+  
+  /* Search box */
+  .search-box { padding: 12px; }
+  
+  /* Table adjustments */
+  table { min-width: 100%; }
+  th, td { padding: 10px 6px; font-size: 13px; }
+  
+  /* Hide less critical columns */
+  .user-table th:nth-child(4),
+  .user-table td:nth-child(4) { display: none; }
+  
+  /* Zone panel */
+  .zone-panel { padding: 16px; }
+  #zoneSelectionView .zone-content { padding: 0 16px; }
+  #zoneSelectionView .subscription-card,
+  #zoneSelectionView > p,
+  #zoneSelectionView .zone-controls { margin: 0 16px; }
+}
+
+/* Mobile (Portrait) - Below 600px */
+@media (max-width: 600px) {
+  /* Further reduce spacing */
+  .main-content { padding: 12px; }
+  .header { padding: 12px; }
+  h1 { font-size: 18px; }
+  
+  /* Split view adjustments */
+  .left-panel { min-height: 300px; }
+  .right-panel { min-height: 300px; }
+  
+  /* Search */
+  .search-box { padding: 10px; }
+  .search-box input { font-size: 13px; padding: 6px 6px 6px 30px; }
+  .search-icon { left: 18px; font-size: 14px; }
+  
+  /* Table */
+  th, td { padding: 8px 4px; font-size: 12px; }
+  .user-link { font-size: 13px; }
+  .user-role { font-size: 11px; }
+  input[type="checkbox"] { width: 16px; height: 16px; }
+  
+  /* Hide last login column on mobile */
+  .user-table th:last-child,
+  .user-table td:last-child { display: none; }
+  
+  /* Subscription cards */
+  .subscription-card { padding: 16px; margin-bottom: 16px; }
+  .subscription-title { font-size: 15px; }
+  .subscription-subtitle { font-size: 12px; }
+  .seat-info { font-size: 12px; flex-wrap: wrap; }
+  
+  /* Zone badges */
+  .zone-badge { font-size: 11px; padding: 4px 6px; height: 24px; }
+  .zone-counter { font-size: 11px; padding: 2px 5px; height: 18px; min-width: 18px; }
+  
+  /* Zone controls */
+  .zone-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+  
+  /* Zone cards */
+  .zone-card { margin-bottom: 10px; }
+  .zone-header { padding: 12px; font-size: 13px; }
+  .county-list { padding: 8px 12px; }
+  .county-checkbox { padding: 6px 12px; font-size: 12px; }
+  
+  /* Actions/Buttons */
+  .actions { padding: 12px; gap: 8px; flex-direction: column; }
+  .btn { padding: 10px 16px; font-size: 13px; width: 100%; }
+  
+  /* Modal */
+  .modal-content { padding: 24px; max-width: 90%; }
+  .modal-content h2 { font-size: 18px; }
+  
+  /* Zone panel padding */
+  .zone-panel { padding: 12px; }
+  #defaultView .content-wrapper { padding: 16px; }
+  #zoneSelectionView .zone-content { padding: 0 12px; }
+  #zoneSelectionView .subscription-card,
+  #zoneSelectionView > p,
+  #zoneSelectionView .zone-controls { margin: 0 12px; }
+}
+
+/* Mobile (Small) - Below 400px */
+@media (max-width: 400px) {
+  h1 { font-size: 16px; }
+  .tabs { gap: 4px; }
+  .tab { font-size: 12px; padding: 6px 10px; }
+  .subscription-title { font-size: 14px; }
+  th, td { font-size: 11px; }
+}
 </style>
 </head>
 <body>

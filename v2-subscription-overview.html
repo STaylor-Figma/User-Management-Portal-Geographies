@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organization Overview - Version Two</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -126,6 +127,105 @@ h1 { margin: 0; font-size: 28px; }
 .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
 .btn-primary { background: #424242; color: #fff; }
 .btn-primary:hover { background: #333; }
+
+/* ============================================ */
+/* RESPONSIVE / ADAPTIVE DESIGN */
+/* ============================================ */
+
+/* Tablet (Portrait) - 768px to 1024px */
+@media (max-width: 1024px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .main-content { padding: 20px; }
+  .content { padding: 24px; }
+  .header { padding: 20px 24px; }
+  h1 { font-size: 24px; }
+  .table-section { padding: 16px; }
+}
+
+/* Tablet (Small) & Mobile (Landscape) - 600px to 768px */
+@media (max-width: 768px) {
+  /* Stack cards vertically */
+  .cards-grid { grid-template-columns: 1fr; }
+  
+  /* Hide sidebar, show hamburger menu */
+  .sidebar { display: none; }
+  
+  /* Adjust top bar */
+  .top-bar { padding: 12px 16px; }
+  .logo { font-size: 16px; }
+  .user-menu span { display: none; }
+  
+  /* Reduce padding */
+  .main-content { padding: 16px; }
+  .content { padding: 16px; }
+  .header { padding: 16px; }
+  h1 { font-size: 20px; }
+  
+  /* Stack header elements */
+  .header-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .header-icons { width: 100%; justify-content: flex-end; }
+  
+  /* Stack tabs vertically on very small screens */
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 12px; }
+  
+  /* Make table scrollable */
+  .table-section { padding: 12px; overflow-x: auto; }
+  .user-table { min-width: 800px; }
+  
+  /* Adjust filters */
+  .table-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+  .filters { flex-wrap: wrap; }
+}
+
+/* Mobile (Portrait) - Below 600px */
+@media (max-width: 600px) {
+  /* Further reduce spacing */
+  .main-content { padding: 12px; }
+  .content { padding: 12px; }
+  .header { padding: 12px; }
+  h1 { font-size: 18px; }
+  
+  /* Card adjustments */
+  .card-header { font-size: 16px; padding: 8px 12px; }
+  .card-content { padding: 8px; }
+  
+  /* Toast messages */
+  .toast { font-size: 11px; padding: 8px; }
+  
+  /* Seat rows */
+  .seat-row { font-size: 11px; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .seat-count { text-align: left; width: auto; }
+  
+  /* Zones */
+  .zone-badge { font-size: 11px; padding: 4px 6px; height: 24px; }
+  .zone-counter { font-size: 11px; padding: 2px 5px; height: 18px; min-width: 18px; }
+  
+  /* Table */
+  .table-section { padding: 8px; }
+  .user-table th,
+  .user-table td { padding: 8px 6px; font-size: 12px; }
+  
+  /* Hide less critical columns on mobile */
+  .user-table th:nth-child(n+5),
+  .user-table td:nth-child(n+5) { display: none; }
+  
+  /* Footer adjustments */
+  .table-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+  .rows-per-page { justify-content: center; }
+  .page-nav { justify-content: center; }
+  
+  /* Drawer */
+  .drawer { width: 100%; padding: 20px; }
+}
+
+/* Mobile (Small) - Below 400px */
+@media (max-width: 400px) {
+  h1 { font-size: 16px; }
+  .tabs { gap: 4px; }
+  .tab { font-size: 12px; padding: 6px 10px; }
+  .filter-btn { font-size: 12px; padding: 6px 10px; }
+}
 </style>
 </head>
 <body>
