@@ -148,8 +148,19 @@ h1 { margin: 0; font-size: 28px; }
 
 /* ============================================ */
 /* RESPONSIVE / ADAPTIVE DESIGN - Blueprint Component Library */
-/* Breakpoints: 375px (Mobile), 600px (Tablet Small), 768px (Tablet), 1440px+ (Desktop) */
+/* Breakpoints: 375px (Mobile), 600px (Tablet Small), 768px (Tablet), 1024px (Tablet Landscape), 1440px+ (Desktop) */
 /* ============================================ */
+
+/* Tablet Landscape - Below 1024px */
+@media (max-width: 1024px) {
+  /* Show hamburger menu, hide desktop sidebar */
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+  .mobile-nav-drawer { display: block; }
+  
+  /* Header height: 48px per Blueprint for tablet landscape */
+  .top-bar { height: 48px; }
+}
 
 /* Tablet (Medium) - Below 768px */
 @media (max-width: 768px) {
