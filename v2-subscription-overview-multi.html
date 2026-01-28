@@ -361,6 +361,182 @@ h1 { margin: 0; font-size: 28px; }
       <!-- Content Area -->
       <div class="content">
         
+        <!-- Subscription Cards -->
+        <div class="cards-grid">
+          
+          <!-- Project Intelligence Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow-multi.html'">
+            <div class="card-header">Project Intelligence</div>
+            
+            <!-- Toast Message -->
+            <div class="toast toast-error">
+              <div class="toast-icon">⚠</div>
+              <div class="toast-message">You are currently out of Pro seats.</div>
+            </div>
+            
+            <div class="card-content">
+              <!-- PI Starter Seats -->
+              <div style="margin-bottom: 4px;">
+                <div class="seat-row">
+                  <span class="seat-label">Project Intelligence Starter Seats</span>
+                  <span class="seat-count">7/20 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill fill-starter" style="width: 35%"></div>
+                </div>
+              </div>
+              
+              <!-- PI Pro Seats -->
+              <div style="margin-bottom: 10px;">
+                <div class="seat-row">
+                  <span class="seat-label">Project Intelligence Pro Seats</span>
+                  <span class="seat-count">7/7 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill fill-pro" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <!-- Market Zones -->
+              <div class="zones-section">
+                <div class="zones-header">
+                  <span class="zones-label">Available Market Zone(s)</span>
+                  <span class="info-icon">ℹ</span>
+                </div>
+                <div class="zone-list">
+                  <div class="zone-badge">Alaska - Statewide<span class="zone-counter">123</span></div>
+                  <div class="zone-badge">IL - Chicago<span class="zone-counter">123</span></div>
+                  <div class="zone-badge">CA - Northern<span class="zone-counter">123</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Management Card -->
+          <div class="subscription-card">
+            <div class="card-header">Bid Management</div>
+            
+            <!-- Toast Message -->
+            <div class="toast toast-info">
+              <div class="toast-icon">ℹ</div>
+              <div class="toast-message">You have plenty of available seats.</div>
+            </div>
+            
+            <div class="card-content">
+              <div style="margin-bottom: 12px;">
+                <div class="seat-row">
+                  <span class="seat-label">Seats</span>
+                  <span class="seat-count">4/20 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill fill-starter" style="width: 20%"></div>
+                </div>
+              </div>
+              
+              <!-- Core Features -->
+              <div class="zones-section">
+                <div class="zones-header">
+                  <span class="zones-label">Core Features</span>
+                </div>
+                <div style="font-size: 11px; font-weight: 600; color: #88888e; display: flex; flex-direction: column; gap: 6px; padding-top: 7px;">
+                  <div>Create projects</div>
+                  <div>Send, Manage, Monitor ITBs</div>
+                  <div>Monitor Coverage</div>
+                  <div>Bid Evaluation</div>
+                  <div>Document Management</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Takeoff & Estimating Card -->
+          <div class="subscription-card">
+            <div class="card-header">Takeoff & Estimating</div>
+            
+            <!-- Toast Message -->
+            <div class="toast toast-warning">
+              <div class="toast-icon">⚠</div>
+              <div class="toast-message">You are running low on Quick Bid seats.</div>
+            </div>
+            
+            <div class="card-content" style="max-height: 200px; overflow-y: auto; padding-right: 8px;">
+              <!-- Web Takeoff -->
+              <div style="margin-bottom: 12px;">
+                <div class="seat-row">
+                  <span class="seat-label">Web Takeoff with AI</span>
+                  <span class="seat-count">4/10 Used</span>
+                </div>
+                <div class="seat-bar-container">
+                  <div class="seat-bar-fill" style="width: 40%; background: #00a398;"></div>
+                </div>
+              </div>
+              
+              <!-- User Licenses -->
+              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;">
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">OnScreen Takeoff with AI</span>
+                    <span class="seat-count">4/10 Used</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div class="seat-bar-fill fill-starter" style="width: 40%"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">Onscreen Takeoff with AI & Quick Bid</span>
+                    <span class="seat-count">4/5 Used</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div class="seat-bar-fill fill-starter" style="width: 80%"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">PlanViewer</span>
+                    <span class="seat-count">4/5 Used</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div class="seat-bar-fill fill-starter" style="width: 80%"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Shared Licenses -->
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">Shared Licenses - OST</span>
+                    <span class="seat-count" style="width: 131px;">8 Available / 20 Total</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div style="display: flex; height: 100%; gap: 0;">
+                      <div style="width: 42%; background: #459d13; border-radius: 100px 0 0 100px;"></div>
+                      <div style="width: 58%; background: #dad8d7; border-radius: 0 100px 100px 0;"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="seat-row">
+                    <span class="seat-label">Shared Licenses - QB</span>
+                    <span class="seat-count" style="width: 131px;">2 Available / 20 Total</span>
+                  </div>
+                  <div class="seat-bar-container">
+                    <div style="display: flex; height: 100%; gap: 0;">
+                      <div style="width: 90%; background: #b70900; border-radius: 100px 0 0 100px;"></div>
+                      <div style="width: 10%; background: #dad8d7; border-radius: 0 100px 100px 0;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
         <!-- User Table Section -->
         <div class="table-section">
           
@@ -534,182 +710,6 @@ h1 { margin: 0; font-size: 28px; }
               <span class="page-info">1-5 of 5</span>
               <button class="page-btn" disabled>‹</button>
               <button class="page-btn">›</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Subscription Cards -->
-        <div class="cards-grid">
-          
-          <!-- Project Intelligence Card -->
-          <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow-multi.html'">
-            <div class="card-header">Project Intelligence</div>
-            
-            <!-- Toast Message -->
-            <div class="toast toast-error">
-              <div class="toast-icon">⚠</div>
-              <div class="toast-message">You are currently out of Pro seats.</div>
-            </div>
-            
-            <div class="card-content">
-              <!-- PI Starter Seats -->
-              <div style="margin-bottom: 4px;">
-                <div class="seat-row">
-                  <span class="seat-label">Project Intelligence Starter Seats</span>
-                  <span class="seat-count">7/20 Used</span>
-                </div>
-                <div class="seat-bar-container">
-                  <div class="seat-bar-fill fill-starter" style="width: 35%"></div>
-                </div>
-              </div>
-              
-              <!-- PI Pro Seats -->
-              <div style="margin-bottom: 10px;">
-                <div class="seat-row">
-                  <span class="seat-label">Project Intelligence Pro Seats</span>
-                  <span class="seat-count">7/7 Used</span>
-                </div>
-                <div class="seat-bar-container">
-                  <div class="seat-bar-fill fill-pro" style="width: 100%"></div>
-                </div>
-              </div>
-              
-              <!-- Market Zones -->
-              <div class="zones-section">
-                <div class="zones-header">
-                  <span class="zones-label">Available Market Zone(s)</span>
-                  <span class="info-icon">ℹ</span>
-                </div>
-                <div class="zone-list">
-                  <div class="zone-badge">Alaska - Statewide<span class="zone-counter">123</span></div>
-                  <div class="zone-badge">IL - Chicago<span class="zone-counter">123</span></div>
-                  <div class="zone-badge">CA - Northern<span class="zone-counter">123</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bid Management Card -->
-          <div class="subscription-card">
-            <div class="card-header">Bid Management</div>
-            
-            <!-- Toast Message -->
-            <div class="toast toast-info">
-              <div class="toast-icon">ℹ</div>
-              <div class="toast-message">You have plenty of available seats.</div>
-            </div>
-            
-            <div class="card-content">
-              <div style="margin-bottom: 12px;">
-                <div class="seat-row">
-                  <span class="seat-label">Seats</span>
-                  <span class="seat-count">4/20 Used</span>
-                </div>
-                <div class="seat-bar-container">
-                  <div class="seat-bar-fill fill-starter" style="width: 20%"></div>
-                </div>
-              </div>
-              
-              <!-- Core Features -->
-              <div class="zones-section">
-                <div class="zones-header">
-                  <span class="zones-label">Core Features</span>
-                </div>
-                <div style="font-size: 11px; font-weight: 600; color: #88888e; display: flex; flex-direction: column; gap: 6px; padding-top: 7px;">
-                  <div>Create projects</div>
-                  <div>Send, Manage, Monitor ITBs</div>
-                  <div>Monitor Coverage</div>
-                  <div>Bid Evaluation</div>
-                  <div>Document Management</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Takeoff & Estimating Card -->
-          <div class="subscription-card">
-            <div class="card-header">Takeoff & Estimating</div>
-            
-            <!-- Toast Message -->
-            <div class="toast toast-warning">
-              <div class="toast-icon">⚠</div>
-              <div class="toast-message">You are running low on Quick Bid seats.</div>
-            </div>
-            
-            <div class="card-content" style="max-height: 200px; overflow-y: auto; padding-right: 8px;">
-              <!-- Web Takeoff -->
-              <div style="margin-bottom: 12px;">
-                <div class="seat-row">
-                  <span class="seat-label">Web Takeoff with AI</span>
-                  <span class="seat-count">4/10 Used</span>
-                </div>
-                <div class="seat-bar-container">
-                  <div class="seat-bar-fill" style="width: 40%; background: #00a398;"></div>
-                </div>
-              </div>
-              
-              <!-- User Licenses -->
-              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;">
-                <div>
-                  <div class="seat-row">
-                    <span class="seat-label">OnScreen Takeoff with AI</span>
-                    <span class="seat-count">4/10 Used</span>
-                  </div>
-                  <div class="seat-bar-container">
-                    <div class="seat-bar-fill fill-starter" style="width: 40%"></div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="seat-row">
-                    <span class="seat-label">Onscreen Takeoff with AI & Quick Bid</span>
-                    <span class="seat-count">4/5 Used</span>
-                  </div>
-                  <div class="seat-bar-container">
-                    <div class="seat-bar-fill fill-starter" style="width: 80%"></div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="seat-row">
-                    <span class="seat-label">PlanViewer</span>
-                    <span class="seat-count">4/5 Used</span>
-                  </div>
-                  <div class="seat-bar-container">
-                    <div class="seat-bar-fill fill-starter" style="width: 80%"></div>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Shared Licenses -->
-              <div style="display: flex; flex-direction: column; gap: 6px;">
-                <div>
-                  <div class="seat-row">
-                    <span class="seat-label">Shared Licenses - OST</span>
-                    <span class="seat-count" style="width: 131px;">8 Available / 20 Total</span>
-                  </div>
-                  <div class="seat-bar-container">
-                    <div style="display: flex; height: 100%; gap: 0;">
-                      <div style="width: 42%; background: #459d13; border-radius: 100px 0 0 100px;"></div>
-                      <div style="width: 58%; background: #dad8d7; border-radius: 0 100px 100px 0;"></div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="seat-row">
-                    <span class="seat-label">Shared Licenses - QB</span>
-                    <span class="seat-count" style="width: 131px;">2 Available / 20 Total</span>
-                  </div>
-                  <div class="seat-bar-container">
-                    <div style="display: flex; height: 100%; gap: 0;">
-                      <div style="width: 90%; background: #b70900; border-radius: 100px 0 0 100px;"></div>
-                      <div style="width: 10%; background: #dad8d7; border-radius: 0 100px 100px 0;"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
