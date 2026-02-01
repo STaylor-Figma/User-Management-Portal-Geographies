@@ -217,6 +217,47 @@
 </head>
 <body>
 
+<!-- Top Bar - Desktop/Tablet Responsive -->
+<div class="top-bar">
+  <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <div class="logo">ConstructConnect</div>
+  <div class="user-menu">
+    <span>Christopher Donaldson</span>
+    <div class="avatar">CD</div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Mobile Navigation Drawer -->
+<div class="mobile-nav-drawer">
+  <div class="mobile-nav-item selected">
+    <div class="mobile-nav-icon">🏢</div>
+    <div class="mobile-nav-label">Company</div>
+  </div>
+  <div class="mobile-nav-item">
+    <div class="mobile-nav-icon">👥</div>
+    <div class="mobile-nav-label">Users & Groups</div>
+  </div>
+  <div class="mobile-nav-item">
+    <div class="mobile-nav-icon">👥</div>
+    <div class="mobile-nav-label">Roles</div>
+  </div>
+  <div class="mobile-nav-item">
+    <div class="mobile-nav-icon">📄</div>
+    <div class="mobile-nav-label">Subs & Licenses</div>
+  </div>
+  <div class="mobile-nav-item">
+    <div class="mobile-nav-icon">💳</div>
+    <div class="mobile-nav-label">Billing</div>
+  </div>
+</div>
+
 <!-- Layout -->
 <div class="layout">
   
