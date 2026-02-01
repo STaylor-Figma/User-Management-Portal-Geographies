@@ -743,6 +743,9 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   cursor: pointer; 
   padding: var(--spacing-micro-250); 
   margin-right: var(--spacing-small-400); 
+  position: relative;
+  width: 16px;
+  height: 16px;
 }
 .hamburger-menu span { 
   display: block; 
@@ -751,15 +754,17 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   background: var(--neutral-0); 
   border-radius: 4px; 
   transition: 0.3s; 
+  position: absolute;
+  left: 0;
 }
 .hamburger-menu span:nth-child(1) { 
-  margin-top: 0; 
+  top: 0; 
 }
 .hamburger-menu span:nth-child(2) { 
-  margin-top: 6px; 
+  top: 6px; 
 }
 .hamburger-menu span:nth-child(3) { 
-  margin-top: 6px; 
+  top: 12px; 
 }
 .hamburger-menu.active span:nth-child(1) { 
   transform: rotate(-45deg) translate(-5px, 6px); 

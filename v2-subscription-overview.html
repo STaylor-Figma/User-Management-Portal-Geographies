@@ -94,11 +94,11 @@
 .btn-primary:hover { background: #333; }
 
 /* Hamburger Menu Button */
-.hamburger-menu { display: none; background: none; border: none; cursor: pointer; padding: 10px; margin-right: 15px; }
-.hamburger-menu span { display: block; width: 16px; height: 3px; background: #fff; border-radius: 4px; transition: 0.3s; }
-.hamburger-menu span:nth-child(1) { margin-top: 0; }
-.hamburger-menu span:nth-child(2) { margin-top: 6px; }
-.hamburger-menu span:nth-child(3) { margin-top: 6px; }
+.hamburger-menu { display: none; background: none; border: none; cursor: pointer; padding: 10px; margin-right: 15px; position: relative; width: 16px; height: 16px; }
+.hamburger-menu span { display: block; width: 16px; height: 3px; background: #fff; border-radius: 4px; transition: 0.3s; position: absolute; left: 0; }
+.hamburger-menu span:nth-child(1) { top: 0; }
+.hamburger-menu span:nth-child(2) { top: 6px; }
+.hamburger-menu span:nth-child(3) { top: 12px; }
 .hamburger-menu.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
 .hamburger-menu.active span:nth-child(2) { opacity: 0; }
 .hamburger-menu.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
