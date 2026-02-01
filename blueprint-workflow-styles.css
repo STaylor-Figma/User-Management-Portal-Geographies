@@ -150,6 +150,17 @@
   --tab-group-gap-mobile: var(--spacing-small-250);
   --tab-hover-duration: 0.2s;
   --tab-hover-easing: ease-out;
+  
+  /* Table Component Tokens */
+  --table-components-background: #feffff;
+  --table-components-row-background: #feffff;
+  --table-components-row-background-hover: #f4f4f4;
+  --table-components-row-background-selected: #f2fafe;
+  --table-components-header-background-hover: #f4f4f4;
+  --table-components-text: #1c1f22;
+  --table-components-text-link: #0c79a8;
+  --tabs-underline-group: #dad8d7;
+  
   --username-button-initials-font-size-default: 18px;
   --username-button-initials-line-height-default: 16px;
   --username-button-initials-font-weight-default: 700;
