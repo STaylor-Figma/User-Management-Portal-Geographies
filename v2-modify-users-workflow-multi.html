@@ -376,7 +376,7 @@ function render() {
       }
     } else if(u.accessType === 'modified') {
       zoneHtml = '<span class="zone-badge">Modified</span>';
-      if(u.subscription === 'Pro' && u.zoneCount) {
+      if(u.subscription === 'Pro') {
         zoneHtml += ' <span class="zone-badge">PRO - ' + u.zoneCount + '</span>';
       }
     } else {
