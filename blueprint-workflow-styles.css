@@ -322,7 +322,8 @@ body {
   margin: 0 auto; 
   background: var(--neutral-0); 
   border-radius: var(--radius-md); 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
 }
 .header { 
   padding: var(--spacing-large-700) var(--spacing-large-1000); 
@@ -912,7 +913,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   .main-content { padding: var(--spacing-small-500); }
   .header { padding: var(--spacing-small-500) var(--spacing-small-400); }
   h1 { font-size: var(--font-size-600); }
-  .container { border-radius: var(--radius-sm); }
+  .container { border-radius: var(--radius-sm); padding: 10px; }
   
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
