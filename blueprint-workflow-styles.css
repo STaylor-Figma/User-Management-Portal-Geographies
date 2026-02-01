@@ -97,6 +97,11 @@
   --username-button-background-default: #01304a;
   --username-button-avatar-background-default: #ffffff;
   --username-button-avatar-text-color-default: #4a4f55;
+  --username-button-name-text-color-default: #ffffff;
+  --username-button-name-font-family-default: 'Montserrat', sans-serif;
+  --username-button-name-font-size-default: 18px;
+  --username-button-name-line-height-default: 16px;
+  --username-button-name-font-weight-default: 500;
   
   /* Button Tokens */
   --button-medium-height: 40px;
@@ -149,7 +154,14 @@ body {
   display: flex; 
   align-items: center; 
   gap: var(--spacing-small-400); 
-  color: var(--neutral-0); 
+  color: var(--username-button-name-text-color-default); 
+}
+.user-menu span {
+  font-family: var(--username-button-name-font-family-default);
+  font-size: var(--username-button-name-font-size-default);
+  line-height: var(--username-button-name-line-height-default);
+  font-weight: var(--username-button-name-font-weight-default);
+  color: var(--username-button-name-text-color-default);
 }
 .avatar { 
   width: 40px; 
