@@ -98,6 +98,20 @@
   --username-button-avatar-background-default: #ffffff;
   --username-button-avatar-text-color-default: #4a4f55;
   --username-button-initials-font-family-default: 'Montserrat', sans-serif;
+  
+  /* Tab Component Tokens */
+  --tab-text-default: #1c1f22;
+  --tab-text-selected: #1c1f22;
+  --tab-underline-active: #1c1f22;
+  --tab-font-family-default: 'Montserrat', sans-serif;
+  --tab-font-weight-default: 500;
+  --tab-font-weight-selected: 700;
+  --tab-font-size: 14px;
+  --tab-line-height: 16px;
+  --tab-padding-horizontal: 2px;
+  --tab-padding-vertical: 10px;
+  --tab-border-width: 4px;
+  --tab-gap: 6px;
   --username-button-initials-font-size-default: 18px;
   --username-button-initials-line-height-default: 16px;
   --username-button-initials-font-weight-default: 700;
@@ -308,20 +322,43 @@ h1 {
 .header-icon.primary { color: var(--primary-500); }
 .tabs { 
   display: flex; 
-  gap: var(--spacing-micro-200); 
+  gap: var(--spacing-medium-600);
+  align-items: center;
 }
 .tab { 
-  padding: var(--spacing-micro-200) var(--spacing-small-500); 
-  background: var(--neutral-200); 
-  border: none; 
-  border-radius: var(--radius-sm); 
-  cursor: pointer; 
-  font-size: var(--font-size-200); 
-  color: var(--neutral-500); 
+  padding: var(--tab-padding-vertical) var(--tab-padding-horizontal);
+  background: transparent;
+  border: none;
+  border-bottom: var(--tab-border-width) solid transparent;
+  cursor: pointer;
+  font-family: var(--tab-font-family-default);
+  font-size: var(--tab-font-size);
+  font-weight: var(--tab-font-weight-default);
+  line-height: var(--tab-line-height);
+  color: var(--tab-text-default);
+  display: flex;
+  gap: var(--tab-gap);
+  align-items: center;
+  transition: border-color 0.2s ease;
 }
 .tab.active { 
-  background: var(--neutral-500); 
-  color: var(--neutral-0); 
+  font-weight: var(--tab-font-weight-selected);
+  border-bottom-color: var(--tab-underline-active);
+  color: var(--tab-text-selected);
+}
+.tab-counter {
+  background: var(--neutral-200);
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family-blueprintfont);
+  font-size: 12px;
+  font-weight: var(--font-weight-text-semibold);
+  line-height: 14px;
+  color: var(--neutral-600);
+  max-height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Split View */
