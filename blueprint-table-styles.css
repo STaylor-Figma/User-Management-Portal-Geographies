@@ -116,22 +116,22 @@
 }
 
 .user-badge {
-  background: #88888e;
-  color: white;
-  font-family: var(--font-family-blueprintfont);
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
+  display: inline-flex;
   padding: 4px 8px;
+  background: #88888e;
+  color: #fff;
   border-radius: 4px;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
 }
 
 .user-role {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-size: 12px;
+  font-weight: 600;
   color: #4a4f55;
 }
 
@@ -142,13 +142,15 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  background: #f0f0f0;
-  border-radius: 12px;
+  gap: 6px;
+  padding: 6px 8px;
+  background: #e7e6e5;
+  border-radius: 30px;
   font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
+  font-weight: 600;
+  color: #1c1f22;
+  height: 26px;
+  line-height: 14px;
 }
 
 .pro-badge {
@@ -162,13 +164,18 @@
 }
 
 .pill-counter {
-  background: #88888e;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 10px;
+  background: #feffff;
+  border-radius: 30px;
+  font-size: 12px;
   font-weight: 600;
-  margin-left: 4px;
+  color: #1c1f22;
+  min-width: 20px;
+  height: 20px;
+  line-height: 14px;
 }
 
 /* ===========================
