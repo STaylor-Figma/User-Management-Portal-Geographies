@@ -130,6 +130,10 @@
   --tab-border-color-active: var(--neutral-600);
   --tab-border-width-focus: var(--spacing-micro-050);
   --tab-border-color-focus: var(--primary-100);
+  --tab-group-underline: var(--neutral-300);
+  --tab-group-border-width: 2px;
+  --tab-group-gap-desktop: var(--spacing-medium-600);
+  --tab-group-gap-mobile: var(--spacing-small-250);
   --tab-hover-duration: 0.2s;
   --tab-hover-easing: ease-out;
   --username-button-initials-font-size-default: 18px;
@@ -342,8 +346,9 @@ h1 {
 .header-icon.primary { color: var(--primary-500); }
 .tabs { 
   display: flex; 
-  gap: var(--spacing-medium-600);
-  align-items: center;
+  gap: var(--tab-group-gap-desktop);
+  align-items: flex-start;
+  border-bottom: var(--tab-group-border-width) solid var(--tab-group-underline);
 }
 .tab { 
   padding: var(--tab-padding-vertical) var(--tab-padding-horizontal);
@@ -360,6 +365,7 @@ h1 {
   gap: var(--tab-gap);
   align-items: center;
   transition: color var(--tab-hover-duration) var(--tab-hover-easing), border-color var(--tab-hover-duration) var(--tab-hover-easing);
+  margin-bottom: calc(-1 * var(--tab-group-border-width));
 }
 .tab:hover {
   color: var(--tab-text-color-hover);
