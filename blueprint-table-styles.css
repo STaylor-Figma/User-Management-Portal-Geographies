@@ -32,7 +32,8 @@
 .user-table th {
   padding: 10px;
   text-align: left;
-  font-family: var(--content/caption/font-family, 'Montserrat', sans-serif);
+  font-family: var(--content/caption/font-family, 'Montserrat'), sans-serif;
+  font-style: normal;
   font-weight: var(--content/caption/font-weight, 600);
   font-size: var(--content/caption/font-size, 12px);
   line-height: var(--content/caption/line-height, 14px);
