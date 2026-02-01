@@ -70,23 +70,23 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="nav-item">
-      <div class="nav-icon">🏢</div>
+      <div class="nav-icon">C</div>
       <div class="nav-label">Company</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon">👥</div>
+      <div class="nav-icon">U</div>
       <div class="nav-label">Users &<br>Groups</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon">👤</div>
+      <div class="nav-icon">R</div>
       <div class="nav-label">Roles</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon selected">📋</div>
+      <div class="nav-icon selected">S</div>
       <div class="nav-label">Subs &<br>Licenses</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon">💳</div>
+      <div class="nav-icon">B</div>
       <div class="nav-label">Billing</div>
     </div>
   </div>
@@ -369,19 +369,11 @@ function render() {
     if(u.accessType === 'none') {
       zoneHtml = '<span class="zone-badge no-access">No Access</span>';
     } else if(u.accessType === 'full') {
-      // Full Access with PRO badge in white container inside the pill
-      zoneHtml = '<span class="zone-badge">Full Access';
-      if(u.subscription === 'Pro') {
-        zoneHtml += ' <span class="zone-counter"><span class="pro-badge">PRO</span></span>';
-      }
-      zoneHtml += '</span>';
+      // Full Access - no PRO badge needed
+      zoneHtml = '<span class="zone-badge">Full Access</span>';
     } else if(u.accessType === 'modified' && u.zoneCount) {
-      // Modified with counter containing PRO - number
-      zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">';
-      if(u.subscription === 'Pro') {
-        zoneHtml += '<span class="pro-badge">PRO</span> - ';
-      }
-      zoneHtml += u.zoneCount + '</span></span>';
+      // Modified with counter showing just the number
+      zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
     } else {
       zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
     }
