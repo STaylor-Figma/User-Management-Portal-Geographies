@@ -976,6 +976,9 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 
 /* Tablet Small: 600px */
 @media (max-width: 600px) {
+  /* Hide username text, show avatar only */
+  .user-menu span { display: none; }
+  
   .subscription-card { padding: var(--spacing-small-500); margin-bottom: var(--spacing-small-500); }
   .zone-card { margin-bottom: var(--spacing-small-300); }
   
