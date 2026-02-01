@@ -470,7 +470,7 @@ th {
   padding: var(--spacing-small-300) var(--spacing-micro-200); 
   background: var(--neutral-100); 
   border-bottom: 2px solid var(--neutral-200); 
-  font-size: var(--font-size-150); 
+  font-size: var(--font-size-200); 
   font-weight: var(--font-weight-text-semibold); 
   color: var(--neutral-600); 
 }
