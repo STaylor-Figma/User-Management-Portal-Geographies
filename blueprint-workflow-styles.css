@@ -789,6 +789,82 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 }
 
 /* ============================================================================
+   DRAWERS & MODALS
+   ============================================================================ */
+
+/* Drawer Overlay */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+.drawer-overlay.active {
+  display: block;
+}
+
+/* Drawer (Slide from Right) */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -500px;
+  width: 500px;
+  max-width: 90vw;
+  height: 100%;
+  background: var(--neutral-0);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+  padding: var(--spacing-large-1000);
+  overflow-y: auto;
+  transition: right 0.3s ease-out;
+  z-index: 9999;
+}
+.drawer.active {
+  right: 0;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+.modal.active {
+  display: flex;
+}
+.modal-content {
+  background: var(--neutral-0);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-large-1000);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+.success-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--spacing-small-500);
+  background: var(--status-success);
+  color: var(--neutral-0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-800);
+  font-weight: var(--font-weight-text-bold);
+}
+
+/* ============================================================================
    RESPONSIVE MEDIA QUERIES - BLUEPRINT BREAKPOINTS
    ============================================================================
    375px - Mobile (Size=Small, Header=44px)
