@@ -284,7 +284,10 @@ body {
 }
 h1 { 
   margin: 0; 
-  font-size: var(--font-size-800); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-700);
+  font-weight: var(--font-weight-text-medium);
+  line-height: normal;
   color: var(--neutral-600); 
 }
 .header-icons { 
