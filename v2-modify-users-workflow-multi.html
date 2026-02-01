@@ -150,10 +150,6 @@
                 <div class="subscription-subtitle">
                   Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Pro access.
                 </div>
-                <div style="font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 16px;">
-                  <p style="margin-bottom: 8px;">By clicking 'add' you assign a seat and provide the user full access.</p>
-                  <p>Once a user has been added, you can then modify their access to specific counties.</p>
-                </div>
                 <div class="seat-info">
                   7 / 20 Seats - 13 seats available
                   <div class="info-icon">
@@ -163,7 +159,22 @@
                 </div>
                 <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
                 
-                <!-- Buttons inside card -->
+                <!-- Informational Content -->
+                <div id="defaultInfoTextPro" style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
+                  <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
+                  <ul style="margin-left: 20px; margin-bottom: 16px;">
+                    <li>2 Full access</li>
+                    <li>2 Modified</li>
+                  </ul>
+                  <p style="margin-bottom: 12px;">
+                    By clicking 'add' you assign a seat and provide the user full access.
+                  </p>
+                  <p>
+                    Once a user has been added, you can then modify their access to specific counties.
+                  </p>
+                </div>
+                
+                <!-- Action Buttons -->
                 <div style="display: flex; gap: 12px; margin-top: 16px;">
                   <button class="btn btn-secondary" id="addSelectedProBtn" disabled onclick="addSelectedUsers('Pro')">Add Selected User(s)</button>
                   <button class="btn btn-secondary" id="modifySelectedProBtn" disabled onclick="showModifyView('Pro')">Modify Selected Users</button>
@@ -174,11 +185,7 @@
               <div class="subscription-card">
                 <div class="subscription-title">Project Intelligence Starter Seats</div>
                 <div class="subscription-subtitle">
-                  Select zones and counties to assign to selected users.
-                </div>
-                <div style="font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 16px;">
-                  <p style="margin-bottom: 8px;">By clicking 'add' you assign a seat and provide the user full access.</p>
-                  <p>Once a user has been added, you can then modify their access to specific counties.</p>
+                  Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Starter access.
                 </div>
                 <div class="seat-info">
                   7 / 20 Seats - 13 seats available
@@ -189,7 +196,22 @@
                 </div>
                 <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
                 
-                <!-- Buttons inside card -->
+                <!-- Informational Content -->
+                <div id="defaultInfoTextStarter" style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
+                  <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
+                  <ul style="margin-left: 20px; margin-bottom: 16px;">
+                    <li>2 Full access</li>
+                    <li>2 Modified</li>
+                  </ul>
+                  <p style="margin-bottom: 12px;">
+                    By clicking 'add' you assign a seat and provide the user full access.
+                  </p>
+                  <p>
+                    Once a user has been added, you can then modify their access to specific counties.
+                  </p>
+                </div>
+                
+                <!-- Action Buttons -->
                 <div style="display: flex; gap: 12px; margin-top: 16px;">
                   <button class="btn btn-secondary" id="addSelectedStarterBtn" disabled onclick="addSelectedUsers('Starter')">Add Selected User(s)</button>
                   <button class="btn btn-secondary" id="modifySelectedStarterBtn" disabled onclick="showModifyView('Starter')">Modify Selected Users</button>
