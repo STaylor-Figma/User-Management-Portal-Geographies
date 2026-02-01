@@ -55,10 +55,9 @@
   --spacing-large-1000: 32px;
   
   /* Typography */
-  --font-family-blueprintfont: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  --font-size-50: 9px;
+  --font-family-blueprintfont: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-blueprinticon: Font Awesome 6 Pro, sans-serif;
   --font-size-100: 11px;
-  --font-size-150: 13px;
   --font-size-200: 12px;
   --font-size-300: 14px;
   --font-size-400: 16px;
@@ -66,13 +65,26 @@
   --font-size-600: 20px;
   --font-size-700: 22px;
   --font-size-800: 24px;
+  --font-weight-text-extra-light: 250;
+  --font-weight-text-thin: 250;
+  --font-weight-text-light: 300;
   --font-weight-text-regular: 400;
   --font-weight-text-medium: 500;
   --font-weight-text-semibold: 600;
+  --font-weight-text-semi-bold: 600;
   --font-weight-text-bold: 700;
-  --line-height-tight: 1.1;
-  --line-height-medium: 1.3;
-  --line-height-relaxed: 1.4;
+  --font-weight-text-extra-bold: 800;
+  --font-weight-text-black: 900;
+  --font-weight-icon-thin: 100;
+  --font-weight-icon-light: 300;
+  --font-weight-icon-regular: 400;
+  --font-weight-icon-solid: 900;
+  --line-height-xsmall: 12px;
+  --line-height-small: 14px;
+  --line-height-medium: 16px;
+  --line-height-large: 18px;
+  --line-height-xlarge: 24px;
+  --letter-spacing-small: 0.04px;
   
   /* Border Radius */
   --radius-xs: 2px;
