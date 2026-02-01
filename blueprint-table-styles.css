@@ -32,12 +32,12 @@
 .user-table th {
   padding: 10px;
   text-align: left;
-  font-family: var(--content/caption/font-family, 'Montserrat'), sans-serif;
+  font-family: var(--font-family-blueprintfont);
   font-style: normal;
-  font-weight: var(--content/caption/font-weight, 600);
-  font-size: var(--content/caption/font-size, 12px);
-  line-height: var(--content/caption/line-height, 14px);
-  color: var(--table-components/text, #1c1f22);
+  font-weight: var(--font-weight-text-semibold);
+  font-size: var(--font-size-200);
+  line-height: var(--line-height-small);
+  color: var(--neutral-600);
   height: 42px;
   vertical-align: middle;
 }
