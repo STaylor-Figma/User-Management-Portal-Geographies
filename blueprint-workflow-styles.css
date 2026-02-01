@@ -470,14 +470,14 @@ th {
   padding: var(--spacing-small-300) var(--spacing-micro-200); 
   background: var(--neutral-100); 
   border-bottom: 2px solid var(--neutral-200); 
-  font-size: var(--font-size-200); 
-  font-weight: var(--font-weight-text-semibold); 
+  font-size: 12px; 
+  font-weight: 600; 
   color: var(--neutral-600); 
 }
 td { 
   padding: var(--spacing-small-300) var(--spacing-micro-200); 
   border-bottom: 1px solid var(--neutral-200); 
-  font-size: var(--font-size-200); 
+  font-size: 14px; 
   color: var(--neutral-600); 
 }
 tr:hover { background: var(--neutral-100); }
