@@ -415,7 +415,8 @@ h1 {
   background: var(--neutral-100); 
   overflow-y: auto; 
   display: flex; 
-  flex-direction: column; 
+  flex-direction: column;
+  padding: var(--spacing-medium-600);
 }
 
 /* Search Box */
@@ -811,7 +812,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
   .left-panel { width: 100%; border-right: none; border-bottom: 2px solid var(--neutral-200); order: 2; }
-  .right-panel { width: 100%; min-height: 50vh; order: 1; }
+  .right-panel { width: 100%; min-height: 50vh; order: 1; padding: var(--spacing-small-250); }
 }
 
 /* Tablet Portrait: 768px */
@@ -826,7 +827,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
   .left-panel { width: 100%; border-right: none; border-bottom: 2px solid var(--neutral-200); order: 2; }
-  .right-panel { width: 100%; min-height: 50vh; order: 1; }
+  .right-panel { width: 100%; min-height: 50vh; order: 1; padding: var(--spacing-small-250); }
   
   /* Zone panel */
   .zone-panel { padding: var(--spacing-small-500); }
@@ -845,7 +846,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
   .left-panel { width: 100%; border-right: none; border-bottom: 2px solid var(--neutral-200); order: 2; }
-  .right-panel { width: 100%; min-height: 50vh; order: 1; }
+  .right-panel { width: 100%; min-height: 50vh; order: 1; padding: var(--spacing-small-250); }
 }
 
 /* Mobile: 375px */
@@ -859,7 +860,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
   .left-panel { width: 100%; border-right: none; border-bottom: 2px solid var(--neutral-200); order: 2; }
-  .right-panel { width: 100%; min-height: 50vh; order: 1; }
+  .right-panel { width: 100%; min-height: 50vh; order: 1; padding: var(--spacing-small-250); }
   
   /* Zone panel */
   .zone-panel { padding: var(--spacing-small-300); }
