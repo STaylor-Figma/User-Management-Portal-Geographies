@@ -233,7 +233,7 @@ body {
   background: var(--header-organism-background-default); 
   padding: 0; 
   display: flex; 
-  justify-content: space-between; 
+  justify-content: flex-start; 
   align-items: center; 
   height: 60px;
 }
