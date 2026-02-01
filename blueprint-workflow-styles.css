@@ -287,7 +287,7 @@ body {
 }
 
 /* Layout */
-.layout { display: flex; min-height: calc(100vh - 70px); }
+.layout { display: flex; min-height: calc(100vh - 60px); }
 
 /* Sidebar - Blueprint design system */
 .sidebar { 
