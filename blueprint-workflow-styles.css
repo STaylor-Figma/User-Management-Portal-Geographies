@@ -945,13 +945,26 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   .hamburger-menu { display: flex; }
   .mobile-nav-drawer { display: block; }
   
-  /* Make main content responsive */
+  /* Make layout responsive */
+  .layout {
+    flex-direction: column;
+  }
+  
   .main-content { 
     margin-left: 0; 
     padding: var(--spacing-small-400);
+    width: 100%;
+    overflow-x: hidden;
   }
   
   .container {
+    padding: var(--spacing-small-400);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .header {
     padding: var(--spacing-small-400);
   }
   
