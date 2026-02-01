@@ -947,8 +947,12 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   
   /* Make main content responsive */
   .main-content { 
-    margin-left: 0 !important; 
-    width: 100% !important;
+    margin-left: 0; 
+    padding: var(--spacing-small-400);
+  }
+  
+  .container {
+    padding: var(--spacing-small-400);
   }
   
   /* Split-view stacking */
