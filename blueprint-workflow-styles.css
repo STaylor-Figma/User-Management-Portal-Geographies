@@ -235,6 +235,7 @@ body {
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
+  height: 60px;
 }
 .logo { 
   color: var(--neutral-0); 
@@ -244,7 +245,7 @@ body {
 .user-menu { 
   display: flex; 
   align-items: center; 
-  gap: var(--spacing-small-400); 
+  gap: 10px; 
   color: var(--username-button-name-text-color-default); 
 }
 .user-menu span {
@@ -255,13 +256,14 @@ body {
   color: var(--username-button-name-text-color-default);
 }
 .avatar { 
-  width: 40px; 
-  height: 40px; 
+  width: 34px; 
+  height: 34px; 
   background: var(--username-button-avatar-background-default); 
   border-radius: var(--radius-circle); 
   display: flex; 
   align-items: center; 
   justify-content: center; 
+  padding: 10px;
   color: var(--username-button-avatar-text-color-default); 
   font-family: var(--username-button-initials-font-family-default);
   font-weight: var(--username-button-initials-font-weight-default); 
@@ -741,11 +743,18 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   background: none; 
   border: none; 
   cursor: pointer; 
-  padding: var(--spacing-micro-250); 
-  margin-right: var(--spacing-small-400); 
+  padding: 10px; 
+  margin-right: 0;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #185a7d;
+}
+.hamburger-menu-icon {
   position: relative;
   width: 16px;
-  height: 16px;
+  height: 15px;
 }
 .hamburger-menu span { 
   display: block; 
@@ -753,9 +762,10 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   height: 3px; 
   background: var(--neutral-0); 
   border-radius: 4px; 
-  transition: 0.3s; 
+  transition: transform 0.3s ease, opacity 0.3s ease; 
   position: absolute;
   left: 0;
+  transform-origin: center;
 }
 .hamburger-menu span:nth-child(1) { 
   top: 0; 
@@ -767,11 +777,13 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   top: 12px; 
 }
 .hamburger-menu.active span:nth-child(1) { 
-  transform: rotate(-45deg) translate(-5px, 6px); 
+  transform: translateY(6px) rotate(45deg); 
 }
-.hamburger-menu.active span:nth-child(2) { opacity: 0; }
+.hamburger-menu.active span:nth-child(2) { 
+  opacity: 0; 
+}
 .hamburger-menu.active span:nth-child(3) { 
-  transform: rotate(45deg) translate(-5px, -6px); 
+  transform: translateY(-6px) rotate(-45deg); 
 }
 
 /* Mobile Navigation Drawer */
@@ -920,6 +932,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 
 /* Tablet Landscape and below: 1024px */
 @media (max-width: 1024px) {
+  .top-bar { height: 44px; }
   .sidebar { display: none; }
   .hamburger-menu { display: flex; }
   .mobile-nav-drawer { display: block; }
