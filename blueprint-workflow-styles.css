@@ -240,12 +240,12 @@ body {
 .top-bar-left {
   display: flex;
   align-items: center;
-  flex: 1;
 }
 .top-bar-right {
   display: flex;
   align-items: center;
   padding: 0 10px;
+  margin-left: auto;
 }
 .logo { 
   color: var(--neutral-0); 
@@ -253,6 +253,7 @@ body {
   font-weight: var(--font-weight-text-semibold); 
   padding: 10px 10px 10px 20px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .user-menu { 
   display: flex; 
