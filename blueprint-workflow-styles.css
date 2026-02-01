@@ -138,7 +138,7 @@
   --tab-padding-vertical: var(--spacing-small-250);
   --tab-gap: var(--spacing-micro-150);
   --tab-radius: var(--radius-sm);
-  --tab-border-width-selected: var(--spacing-micro-100);
+  --tab-border-width-selected: var(--spacing-micro-050);
   --tab-border-color-active: var(--neutral-600);
   --tab-border-width-focus: var(--spacing-micro-050);
   --tab-border-color-focus: var(--primary-100);
