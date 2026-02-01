@@ -462,6 +462,23 @@ h1 {
   padding: var(--spacing-medium-600);
 }
 
+/* Right panel view states */
+#defaultView,
+#zoneSelectionView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+
+#zoneSelectionView {
+  display: none;
+}
+
+#zoneSelectionView.active {
+  display: flex;
+}
+
 /* Search Box */
 .search-box { 
   padding: var(--spacing-small-500); 
@@ -729,6 +746,17 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   flex-direction: column; 
 }
 .zone-content { flex: 1; overflow-y: auto; }
+
+/* Actions footer for zone selection view */
+.actions {
+  display: flex;
+  gap: 12px;
+  padding-top: var(--spacing-small-500);
+  margin-top: var(--spacing-small-500);
+  border-top: 1px solid var(--neutral-200);
+  justify-content: flex-end;
+}
+
 .zone-controls { 
   display: flex; 
   justify-content: space-between; 
