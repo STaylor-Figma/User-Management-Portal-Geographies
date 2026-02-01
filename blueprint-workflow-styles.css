@@ -39,6 +39,8 @@
   
   /* Spacing Scale */
   --spacing-micro-000: 0px;
+  --spacing-micro-025: 1px;
+  --spacing-micro-050: 2px;
   --spacing-micro-100: 4px;
   --spacing-micro-150: 6px;
   --spacing-micro-200: 8px;
@@ -134,13 +136,13 @@
   --tab-count-radius: var(--radius-pill);
   --tab-count-background: var(--neutral-200);
   --tab-count-background-hover: var(--neutral-300);
-  --tab-padding-horizontal: 2px;
+  --tab-padding-horizontal: var(--spacing-micro-050);
   --tab-padding-vertical: var(--spacing-small-250);
   --tab-gap: var(--spacing-micro-150);
   --tab-radius: var(--radius-sm);
-  --tab-border-width-selected: 2px;
+  --tab-border-width-selected: var(--spacing-micro-100);
   --tab-border-color-active: var(--neutral-600);
-  --tab-border-width-focus: 2px;
+  --tab-border-width-focus: var(--spacing-micro-050);
   --tab-border-color-focus: var(--primary-100);
   --tab-group-underline: var(--neutral-300);
   --tab-group-border-width: 2px;
