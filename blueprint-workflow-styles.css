@@ -945,6 +945,12 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   .hamburger-menu { display: flex; }
   .mobile-nav-drawer { display: block; }
   
+  /* Make main content responsive */
+  .main-content { 
+    margin-left: 0 !important; 
+    width: 100% !important;
+  }
+  
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
   .left-panel { width: 100%; border-right: none; border-bottom: 2px solid var(--neutral-200); order: 2; }
@@ -976,9 +982,6 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 
 /* Tablet Small: 600px */
 @media (max-width: 600px) {
-  /* Hide username text, show avatar only */
-  .user-menu span { display: none; }
-  
   .subscription-card { padding: var(--spacing-small-500); margin-bottom: var(--spacing-small-500); }
   .zone-card { margin-bottom: var(--spacing-small-300); }
   
