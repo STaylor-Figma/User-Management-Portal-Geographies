@@ -4,46 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organization Overview - Version Two</title>
-<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
 <link rel="stylesheet" href="blueprint-workflow-styles.css">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
-
-/* Top Bar */
-.top-bar { background: var(--header-organism-background-default); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-.logo { color: var(--neutral-0); font-size: var(--font-size-800); font-weight: var(--font-weight-text-medium); font-family: var(--font-family-blueprintfont); }
-.user-menu { display: flex; align-items: center; gap: 15px; color: var(--neutral-0); }
-.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--neutral-0); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); }
-
-/* Layout */
-.layout { display: flex; min-height: calc(100vh - 70px); }
-
-/* Sidebar */
-.sidebar { width: 75px; background: var(--nav-menu-container-background); display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
-.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 4px 10px; position: relative; background: transparent; transition: background 0.2s ease-out; }
-.nav-item:hover { background: rgba(1, 48, 74, 0.35); }
-.nav-item.selected { background: rgba(1, 48, 74, 0.6); border-left: 4px solid #00a1e0; }
-.nav-icon { width: 24px; height: 24px; font-size: 24px; display: flex; align-items: center; justify-content: center; color: var(--nav-menu-button-text-default); margin-bottom: 4px; }
-.nav-item.selected .nav-icon { color: var(--nav-menu-button-text-selected); }
-.nav-label { color: var(--nav-menu-button-text-default); font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; line-height: 12px; text-align: center; width: 70px; }
-
-/* Main Content */
-.main-content { flex: 1; padding: 30px; }
-.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-
-/* Header & Tabs */
-.header { padding: 24px 32px; border-bottom: 2px solid var(--neutral-300); }
-.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-h1 { margin: 0; font-size: var(--font-size-800); font-weight: var(--font-weight-text-medium); color: var(--neutral-600); font-family: var(--font-family-blueprintfont); }
-.header-icons { display: flex; gap: 12px; align-items: center; }
-.header-icon { background: none; border: none; padding: 0; cursor: pointer; font-size: 20px; color: #666; transition: opacity 0.2s; }
-.header-icon:hover { opacity: 0.7; }
-.header-icon.primary { color: #1976d2; }
-.tabs { display: flex; gap: var(--spacing-medium-600); border-bottom: 2px solid var(--tab-group-underline); }
-.tab { padding: var(--tab-padding-vertical) var(--tab-padding-horizontal); background: transparent; border: none; border-bottom: 4px solid transparent; cursor: pointer; font-size: var(--tab-font-size); font-family: var(--tab-font-family); font-weight: var(--tab-font-weight); color: var(--tab-text-color); margin-bottom: -2px; transition: all 0.2s; }
-.tab:hover { color: var(--tab-text-color-hover); }
-.tab.active { font-weight: var(--tab-font-weight-selected); color: var(--tab-text-color-selected); border-bottom-color: var(--tab-border-color-active); }
+/* Page-specific overrides for Blueprint Design System */
 
 /* Content Area */
 .content { padding: 32px; }
@@ -317,23 +281,23 @@ h1 { margin: 0; font-size: var(--font-size-800); font-weight: var(--font-weight-
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="nav-item">
-      <i class="nav-icon fa-light fa-building"></i>
+      <i class="nav-icon fal fa-building"></i>
       <div class="nav-label">Company</div>
     </div>
     <div class="nav-item">
-      <i class="nav-icon fa-light fa-users"></i>
+      <i class="nav-icon fal fa-users"></i>
       <div class="nav-label">Users &<br>Groups</div>
     </div>
     <div class="nav-item">
-      <i class="nav-icon fa-light fa-user-shield"></i>
+      <i class="nav-icon fal fa-user-shield"></i>
       <div class="nav-label">Roles</div>
     </div>
     <div class="nav-item selected">
-      <i class="nav-icon fa-light fa-file-contract"></i>
+      <i class="nav-icon fal fa-file-contract"></i>
       <div class="nav-label">Subs &<br>Licenses</div>
     </div>
     <div class="nav-item">
-      <i class="nav-icon fa-light fa-file-invoice-dollar"></i>
+      <i class="nav-icon fal fa-file-invoice-dollar"></i>
       <div class="nav-label">Billing</div>
     </div>
   </div>
