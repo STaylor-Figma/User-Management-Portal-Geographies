@@ -3,10 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multiple Subscriptions - Geographic Assignment</title>
-<link rel="stylesheet" href="blueprint-workflow-styles.css">
+<title>Modify Users - Geographic Assignment</title>
 <style>
-/* Page-specific overrides for Blueprint Design System */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+
+/* Top Bar */
+.top-bar { background: #1a3a52; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logo { color: #fff; font-size: 18px; font-weight: 600; }
+.user-menu { display: flex; align-items: center; gap: 15px; color: #fff; }
+.avatar { width: 40px; height: 40px; background: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 14px; }
+
+/* Layout */
+.layout { display: flex; min-height: calc(100vh - 70px); }
+
+/* Sidebar */
+.sidebar { width: 75px; background: #2c3e50; display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-icon { width: 40px; height: 40px; background: #34495e; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; margin-bottom: 3px; }
+.nav-icon:hover { background: #3d5a73; }
+.nav-icon.selected { background: #1976d2; }
+.nav-label { color: #fff; font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; }
+
+/* Main Content */
+.main-content { flex: 1; padding: 30px; }
+.container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.header { padding: 24px 32px; border-bottom: 2px solid #e0e0e0; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+h1 { margin: 0; font-size: 28px; }
+.header-icons { display: flex; gap: 12px; align-items: center; }
+.header-icon { background: none; border: none; padding: 0; cursor: pointer; font-size: 20px; color: #666; transition: opacity 0.2s; }
+.header-icon:hover { opacity: 0.7; }
+.header-icon.primary { color: #1976d2; }
+.tabs { display: flex; gap: 8px; }
+.tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.tab.active { background: #424242; color: #fff; }
+
+/* Split View */
+.split-view { display: flex; height: 700px; }
+.left-panel { width: 50%; border-right: 1px solid #e0e0e0; display: flex; flex-direction: column; }
+.right-panel { width: 50%; background: #fafafa; overflow-y: auto; display: flex; flex-direction: column; }
+
+/* Search Box */
+.search-box { padding: 16px; border-bottom: 1px solid #e0e0e0; position: relative; background: #fff; }
+.search-box input { width: 100%; padding: 8px 8px 8px 35px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+.search-icon { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #999; }
+
+/* User Table */
+table { width: 100%; border-collapse: collapse; }
+thead { background: #f0f0f0; position: sticky; top: 0; }
+th { text-align: left; padding: 12px 8px; background: #f0f0f0; border-bottom: 2px solid #e0e0e0; font-size: 13px; font-weight: 600; }
+td { padding: 12px 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+tr:hover { background: #f9f9f9; }
+tr.selected { background: #e3f2fd; }
+tr.disabled { opacity: 0.5; cursor: not-allowed; }
+tr.disabled:hover { background: transparent; }
+.user-role { font-size: 12px; color: #666; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.user-role::before { content: ''; width: 10px; height: 10px; background: #666; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; cursor: pointer; }
+.zone-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
+.zone-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
+.no-access { color: #999; }
+input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+input[type="checkbox"]:disabled { cursor: not-allowed; }
+
+/* User Actions */
+.user-actions { display: flex; gap: 8px; align-items: center; }
+.action-btn { padding: 6px 12px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.2s; }
+.action-btn:hover { background: #d0d0d0; }
+.action-btn.add { color: #1976d2; }
+.action-btn.remove { color: #d32f2f; }
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Subscription Card */
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+.subscription-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.subscription-subtitle { font-size: 13px; color: #666; }
+.seat-info { font-size: 13px; margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.info-icon { width: 16px; height: 16px; background: #666; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: help; position: relative; }
+.info-icon:hover .tooltip { display: block; }
+.tooltip { display: none; position: absolute; bottom: auto; top: 50%; left: 30px; transform: translateY(-50%); background: #333; color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 12px; white-space: normal; width: 280px; max-height: 50px; overflow: hidden; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.3; }
+.tooltip::after { content: ''; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); border: 6px solid transparent; border-right-color: #333; }
+.tooltip-disabled { display: none; position: absolute; bottom: auto; top: 50%; left: 30px; transform: translateY(-50%); background: #333; color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 12px; white-space: nowrap; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.tooltip-disabled::after { content: ''; position: absolute; top: 50%; left: -6px; transform: translateY(-50%); border: 6px solid transparent; border-right-color: #333; }
+.disabled-checkbox-label:hover .tooltip-disabled { display: block; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.seat-fill { height: 100%; background: #424242; }
+
+/* Zone Panel */
+.zone-panel { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; }
+.zone-content { flex: 1; overflow-y: auto; }
+.zone-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-top: 8px; }
+.disabled-checkbox-label { position: relative; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.disabled-checkbox-label[data-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.zone-card { background: #fff; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+.zone-header { display: flex; align-items: center; padding: 16px; gap: 12px; cursor: pointer; }
+.zone-header:hover { background: #f5f5f5; }
+.zone-info { flex: 1; }
+.zone-name { font-weight: 600; margin-bottom: 4px; }
+.zone-details { font-size: 13px; color: #666; }
+.zone-users { background: #f0f0f0; padding: 4px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.expand-arrow { width: 20px; height: 20px; transition: transform 0.2s; cursor: pointer; flex-shrink: 0; }
+.zone-card.expanded .expand-arrow { transform: rotate(180deg); }
+.zone-counties { display: none; padding: 16px; background: #fafafa; border-top: 1px solid #e0e0e0; }
+.zone-card.expanded .zone-counties { display: block; }
+.county-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.county-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.county-count { font-size: 12px; color: #666; margin-top: 8px; }
+.show-all { text-align: center; padding: 8px; color: #1976d2; font-size: 13px; cursor: pointer; text-decoration: underline; }
+
+/* Actions */
+.actions { display: flex; gap: 12px; justify-content: flex-end; padding: 16px 24px; background: #fafafa; border-top: 2px solid #e0e0e0; flex-shrink: 0; margin-top: auto; }
+.btn { padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+.btn-secondary { background: #e0e0e0; color: #424242; }
+.btn-primary { background: #424242; color: #fff; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Add User Drawer */
+.drawer { display: none; position: fixed; top: 0; right: 0; width: 500px; height: 100vh; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.2); z-index: 2000; padding: 32px; overflow-y: auto; }
+.drawer.show { display: block; animation: slideInRight 0.3s ease; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
+.drawer-overlay.show { display: block; }
+
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+.modal.show { display: flex; }
+.modal-content { background: #fff; padding: 32px; border-radius: 8px; text-align: center; max-width: 450px; }
+.success-icon { width: 64px; height: 64px; background: #4caf50; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 32px; }
+.modal-content h2 { margin: 0 0 12px 0; font-size: 20px; }
+.modal-content p { margin: 0 0 24px 0; font-size: 14px; color: #666; line-height: 1.5; }
+.modal-content .btn { min-width: 120px; }
+
+/* Two-State Right Panel */
+#defaultView { display: flex; flex-direction: column; height: 100%; }
+#defaultView .content-wrapper { flex: 1; padding: 24px; overflow-y: auto; }
+#defaultView .actions { position: sticky; bottom: 0; background: #fafafa; border-top: 2px solid #e0e0e0; margin: 0; }
+#zoneSelectionView { display: none; flex: 1; flex-direction: column; }
+#zoneSelectionView.active { display: flex; }
+#zoneSelectionView .zone-content { flex: 1; overflow-y: auto; padding: 0 24px; }
+#zoneSelectionView .subscription-card, #zoneSelectionView > p, #zoneSelectionView .zone-controls { margin: 0 24px; }
+#zoneSelectionView .subscription-card { margin-top: 24px; }
+#zoneSelectionView .actions { position: sticky; bottom: 0; background: #fafafa; border-top: 2px solid #e0e0e0; margin: 0; z-index: 10; }
+.selected-user-info { background: #e3f2fd; padding: 16px; border-radius: 6px; margin-bottom: 16px; }
+.selected-user-info h3 { margin: 0 0 12px 0; font-size: 16px; color: #1976d2; }
+.selected-user-info p { margin: 0; font-size: 14px; color: #666; line-height: 1.5; }
+
+/* Hamburger Menu Button */
+.hamburger-menu { display: none; background: none; border: none; cursor: pointer; padding: 10px; margin-right: 15px; }
+.hamburger-menu span { display: block; width: 24px; height: 3px; background: #fff; margin: 5px 0; border-radius: 2px; transition: 0.3s; }
+.hamburger-menu.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+.hamburger-menu.active span:nth-child(2) { opacity: 0; }
+.hamburger-menu.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+
+/* Mobile Navigation Drawer */
+.mobile-nav-drawer { display: none; position: fixed; top: 0; left: -320px; width: 320px; height: 100vh; background: #2c3e50; z-index: 3000; padding: 60px 20px 20px 20px; overflow-y: auto; transition: left 0.3s ease; }
+.mobile-nav-drawer.show { left: 0; }
+.mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2999; }
+.mobile-nav-overlay.show { display: block; }
+.mobile-nav-item { display: flex; align-items: center; gap: 15px; padding: 12px 15px; color: #fff; cursor: pointer; border-radius: 4px; margin-bottom: 8px; transition: background 0.2s; }
+.mobile-nav-item:hover { background: rgba(255,255,255,0.1); }
+.mobile-nav-item.selected { background: #1976d2; }
+.mobile-nav-icon { font-size: 20px; width: 24px; text-align: center; }
+.mobile-nav-label { font-size: 14px; font-weight: 500; }
+
+/* ============================================ */
+/* RESPONSIVE / ADAPTIVE DESIGN - Blueprint Component Library */
+/* Breakpoints: 375px (Mobile), 600px (Tablet Small), 768px (Tablet), 1024px (Tablet Landscape), 1440px+ (Desktop) */
+/* ============================================ */
+
+/* Tablet Landscape - Below 1024px */
+@media (max-width: 1024px) {
+  /* Show hamburger menu, hide desktop sidebar */
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+  .mobile-nav-drawer { display: block; }
+  
+  /* Header height: 48px per Blueprint for tablet landscape */
+  .top-bar { height: 48px; }
+  
+  /* Stack split view vertically */
+  .split-view { flex-direction: column; height: auto; }
+  .left-panel { width: 100%; border-right: none; border-bottom: 2px solid #e0e0e0; min-height: 400px; order: 2; }
+  .right-panel { width: 100%; min-height: 50vh; order: 1; }
+}
+
+/* Tablet (Medium) - Below 768px */
+@media (max-width: 768px) {
+  /* Show hamburger menu, hide desktop sidebar */
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+  .mobile-nav-drawer { display: block; }
+  
+  /* Stack split view vertically */
+  .split-view { flex-direction: column; height: auto; }
+  .left-panel { width: 100%; border-right: none; border-bottom: 2px solid #e0e0e0; min-height: 400px; order: 2; }
+  .right-panel { width: 100%; min-height: 50vh; order: 1; }
+  
+  /* Adjust top bar - Header height: 44-48px per Blueprint */
+  .top-bar { padding: 12px 16px; height: 44px; }
+  .logo { font-size: 16px; }
+  .user-menu span { display: none; }
+  
+  /* Reduce padding */
+  .main-content { padding: 16px; }
+  .header { padding: 16px; }
+  h1 { font-size: 20px; }
+  
+  /* Stack header elements */
+  .header-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .header-icons { width: 100%; justify-content: flex-end; }
+  
+  /* Tabs */
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 12px; }
+  
+  /* Search box */
+  .search-box { padding: 12px; }
+  
+  /* Table adjustments */
+  table { min-width: 100%; }
+  th, td { padding: 10px 6px; font-size: 13px; }
+  
+  /* Hide less critical columns */
+  .user-table th:nth-child(4),
+  .user-table td:nth-child(4) { display: none; }
+  
+  /* Zone panel */
+  .zone-panel { padding: 16px; }
+  #zoneSelectionView .zone-content { padding: 0 16px; }
+  #zoneSelectionView .subscription-card,
+  #zoneSelectionView > p,
+  #zoneSelectionView .zone-controls { margin: 0 16px; }
+}
+
+/* Tablet Small - Below 600px */
+@media (max-width: 600px) {
+  /* Further reduce spacing */
+  .main-content { padding: 12px; }
+  .header { padding: 12px; }
+  h1 { font-size: 18px; }
+  
+  /* Split view adjustments */
+  .left-panel { min-height: 300px; }
+  .right-panel { min-height: 300px; }
+  
+  /* Search */
+  .search-box { padding: 10px; }
+  .search-box input { font-size: 13px; padding: 6px 6px 6px 30px; }
+  .search-icon { left: 18px; font-size: 14px; }
+  
+  /* Table */
+  th, td { padding: 8px 4px; font-size: 12px; }
+  .user-link { font-size: 13px; }
+  .user-role { font-size: 11px; }
+  input[type="checkbox"] { width: 16px; height: 16px; }
+  
+  /* Hide last login column on mobile */
+  .user-table th:last-child,
+  .user-table td:last-child { display: none; }
+  
+  /* Subscription cards */
+  .subscription-card { padding: 16px; margin-bottom: 16px; }
+  .subscription-title { font-size: 15px; }
+  .subscription-subtitle { font-size: 12px; }
+  .seat-info { font-size: 12px; flex-wrap: wrap; }
+  
+  /* Zone badges */
+  .zone-badge { font-size: 11px; padding: 4px 6px; height: 24px; }
+  .zone-counter { font-size: 11px; padding: 2px 5px; height: 18px; min-width: 18px; }
+  
+  /* Zone controls */
+  .zone-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+  
+  /* Zone cards */
+  .zone-card { margin-bottom: 10px; }
+  .zone-header { padding: 12px; font-size: 13px; }
+  .county-list { padding: 8px 12px; }
+  .county-checkbox { padding: 6px 12px; font-size: 12px; }
+  
+  /* Actions/Buttons */
+  .actions { padding: 12px; gap: 8px; flex-direction: column; }
+  .btn { padding: 10px 16px; font-size: 13px; width: 100%; }
+  
+  /* Modal */
+  .modal-content { padding: 24px; max-width: 90%; }
+  .modal-content h2 { font-size: 18px; }
+  
+  /* Zone panel padding */
+  .zone-panel { padding: 12px; }
+  #defaultView .content-wrapper { padding: 16px; }
+  #zoneSelectionView .zone-content { padding: 0 12px; }
+  #zoneSelectionView .subscription-card,
+  #zoneSelectionView > p,
+  #zoneSelectionView .zone-controls { margin: 0 12px; }
+}
+
+/* Mobile (Extra Small) - Below 375px - Blueprint Mobile Phone Layout */
+@media (max-width: 375px) {
+  /* Header height: 44px per Blueprint */
+  .top-bar { height: 44px; padding: 10px 12px; }
+  h1 { font-size: 16px; }
+  .tabs { gap: 4px; }
+  .tab { font-size: 12px; padding: 6px 10px; }
+  .subscription-title { font-size: 14px; }
+  th, td { font-size: 11px; }
+}
 </style>
 </head>
 <body>
@@ -70,23 +372,23 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="nav-item">
-      <div class="nav-icon">C</div>
+      <div class="nav-icon">🏢</div>
       <div class="nav-label">Company</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon">U</div>
+      <div class="nav-icon">👥</div>
       <div class="nav-label">Users &<br>Groups</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon">R</div>
+      <div class="nav-icon">👤</div>
       <div class="nav-label">Roles</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon selected">S</div>
+      <div class="nav-icon selected">📋</div>
       <div class="nav-label">Subs &<br>Licenses</div>
     </div>
     <div class="nav-item">
-      <div class="nav-icon">B</div>
+      <div class="nav-icon">💳</div>
       <div class="nav-label">Billing</div>
     </div>
   </div>
@@ -106,7 +408,7 @@
           </div>
         </div>
         <div class="tabs">
-          <button class="tab" onclick="window.location.href='v2-subscription-overview-multi.html'">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
           <button class="tab active">Project Intelligence</button>
           <button class="tab">Bid Management</button>
           <button class="tab">Takeoff and Estimating</button>
@@ -144,49 +446,10 @@
           <!-- STATE 1: Default Info View (shows when no users selected) -->
           <div id="defaultView">
             <div class="content-wrapper">
-              <!-- Pro Subscription Card -->
-              <div class="subscription-card">
-                <div class="subscription-title">Project Intelligence Pro Seats</div>
-                <div class="subscription-subtitle">
-                  Your current assigned seats for Project Intelligence Pro include:
-                </div>
-                <ul style="margin: 12px 0 12px 20px; font-size: 13px; line-height: 1.8; color: #666;">
-                  <li>1 Full access</li>
-                  <li>1 Modified</li>
-                </ul>
-                <div style="font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 16px;">
-                  <p style="margin-bottom: 8px;">By clicking 'add' you assign a seat and provide the user full access.</p>
-                  <p>Once a user has been added, you can then modify their access to specific counties.</p>
-                </div>
-                <div class="seat-info">
-                  7 / 20 Seats - 13 seats available
-                  <div class="info-icon">
-                    i
-                    <div class="tooltip">Assigning geography to a user activates one seat.</div>
-                  </div>
-                </div>
-                <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
-                
-                <!-- Buttons inside card -->
-                <div style="display: flex; gap: 12px; margin-top: 16px;">
-                  <button class="btn btn-secondary" id="addSelectedProBtn" disabled onclick="addSelectedUsers('Pro')">Add Selected User(s)</button>
-                  <button class="btn btn-secondary" id="modifySelectedProBtn" disabled onclick="showModifyView('Pro')">Modify Selected Users</button>
-                </div>
-              </div>
-
-              <!-- Starter Subscription Card -->
               <div class="subscription-card">
                 <div class="subscription-title">Project Intelligence Starter Seats</div>
                 <div class="subscription-subtitle">
-                  Your current assigned seats for Project Intelligence Starter include:
-                </div>
-                <ul style="margin: 12px 0 12px 20px; font-size: 13px; line-height: 1.8; color: #666;">
-                  <li>1 Full access</li>
-                  <li>1 Modified</li>
-                </ul>
-                <div style="font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 16px;">
-                  <p style="margin-bottom: 8px;">By clicking 'add' you assign a seat and provide the user full access.</p>
-                  <p>Once a user has been added, you can then modify their access to specific counties.</p>
+                  Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Starter access.
                 </div>
                 <div class="seat-info">
                   7 / 20 Seats - 13 seats available
@@ -196,13 +459,31 @@
                   </div>
                 </div>
                 <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
-                
-                <!-- Buttons inside card -->
-                <div style="display: flex; gap: 12px; margin-top: 16px;">
-                  <button class="btn btn-secondary" id="addSelectedStarterBtn" disabled onclick="addSelectedUsers('Starter')">Add Selected User(s)</button>
-                  <button class="btn btn-secondary" id="modifySelectedStarterBtn" disabled onclick="showModifyView('Starter')">Modify Selected Users</button>
-                </div>
               </div>
+
+              <!-- Selected User Info (dynamic) -->
+              <div id="selectedUserInfo"></div>
+
+              <!-- Informational Content -->
+              <div id="defaultInfoText" style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
+                <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
+                <ul style="margin-left: 20px; margin-bottom: 16px;">
+                  <li>2 Full access</li>
+                  <li>2 Modified</li>
+                </ul>
+                <p style="margin-bottom: 12px;">
+                  By clicking 'add' you assign a seat and provide the user full access.
+                </p>
+                <p>
+                  Once a user has been added, you can then modify their access to specific counties.
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Buttons (Sticky Footer) -->
+            <div class="actions">
+              <button class="btn btn-primary" id="addSelectedBtn" disabled onclick="addSelectedUsers()">Add Selected User(s)</button>
+              <button class="btn btn-primary" id="modifySelectedBtn" disabled onclick="showModifyView()">Modify Selected Users</button>
             </div>
           </div>
 
@@ -329,14 +610,14 @@
 // Initialize data
 var data = {
   users: [
-    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Pro', disabled:false},
-    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Modified', zoneCount:3, accessType:'modified', assignedCounties:{'1-1':true,'1-2':true,'2-1':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
-    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:2, accessType:'modified', assignedCounties:{'3-1':true,'4-1':true}, login:'Nov 5, 2025', subscription:'Pro', disabled:false},
-    {id:4, name:'Kylee Frye', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
-    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
-    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
-    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
-    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false}
+    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:5, accessType:'modified', assignedCounties:{'1-0':true,'1-1':true,'1-2':true,'2-0':true,'2-1':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified', zoneCount:3, accessType:'modified', assignedCounties:{'3-0':true,'3-1':true,'4-0':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false}
   ],
   zones: COMPLETE_ZONE_DATA.zones.slice(0, 10) // First 10 zones for performance
 };
@@ -369,15 +650,11 @@ function render() {
     if(u.accessType === 'none') {
       zoneHtml = '<span class="zone-badge no-access">No Access</span>';
     } else if(u.accessType === 'full') {
+      // Full Access - no counter
       zoneHtml = '<span class="zone-badge">Full Access</span>';
-      if(u.subscription === 'Pro') {
-        zoneHtml += ' <span class="zone-badge">PRO</span>';
-      }
     } else if(u.accessType === 'modified' && u.zoneCount) {
+      // Modified - show zone count
       zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
-      if(u.subscription === 'Pro') {
-        zoneHtml += ' <span class="zone-badge">PRO</span>';
-      }
     } else {
       zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
     }
@@ -518,12 +795,10 @@ function updateSelectAllZonesState() {
 
 // Update right panel based on user selection
 function updateRightPanel() {
-  // Count selected users by type and subscription
+  // Count selected users by type
   var selectedNoAccess = 0;
   var selectedFull = 0;
   var selectedModified = 0;
-  var selectedPro = 0;
-  var selectedStarter = 0;
   var selectedUsers = [];
   
   for(var i = 0; i < data.users.length; i++) {
@@ -536,50 +811,60 @@ function updateRightPanel() {
       } else if(data.users[i].accessType === 'modified') {
         selectedModified++;
       }
-      
-      // Count by subscription
-      if(data.users[i].subscription === 'Pro') {
-        selectedPro++;
-      } else if(data.users[i].subscription === 'Starter') {
-        selectedStarter++;
-      }
     }
   }
   
-  // Update Pro subscription buttons
-  var addProBtn = document.getElementById('addSelectedProBtn');
-  var modifyProBtn = document.getElementById('modifySelectedProBtn');
+  // Update selected user info display
+  var selectedUserInfo = document.getElementById('selectedUserInfo');
+  var defaultInfoText = document.getElementById('defaultInfoText');
   
-  if(addProBtn) {
-    // Enable if selecting no-access users AND no Starter users are selected
-    addProBtn.disabled = !(selectedNoAccess > 0 && selectedStarter === 0);
-  }
-  if(modifyProBtn) {
-    // Enable if selecting Pro users only
-    modifyProBtn.disabled = !(selectedPro > 0 && selectedStarter === 0 && selectedNoAccess === 0);
+  if(selectedFull > 0 || selectedModified > 0) {
+    // Show selected user info
+    var infoHtml = '<div class="selected-user-info">';
+    infoHtml += '<h3>Selected User' + (selectedUsers.length > 1 ? 's' : '') + '</h3>';
+    
+    for(var j = 0; j < selectedUsers.length; j++) {
+      var u = selectedUsers[j];
+      if(u.accessType !== 'none') {
+        infoHtml += '<p><strong>' + u.name + '</strong> - ' + u.zones;
+        if(u.accessType === 'full') {
+          infoHtml += ' (has access to all zones in subscription)';
+        } else if(u.accessType === 'modified' && u.zoneCount) {
+          infoHtml += ' (' + u.zoneCount + ' zone' + (u.zoneCount > 1 ? 's' : '') + ')';
+        }
+        infoHtml += '</p>';
+      }
+    }
+    
+    infoHtml += '</div>';
+    
+    // Add note for No Access users
+    if(selectedNoAccess > 0) {
+      infoHtml += '<div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 4px;">';
+      infoHtml += '<p style="margin: 0; font-size: 13px; line-height: 18px; color: #0c4a6e;"><strong>Note:</strong> Adding user(s) with No Access will give them Full Access to the application. They can be modified later.</p>';
+      infoHtml += '</div>';
+    }
+    
+    selectedUserInfo.innerHTML = infoHtml;
+    defaultInfoText.style.display = 'none';
+  } else {
+    // Hide selected user info, show default text
+    selectedUserInfo.innerHTML = '';
+    defaultInfoText.style.display = 'block';
   }
   
-  // Update Starter subscription buttons
-  var addStarterBtn = document.getElementById('addSelectedStarterBtn');
-  var modifyStarterBtn = document.getElementById('modifySelectedStarterBtn');
+  // Update button states in default view
+  var addBtn = document.getElementById('addSelectedBtn');
+  var modifyBtn = document.getElementById('modifySelectedBtn');
   
-  if(addStarterBtn) {
-    // Enable if selecting no-access users AND no Pro users are selected
-    addStarterBtn.disabled = !(selectedNoAccess > 0 && selectedPro === 0);
-  }
-  if(modifyStarterBtn) {
-    // Enable if selecting Starter users only
-    modifyStarterBtn.disabled = !(selectedStarter > 0 && selectedPro === 0 && selectedNoAccess === 0);
-  }
+  if(addBtn) addBtn.disabled = selectedNoAccess === 0;
+  if(modifyBtn) modifyBtn.disabled = (selectedFull + selectedModified) === 0;
   
-  // Check if any users are selected - if not, switch back to default view
-  if(selectedUsers.length === 0) {
-    var defaultView = document.getElementById('defaultView');
-    var zoneView = document.getElementById('zoneSelectionView');
-    defaultView.style.display = 'flex';
-    zoneView.style.display = 'none';
-    zoneView.classList.remove('active');
-  }
+  // Don't auto-show zone selection - only show when Modify button is clicked
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  
+  // Keep current view state unless explicitly changed
 }
 
 // Toggle user selection
