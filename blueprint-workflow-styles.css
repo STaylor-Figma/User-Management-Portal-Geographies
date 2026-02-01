@@ -945,29 +945,6 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   .hamburger-menu { display: flex; }
   .mobile-nav-drawer { display: block; }
   
-  /* Make layout responsive */
-  .layout {
-    flex-direction: column;
-  }
-  
-  .main-content { 
-    margin-left: 0; 
-    padding: var(--spacing-small-400);
-    width: 100%;
-    overflow-x: hidden;
-  }
-  
-  .container {
-    padding: var(--spacing-small-400);
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .header {
-    padding: var(--spacing-small-400);
-  }
-  
   /* Split-view stacking */
   .split-view { flex-direction: column; height: auto; }
   .left-panel { width: 100%; border-right: none; border-bottom: 2px solid var(--neutral-200); order: 2; }
