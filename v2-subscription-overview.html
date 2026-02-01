@@ -21,11 +21,12 @@ body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
 
 /* Sidebar */
 .sidebar { width: 75px; background: var(--nav-menu-container-background); display: flex; flex-direction: column; gap: 12px; padding: 15px 5px; align-items: center; }
-.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; gap: 4px; }
-.nav-icon { width: 40px; height: 40px; background: transparent; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--neutral-0); font-size: 20px; }
-.nav-icon:hover { background: rgba(255,255,255,0.1); }
-.nav-icon.selected { background: var(--primary-500); }
-.nav-label { color: var(--neutral-0); font-size: 9px; text-align: center; line-height: 1.1; font-weight: 500; width: 70px; font-family: var(--font-family-blueprintfont); }
+.nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 4px 10px; position: relative; background: transparent; transition: background 0.2s ease-out; }
+.nav-item:hover { background: rgba(1, 48, 74, 0.35); }
+.nav-item.selected { background: rgba(1, 48, 74, 0.6); border-left: 4px solid #00a1e0; }
+.nav-icon { width: 24px; height: 24px; font-size: 24px; display: flex; align-items: center; justify-content: center; color: var(--nav-menu-button-text-default); margin-bottom: 4px; }
+.nav-item.selected .nav-icon { color: var(--nav-menu-button-text-selected); }
+.nav-label { color: var(--nav-menu-button-text-default); font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; line-height: 12px; text-align: center; width: 70px; }
 
 /* Main Content */
 .main-content { flex: 1; padding: 30px; }
@@ -327,8 +328,8 @@ h1 { margin: 0; font-size: var(--font-size-800); font-weight: var(--font-weight-
       <div class="nav-icon"><i class="fa-light fa-user-shield"></i></div>
       <div class="nav-label">Roles</div>
     </div>
-    <div class="nav-item">
-      <div class="nav-icon selected"><i class="fa-light fa-file-contract"></i></div>
+    <div class="nav-item selected">
+      <div class="nav-icon"><i class="fa-light fa-file-contract"></i></div>
       <div class="nav-label">Subs &<br>Licenses</div>
     </div>
     <div class="nav-item">
