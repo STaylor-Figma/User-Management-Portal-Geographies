@@ -374,10 +374,10 @@ function render() {
       if(u.subscription === 'Pro') {
         zoneHtml += ' <span class="zone-badge">PRO</span>';
       }
-    } else if(u.accessType === 'modified' && u.zoneCount) {
-      zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
-      if(u.subscription === 'Pro') {
-        zoneHtml += ' <span class="zone-badge">PRO</span>';
+    } else if(u.accessType === 'modified') {
+      zoneHtml = '<span class="zone-badge">Modified</span>';
+      if(u.subscription === 'Pro' && u.zoneCount) {
+        zoneHtml += ' <span class="zone-badge">PRO - ' + u.zoneCount + '</span>';
       }
     } else {
       zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
