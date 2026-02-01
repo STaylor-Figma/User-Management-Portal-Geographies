@@ -267,6 +267,7 @@ body {
   line-height: var(--username-button-name-line-height-default);
   font-weight: var(--username-button-name-font-weight-default);
   color: var(--username-button-name-text-color-default);
+  white-space: nowrap;
 }
 .avatar { 
   width: 34px; 
@@ -946,6 +947,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 /* Tablet Landscape and below: 1024px */
 @media (max-width: 1024px) {
   .top-bar { height: 44px; }
+  .logo { padding: 10px; }
   .sidebar { display: none; }
   .hamburger-menu { display: flex; }
   .mobile-nav-drawer { display: block; }
