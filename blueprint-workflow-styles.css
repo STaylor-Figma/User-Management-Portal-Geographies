@@ -99,19 +99,39 @@
   --username-button-avatar-text-color-default: #4a4f55;
   --username-button-initials-font-family-default: 'Montserrat', sans-serif;
   
-  /* Tab Component Tokens */
-  --tab-text-default: #1c1f22;
-  --tab-text-selected: #1c1f22;
-  --tab-underline-active: #1c1f22;
-  --tab-font-family-default: 'Montserrat', sans-serif;
-  --tab-font-weight-default: 500;
-  --tab-font-weight-selected: 700;
-  --tab-font-size: 14px;
-  --tab-line-height: 16px;
+  /* Tab Molecule Tokens */
+  --tab-font-family: var(--font-family-blueprintfont);
+  --tab-font-size: var(--font-size-300);
+  --tab-font-weight: var(--font-weight-text-medium);
+  --tab-line-height: var(--line-height-medium);
+  --tab-text-color: var(--neutral-600);
+  --tab-font-weight-selected: var(--font-weight-text-bold);
+  --tab-text-color-selected: var(--neutral-600);
+  --tab-text-color-hover: var(--primary-400);
+  --tab-text-color-selected-hover: var(--primary-400);
+  --tab-count-font-family: var(--font-family-blueprintfont);
+  --tab-count-font-size: var(--font-size-200);
+  --tab-count-font-weight: var(--font-weight-text-semibold);
+  --tab-count-line-height: 1.1;
+  --tab-count-text-color: var(--neutral-600);
+  --tab-count-text-color-selected: var(--neutral-0);
+  --tab-count-background-selected: var(--primary-500);
+  --tab-count-background-selected-hover: var(--primary-400);
+  --tab-count-padding-horizontal: var(--spacing-micro-150);
+  --tab-count-padding-vertical: 2px;
+  --tab-count-radius: var(--radius-pill);
+  --tab-count-background: var(--neutral-200);
+  --tab-count-background-hover: var(--neutral-300);
   --tab-padding-horizontal: 2px;
-  --tab-padding-vertical: 10px;
-  --tab-border-width: 4px;
-  --tab-gap: 6px;
+  --tab-padding-vertical: var(--spacing-small-250);
+  --tab-gap: var(--spacing-micro-150);
+  --tab-radius: var(--radius-sm);
+  --tab-border-width-selected: var(--spacing-micro-100);
+  --tab-border-color-active: var(--neutral-600);
+  --tab-border-width-focus: 2px;
+  --tab-border-color-focus: var(--primary-100);
+  --tab-hover-duration: 0.2s;
+  --tab-hover-easing: ease-out;
   --username-button-initials-font-size-default: 18px;
   --username-button-initials-line-height-default: 16px;
   --username-button-initials-font-weight-default: 700;
@@ -329,36 +349,52 @@ h1 {
   padding: var(--tab-padding-vertical) var(--tab-padding-horizontal);
   background: transparent;
   border: none;
-  border-bottom: var(--tab-border-width) solid transparent;
+  border-bottom: var(--tab-border-width-selected) solid transparent;
   cursor: pointer;
-  font-family: var(--tab-font-family-default);
+  font-family: var(--tab-font-family);
   font-size: var(--tab-font-size);
-  font-weight: var(--tab-font-weight-default);
+  font-weight: var(--tab-font-weight);
   line-height: var(--tab-line-height);
-  color: var(--tab-text-default);
+  color: var(--tab-text-color);
   display: flex;
   gap: var(--tab-gap);
   align-items: center;
-  transition: border-color 0.2s ease;
+  transition: color var(--tab-hover-duration) var(--tab-hover-easing), border-color var(--tab-hover-duration) var(--tab-hover-easing);
+}
+.tab:hover {
+  color: var(--tab-text-color-hover);
 }
 .tab.active { 
   font-weight: var(--tab-font-weight-selected);
-  border-bottom-color: var(--tab-underline-active);
-  color: var(--tab-text-selected);
+  border-bottom-color: var(--tab-border-color-active);
+  color: var(--tab-text-color-selected);
+}
+.tab.active:hover {
+  color: var(--tab-text-color-selected-hover);
 }
 .tab-counter {
-  background: var(--neutral-200);
-  padding: 2px 6px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-family-blueprintfont);
-  font-size: 12px;
-  font-weight: var(--font-weight-text-semibold);
-  line-height: 14px;
-  color: var(--neutral-600);
-  max-height: 20px;
+  background: var(--tab-count-background);
+  padding: var(--tab-count-padding-vertical) var(--tab-count-padding-horizontal);
+  border-radius: var(--tab-count-radius);
+  font-family: var(--tab-count-font-family);
+  font-size: var(--tab-count-font-size);
+  font-weight: var(--tab-count-font-weight);
+  line-height: var(--tab-count-line-height);
+  color: var(--tab-count-text-color);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: background var(--tab-hover-duration) var(--tab-hover-easing);
+}
+.tab:hover .tab-counter {
+  background: var(--tab-count-background-hover);
+}
+.tab.active .tab-counter {
+  background: var(--tab-count-background-selected);
+  color: var(--tab-count-text-color-selected);
+}
+.tab.active:hover .tab-counter {
+  background: var(--tab-count-background-selected-hover);
 }
 
 /* Split View */
