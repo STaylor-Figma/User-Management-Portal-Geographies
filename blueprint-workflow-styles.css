@@ -231,16 +231,28 @@ body {
 /* Top Bar */
 .top-bar { 
   background: var(--header-organism-background-default); 
-  padding: var(--spacing-small-400) var(--spacing-medium-900); 
+  padding: 0; 
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
   height: 60px;
 }
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
 .logo { 
   color: var(--neutral-0); 
   font-size: var(--font-size-400); 
   font-weight: var(--font-weight-text-semibold); 
+  padding: 10px 10px 10px 20px;
+  white-space: nowrap;
 }
 .user-menu { 
   display: flex; 
