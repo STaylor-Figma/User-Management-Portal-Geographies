@@ -532,15 +532,15 @@ function updateRightPanel() {
         if(u.accessType === 'full') {
           infoHtml += ' (has access to all zones in subscription)';
         } else if(u.accessType === 'modified' && u.zoneCount) {
-          infoHtml += ' (' + u.zoneCount + ' zone' + (u.zoneCount > 1 ? 's' : '') + ')';
-          
-          // Get actual zone names
+          // Get actual zone names and counts
           var assignedZones = {};
+          var countyCount = 0;
           for(var countyKey in u.assignedCounties) {
             if(u.assignedCounties[countyKey]) {
               var parts = countyKey.split('-');
               var zoneId = parseInt(parts[0]);
               assignedZones[zoneId] = true;
+              countyCount++;
             }
           }
           
@@ -551,6 +551,9 @@ function updateRightPanel() {
               zoneNames.push(zone.name);
             }
           }
+          
+          var actualZoneCount = zoneNames.length;
+          infoHtml += ' (' + countyCount + ' count' + (countyCount !== 1 ? 'ies' : 'y') + ' across ' + actualZoneCount + ' zone' + (actualZoneCount !== 1 ? 's' : '') + ')';
           
           if(zoneNames.length > 0) {
             infoHtml += '<br><span style="font-size: 13px; color: #666; margin-left: 8px;">Zones: ' + zoneNames.join(', ') + '</span>';
