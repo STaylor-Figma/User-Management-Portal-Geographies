@@ -693,7 +693,426 @@ Test each breakpoint to ensure layout behaves correctly:
 
 ---
 
-## 7. FONT AWESOME SETUP
+## 7. COMPLETE CSS IMPLEMENTATION
+
+This section contains ALL the CSS code needed to implement the header, navigation, and layout. Copy this code into your project.
+
+### 7.1. Header CSS (Complete)
+
+```css
+/* ===== HEADER / TOP BAR ===== */
+.top-bar { 
+  background: #01304A;
+  padding: 0 !important; 
+  display: flex !important; 
+  justify-content: flex-start !important; 
+  align-items: center; 
+  height: 60px;
+}
+
+.top-bar-left {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start !important;
+}
+
+.top-bar-user-section {
+  display: flex !important;
+  align-items: center;
+  padding: 0 10px;
+  margin-left: auto !important;
+}
+
+.logo { 
+  color: #FFFFFF;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 10px 10px 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* User Menu */
+.user-menu { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  color: #FFFFFF;
+}
+
+.user-menu span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.avatar { 
+  width: 34px;
+  height: 34px;
+  background: #0C79A8;
+  border-radius: 50%;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 10px;
+  color: #FFFFFF;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+/* Hamburger Menu Button */
+.hamburger-menu { 
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  background: #01304A;
+  border: none;
+  border-right: 1px solid #185a7d;
+  cursor: pointer;
+}
+
+.menu-icon { 
+  width: 16px;
+  height: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger-menu span { 
+  display: block;
+  width: 16px;
+  height: 3px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Mobile Header Adjustments */
+@media (max-width: 1024px) {
+  .top-bar {
+    height: 44px;
+  }
+  
+  .hamburger-menu {
+    display: flex;
+  }
+  
+  .logo {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .user-menu span {
+    display: none;
+  }
+}
+```
+
+---
+
+### 7.2. Navigation CSS (Complete)
+
+```css
+/* ============================================================================
+   SIDEBAR NAVIGATION (Desktop >1024px)
+   ============================================================================ */
+
+.sidebar-nav {
+  width: 75px;
+  min-height: calc(100vh - 60px);
+  background: #185a7d;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+  z-index: 100;
+}
+
+@media (max-width: 1024px) {
+  .sidebar-nav {
+    display: none !important;
+  }
+}
+
+/* Sidebar Button */
+.sidebar-button {
+  width: 75px;
+  min-height: 48px;
+  max-height: 60px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* VERTICAL: icon top, label below */
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.sidebar-button__icon {
+  font-size: 24px;
+  line-height: 24px;
+  color: #ccecf9;
+}
+
+.sidebar-button__label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 12px;
+  color: #ccecf9;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Max 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Sidebar Button States */
+.sidebar-button:hover {
+  background: rgba(1, 48, 74, 0.35);
+  border-left-color: #0c79a8;
+}
+
+.sidebar-button.selected {
+  background: rgba(1, 48, 74, 0.6);
+  border-left-color: #00a1e0;
+}
+
+.sidebar-button.selected .sidebar-button__icon,
+.sidebar-button.selected .sidebar-button__label {
+  color: #ffffff;
+}
+
+.sidebar-button:focus {
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 4px 0 #f2fafe;
+}
+
+/* ============================================================================
+   COMPACT NAVIGATION (Mobile/Tablet ≤1024px)
+   ============================================================================ */
+
+.compact-nav {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 44px;
+  width: 320px;
+  max-width: 320px;
+  height: calc(100vh - 44px);
+  background: #185a7d;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+  z-index: 3000;
+  overflow-y: auto;
+}
+
+.compact-nav.open {
+  display: flex;
+}
+
+@media (min-width: 1025px) {
+  .compact-nav {
+    display: none !important;
+  }
+}
+
+/* Compact Overlay */
+.compact-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2999;
+}
+
+.compact-overlay.open {
+  display: block;
+}
+
+/* Compact Button */
+.compact-button {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  flex-direction: row; /* HORIZONTAL: icon left, label right */
+  align-items: center;
+  gap: 14px;
+  padding: 4px 10px 4px 20px;
+  background: transparent;
+  border: none;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.compact-button__icon {
+  font-size: 24px;
+  line-height: 24px;
+  color: #ccecf9;
+  flex-shrink: 0;
+}
+
+.compact-button__label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 12px;
+  color: #ccecf9;
+  white-space: nowrap; /* Single line only */
+}
+
+/* Compact Button States */
+.compact-button:hover {
+  background: rgba(1, 48, 74, 0.35);
+  border-left-color: #0c79a8;
+}
+
+.compact-button.selected {
+  background: rgba(1, 48, 74, 0.6);
+  border-left-color: #00a1e0;
+}
+
+.compact-button.selected .compact-button__icon,
+.compact-button.selected .compact-button__label {
+  color: #ffffff;
+}
+
+.compact-button:focus {
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 4px 0 #f2fafe;
+}
+```
+
+---
+
+### 7.3. Layout CSS (Complete)
+
+```css
+/* ===== BASE BOX MODEL ===== */
+* { 
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body { 
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0; 
+  background: #f4f4f4;
+}
+
+/* ===== LAYOUT STRUCTURE ===== */
+.layout { 
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+/* Main Content */
+.main-content { 
+  flex: 1;
+  margin-left: 20px; /* 20px gap from sidebar */
+  margin-right: 20px;
+  padding: 30px 0 30px 0; /* Top/bottom padding only */
+  box-sizing: border-box;
+  min-width: 0; /* Allow flex item to shrink */
+}
+
+.container { 
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto; 
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+.content {
+  padding: 0 20px;
+}
+
+/* Header within container */
+.header { 
+  padding: 24px 20px;
+}
+
+.header-top { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 16px;
+}
+
+h1 { 
+  margin: 0; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: normal;
+  color: #1c1f22;
+}
+
+/* ===== RESPONSIVE LAYOUT ===== */
+
+/* Tablet Landscape (≤1024px) */
+@media (max-width: 1024px) {
+  .layout {
+    min-height: calc(100vh - 44px);
+  }
+  
+  .main-content {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+/* Tablet Portrait (≤768px) */
+@media (max-width: 768px) {
+  .content {
+    padding: 0 10px;
+  }
+}
+
+/* Mobile (≤600px) */
+@media (max-width: 600px) {
+  .header {
+    padding: 16px 12px;
+  }
+  
+  h1 {
+    font-size: 18px;
+  }
+}
+```
+
+---
+
+## 8. FONT AWESOME SETUP
 
 ### Required Kit
 
