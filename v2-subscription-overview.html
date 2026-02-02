@@ -234,58 +234,58 @@
 </div>
 
 <!-- Mobile Navigation Overlay -->
-<div class="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
 
-<!-- Mobile Navigation Drawer -->
-<div class="mobile-nav-drawer">
-  <div class="mobile-nav-item selected">
-    <div class="mobile-nav-icon">🏢</div>
-    <div class="mobile-nav-label">Company</div>
-  </div>
-  <div class="mobile-nav-item">
-    <div class="mobile-nav-icon">👥</div>
-    <div class="mobile-nav-label">Users & Groups</div>
-  </div>
-  <div class="mobile-nav-item">
-    <div class="mobile-nav-icon">👥</div>
-    <div class="mobile-nav-label">Roles</div>
-  </div>
-  <div class="mobile-nav-item">
-    <div class="mobile-nav-icon">📄</div>
-    <div class="mobile-nav-label">Subs & Licenses</div>
-  </div>
-  <div class="mobile-nav-item">
-    <div class="mobile-nav-icon">💳</div>
-    <div class="mobile-nav-label">Billing</div>
-  </div>
-</div>
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">Roles</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
 
 <!-- Layout -->
 <div class="layout">
   
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="nav-item">
-      <i class="nav-icon fal fa-building"></i>
-      <div class="nav-label">Company</div>
-    </div>
-    <div class="nav-item">
-      <i class="nav-icon fal fa-users"></i>
-      <div class="nav-label">Users &<br>Groups</div>
-    </div>
-    <div class="nav-item">
-      <i class="nav-icon far fa-users-gear"></i>
-      <div class="nav-label">Roles</div>
-    </div>
-    <div class="nav-item selected">
-      <i class="nav-icon fal fa-file-invoice"></i>
-      <div class="nav-label">Subs &<br>Licenses</div>
-    </div>
-    <div class="nav-item">
-      <i class="nav-icon fal fa-money-check-edit-alt"></i>
-      <div class="nav-label">Billing</div>
-    </div>
-  </div>
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">Roles</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
 
   <!-- Main Content -->
   <div class="main-content">
@@ -638,12 +638,12 @@ function closeUserProfileDrawer() {
 
 <script>
 function toggleMobileNav() {
-  const drawer = document.querySelector('.mobile-nav-drawer');
-  const overlay = document.querySelector('.mobile-nav-overlay');
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
   const hamburger = document.querySelector('.hamburger-menu');
   
-  drawer.classList.toggle('show');
-  overlay.classList.toggle('show');
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
   hamburger.classList.toggle('active');
 }
 </script>
