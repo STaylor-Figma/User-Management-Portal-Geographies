@@ -17,6 +17,17 @@ This document defines the complete specifications for the header, navigation, la
 
 ## 1. HEADER (Top Bar)
 
+### IMPLEMENTATION DECISION REQUIRED
+
+**Before implementing, you must choose ONE of the two header variants below:**
+
+1. **Logo Only (Section 1.1)** - Use for general pages without specific context
+2. **With Title (Section 1.2)** - Use when users need clear page/section identification
+
+**You cannot use both variants on the same page.** Choose the variant that best fits your page's purpose.
+
+---
+
 ### Desktop (>1024px)
 - **Height:** 60px
 - **Background:** `#01304A` (var(--header-organism-background-default))
@@ -57,6 +68,8 @@ Use this variant when only the logo/brand name should be displayed.
 
 Use this variant when you need to display a page/section title in the header.
 
+**⚠️ LOGO PLACEHOLDER:** The `fa-circle-cc` icon is a TEMPORARY placeholder. Replace it with your actual company logo icon once finalized. The icon should be 24px and white (#FFFFFF).
+
 ```html
 <div class="top-bar">
   <div class="top-bar-left">
@@ -68,7 +81,7 @@ Use this variant when you need to display a page/section title in the header.
       </div>
     </button>
     <div class="logo">
-      <i class="fa-light fa-circle-cc"></i>
+      <i class="fa-light fa-circle-cc"></i> <!-- PLACEHOLDER - Replace with actual logo -->
     </div>
     <h1 class="header-title">Project Dashboard</h1>
   </div>
