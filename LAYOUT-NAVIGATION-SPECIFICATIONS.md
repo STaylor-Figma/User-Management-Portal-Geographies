@@ -383,28 +383,313 @@ box-shadow: inset 0 0 4px 0 #f2fafe;
 
 ### Breakpoint Definitions
 
-| Breakpoint | Width | Description |
-|------------|-------|-------------|
-| Mobile | 375px | Smallest mobile devices |
-| Tablet Small | 600px | Small tablets, large phones |
-| Tablet Portrait | 768px | Standard tablet portrait |
-| Tablet Landscape | 1024px | Tablet landscape, small laptops |
-| Desktop | 1440px+ | Desktop screens |
+| Breakpoint | Width | Description | Primary Use Case |
+|------------|-------|-------------|------------------|
+| Mobile Small | 375px | iPhone SE, small phones | Minimum supported width |
+| Mobile Large | 600px | Large phones, phablets | Username hidden, compact layout |
+| Tablet Portrait | 768px | iPad portrait, tablets | Content stacks, tables scroll |
+| Tablet Landscape | 1024px | iPad landscape, small laptops | **CRITICAL**: Navigation switches |
+| Desktop | 1440px+ | Desktop monitors | Full layout with sidebar |
 
-### Key Breakpoint: 1024px
+### Media Query Strategy
 
-At this breakpoint, the following changes occur:
+The layout uses **mobile-first** approach with `max-width` media queries:
+- Base styles are for desktop (>1024px)
+- Media queries progressively adapt for smaller screens
+- Critical breakpoint is `1024px` where navigation changes
 
-#### Show/Hide Elements
-- **Sidebar navigation:** Hide (`display: none`)
-- **Compact navigation:** Show (when hamburger clicked)
-- **Hamburger menu:** Show (`display: flex`)
-- **Header height:** Change from 60px to 44px
-- **Logo padding:** Change from 20px left to 10px left
-- **Username:** Hide at ≤600px
+---
+
+## 6.1. BREAKPOINT: 1024px (CRITICAL - Navigation Switch)
+
+**Trigger:** `@media (max-width: 1024px)`
+
+This is the MOST IMPORTANT breakpoint where the navigation system completely changes.
+
+### Changes at ≤1024px
+
+#### Navigation
+```css
+/* Hide desktop sidebar */
+.sidebar-nav { display: none !important; }
+
+/* Show hamburger menu */
+.hamburger-menu { display: flex; }
+
+/* Compact nav ready to toggle */
+.compact-nav { /* Shows when .open class added */ }
+```
+
+#### Header
+```css
+/* Reduce header height */
+.top-bar { height: 44px; } /* Was 60px */
+
+/* Adjust logo padding */
+.logo { padding: 10px; } /* Was 20px left padding */
+
+/* Compact nav positioned below header */
+.compact-nav { top: 44px; } /* Matches new header height */
+```
 
 #### Content Spacing
-- **Main-content margin:** Change from 20px to 10px (left/right)
+```css
+/* Reduce side margins */
+.main-content {
+  margin-left: 10px; /* Was 20px */
+  margin-right: 10px; /* Was 20px */
+}
+```
+
+#### Layout Impact
+- **Sidebar:** No longer visible, full width available for content
+- **Navigation:** User clicks hamburger to open slide-out menu
+- **Content area:** Gains 75px + 20px = 95px of width (sidebar + gap)
+
+---
+
+## 6.2. BREAKPOINT: 768px (Tablet Portrait)
+
+**Trigger:** `@media (max-width: 768px)`
+
+**Applies to:** iPad portrait, Android tablets, large phones in landscape
+
+### Changes at ≤768px
+
+#### Content Layout
+```css
+/* Stack cards vertically */
+.cards-grid { 
+  grid-template-columns: 1fr; /* Was repeat(3, 1fr) */
+  gap: 16px; /* Was 24px */
+}
+
+/* Add padding to content wrapper */
+.content { padding: 0 10px; }
+```
+
+#### Tables
+```css
+/* Enable horizontal scroll */
+.table-section { 
+  padding: 12px; /* Was 24px */
+  overflow-x: auto; 
+}
+
+/* Set minimum width for tables */
+.data-table { min-width: 800px; }
+.user-table { min-width: 800px; }
+```
+
+#### Tabs
+```css
+/* Allow tabs to wrap */
+.tabs { flex-wrap: wrap; }
+
+/* Reduce tab size */
+.tab { 
+  font-size: 13px; /* Was 14px */
+  padding: 6px 12px; /* Was 8px 16px */
+}
+```
+
+#### Username Display
+```css
+/* Hide username in header */
+.user-menu span { display: none; }
+```
+
+**Why:** Save horizontal space, username not critical on tablets
+
+---
+
+## 6.3. BREAKPOINT: 600px (Mobile Large)
+
+**Trigger:** `@media (max-width: 600px)`
+
+**Applies to:** Large phones (iPhone 14 Pro Max, Galaxy S23+), phablets
+
+### Changes at ≤600px
+
+#### Tables
+```css
+/* Further reduce table padding */
+.table-section { padding: 8px; /* Was 12px */ }
+
+/* Reduce table cell spacing */
+.user-table th,
+.user-table td { 
+  padding: 8px 6px; /* Was 12px 10px */
+  font-size: 12px; /* Was 14px */
+}
+
+/* Hide non-essential columns */
+.user-table th:nth-child(n+5),
+.user-table td:nth-child(n+5) { 
+  display: none; 
+}
+```
+
+**Why:** On small screens, show only critical columns (name, role, status, actions)
+
+#### Cards & Content
+```css
+/* Reduce card padding */
+.subscription-card { padding: 12px; /* Was 20px */ }
+
+/* Smaller card headers */
+.card-header { font-size: 14px; /* Was 16px */ }
+
+/* Compact alerts */
+.alert { 
+  font-size: 12px; /* Was 13px */
+  padding: 8px 10px; /* Was 10px 12px */
+}
+```
+
+#### UI Elements
+```css
+/* Smaller seat information */
+.seat-row { font-size: 12px; /* Was 13px */ }
+
+/* Compact zone badges */
+.zone-badge { 
+  font-size: 11px; /* Was 12px */
+  padding: 3px 8px; /* Was 4px 10px */
+}
+```
+
+#### Footer
+```css
+/* Stack footer elements */
+.table-footer { 
+  flex-direction: column; 
+  align-items: stretch; 
+  gap: 12px; 
+}
+
+/* Center pagination controls */
+.rows-per-page { justify-content: center; }
+.page-nav { justify-content: center; }
+```
+
+---
+
+## 6.4. BREAKPOINT: 375px (Mobile Small - Minimum)
+
+**Trigger:** Implicit (base mobile styles apply)
+
+**Applies to:** iPhone SE, older Android phones, smallest supported devices
+
+### Characteristics
+- **Minimum supported width:** 375px
+- **Below this:** Layout may break, not officially supported
+- **All mobile styles apply:** From 600px and 768px breakpoints
+- **Content priority:** Show only essential information
+- **Interaction:** Large touch targets (min 44px)
+
+### Critical Considerations
+- Tables MUST scroll horizontally
+- No content should be narrower than 375px
+- Touch targets minimum 44px × 44px
+- Font size minimum 12px for readability
+- Adequate spacing between interactive elements
+
+---
+
+## 6.5. COMPLETE RESPONSIVE CSS
+
+### Full Media Query Structure
+
+```css
+/* ===== BASE STYLES (Desktop >1024px) ===== */
+.sidebar-nav { display: flex; } /* Visible */
+.compact-nav { display: none; } /* Hidden */
+.hamburger-menu { display: none; } /* Hidden */
+.top-bar { height: 60px; }
+.main-content { margin-left: 20px; margin-right: 20px; }
+.cards-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+/* ===== TABLET LANDSCAPE & BELOW (≤1024px) ===== */
+@media (max-width: 1024px) {
+  .sidebar-nav { display: none !important; }
+  .hamburger-menu { display: flex; }
+  .top-bar { height: 44px; }
+  .compact-nav { top: 44px; }
+  .logo { padding: 10px; }
+  .main-content { margin-left: 10px; margin-right: 10px; }
+}
+
+/* ===== TABLET PORTRAIT & BELOW (≤768px) ===== */
+@media (max-width: 768px) {
+  .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+  .content { padding: 0 10px; }
+  .user-menu span { display: none; }
+  .table-section { padding: 12px; overflow-x: auto; }
+  .data-table { min-width: 800px; }
+  .user-table { min-width: 800px; }
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 12px; }
+}
+
+/* ===== MOBILE LARGE & BELOW (≤600px) ===== */
+@media (max-width: 600px) {
+  .table-section { padding: 8px; }
+  .subscription-card { padding: 12px; }
+  .card-header { font-size: 14px; }
+  .alert { font-size: 12px; padding: 8px 10px; }
+  .seat-row { font-size: 12px; }
+  .zone-badge { font-size: 11px; padding: 3px 8px; }
+  .user-table th,
+  .user-table td { padding: 8px 6px; font-size: 12px; }
+  .user-table th:nth-child(n+5),
+  .user-table td:nth-child(n+5) { display: none; }
+  .table-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+  .rows-per-page { justify-content: center; }
+  .page-nav { justify-content: center; }
+}
+```
+
+---
+
+## 6.6. BREAKPOINT TESTING CHECKLIST
+
+Test each breakpoint to ensure layout behaves correctly:
+
+### At 1440px (Desktop Large)
+- [ ] Sidebar visible at 75px width
+- [ ] Content has 20px margins left/right
+- [ ] Header is 60px height
+- [ ] Cards display in 3 columns
+- [ ] All content fits without horizontal scroll
+
+### At 1024px (Tablet Landscape)
+- [ ] Sidebar disappears
+- [ ] Hamburger menu appears
+- [ ] Header changes to 44px
+- [ ] Content margins reduce to 10px
+- [ ] Compact nav slides in when hamburger clicked
+
+### At 768px (Tablet Portrait)
+- [ ] Cards stack in single column
+- [ ] Tables scroll horizontally
+- [ ] Tabs wrap if needed
+- [ ] Username hidden in header
+- [ ] Content padding adjusts to 10px
+
+### At 600px (Mobile Large)
+- [ ] Card padding reduces to 12px
+- [ ] Font sizes reduce for compact display
+- [ ] Table columns hide (show only first 4)
+- [ ] Footer stacks vertically
+- [ ] All interactive elements remain accessible
+
+### At 375px (Mobile Small - Minimum)
+- [ ] All content visible (scrollable if needed)
+- [ ] No horizontal overflow
+- [ ] Touch targets minimum 44px
+- [ ] Text remains readable (min 12px)
+- [ ] Layout doesn't break
 
 ---
 
