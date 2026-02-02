@@ -10,8 +10,11 @@
 <style>
 /* Page-specific overrides for Blueprint Design System */
 
+/* Content Area */
+.content { padding: 0 20px; }
+
 /* Subscription Cards Grid */
-.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; box-sizing: border-box; }
 
 /* Subscription Card */
 .subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; transition: all 0.2s; }
@@ -135,6 +138,7 @@
   
   /* Stack cards vertically */
   .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+  .content { padding: 0 10px; }
   
   /* Adjust logo and user menu */
   .logo { font-size: 16px; }
