@@ -343,7 +343,7 @@ body {
 /* Main Content */
 .main-content { 
   flex: 1; 
-  margin-left: 95px; /* Sidebar max 75px + 20px gap */
+  margin-left: 110px; /* Sidebar max 90px + 20px gap */
   margin-right: 20px;
   padding: var(--spacing-medium-900); 
 }
