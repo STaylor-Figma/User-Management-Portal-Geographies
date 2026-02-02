@@ -346,32 +346,167 @@ box-shadow: inset 0 0 4px 0 #f2fafe;
 
 ## 5. MAIN CONTENT SPACING
 
+**CRITICAL:** This section defines ALL spacing between header, navigation, and content. Follow exactly to avoid layout issues.
+
+### Spacing Diagram (Desktop >1024px)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  HEADER (60px height)                                       │
+└─────────────────────────────────────────────────────────────┘
+┌──────┬──────────────────────────────────────────────────────┐
+│      │ ← 20px margin-left                                   │
+│      │                                                       │
+│  S   │  MAIN-CONTENT (flex: 1)                             │
+│  I   │  ┌────────────────────────────────────────────────┐ │
+│  D   │  │ 30px top padding ↓                             │ │
+│  E   │  │                                                 │ │
+│  B   │  │  CONTAINER (max-width: 1600px)                 │ │
+│  A   │  │  ┌──────────────────────────────────────────┐  │ │
+│  R   │  │  │ HEADER (24px padding)                    │  │ │
+│      │  │  │ ┌──────────────────────────────────────┐ │  │ │
+│  7   │  │  │ │ h1, header-icons, etc               │ │  │ │
+│  5   │  │  │ └──────────────────────────────────────┘ │  │ │
+│  p   │  │  └──────────────────────────────────────────┘  │ │
+│  x   │  │  ┌──────────────────────────────────────────┐  │ │
+│      │  │  │ CONTENT (20px left/right padding)       │  │ │
+│      │  │  │ ┌──────────────────────────────────────┐ │  │ │
+│      │  │  │ │ Your cards, tables, etc             │ │  │ │
+│      │  │  │ └──────────────────────────────────────┘ │  │ │
+│      │  │  └──────────────────────────────────────────┘  │ │
+│      │  │                                                 │ │
+│      │  │ 30px bottom padding ↑                          │ │
+│      │  └────────────────────────────────────────────────┘ │
+│      │                                     20px margin-right→│
+└──────┴──────────────────────────────────────────────────────┘
+```
+
+### Spacing Breakdown
+
+**Vertical Spacing (Top to Bottom):**
+1. **Header:** 60px fixed height
+2. **Main-content top padding:** 30px (gap below header)
+3. **Container header padding:** 24px top
+4. **Content area padding:** Variable based on content
+5. **Main-content bottom padding:** 30px (gap at bottom)
+
+**Horizontal Spacing (Left to Right):**
+1. **Sidebar:** 75px fixed width
+2. **Gap (main-content margin-left):** 20px
+3. **Container:** Flexible width (max 1600px)
+4. **Content padding:** 20px left and right inside container
+5. **Gap (main-content margin-right):** 20px
+6. **Edge of viewport:** 0px
+
+**Total Horizontal:**
+- Sidebar: 75px
+- + Gap: 20px
+- + Content: (remaining width)
+- + Gap: 20px
+- = Full viewport width
+
+---
+
 ### Desktop (>1024px)
 
 ```css
 .main-content {
   flex: 1;
-  margin-left: 20px; /* Gap from sidebar */
-  margin-right: 20px;
-  padding: var(--spacing-medium-900) var(--spacing-medium-900) var(--spacing-medium-900) 0;
+  margin-left: 20px; /* Gap from 75px sidebar */
+  margin-right: 20px; /* Gap from right edge */
+  padding: 30px 0 30px 0; /* Top/bottom spacing only */
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  /* Container provides white background and shadow */
+}
+
+.content {
+  padding: 0 20px; /* Left/right padding for content inside container */
+}
+
+.header {
+  padding: 24px 20px; /* Spacing for page header inside container */
 }
 ```
 
 **CRITICAL:**
 - Margin-left 20px creates gap from 75px sidebar
 - Padding-left is 0 (no extra padding next to sidebar)
-- Padding top/right/bottom uses normal spacing token
+- Padding top/bottom: 30px (creates space from header and bottom)
+- Content wrapper (.content) adds 20px left/right padding for actual page content
 
 ### Mobile/Tablet (≤1024px)
 
 ```css
 @media (max-width: 1024px) {
   .main-content {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 10px; /* Reduced from 20px */
+    margin-right: 10px; /* Reduced from 20px */
+  }
+  
+  .content {
+    padding: 0 10px; /* Reduced from 20px */
   }
 }
 ```
+
+**CRITICAL:**
+- 10px margins on both sides (sidebar is hidden at this breakpoint)
+- 10px content padding for tighter mobile layout
+- More horizontal space available since sidebar is gone
+
+### Complete Spacing Reference
+
+| Element | Property | Desktop >1024px | Tablet ≤1024px | Mobile ≤768px |
+|---------|----------|-----------------|----------------|---------------|
+| **Header** | height | 60px | 44px | 44px |
+| **Sidebar** | width | 75px | hidden | hidden |
+| **Main-content** | margin-left | 20px | 10px | 10px |
+| **Main-content** | margin-right | 20px | 10px | 10px |
+| **Main-content** | padding-top | 30px | 30px | 30px |
+| **Main-content** | padding-bottom | 30px | 30px | 30px |
+| **Main-content** | padding-left | 0 | 0 | 0 |
+| **Main-content** | padding-right | 0 | 0 | 0 |
+| **Container** | max-width | 1600px | 1600px | 1600px |
+| **Content** | padding-left | 20px | 10px | 10px |
+| **Content** | padding-right | 20px | 10px | 10px |
+| **Header (inner)** | padding | 24px 20px | 24px 20px | 16px 12px |
+
+### Spacing Visual (Mobile ≤1024px)
+
+```
+┌─────────────────────────────────────────┐
+│  HEADER (44px height)                   │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│ 10px margin-left →                      │
+│                                         │
+│  MAIN-CONTENT (full width)             │
+│  ┌───────────────────────────────────┐ │
+│  │ 30px top padding ↓                │ │
+│  │                                   │ │
+│  │  CONTAINER                        │ │
+│  │  ┌─────────────────────────────┐  │ │
+│  │  │ CONTENT (10px padding)      │  │ │
+│  │  │ ┌─────────────────────────┐ │  │ │
+│  │  │ │ Your cards, etc        │ │  │ │
+│  │  │ └─────────────────────────┘ │  │ │
+│  │  └─────────────────────────────┘  │ │
+│  │                                   │ │
+│  │ 30px bottom padding ↑             │ │
+│  └───────────────────────────────────┘ │
+│                      ← 10px margin-right│
+└─────────────────────────────────────────┘
+```
+
+**Note:** Sidebar is hidden, so full width is available for content. Compact navigation slides over content when hamburger menu is clicked.
+
+---
 
 **CRITICAL:**
 - 10px margins on both sides
