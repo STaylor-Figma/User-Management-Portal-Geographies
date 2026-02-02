@@ -293,7 +293,7 @@ body {
 .main-content { 
   margin-left: 95px; /* Sidebar 75px + 20px gap */
   margin-right: 20px;
-  padding: 0;
+  padding: var(--spacing-medium-900) var(--spacing-medium-900) var(--spacing-medium-900) 0;
 }
 
 @media (max-width: 1024px) {
