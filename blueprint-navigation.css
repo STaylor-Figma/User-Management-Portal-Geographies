@@ -14,11 +14,8 @@
    ============================================================================ */
 
 .sidebar-nav {
-  position: fixed;
-  left: 0;
-  top: 60px; /* Below 60px desktop header */
   width: 75px;
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
   background: #185a7d;
   display: flex;
   flex-direction: column;
