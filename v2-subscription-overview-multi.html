@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="blueprint-table-styles.css">
 <style>
 /* Page-specific subscription card grid styles */
-.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 0 20px 32px 20px; }
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
 .subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; transition: all 0.2s; }
 .subscription-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); transform: translateY(-2px); cursor: pointer; }
 .card-header { font-size: 16px; font-weight: 600; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
@@ -29,12 +29,12 @@
 .zones-label { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px; }
 .zone-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .zone-badge { padding: 4px 10px; background: #f0f0f0; border-radius: 12px; font-size: 12px; }
-.table-section { margin-top: 32px; background: #fff; border-radius: 8px; padding: 24px; }
+.table-section { margin-top: 32px; background: #fff; border-radius: 8px; padding: 24px; overflow-x: auto; }
 
 /* Tablet - Below 768px */
 @media (max-width: 768px) {
   /* Stack cards vertically */
-  .cards-grid { grid-template-columns: 1fr; margin: 0 10px 32px 10px; }
+  .cards-grid { grid-template-columns: 1fr; gap: 16px; }
   
   /* Hide username on smaller screens */
   .user-menu span { display: none; }
@@ -66,6 +66,7 @@
   /* Smaller zone badges */
   .zone-badge { font-size: 11px; padding: 3px 8px; }
 }
+</style>
 </style>
 </head>
 <body>

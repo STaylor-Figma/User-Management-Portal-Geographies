@@ -305,9 +305,11 @@ body {
 }
 
 .container { 
-  max-width: 1600px; 
+  max-width: 1600px;
+  width: 100%;
   margin: 0 auto; 
-  background: var(--neutral-0); 
+  background: var(--neutral-0);
+  overflow-x: hidden; 
   border-radius: var(--radius-md); 
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 20px;
