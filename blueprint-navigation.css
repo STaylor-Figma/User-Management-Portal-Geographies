@@ -17,8 +17,7 @@
   position: fixed;
   left: 0;
   top: 60px; /* Below 60px desktop header */
-  min-width: 75px;
-  max-width: 90px;
+  width: 75px;
   height: calc(100vh - 60px);
   background: #185a7d;
   display: flex;
@@ -43,8 +42,6 @@
 /* Sidebar Button */
 .sidebar-button {
   width: 75px;
-  min-width: 75px;
-  max-width: 90px;
   min-height: 48px;
   max-height: 60px;
   margin: 0 auto;
