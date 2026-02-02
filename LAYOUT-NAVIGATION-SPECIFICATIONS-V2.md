@@ -202,6 +202,75 @@ CD = User avatar
 
 ---
 
+## 1.4 Optional Element Toggles (v2.0)
+
+For one-off layouts or special cases, you can hide navigation or username by adding these classes to the `<body>` tag. **By default, all elements are visible.**
+
+### Hide Navigation (Sidebar + Compact Nav)
+
+Add `hide-navigation` class to `<body>` when you only need the header:
+
+```html
+<body class="hide-navigation">
+  <!-- Header only layout -->
+  <div class="top-bar">...</div>
+  
+  <div class="layout">
+    <div class="main-content">
+      <!-- Your content takes full width -->
+    </div>
+  </div>
+</body>
+```
+
+**When to use:**
+- Landing pages
+- Login/authentication flows
+- Print views
+- Full-screen content displays
+
+### Hide Username
+
+Add `hide-username` class to `<body>` to hide username text in header:
+
+```html
+<body class="hide-username">
+  <!-- Avatar shows, username text hidden -->
+  <div class="top-bar">...</div>
+  <!-- Rest of layout -->
+</body>
+```
+
+**When to use:**
+- Narrow viewports where space is critical
+- Simplified header layouts
+- Kiosk or public display modes
+
+### Combine Both Toggles
+
+```html
+<body class="hide-navigation hide-username">
+  <!-- Minimal header with logo/title and avatar only -->
+</body>
+```
+
+**CSS Implementation** (see Section 7.5 for complete code):
+```css
+/* Hide navigation when toggle is active */
+.hide-navigation .sidebar-nav,
+.hide-navigation .compact-nav,
+.hide-navigation .compact-overlay {
+  display: none !important;
+}
+
+/* Hide username text when toggle is active */
+.hide-username .user-menu span {
+  display: none !important;
+}
+```
+
+---
+
 ## 2. LAYOUT STRUCTURE
 
 ### HTML Structure
@@ -1448,6 +1517,68 @@ h1 {
 
 ---
 
+### 7.5. Optional Toggle Classes (v2.0)
+
+**Use these classes on the `<body>` tag to hide navigation or username. By default, all elements are visible.**
+
+```css
+/* ===== OPTIONAL TOGGLES (v2.0) ===== */
+
+/* Hide all navigation when not needed (header-only layouts) */
+.hide-navigation .sidebar-nav,
+.hide-navigation .compact-nav,
+.hide-navigation .compact-overlay {
+  display: none !important;
+}
+
+/* Hide username text in header */
+.hide-username .user-menu span {
+  display: none !important;
+}
+
+/* Optional: Adjust layout when navigation is hidden */
+.hide-navigation .layout {
+  /* Main content can use full width */
+}
+
+.hide-navigation .main-content {
+  /* No need for left margin when sidebar is hidden */
+  margin-left: 20px;
+}
+
+@media (max-width: 1024px) {
+  .hide-navigation .main-content {
+    margin-left: 10px;
+  }
+}
+```
+
+**Usage Examples:**
+
+```html
+<!-- Header-only layout (no navigation) -->
+<body class="hide-navigation">
+  <div class="top-bar">...</div>
+  <div class="layout">
+    <div class="main-content">
+      <!-- Content takes full width -->
+    </div>
+  </div>
+</body>
+
+<!-- Minimal header (no username) -->
+<body class="hide-username">
+  <!-- Navigation visible, username hidden -->
+</body>
+
+<!-- Both toggles combined -->
+<body class="hide-navigation hide-username">
+  <!-- Minimal layout: header + content only -->
+</body>
+```
+
+---
+
 ## 8. FONT AWESOME SETUP
 
 ### Required Kit
@@ -1491,7 +1622,7 @@ h1 {
 
 ---
 
-## 10. JAVASCRIPT REQUIREMENTS
+## 9. JAVASCRIPT REQUIREMENTS
 
 ### Toggle Mobile Navigation
 
@@ -1662,6 +1793,7 @@ All interactive elements MUST have visible focus states:
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
+| 2.0 | 2026-02-02 | Added header title variant (Section 1.2)<br>Added optional element toggles (Section 1.4, 7.5)<br>Added implementation decision guidance | Platform Team |
 | 1.0 | 2026-02-02 | Initial finalized specification | Platform Team |
 
 ---
