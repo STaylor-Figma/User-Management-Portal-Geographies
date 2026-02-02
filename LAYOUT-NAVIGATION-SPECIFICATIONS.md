@@ -695,9 +695,65 @@ Test each breakpoint to ensure layout behaves correctly:
 
 ## 7. COMPLETE CSS IMPLEMENTATION
 
-This section contains ALL the CSS code needed to implement the header, navigation, and layout. Copy this code into your project.
+This section contains ALL the CSS and JavaScript code needed to implement the header, navigation, and layout. Copy this code into your project.
 
-### 7.1. Header CSS (Complete)
+### 7.0. Font Awesome Setup (REQUIRED)
+
+**Add this script tag in your HTML `<head>` section BEFORE any CSS files:**
+
+```html
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+```
+
+**Font Awesome Version:** 6 Pro  
+**Icon Weight:** Light (`fa-light`)  
+**Kit ID:** 3d14c46c3e
+
+**Navigation Icons:**
+```html
+<i class="fa-light fa-building"></i>                  <!-- Company -->
+<i class="fa-light fa-users"></i>                     <!-- Users & Groups -->
+<i class="fa-light fa-users-gear"></i>                <!-- Roles -->
+<i class="fa-light fa-file-invoice"></i>              <!-- Subscriptions & Licenses -->
+<i class="fa-light fa-money-check-edit-alt"></i>      <!-- Billing -->
+```
+
+**CRITICAL:** You MUST use Font Awesome 6 Pro Light weight. Font Awesome 5 or different weights will not match the design specifications.
+
+---
+
+### 7.1. HTML Head Setup
+
+**Complete `<head>` section with correct load order:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Page Title</title>
+  
+  <!-- Font Awesome 6 Pro - LOAD FIRST -->
+  <script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts - Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Your CSS files -->
+  <link rel="stylesheet" href="your-styles.css">
+</head>
+<body>
+  <!-- Your content -->
+</body>
+</html>
+```
+
+---
+
+### 7.2. Header CSS (Complete)
 
 ```css
 /* ===== HEADER / TOP BAR ===== */
@@ -823,7 +879,7 @@ This section contains ALL the CSS code needed to implement the header, navigatio
 
 ---
 
-### 7.2. Navigation CSS (Complete)
+### 7.3. Navigation CSS (Complete)
 
 ```css
 /* ============================================================================
@@ -1010,7 +1066,7 @@ This section contains ALL the CSS code needed to implement the header, navigatio
 
 ---
 
-### 7.3. Layout CSS (Complete)
+### 7.4. Layout CSS (Complete)
 
 ```css
 /* ===== BASE BOX MODEL ===== */
