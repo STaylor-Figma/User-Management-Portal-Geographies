@@ -755,6 +755,18 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   border: none;
   border-right: 1px solid #185a7d;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hamburger-menu:hover {
+  background: #185A7D;
+}
+
+.hamburger-menu:focus {
+  outline: none;
+  background: var(--header-organism-background-default);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 0px 4px 0px #F2FAFE;
 }
 .menu-icon {
   width: 16px;

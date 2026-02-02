@@ -66,6 +66,11 @@ This document defines the complete specifications for the header, navigation, la
 - **Size:** 44px × 44px
 - **Padding:** 10px
 - **Align/Justify:** center
+- **Background default:** `#01304A`
+- **Background hover:** `#185A7D`
+- **Border right:** 1px solid `#185A7D`
+- **Border focus:** 1px solid `rgba(255,255,255,0.1)` (all sides)
+- **Box shadow focus:** `0px 0px 4px 0px #F2FAFE`
 
 #### Menu Icon Container
 - **Size:** 16px × 15px
@@ -969,6 +974,18 @@ This section contains ALL the CSS and JavaScript code needed to implement the he
   border: none;
   border-right: 1px solid #185a7d;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hamburger-menu:hover {
+  background: #185A7D;
+}
+
+.hamburger-menu:focus {
+  outline: none;
+  background: #01304A;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 0px 4px 0px #F2FAFE;
 }
 
 .menu-icon { 
