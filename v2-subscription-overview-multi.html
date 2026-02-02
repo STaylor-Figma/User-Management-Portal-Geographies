@@ -31,8 +31,40 @@
 .zone-badge { padding: 4px 10px; background: #f0f0f0; border-radius: 12px; font-size: 12px; }
 .table-section { margin-top: 32px; background: #fff; border-radius: 8px; padding: 24px; }
 
+/* Tablet - Below 768px */
 @media (max-width: 768px) {
+  /* Stack cards vertically */
   .cards-grid { grid-template-columns: 1fr; margin: 0 10px 32px 10px; }
+  
+  /* Hide username on smaller screens */
+  .user-menu span { display: none; }
+  
+  /* Make table scrollable */
+  .table-section { padding: 12px; overflow-x: auto; }
+  .data-table { min-width: 800px; }
+  
+  /* Stack tabs if present */
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 12px; }
+}
+
+/* Mobile - Below 600px */
+@media (max-width: 600px) {
+  /* Further reduce table padding */
+  .table-section { padding: 8px; }
+  
+  /* Adjust card content */
+  .subscription-card { padding: 12px; }
+  .card-header { font-size: 14px; }
+  
+  /* Smaller alerts */
+  .alert { font-size: 12px; padding: 8px 10px; }
+  
+  /* Smaller seat rows */
+  .seat-row { font-size: 12px; }
+  
+  /* Smaller zone badges */
+  .zone-badge { font-size: 11px; padding: 3px 8px; }
 }
 </style>
 </head>

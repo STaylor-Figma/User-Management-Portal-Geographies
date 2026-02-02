@@ -1,0 +1,635 @@
+# Platform Services Portal - Layout & Navigation Specifications
+
+**Version:** 1.0  
+**Date:** February 2, 2026  
+**Status:** FINALIZED - Do not modify without approval
+
+---
+
+## Overview
+
+This document defines the complete specifications for the header, navigation, layout, and content spacing for Platform Services portals. These specifications are MANDATORY and must be followed exactly to avoid implementation issues.
+
+---
+
+## 1. HEADER (Top Bar)
+
+### Desktop (>1024px)
+- **Height:** 60px
+- **Background:** `#01304A` (var(--header-organism-background-default))
+- **Display:** flex
+- **Align items:** center
+- **Justify content:** flex-start (NOT space-between)
+
+### Mobile/Tablet (≤1024px)
+- **Height:** 44px
+- **All other properties:** Same as desktop
+
+### Header Structure
+
+```html
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+```
+
+### Header Components
+
+#### Logo
+- **Font family:** Montserrat
+- **Font size:** 16px (var(--font-size-400))
+- **Font weight:** 600 (SemiBold)
+- **Color:** `#FFFFFF` (var(--neutral-0))
+- **Padding desktop:** 10px 10px 10px 20px
+- **Padding mobile (≤1024px):** 10px (when hamburger visible)
+- **White-space:** nowrap
+- **Flex-shrink:** 0
+
+#### Hamburger Menu
+- **Display desktop:** none
+- **Display mobile (≤1024px):** flex
+- **Size:** 44px × 44px
+- **Padding:** 10px
+- **Align/Justify:** center
+
+#### Menu Icon Container
+- **Size:** 16px × 15px
+- **Display:** flex
+- **Flex direction:** column
+- **Justify content:** space-between
+
+#### Menu Icon Bars
+- **Width:** 16px
+- **Height:** 3px
+- **Border radius:** 4px
+- **Background:** `#FFFFFF`
+- **Spacing:** flex space-between in 15px container
+
+#### Avatar
+- **Size:** 34px × 34px (NOT 40px)
+- **Border radius:** 50%
+- **Background:** `#0C79A8`
+- **Color:** `#FFFFFF`
+- **Font:** Montserrat, 14px, 600 weight
+- **Display:** flex, center aligned
+
+#### User Menu
+- **Display:** flex
+- **Gap:** 10px (NOT 16px)
+- **Align items:** center
+
+#### Username
+- **Font:** Montserrat, 14px, 500 weight
+- **Color:** `#FFFFFF`
+- **White-space:** nowrap
+- **Display mobile (≤600px):** none
+
+---
+
+## 2. LAYOUT STRUCTURE
+
+### HTML Structure
+
+```html
+<body>
+  <!-- Header -->
+  <div class="top-bar">...</div>
+  
+  <!-- Compact Navigation (Mobile) -->
+  <div class="compact-overlay"></div>
+  <nav class="compact-nav">...</nav>
+  
+  <!-- Layout Container -->
+  <div class="layout">
+    <!-- Sidebar Navigation (Desktop) -->
+    <nav class="sidebar-nav">...</nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="container">
+        <!-- Page content here -->
+      </div>
+    </div>
+  </div>
+</body>
+```
+
+### Layout Container
+
+```css
+.layout {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+```
+
+**CRITICAL:** 
+- Layout uses `flex` display
+- Sidebar and main-content are flex children (side by side)
+- Sidebar is NOT fixed or sticky - it scrolls with the page
+- Min-height accounts for 60px header
+
+---
+
+## 3. SIDEBAR NAVIGATION (Desktop >1024px)
+
+### Container Specifications
+
+```css
+.sidebar-nav {
+  width: 75px;
+  min-height: calc(100vh - 60px);
+  background: #185a7d;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+  z-index: 100;
+}
+```
+
+**CRITICAL:**
+- NO `position: fixed` - sidebar scrolls with page
+- NO `position: sticky`
+- Width is fixed at 75px
+- Uses flex column for vertical button stacking
+
+### Visibility
+- **Desktop (>1024px):** Visible
+- **Mobile/Tablet (≤1024px):** `display: none !important`
+
+### Button Specifications
+
+```css
+.sidebar-button {
+  width: 75px;
+  min-height: 48px;
+  max-height: 60px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* VERTICAL layout */
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+```
+
+### Button Structure
+
+```html
+<button class="sidebar-button selected">
+  <i class="sidebar-button__icon fa-light fa-building"></i>
+  <span class="sidebar-button__label">Company</span>
+</button>
+```
+
+### Icon Specifications
+- **Size:** 24px × 24px
+- **Font Awesome:** fa-light (Light weight)
+- **Color default:** `#CCECF9`
+- **Color selected:** `#FFFFFF`
+
+### Label Specifications
+- **Font family:** Montserrat
+- **Font size:** 11px
+- **Font weight:** 600
+- **Line height:** 12px
+- **Color default:** `#CCECF9`
+- **Color selected:** `#FFFFFF`
+- **Text align:** center
+- **Max lines:** 2 (uses -webkit-line-clamp)
+- **Line breaks:** Allowed (use `<br>` for intentional breaks)
+
+### Button States
+
+#### Hover
+```css
+background: rgba(1, 48, 74, 0.35);
+border-left-color: #0c79a8;
+```
+
+#### Selected
+```css
+background: rgba(1, 48, 74, 0.6);
+border-left-color: #00a1e0;
+icon/label color: #ffffff;
+```
+
+#### Focus
+```css
+outline: none;
+border: 1px solid rgba(255, 255, 255, 0.1);
+box-shadow: inset 0 0 4px 0 #f2fafe;
+```
+
+---
+
+## 4. COMPACT NAVIGATION (Mobile/Tablet ≤1024px)
+
+### Container Specifications
+
+```css
+.compact-nav {
+  display: none; /* Hidden by default */
+  position: fixed;
+  left: 0;
+  top: 44px;
+  width: 320px;
+  max-width: 320px;
+  height: calc(100vh - 44px);
+  background: #185a7d;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+  z-index: 3000;
+  overflow-y: auto;
+}
+
+.compact-nav.open {
+  display: flex;
+}
+```
+
+### Visibility
+- **Desktop (>1024px):** `display: none !important`
+- **Mobile/Tablet (≤1024px):** Shown when `.open` class added (hamburger clicked)
+
+### Overlay
+
+```css
+.compact-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2999;
+}
+
+.compact-overlay.open {
+  display: block;
+}
+```
+
+### Button Specifications
+
+```css
+.compact-button {
+  width: 100%; /* FULL WIDTH - REQUIRED */
+  min-height: 44px;
+  display: flex;
+  flex-direction: row; /* HORIZONTAL layout */
+  align-items: center;
+  gap: 14px;
+  padding: 4px 10px 4px 20px;
+  background: transparent;
+  border: none;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  text-align: left;
+}
+```
+
+### Button Structure
+
+```html
+<button class="compact-button selected">
+  <i class="compact-button__icon fa-light fa-building"></i>
+  <span class="compact-button__label">Company</span>
+</button>
+```
+
+### Icon Specifications
+- **Size:** 24px × 24px
+- **Font Awesome:** fa-light (Light weight)
+- **Color default:** `#CCECF9`
+- **Color selected:** `#FFFFFF`
+- **Flex-shrink:** 0
+
+### Label Specifications
+- **Font family:** Montserrat
+- **Font size:** 18px
+- **Font weight:** 600
+- **Line height:** 12px
+- **Color default:** `#CCECF9`
+- **Color selected:** `#FFFFFF`
+- **White-space:** nowrap (1 LINE ONLY - NO WRAPPING)
+
+### Button States
+- Same hover/selected/focus states as sidebar buttons
+- All colors match sidebar
+
+---
+
+## 5. MAIN CONTENT SPACING
+
+### Desktop (>1024px)
+
+```css
+.main-content {
+  flex: 1;
+  margin-left: 20px; /* Gap from sidebar */
+  margin-right: 20px;
+  padding: var(--spacing-medium-900) var(--spacing-medium-900) var(--spacing-medium-900) 0;
+}
+```
+
+**CRITICAL:**
+- Margin-left 20px creates gap from 75px sidebar
+- Padding-left is 0 (no extra padding next to sidebar)
+- Padding top/right/bottom uses normal spacing token
+
+### Mobile/Tablet (≤1024px)
+
+```css
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+```
+
+**CRITICAL:**
+- 10px margins on both sides
+- Sidebar is hidden, so no sidebar gap needed
+
+---
+
+## 6. RESPONSIVE BREAKPOINTS
+
+### Breakpoint Definitions
+
+| Breakpoint | Width | Description |
+|------------|-------|-------------|
+| Mobile | 375px | Smallest mobile devices |
+| Tablet Small | 600px | Small tablets, large phones |
+| Tablet Portrait | 768px | Standard tablet portrait |
+| Tablet Landscape | 1024px | Tablet landscape, small laptops |
+| Desktop | 1440px+ | Desktop screens |
+
+### Key Breakpoint: 1024px
+
+At this breakpoint, the following changes occur:
+
+#### Show/Hide Elements
+- **Sidebar navigation:** Hide (`display: none`)
+- **Compact navigation:** Show (when hamburger clicked)
+- **Hamburger menu:** Show (`display: flex`)
+- **Header height:** Change from 60px to 44px
+- **Logo padding:** Change from 20px left to 10px left
+- **Username:** Hide at ≤600px
+
+#### Content Spacing
+- **Main-content margin:** Change from 20px to 10px (left/right)
+
+---
+
+## 7. FONT AWESOME SETUP
+
+### Required Kit
+
+```html
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+```
+
+**Version:** Font Awesome 6 Pro  
+**Weight used:** Light (`fa-light`)
+
+### Icon Classes
+
+```html
+<i class="fa-light fa-building"></i>         <!-- Company -->
+<i class="fa-light fa-users"></i>            <!-- Users & Groups -->
+<i class="fa-light fa-users-gear"></i>       <!-- Roles -->
+<i class="fa-light fa-file-invoice"></i>     <!-- Subs & Licenses -->
+<i class="fa-light fa-money-check-edit-alt"></i> <!-- Billing -->
+```
+
+---
+
+## 8. CSS FILE STRUCTURE
+
+### Required Files
+1. `blueprint-workflow-styles.css` - Main layout and content styles
+2. `blueprint-navigation.css` - Navigation-specific styles
+
+### Load Order
+
+```html
+<head>
+  <script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="blueprint-workflow-styles.css">
+  <link rel="stylesheet" href="blueprint-navigation.css">
+</head>
+```
+
+---
+
+## 9. JAVASCRIPT REQUIREMENTS
+
+### Toggle Mobile Navigation
+
+```javascript
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+```
+
+### Hamburger Click Handler
+
+```html
+<button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+```
+
+### Overlay Click Handler
+
+```html
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+```
+
+---
+
+## 10. ACCESSIBILITY REQUIREMENTS
+
+### ARIA Attributes
+
+| Element | Attribute | Value | Purpose |
+|---------|-----------|-------|---------|
+| `<nav>` | `aria-label` | "Main navigation" | Identifies nav landmark |
+| Hamburger button | `aria-label` | "Toggle navigation" | Describes button purpose |
+| Buttons with submenus | `aria-haspopup` | "true" | Indicates submenu exists |
+| Buttons with submenus | `aria-expanded` | "true/false" | Indicates submenu state |
+
+### Focus States
+
+All interactive elements MUST have visible focus states:
+- Buttons: `border: 1px solid rgba(255,255,255,0.1)` + `box-shadow: inset 0 0 4px 0 #f2fafe`
+- Links: Same as buttons
+
+### Keyboard Navigation
+- Tab: Move between interactive elements
+- Enter/Space: Activate buttons
+- Escape: Close mobile navigation
+
+---
+
+## 11. COMMON MISTAKES TO AVOID
+
+### ❌ DO NOT
+1. Make sidebar `position: fixed` or `position: sticky`
+2. Make sidebar buttons horizontal layout
+3. Make compact buttons vertical layout
+4. Allow compact button labels to wrap
+5. Use wrong breakpoint for showing/hiding navigation
+6. Add padding-left to main-content (uses margin-left instead)
+7. Use Font Awesome 5 (must use FA6)
+8. Use emoji icons instead of Font Awesome
+9. Set avatar to 40px (must be 34px)
+10. Set user menu gap to 16px (must be 10px)
+
+### ✅ DO
+1. Let sidebar scroll with page content
+2. Use flex layout for sidebar and content
+3. Maintain exact 20px gap from sidebar to content on desktop
+4. Maintain exact 10px margins on mobile/tablet
+5. Keep sidebar width at exactly 75px
+6. Use fa-light for all icons
+7. Test at all breakpoints (375px, 600px, 768px, 1024px, 1440px)
+8. Verify hamburger menu toggles compact nav
+9. Verify compact nav overlay blocks page clicks
+10. Test keyboard navigation and focus states
+
+---
+
+## 12. TESTING CHECKLIST
+
+### Desktop (>1024px)
+- [ ] Header is 60px height
+- [ ] Sidebar is visible and 75px wide
+- [ ] Sidebar scrolls with page content (not fixed)
+- [ ] Compact navigation is hidden
+- [ ] Hamburger menu is hidden
+- [ ] Content has 20px margin-left from sidebar
+- [ ] Content has 20px margin-right
+- [ ] Logo has 20px left padding
+- [ ] Avatar is 34px × 34px
+- [ ] User menu gap is 10px
+- [ ] Username is visible
+
+### Tablet/Mobile (≤1024px)
+- [ ] Header is 44px height
+- [ ] Sidebar is hidden
+- [ ] Hamburger menu is visible
+- [ ] Compact navigation opens when hamburger clicked
+- [ ] Compact navigation is 320px wide
+- [ ] Overlay appears when compact nav open
+- [ ] Clicking overlay closes compact nav
+- [ ] Content has 10px margin-left
+- [ ] Content has 10px margin-right
+- [ ] Logo has 10px left padding
+- [ ] Username is hidden (≤600px)
+
+### All Breakpoints
+- [ ] All icons are Font Awesome Light (fa-light)
+- [ ] Sidebar buttons are vertical (icon top, label bottom)
+- [ ] Compact buttons are horizontal (icon left, label right)
+- [ ] Hover states work on all buttons
+- [ ] Focus states are visible on all interactive elements
+- [ ] Selected state shows correctly
+- [ ] No horizontal scrollbar appears
+- [ ] Page content is fully accessible
+
+---
+
+## 13. REFERENCE VALUES
+
+### Colors
+```css
+--header-background: #01304A
+--sidebar-background: #185a7d
+--icon-default: #CCECF9
+--icon-selected: #FFFFFF
+--button-hover-bg: rgba(1, 48, 74, 0.35)
+--button-selected-bg: rgba(1, 48, 74, 0.6)
+--border-hover: #0C79A8
+--border-selected: #00A1E0
+--overlay-bg: rgba(0, 0, 0, 0.5)
+```
+
+### Spacing
+```css
+--header-height-desktop: 60px
+--header-height-mobile: 44px
+--sidebar-width: 75px
+--compact-width: 320px
+--content-gap-desktop: 20px
+--content-gap-mobile: 10px
+--avatar-size: 34px
+--user-menu-gap: 10px
+--logo-padding-desktop: 20px
+--logo-padding-mobile: 10px
+--sidebar-gap: 10px
+--compact-gap: 10px
+```
+
+### Typography
+```css
+--font-family: 'Montserrat', sans-serif
+--sidebar-label-size: 11px
+--sidebar-label-weight: 600
+--sidebar-label-line-height: 12px
+--compact-label-size: 18px
+--compact-label-weight: 600
+--compact-label-line-height: 12px
+--icon-size: 24px
+```
+
+---
+
+## VERSION HISTORY
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0 | 2026-02-02 | Initial finalized specification | Platform Team |
+
+---
+
+## NOTES
+
+This specification document captures the finalized implementation after extensive testing and refinement. All values have been validated and should not be changed without thorough testing and approval.
+
+For questions or clarification, contact the Platform Team.
+
+---
+
+**END OF SPECIFICATION**
