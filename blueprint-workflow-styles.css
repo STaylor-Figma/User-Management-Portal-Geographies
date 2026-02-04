@@ -373,45 +373,12 @@ h1 {
 
 /* Tooltip (Blueprint Component) */
 .icon-btn .tooltip {
-  display: block !important;
-  position: absolute !important;
-  bottom: 100% !important;
-  top: auto !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  background: #4a4f55 !important;
-  color: white !important;
-  padding: 8px !important;
-  border-radius: 4px !important;
-  font-family: 'Montserrat', sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 14px !important;
-  white-space: nowrap !important;
-  width: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-  box-shadow: none !important;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-  z-index: 1000;
-  pointer-events: none;
+  /* Inherits from generic .tooltip class */
 }
 
 /* Tooltip pointer (bottom pointing up to button) */
 .icon-btn .tooltip::after {
-  content: '' !important;
-  position: absolute !important;
-  top: 100% !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 0 !important;
-  height: 0 !important;
-  border-left: 7.5px solid transparent !important;
-  border-right: 7.5px solid transparent !important;
-  border-top: 7.5px solid #4a4f55 !important;
-  border-bottom: none !important;
+  /* Inherits from generic .tooltip::after */
 }
 
 .icon-btn:hover .tooltip {
@@ -701,35 +668,45 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   cursor: help; 
   position: relative; 
 }
-.info-icon:hover .tooltip { display: block; }
-.tooltip { 
-  display: none; 
-  position: absolute; 
-  bottom: auto; 
-  top: 50%; 
-  left: 30px; 
-  transform: translateY(-50%); 
-  background: var(--neutral-600); 
-  color: var(--neutral-0); 
-  padding: var(--spacing-micro-200) var(--spacing-small-300); 
-  border-radius: var(--radius-sm); 
-  font-size: var(--font-size-100); 
-  white-space: normal; 
-  width: 280px; 
-  max-height: 50px; 
-  overflow: hidden; 
-  z-index: 100; 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3); 
-  line-height: var(--line-height-relaxed); 
+.info-icon:hover .tooltip { 
+  opacity: 1;
+  visibility: visible;
 }
+
+/* Generic Tooltip - Blueprint Component */
+.tooltip { 
+  display: block;
+  position: absolute; 
+  bottom: 100%;
+  left: 50%; 
+  transform: translateX(-50%);
+  background: #4a4f55;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
 .tooltip::after { 
   content: ''; 
   position: absolute; 
-  top: 50%; 
-  left: -6px; 
-  transform: translateY(-50%); 
-  border: 6px solid transparent; 
-  border-right-color: var(--neutral-600); 
+  top: 100%;
+  left: 50%; 
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7.5px solid transparent;
+  border-right: 7.5px solid transparent;
+  border-top: 7.5px solid #4a4f55;
 }
 .seat-bar { 
   width: 100%; 
