@@ -67,12 +67,12 @@
 
 /* User Name Column */
 .user-name-cell { width: 192px; }
-.user-name { display: flex; align-items: center; gap: 8px; }
-.user-link { color: #185a7d; text-decoration: underline; text-decoration-style: solid; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Montserrat', sans-serif; line-height: 18px; }
+.user-name { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.user-link { color: #185a7d; text-decoration: underline; text-decoration-style: solid; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Montserrat', sans-serif; line-height: 18px; white-space: nowrap; }
 .user-link:hover { text-decoration: underline; }
-.role-badge { display: inline-flex; padding: 4px 8px; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; line-height: 14px; }
+.role-badge { display: inline-flex; padding: 4px 8px; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; line-height: 14px; flex-shrink: 0; }
 .role-badge.owner { background: #01304a; }
-.role-badge.admin { background: #4a4f55; }
+.role-badge.admin { background: #88888e; }
 
 /* Access Badge */
 .access-badge { display: inline-flex; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; line-height: 14px; }
