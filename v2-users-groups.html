@@ -22,30 +22,29 @@
   margin-bottom: 24px; 
 }
 .tab { 
-  padding: 12px 0; 
+  padding: 10px 2px; 
   cursor: pointer; 
   position: relative; 
   display: flex; 
   align-items: center; 
-  gap: 8px;
+  gap: 6px;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: #1c1f22;
   background: none;
   border: none;
+  border-bottom: 4px solid transparent;
+}
+.tab:hover { 
+  color: #00a1e0; 
 }
 .tab.active { 
   font-weight: 700; 
+  border-bottom: 4px solid #1c1f22;
 }
-.tab.active::after { 
-  content: ''; 
-  position: absolute; 
-  bottom: -2px; 
-  left: 0; 
-  right: 0; 
-  height: 4px; 
-  background: #1c1f22; 
+.tab.active:hover { 
+  color: #00a1e0; 
 }
 .tab-count { 
   background: #e7e6e5; 
@@ -55,6 +54,12 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 12px; 
   font-weight: 600; 
+  line-height: 14px;
+  min-width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Action Bar */
