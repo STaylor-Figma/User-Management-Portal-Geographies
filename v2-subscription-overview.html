@@ -401,18 +401,22 @@
           <!-- Table Controls -->
           <div class="table-controls">
             <div class="filters">
-              <button class="filter-btn">
-                Show All Subscriptions
-                <span>▼</span>
-              </button>
-              <button class="filter-btn">
-                Show All Roles
-                <span>▼</span>
-              </button>
-              <button class="filter-btn">
-                Show All Groups
-                <span>▼</span>
-              </button>
+              <select class="filter-btn" id="subscriptionFilter" onchange="filterTable()">
+                <option value="">Show All Subscriptions</option>
+                <option value="Full Access">Full Access</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+              <select class="filter-btn" id="roleFilter" onchange="filterTable()">
+                <option value="">Show All Roles</option>
+                <option value="BM - Admin">BM - Admin</option>
+                <option value="BM - Team Member">BM - Team Member</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+              <select class="filter-btn" id="groupFilter" onchange="filterTable()">
+                <option value="">Show All Groups</option>
+                <option value="Estimator">Estimator</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
             </div>
             <button class="search-btn">🔍</button>
           </div>
@@ -655,6 +659,32 @@ function closeUserProfileDrawer() {
   document.getElementById('userProfileDrawer').classList.remove('show');
   document.getElementById('userProfileOverlay').classList.remove('show');
   document.body.style.overflow = 'auto';
+}
+
+// Table filtering
+function filterTable() {
+  const subscriptionFilter = document.getElementById('subscriptionFilter').value;
+  const roleFilter = document.getElementById('roleFilter').value;
+  const groupFilter = document.getElementById('groupFilter').value;
+  
+  const rows = document.querySelectorAll('.user-table tbody tr');
+  
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const subscriptionText = cells[1]?.textContent.trim() || '';
+    const roleText = cells[2]?.textContent.trim() || '';
+    const groupText = cells[3]?.textContent.trim().split(/\d+/)[0].trim() || '';
+    
+    const subscriptionMatch = !subscriptionFilter || subscriptionText.includes(subscriptionFilter);
+    const roleMatch = !roleFilter || roleText.includes(roleFilter);
+    const groupMatch = !groupFilter || groupText.includes(groupFilter);
+    
+    if (subscriptionMatch && roleMatch && groupMatch) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
 }
 </script>
 
