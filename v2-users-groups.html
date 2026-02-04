@@ -22,44 +22,59 @@
   margin-bottom: 24px; 
 }
 .tab { 
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 10px 2px; 
   cursor: pointer; 
-  position: relative; 
-  display: flex; 
-  align-items: center; 
-  gap: 6px;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: #1c1f22;
-  background: none;
+  line-height: 16px;
+  color: #4a4f55;
+  background: transparent;
   border: none;
   border-bottom: 4px solid transparent;
+  border-radius: 4px;
 }
 .tab:hover { 
-  color: #00a1e0; 
+  color: #0c79a8; 
+}
+.tab:hover .tab-count {
+  background: #dad8d7;
 }
 .tab.active { 
   font-weight: 700; 
-  border-bottom: 4px solid #1c1f22;
+  border-bottom: 4px solid #4a4f55;
 }
 .tab.active:hover { 
-  color: #00a1e0; 
+  color: #0c79a8; 
+}
+.tab:focus-visible {
+  outline: 2px solid #f2fafe;
+  box-shadow: 0 0 4px 2px #949494;
 }
 .tab-count { 
-  background: #e7e6e5; 
-  color: #1c1f22; 
-  border-radius: 30px; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 2px 6px; 
+  border-radius: 30px; 
   font-family: 'Montserrat', sans-serif;
   font-size: 12px; 
   font-weight: 600; 
   line-height: 14px;
+  background: #e7e6e5;
+  color: #4a4f55;
   min-width: 20px;
   height: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+}
+.tab.active .tab-count {
+  background: #0c79a8;
+  color: #ffffff;
+}
+.tab.active:hover .tab-count {
+  background: #0c79a8;
 }
 
 /* Action Bar */
