@@ -373,6 +373,7 @@ h1 {
 
 /* Tooltip (Blueprint Component) */
 .icon-btn .tooltip {
+  display: block;
   position: absolute;
   bottom: 100%;
   left: 50%;
