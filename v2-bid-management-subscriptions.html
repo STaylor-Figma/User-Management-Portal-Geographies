@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bid Management - Subscriptions & Licenses</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="blueprint-workflow-styles.css">
+<link rel="stylesheet" href="blueprint-navigation.css">
+<style>
+/* Page-specific overrides for Blueprint Design System */
+
+/* Content Area */
+.content { padding: 0 20px; }
+
+/* Tabs - Matches Figma exactly */
+.tabs { display: flex; gap: 20px; border-bottom: 2px solid #dad8d7; margin-bottom: 20px; overflow: clip; padding-right: 10px; }
+.tab { padding: 10px 2px; font-size: 14px; font-weight: 500; font-family: 'Montserrat', sans-serif; color: #1c1f22; background: none; border: none; border-bottom: 4px solid transparent; cursor: pointer; transition: none; line-height: 16px; }
+.tab:hover { color: #1c1f22; }
+.tab.active { font-weight: 700; border-bottom-color: #1c1f22; color: #1c1f22; font-family: 'Montserrat', sans-serif; }
+
+/* Subscription Capacity Bar */
+.capacity-section { display: flex; align-items: center; padding-right: 10px; flex-shrink: 0; width: 312px; }
+.capacity-container { display: flex; flex-direction: column; width: 100%; }
+.capacity-header { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 5px; font-size: 12px; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1c1f22; line-height: 14px; }
+.capacity-used { text-align: right; width: 80px; }
+.capacity-bar { width: 100%; height: 20px; background: #feffff; border: 1px solid #dad8d7; border-radius: 15px; padding: 4px; position: relative; }
+.capacity-fill { height: 100%; background: #00a1e0; border-radius: 100px; transition: width 0.3s ease; }
+
+/* Table Controls - Matches Figma exactly */
+.table-controls { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; }
+.table-controls-left { display: flex; flex: 1; gap: 10px; align-items: flex-start; min-height: 1px; min-width: 1px; }
+.filters { display: flex; gap: 10px; align-items: center; }
+.filter-btn { padding: 8px; border: 1px solid #4a4f55; background: transparent; border-radius: 4px; font-size: 14px; font-weight: 500; font-family: 'Montserrat', sans-serif; color: #4a4f55; cursor: pointer; display: flex; flex-direction: column; gap: 3px; align-items: flex-start; height: 32px; justify-content: center; position: relative; }
+.filter-btn::before { content: ''; position: absolute; inset: -1px; opacity: 0.1; }
+.filter-btn-content { display: flex; gap: 6px; align-items: center; height: 16px; }
+.filter-btn:hover { background: rgba(74, 79, 85, 0.05); }
+.filter-btn i { font-size: 14px; line-height: 16px; }
+.table-controls-right { display: flex; gap: 6px; align-items: flex-start; justify-content: flex-end; }
+.search-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: 9999px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; padding: 3px; }
+.search-btn:hover { background: #f0f0f0; }
+
+/* Primary and Secondary Buttons */
+.btn-primary { background: #0c79a8; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 14px; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; height: 32px; line-height: 16px; }
+.btn-primary:hover { background: #095f88; }
+.btn-primary:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-secondary { background: white; color: #0c79a8; border: 2px solid #0c79a8; padding: 8px; border-radius: 4px; font-size: 14px; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; height: 32px; line-height: 16px; }
+.btn-secondary:hover { background: #f0f8fc; }
+.btn-secondary:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-default { background: #e7e6e5; color: #4a4f55; border: none; padding: 8px; border-radius: 4px; font-size: 14px; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; height: 32px; line-height: 16px; }
+.btn-default:hover { background: #d0cfce; }
+
+/* BM Table - Matches Figma exactly */
+.bm-table { width: 100%; border-collapse: collapse; background: #fff; }
+.bm-table thead { background: #fff; position: sticky; top: 0; }
+.bm-table thead tr { height: 40px; background: #fff; }
+.bm-table th { text-align: left; padding: 10px; font-size: 12px; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #4a4f55; line-height: 12px; position: relative; }
+.bm-table thead tr::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0px -2px 0px 0px #4a4f55; }
+.bm-table tbody tr { background: #fff; position: relative; }
+.bm-table td { padding: 10px; font-size: 14px; font-family: 'Montserrat', sans-serif; font-weight: 500; color: #4a4f55; line-height: 16px; vertical-align: top; }
+.bm-table tbody tr::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0px -1px 0px 0px #dad8d7; }
+.bm-table tbody tr:hover { background: #f9f9f9; }
+
+/* Checkbox Column */
+.checkbox-cell { width: 34px; padding: 2px 10px !important; }
+.checkbox { width: 16px; height: 16px; cursor: pointer; }
+
+/* User Name Column */
+.user-name-cell { width: 192px; }
+.user-name { display: flex; align-items: center; gap: 8px; }
+.user-link { color: #185a7d; text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Montserrat', sans-serif; line-height: 16px; }
+.user-link:hover { text-decoration: underline; }
+.role-badge { display: inline-flex; padding: 4px 8px; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; line-height: 14px; }
+.role-badge.owner { background: #01304a; }
+.role-badge.admin { background: #4a4f55; }
+
+/* Access Badge */
+.access-badge { display: inline-flex; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; line-height: 14px; }
+.access-badge.bm { background: #00a1e0; color: white; }
+.access-badge.requested { background: #4a4f55; color: white; }
+.access-badge.na { background: transparent; color: #4a4f55; font-weight: 500; }
+
+/* Status Badge */
+.status-badge { display: inline-flex; padding: 4px 8px; border: 1px solid; border-radius: 4px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; line-height: 14px; }
+.status-badge.active { border-color: #00a651; color: #00a651; background: transparent; }
+.status-badge.inactive { background: #f5a623; color: #1c1f22; border: none; }
+.status-badge.na { background: transparent; color: #4a4f55; border: none; font-weight: 500; }
+
+/* Toggle Switch - Blueprint Design System */
+.toggle-switch { position: relative; display: inline-block; width: 54px; height: 32px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #dad8d7; border-radius: 9999px; transition: 0.2s ease-in-out; padding: 2px; }
+.toggle-slider:before { position: absolute; content: ""; height: 28px; width: 28px; left: 2px; bottom: 2px; background-color: white; border-radius: 50%; transition: 0.2s ease-in-out; }
+.toggle-switch input:checked + .toggle-slider { background-color: #00a1e0; }
+.toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
+.toggle-switch input:disabled + .toggle-slider { opacity: 0.3; cursor: not-allowed; }
+.toggle-slider:hover { background-color: #88888e; }
+.toggle-switch input:checked + .toggle-slider:hover { background-color: #185a7d; }
+
+/* Table Footer */
+.table-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid #dad8d7; margin-top: 8px; }
+.results-count { font-size: 14px; color: #4a4f55; display: flex; align-items: center; gap: 5px; font-family: 'Gotham', sans-serif; }
+.results-count strong { font-weight: 700; }
+.pagination-controls { display: flex; gap: 20px; align-items: center; }
+.rows-per-page { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #4a4f55; font-family: 'Gotham', sans-serif; }
+.rows-select { padding: 7px 10px; border: 1px solid #dad8d7; border-radius: 4px; font-size: 14px; color: #88888e; font-style: italic; font-family: 'Gotham', sans-serif; background: #fff; width: 112px; }
+.page-nav { display: flex; align-items: center; gap: 6px; }
+.page-info { font-size: 14px; color: #4a4f55; font-family: 'Gotham', sans-serif; }
+.page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 18px; color: #4a4f55; border-radius: 50%; padding: 10px; display: flex; align-items: center; justify-content: center; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-btn:not(:disabled):hover { background: #f0f0f0; }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">CC</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item">
+        <i class="fa-light fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-light fa-users"></i>
+        <span>My People</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-light fa-user-tie"></i>
+        <span>Company</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-light fa-address-card"></i>
+        <span>Users</span>
+      </a>
+      <a href="#" class="nav-item active">
+        <i class="fa-light fa-credit-card"></i>
+        <span>Billing</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Subscriptions & Licenses</h1>
+      <div class="header-actions">
+        <button class="icon-btn"><i class="fa-regular fa-user"></i></button>
+        <button class="icon-btn"><i class="fa-regular fa-rotate"></i></button>
+        <button class="icon-btn"><i class="fa-regular fa-ellipsis-h"></i></button>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab">Organization Overview</button>
+        <button class="tab">Project Intelligence</button>
+        <button class="tab active">Bid Management</button>
+        <button class="tab">Takeoff & Estimating</button>
+        <button class="tab">API Apps</button>
+      </div>
+
+      <!-- Page Content -->
+      <div class="page-content">
+        <!-- Table Controls -->
+        <div class="table-controls">
+          <div class="table-controls-left">
+            <!-- Subscription Capacity Bar -->
+            <div class="capacity-section">
+              <div class="capacity-container">
+                <div class="capacity-header">
+                  <span>Bid Management Seats</span>
+                  <span class="capacity-used">4/20 Used</span>
+                </div>
+                <div class="capacity-bar">
+                  <div class="capacity-fill" style="width: 20%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="filters">
+              <button class="btn-primary" id="authorizeBtn" disabled>Authorize</button>
+              <button class="btn-secondary" id="deauthorizeBtn" disabled>Deauthorize</button>
+              <button class="filter-btn">
+                <div class="filter-btn-content">
+                  <span>All Bid Management Roles</span>
+                  <i class="fa-regular fa-chevron-down"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-controls-right">
+            <button class="search-btn">
+              <i class="fa-regular fa-search"></i>
+            </button>
+            <button class="btn-default">Subscription Details</button>
+          </div>
+        </div>
+
+        <!-- User Assignment Table -->
+        <div class="table-container">
+          <table class="bm-table">
+            <thead>
+              <tr>
+                <th class="checkbox-cell"><input type="checkbox" class="checkbox" id="selectAll"></th>
+                <th class="user-name-cell">User Name</th>
+                <th>Bid Management Role</th>
+                <th>Access</th>
+                <th>User Status</th>
+                <th>Authorized</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1: Malcom Reynolds - OWNER, No BM Access -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Malcom Reynolds</a>
+                    <span class="role-badge owner">OWNER</span>
+                  </div>
+                </td>
+                <td>-</td>
+                <td><span class="access-badge na">N/A</span></td>
+                <td><span class="status-badge na">N/A</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 2: River Tam - OWNER, Bid Coordinator, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">River Tam</a>
+                    <span class="role-badge owner">OWNER</span>
+                  </div>
+                </td>
+                <td>Bid Coordinator</td>
+                <td><span class="access-badge bm">BM</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 3: Zoe Washburne - ADMIN, Estimator, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Zoe Washburne</a>
+                    <span class="role-badge admin">ADMIN</span>
+                  </div>
+                </td>
+                <td>Estimator</td>
+                <td><span class="access-badge bm">BM</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 4: Kaylee Frye - Estimator, Inactive -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Kaylee Frye</a>
+                  </div>
+                </td>
+                <td>Estimator</td>
+                <td><span class="access-badge bm">BM</span></td>
+                <td><span class="status-badge inactive">Inactive</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 5: Simon Tam - Team Member, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Simon Tam</a>
+                  </div>
+                </td>
+                <td>Team Member</td>
+                <td><span class="access-badge bm">BM</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 6: Jayne Cobb - Requested Access -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Jayne Cobb</a>
+                  </div>
+                </td>
+                <td>-</td>
+                <td><span class="access-badge requested">Requested</span></td>
+                <td><span class="status-badge na">N/A</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="table-footer">
+          <div class="results-count">
+            <strong>6</strong> Results Found
+          </div>
+          <div class="pagination-controls">
+            <div class="rows-per-page">
+              <span>Rows per page</span>
+              <select class="rows-select">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="page-nav">
+              <span class="page-info">1-6 of 6</span>
+              <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+              <button class="page-btn" disabled><i class="fa-regular fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Select All Checkbox
+document.getElementById('selectAll').addEventListener('change', function(e) {
+  const checkboxes = document.querySelectorAll('.row-checkbox');
+  checkboxes.forEach(cb => cb.checked = e.target.checked);
+  updateActionButtons();
+});
+
+// Row Checkboxes
+document.querySelectorAll('.row-checkbox').forEach(cb => {
+  cb.addEventListener('change', updateActionButtons);
+});
+
+// Update Authorize/Deauthorize button states
+function updateActionButtons() {
+  const selected = Array.from(document.querySelectorAll('.row-checkbox:checked'));
+  const authorizeBtn = document.getElementById('authorizeBtn');
+  const deauthorizeBtn = document.getElementById('deauthorizeBtn');
+  
+  // Enable Authorize if any unchecked toggles are selected
+  const canAuthorize = selected.some(cb => {
+    const row = cb.closest('tr');
+    const toggle = row.querySelector('.toggle-input');
+    return !toggle.checked;
+  });
+  
+  // Enable Deauthorize if any checked toggles are selected
+  const canDeauthorize = selected.some(cb => {
+    const row = cb.closest('tr');
+    const toggle = row.querySelector('.toggle-input');
+    return toggle.checked;
+  });
+  
+  authorizeBtn.disabled = !canAuthorize;
+  deauthorizeBtn.disabled = !canDeauthorize;
+}
+
+// Toggle switches
+document.querySelectorAll('.toggle-input').forEach(toggle => {
+  toggle.addEventListener('change', function() {
+    // Update capacity bar
+    const totalSeats = 20;
+    const usedSeats = document.querySelectorAll('.toggle-input:checked').length;
+    const percentage = (usedSeats / totalSeats) * 100;
+    
+    document.querySelector('.capacity-used').textContent = `${usedSeats}/${totalSeats} Used`;
+    document.querySelector('.capacity-fill').style.width = `${percentage}%`;
+    
+    // Update access and status badges
+    const row = this.closest('tr');
+    const accessBadge = row.querySelector('.access-badge');
+    const statusBadge = row.querySelector('.status-badge');
+    
+    if (this.checked) {
+      // Authorized
+      accessBadge.className = 'access-badge bm';
+      accessBadge.textContent = 'BM';
+      statusBadge.className = 'status-badge active';
+      statusBadge.textContent = 'Active';
+    } else {
+      // Deauthorized
+      accessBadge.className = 'access-badge na';
+      accessBadge.textContent = 'N/A';
+      statusBadge.className = 'status-badge na';
+      statusBadge.textContent = 'N/A';
+    }
+  });
+});
+
+// Initialize button states
+updateActionButtons();
+</script>
+
+</body>
+</html>
