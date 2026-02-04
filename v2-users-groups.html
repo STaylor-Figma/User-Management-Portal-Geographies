@@ -315,6 +315,569 @@
   cursor: not-allowed; 
 }
 
+/* Drawer Overlay */
+.drawer-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 1000; 
+  display: none; 
+}
+.drawer-overlay.active { 
+  display: block; 
+}
+
+/* Drawer Panel */
+.drawer { 
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  width: 800px; 
+  background: white; 
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1); 
+  z-index: 1001; 
+  transform: translateX(100%); 
+  transition: transform 0.3s ease-out; 
+  display: flex; 
+  flex-direction: column; 
+}
+.drawer.active { 
+  transform: translateX(0); 
+}
+
+/* Drawer Header */
+.drawer-header { 
+  padding: 20px 24px; 
+  background: #f4f4f4; 
+  border-bottom: 1px solid #e7e6e5; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+.drawer-title { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0; 
+}
+.drawer-close { 
+  background: none; 
+  border: none; 
+  font-size: 24px; 
+  cursor: pointer; 
+  color: #4a4f55; 
+  padding: 0; 
+  width: 32px; 
+  height: 32px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* Drawer Tabs */
+.drawer-tabs { 
+  display: flex; 
+  gap: 24px; 
+  padding: 0 24px; 
+  border-bottom: 1px solid #e7e6e5; 
+  background: white; 
+}
+.drawer-tab { 
+  padding: 12px 0; 
+  cursor: pointer; 
+  position: relative; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  font-weight: 500; 
+  color: #4a4f55; 
+  background: none; 
+  border: none; 
+}
+.drawer-tab.active { 
+  font-weight: 700; 
+  color: #1c1f22; 
+}
+.drawer-tab.active::after { 
+  content: ''; 
+  position: absolute; 
+  bottom: -1px; 
+  left: 0; 
+  right: 0; 
+  height: 3px; 
+  background: #1c1f22; 
+}
+
+/* Drawer Content */
+.drawer-content { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding: 24px; 
+}
+.drawer-two-column { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 24px; 
+  height: 100%; 
+}
+.drawer-left-panel { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px; 
+}
+.drawer-right-panel { 
+  border-left: 1px solid #e7e6e5; 
+  padding-left: 24px; 
+}
+
+/* Mode Toggle */
+.mode-toggle-container { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  margin-bottom: 20px; 
+}
+.mode-toggle { 
+  position: relative; 
+  width: 200px; 
+  height: 32px; 
+  background: #e7e6e5; 
+  border-radius: 16px; 
+  cursor: pointer; 
+}
+.mode-toggle-slider { 
+  position: absolute; 
+  width: 50%; 
+  height: 100%; 
+  background: #0c79a8; 
+  border-radius: 16px; 
+  transition: transform 0.3s; 
+  top: 0; 
+  left: 0; 
+}
+.mode-toggle.bulk .mode-toggle-slider { 
+  transform: translateX(100%); 
+}
+.mode-toggle-labels { 
+  position: relative; 
+  display: flex; 
+  height: 100%; 
+}
+.mode-toggle-label { 
+  flex: 1; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #4a4f55; 
+  z-index: 1; 
+  transition: color 0.3s; 
+}
+.mode-toggle:not(.bulk) .mode-toggle-label:first-child,
+.mode-toggle.bulk .mode-toggle-label:last-child { 
+  color: white; 
+}
+
+/* Form Fields */
+.form-group { 
+  margin-bottom: 16px; 
+}
+.form-label { 
+  display: block; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px; 
+  font-weight: 700; 
+  color: #4a4f55; 
+  margin-bottom: 6px; 
+}
+.form-label .required { 
+  color: #dc3545; 
+}
+.form-input { 
+  width: 100%; 
+  padding: 8px 12px; 
+  border: 1px solid #dad8d7; 
+  border-radius: 4px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  box-sizing: border-box; 
+}
+.form-textarea { 
+  width: 100%; 
+  padding: 8px 12px; 
+  border: 1px solid #88888e; 
+  border-radius: 4px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  min-height: 105px; 
+  resize: vertical; 
+  box-sizing: border-box; 
+}
+.form-select { 
+  width: 100%; 
+  padding: 8px 12px; 
+  border: 1px solid #dad8d7; 
+  border-radius: 4px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  background: white; 
+  box-sizing: border-box; 
+}
+
+/* License Chips */
+.license-chips { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+  margin-top: 8px; 
+}
+.license-chip { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 6px; 
+  padding: 4px 8px 4px 12px; 
+  background: #28a745; 
+  color: white; 
+  border-radius: 16px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px; 
+  font-weight: 500; 
+}
+.license-chip.default { 
+  background: #4a4f55; 
+}
+.license-chip-remove { 
+  background: none; 
+  border: none; 
+  color: white; 
+  cursor: pointer; 
+  padding: 0; 
+  font-size: 12px; 
+  width: 14px; 
+  height: 14px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* License Assignment Panel */
+.license-section { 
+  margin-bottom: 24px; 
+}
+.license-section-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 12px; 
+}
+.license-section-title { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+.license-count-badge { 
+  background: #e7e6e5; 
+  color: #1c1f22; 
+  padding: 2px 8px; 
+  border-radius: 12px; 
+  font-size: 11px; 
+  font-weight: 600; 
+}
+.view-info-btn { 
+  padding: 4px 12px; 
+  border: 1px solid #0c79a8; 
+  background: white; 
+  color: #0c79a8; 
+  border-radius: 4px; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px; 
+  font-weight: 600; 
+  cursor: pointer; 
+}
+.license-subheader { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #88888e; 
+  margin-bottom: 8px; 
+}
+.license-feature-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px 0; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.license-feature-row:last-child { 
+  border-bottom: none; 
+}
+.license-feature-info { 
+  flex: 1; 
+}
+.license-feature-name { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 14px; 
+  color: #1c1f22; 
+  margin-bottom: 2px; 
+}
+.license-availability { 
+  display: flex; 
+  align-items: center; 
+  gap: 6px; 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 13px; 
+}
+.license-availability.available { 
+  color: #28a745; 
+}
+.license-availability.assigned { 
+  color: #1c1f22; 
+}
+.license-availability.low { 
+  color: #ffc107; 
+}
+.license-availability.unavailable { 
+  color: #88888e; 
+}
+.license-action-btn { 
+  width: 32px; 
+  height: 32px; 
+  border: 1px solid #dad8d7; 
+  border-radius: 4px; 
+  background: white; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 16px; 
+  color: #1c1f22; 
+}
+.license-action-btn:disabled { 
+  opacity: 0.3; 
+  cursor: not-allowed; 
+}
+
+/* Toggle Switch */
+.toggle-switch { 
+  position: relative; 
+  width: 54px; 
+  height: 26px; 
+  background: #88888e; 
+  border-radius: 20px; 
+  cursor: pointer; 
+  transition: background 0.3s; 
+}
+.toggle-switch.on { 
+  background: #0c79a8; 
+}
+.toggle-switch:disabled { 
+  opacity: 0.3; 
+  cursor: not-allowed; 
+}
+.toggle-circle { 
+  position: absolute; 
+  width: 20px; 
+  height: 20px; 
+  background: white; 
+  border-radius: 50%; 
+  top: 3px; 
+  left: 3px; 
+  transition: transform 0.3s; 
+}
+.toggle-switch.on .toggle-circle { 
+  transform: translateX(28px); 
+}
+
+/* Subscription Assignment Table */
+.subscription-table { 
+  width: 100%; 
+  margin-top: 16px; 
+}
+.subscription-table th { 
+  text-align: left; 
+  padding: 12px 8px; 
+  border-bottom: 2px solid #4a4f55; 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 14px; 
+  color: #4a4f55; 
+  font-weight: normal; 
+}
+.subscription-table td { 
+  padding: 12px 8px; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.subscription-name { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+}
+.subscription-availability { 
+  display: flex; 
+  align-items: center; 
+  gap: 6px; 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 13px; 
+  margin-top: 4px; 
+}
+.subscription-availability.available { 
+  color: #28a745; 
+}
+.subscription-availability.unavailable { 
+  color: #dc3545; 
+}
+.subscription-availability.low { 
+  color: #ffc107; 
+}
+
+/* Helper Text */
+.helper-text { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  font-weight: 500; 
+  color: #212529; 
+  padding: 12px; 
+  background: #f8f9fa; 
+  border-radius: 4px; 
+  margin-bottom: 16px; 
+}
+
+/* Bulk Upload Section */
+.bulk-instructions { 
+  background: #f8f9fa; 
+  padding: 20px; 
+  border-radius: 8px; 
+  margin-bottom: 20px; 
+}
+.bulk-instructions h3 { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px; 
+  font-weight: 700; 
+  margin-bottom: 12px; 
+}
+.bulk-instructions ul { 
+  margin: 0; 
+  padding-left: 20px; 
+}
+.bulk-instructions li { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 14px; 
+  margin-bottom: 8px; 
+}
+.bulk-buttons { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 16px; 
+}
+
+/* User Table (Bulk) */
+.user-info-table { 
+  width: 100%; 
+  border: 1px solid #e7e6e5; 
+  border-radius: 4px; 
+  overflow: hidden; 
+}
+.user-info-table th { 
+  background: #f4f4f4; 
+  padding: 12px; 
+  text-align: left; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px; 
+  font-weight: 700; 
+  color: #4a4f55; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.user-info-table td { 
+  padding: 12px; 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 14px; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.user-info-table tr:last-child td { 
+  border-bottom: none; 
+}
+
+/* Confirmation Message */
+.confirmation-message { 
+  padding: 40px; 
+  text-align: center; 
+}
+.confirmation-message h3 { 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px; 
+  font-weight: 700; 
+  margin-bottom: 20px; 
+}
+.confirmation-message ul { 
+  text-align: left; 
+  max-width: 500px; 
+  margin: 20px auto; 
+  padding-left: 20px; 
+}
+.confirmation-message li { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 14px; 
+  margin-bottom: 8px; 
+}
+.confirmation-center-btn { 
+  margin: 30px 0; 
+}
+
+/* User List (Confirmation) */
+.user-list { 
+  max-width: 500px; 
+  margin: 20px auto; 
+  text-align: left; 
+}
+.user-list-item { 
+  padding: 8px 0; 
+  border-bottom: 1px solid #e7e6e5; 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: 14px; 
+}
+
+/* Drawer Footer */
+.drawer-footer { 
+  padding: 16px 24px; 
+  border-top: 1px solid #e7e6e5; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  background: white; 
+}
+.drawer-footer-left { 
+  display: flex; 
+  gap: 12px; 
+}
+.drawer-footer-right { 
+  display: flex; 
+  gap: 12px; 
+  align-items: center; 
+}
+.link-button { 
+  background: none; 
+  border: none; 
+  color: #0c79a8; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  text-decoration: none; 
+}
+.link-button:hover { 
+  text-decoration: underline; 
+}
+
 </style>
 </head>
 <body>
@@ -408,7 +971,7 @@
       <!-- Action Bar -->
       <div class="action-bar">
         <div class="action-bar-left">
-          <button class="btn-primary" id="manageSelectedBtn" disabled>Manage Selected Users</button>
+          <button class="btn-primary" id="manageSelectedBtn" disabled onclick="openManageUsersDrawer()">Manage Selected Users</button>
           <select class="filter-dropdown">
             <option>Show All Licenses</option>
           </select>
@@ -766,19 +1329,722 @@ function updateManageButton() {
   manageSelectedBtn.disabled = !anyChecked;
 }
 
-// Drawer functions (placeholders - will be implemented with drawer components)
+// Drawer functions
 function openInviteDrawer() {
-  alert('Invite Users drawer will open here');
+  document.getElementById('inviteDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+}
+
+function closeInviteDrawer() {
+  document.getElementById('inviteDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
 }
 
 function openCreateGroupDrawer() {
-  alert('Create Group drawer will open here');
+  document.getElementById('createGroupDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+}
+
+function closeCreateGroupDrawer() {
+  document.getElementById('createGroupDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
 }
 
 function openManageGroupDrawer() {
-  alert('Manage Group drawer will open here');
+  document.getElementById('manageGroupDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
 }
+
+function closeManageGroupDrawer() {
+  document.getElementById('manageGroupDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+function openManageUsersDrawer() {
+  document.getElementById('manageUsersDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+}
+
+function closeManageUsersDrawer() {
+  document.getElementById('manageUsersDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+// Toggle modes
+function toggleInviteMode() {
+  const toggle = document.getElementById('inviteModeToggle');
+  const individualContent = document.getElementById('individualModeContent');
+  const bulkContent = document.getElementById('bulkModeContent');
+  
+  toggle.classList.toggle('bulk');
+  if (toggle.classList.contains('bulk')) {
+    individualContent.style.display = 'none';
+    bulkContent.style.display = 'block';
+  } else {
+    individualContent.style.display = 'block';
+    bulkContent.style.display = 'none';
+  }
+}
+
+// Subscription toggles
+function toggleSubscription(subscriptionId) {
+  const toggle = document.getElementById('toggle-' + subscriptionId);
+  toggle.classList.toggle('on');
+}
+
+// License actions
+function assignLicense(licenseId) {
+  // Add license chip logic here
+  console.log('Assign license:', licenseId);
+}
+
+function unassignLicense(licenseId) {
+  // Remove license chip logic here
+  console.log('Unassign license:', licenseId);
+}
+
+function removeLicenseChip(chipId) {
+  const chip = document.getElementById(chipId);
+  if (chip) chip.remove();
+}
+
+// Close drawer when clicking overlay
+document.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('drawerOverlay');
+  overlay.addEventListener('click', function() {
+    closeInviteDrawer();
+    closeCreateGroupDrawer();
+    closeManageGroupDrawer();
+    closeManageUsersDrawer();
+  });
+});
 </script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <div class="drawer-header">
+    <h2 class="drawer-title">Invite User(s)</h2>
+    <button class="drawer-close" onclick="closeInviteDrawer()">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-content">
+    <!-- Mode Toggle -->
+    <div class="mode-toggle-container">
+      <div class="mode-toggle" id="inviteModeToggle" onclick="toggleInviteMode()">
+        <div class="mode-toggle-slider"></div>
+        <div class="mode-toggle-labels">
+          <div class="mode-toggle-label">Individual Mode</div>
+          <div class="mode-toggle-label">Bulk Mode</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="drawer-two-column">
+      <!-- Individual Mode Content -->
+      <div class="drawer-left-panel" id="individualModeContent">
+        <div class="form-group">
+          <label class="form-label">First Name <span class="required">*</span></label>
+          <input type="text" class="form-input" placeholder="First Name">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Last Name <span class="required">*</span></label>
+          <input type="text" class="form-input" placeholder="Last Name">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-select">
+            <option>Team Member</option>
+            <option>Admin</option>
+            <option>Owner</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-input" placeholder="Title">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="required">*</span></label>
+          <input type="email" class="form-input" placeholder="username@email.com">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" placeholder="(000) 000-0000">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">License(s)</label>
+          <div class="license-chips">
+            <span class="license-chip default">Bid Center</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bulk Mode Content -->
+      <div class="drawer-left-panel" id="bulkModeContent" style="display: none;">
+        <div class="bulk-instructions">
+          <h3>To invite multiple users to this company's account:</h3>
+          <ul>
+            <li>Download the template and complete the required fields: First Name, Last Name, and Email</li>
+            <li>Save as .xls or .csv format</li>
+            <li>Upload your file to invite the users listed in your file</li>
+          </ul>
+          <div class="bulk-buttons">
+            <button class="btn-secondary">Download Template</button>
+            <button class="btn-default">Upload File</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- License Assignment Panel (Right) -->
+      <div class="drawer-right-panel">
+        <div class="license-section">
+          <div class="license-section-header">
+            <div class="license-section-title">
+              Project Intelligence Licenses
+              <span class="license-count-badge">31</span>
+            </div>
+            <button class="view-info-btn">View Info</button>
+          </div>
+          <div class="license-subheader">Feature</div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">NY - Nassau / Suffolk</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ny-nassau')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">NY - Long Island</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ny-longisland')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">PA - Philadelphia</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('pa-philly')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="license-section">
+          <div class="license-section-header">
+            <div class="license-section-title">
+              Takeoff & Estimating Licenses
+              <span class="license-count-badge">31</span>
+            </div>
+            <button class="view-info-btn">View Info</button>
+          </div>
+          <div class="license-subheader">Feature</div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">OnScreen Takeoff</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>3 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ost')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">OnScreen Takeoff with AI</div>
+              <div class="license-availability low">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>1 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ost-ai')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">QuickBid</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('quickbid')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-footer">
+    <div class="drawer-footer-left">
+      <button class="btn-secondary">Reset</button>
+    </div>
+    <div class="drawer-footer-right">
+      <button class="link-button" onclick="closeInviteDrawer()">Cancel</button>
+      <button class="btn-primary">Send Invitation</button>
+    </div>
+  </div>
+</div>
+
+<!-- Create Group Drawer -->
+<div class="drawer" id="createGroupDrawer">
+  <div class="drawer-header">
+    <h2 class="drawer-title">Create Group</h2>
+    <button class="drawer-close" onclick="closeCreateGroupDrawer()">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-tabs">
+    <button class="drawer-tab active">Group Details</button>
+    <button class="drawer-tab">Add Existing Users</button>
+  </div>
+  
+  <div class="drawer-content">
+    <div class="form-group">
+      <label class="form-label">Group Name</label>
+      <input type="text" class="form-input" placeholder="Group Name">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Group Description</label>
+      <textarea class="form-textarea" placeholder="Group description that provides more information about this specific group."></textarea>
+    </div>
+    
+    <div class="helper-text">
+      Adding a subscription to this group automatically assigns a seat to any new user. To change this, visit the users view of the group to adjust individual users.
+    </div>
+    
+    <table class="subscription-table">
+      <thead>
+        <tr>
+          <th>Subscription</th>
+          <th style="width: 100px; text-align: right;">Assign to Group</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="subscription-name">Project Intelligence Pro</div>
+            <div class="subscription-availability unavailable">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>You have no seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-pi-pro" disabled></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">Project Intelligence Starter</div>
+            <div class="subscription-availability unavailable">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>You have no seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-pi-starter" disabled></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">Bid Management</div>
+            <div class="subscription-availability available">
+              <i class="fa-solid fa-check"></i>
+              <span>You have 16 seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-bm" onclick="toggleSubscription('bm')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">OnScreen Takeoff</div>
+            <div class="subscription-availability available">
+              <i class="fa-solid fa-check"></i>
+              <span>You have 8 seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-ost" onclick="toggleSubscription('ost')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">QuickBid - Shared</div>
+            <div class="subscription-availability low">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>You have 2 seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-qb" onclick="toggleSubscription('qb')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="drawer-footer">
+    <div class="drawer-footer-left">
+      <button class="btn-secondary">Reset</button>
+    </div>
+    <div class="drawer-footer-right">
+      <button class="link-button" onclick="closeCreateGroupDrawer()">Cancel</button>
+      <button class="btn-primary">Create New Group</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manage Group Drawer -->
+<div class="drawer" id="manageGroupDrawer">
+  <div class="drawer-header">
+    <h2 class="drawer-title">Manage Group</h2>
+    <button class="drawer-close" onclick="closeManageGroupDrawer()">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-tabs">
+    <button class="drawer-tab active">Group Details</button>
+    <button class="drawer-tab">Manage Users</button>
+  </div>
+  
+  <div class="drawer-content">
+    <div class="form-group">
+      <label class="form-label">Group Name</label>
+      <input type="text" class="form-input" value="Browncoats">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Group Description</label>
+      <textarea class="form-textarea">Independent test team, currently working on some updated projects</textarea>
+    </div>
+    
+    <div class="helper-text">
+      Adding a subscription to this group automatically assigns a seat to any new user. To change this, visit the users view of the group to adjust individual users.
+    </div>
+    
+    <table class="subscription-table">
+      <thead>
+        <tr>
+          <th>Subscription</th>
+          <th style="width: 100px; text-align: right;">Assign to Group</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="subscription-name">Project Intelligence Pro</div>
+            <div class="subscription-availability unavailable">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>You have no seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch on" id="toggle-manage-pi-pro" onclick="toggleSubscription('manage-pi-pro')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">Project Intelligence Starter</div>
+            <div class="subscription-availability unavailable">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>You have no seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-manage-pi-starter" disabled></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">Bid Management</div>
+            <div class="subscription-availability available">
+              <i class="fa-solid fa-check"></i>
+              <span>You have 16 seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch on" id="toggle-manage-bm" onclick="toggleSubscription('manage-bm')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">OnScreen Takeoff</div>
+            <div class="subscription-availability available">
+              <i class="fa-solid fa-check"></i>
+              <span>You have 8 seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-manage-ost" onclick="toggleSubscription('manage-ost')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="subscription-name">QuickBid - Shared</div>
+            <div class="subscription-availability low">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>You have 2 seats available</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" id="toggle-manage-qb" onclick="toggleSubscription('manage-qb')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="drawer-footer">
+    <div class="drawer-footer-left">
+      <button class="btn-secondary">Reset</button>
+    </div>
+    <div class="drawer-footer-right">
+      <button class="link-button" onclick="closeManageGroupDrawer()">Cancel</button>
+      <button class="btn-primary">Save Updates</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manage Users Drawer -->
+<div class="drawer" id="manageUsersDrawer">
+  <div class="drawer-header">
+    <h2 class="drawer-title">Manage User(s)</h2>
+    <button class="drawer-close" onclick="closeManageUsersDrawer()">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-content">
+    <div class="drawer-two-column">
+      <!-- Left Panel - User Info -->
+      <div class="drawer-left-panel">
+        <div class="form-group">
+          <label class="form-label">User Name</label>
+          <a href="#" style="color: #0c79a8; font-size: 14px;">Kaylee Frye</a>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-select">
+            <option>Team Member</option>
+            <option>Admin</option>
+            <option>Owner</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">License(s)</label>
+          <div class="license-chips">
+            <span class="license-chip" id="chip-ny-nassau">
+              NY - Nassau / Suffolk
+              <button class="license-chip-remove" onclick="removeLicenseChip('chip-ny-nassau')">
+                <i class="fa-regular fa-xmark"></i>
+              </button>
+            </span>
+            <span class="license-chip" id="chip-ny-longisland">
+              NY - Long Island
+              <button class="license-chip-remove" onclick="removeLicenseChip('chip-ny-longisland')">
+                <i class="fa-regular fa-xmark"></i>
+              </button>
+            </span>
+            <span class="license-chip default">Bid Center</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Panel - License Assignment (Same as Invite) -->
+      <div class="drawer-right-panel">
+        <div class="license-section">
+          <div class="license-section-header">
+            <div class="license-section-title">
+              Project Intelligence Licenses
+              <span class="license-count-badge">31</span>
+            </div>
+            <button class="view-info-btn">View Info</button>
+          </div>
+          <div class="license-subheader">Feature</div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">NY - Nassau / Suffolk</div>
+              <div class="license-availability assigned">
+                <span>Assigned</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="unassignLicense('ny-nassau')">
+              <i class="fa-regular fa-minus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">NY - Long Island</div>
+              <div class="license-availability assigned">
+                <span>Assigned</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="unassignLicense('ny-longisland')">
+              <i class="fa-regular fa-minus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">PA - Philadelphia</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('pa-philly')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">PA - Keystone</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('pa-keystone')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="license-section">
+          <div class="license-section-header">
+            <div class="license-section-title">
+              Takeoff & Estimating Licenses
+              <span class="license-count-badge">31</span>
+            </div>
+            <button class="view-info-btn">View Info</button>
+          </div>
+          <div class="license-subheader">Feature</div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">OnScreen Takeoff</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>3 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ost')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">OnScreen Takeoff with AI</div>
+              <div class="license-availability low">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>1 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ost-ai')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">OST Planviewer</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('ost-planviewer')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+          
+          <div class="license-feature-row">
+            <div class="license-feature-info">
+              <div class="license-feature-name">QuickBid</div>
+              <div class="license-availability available">
+                <i class="fa-solid fa-check"></i>
+                <span>6 Available</span>
+              </div>
+            </div>
+            <button class="license-action-btn" onclick="assignLicense('quickbid')">
+              <i class="fa-regular fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-footer">
+    <div class="drawer-footer-left">
+      <button class="btn-secondary">Reset</button>
+    </div>
+    <div class="drawer-footer-right">
+      <button class="link-button" onclick="closeManageUsersDrawer()">Cancel</button>
+      <button class="btn-primary">Update User Settings</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
