@@ -138,7 +138,7 @@
   font-size: 12px; 
 }
 
-/* Role Badges */
+/* Role Badges (ADMIN/OWNER - Purple) */
 .role-badge { 
   background: #6b5b95; 
   color: white; 
@@ -161,22 +161,23 @@
   font-size: 14px; 
 }
 .date-badge { 
-  background: #f4f4f4; 
-  padding: 2px 8px; 
-  border-radius: 4px; 
+  background: #e7e6e5; 
+  padding: 4px 8px; 
+  border-radius: 30px; 
   font-family: 'Montserrat', sans-serif;
   font-size: 12px; 
-  color: #4a4f55; 
+  font-weight: 700;
+  color: #1c1f22; 
   display: inline-block;
   width: fit-content;
 }
 
-/* Product Role Badge */
+/* Product Role Badge (Gray Pills - NOT colored) */
 .product-role-badge { 
-  background: #0c79a8; 
-  color: white; 
+  background: #e7e6e5; 
+  color: #1c1f22; 
   padding: 4px 8px; 
-  border-radius: 4px; 
+  border-radius: 30px; 
   font-family: 'Montserrat', sans-serif;
   font-size: 12px; 
   font-weight: 700; 
@@ -884,13 +885,9 @@
 
 <!-- Compact Navigation (Top) -->
 <div class="compact-nav">
-  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
-    <i class="compact-button__icon fa-light fa-credit-card"></i>
-    <span class="compact-button__label">Subs & Licenses</span>
-  </button>
-  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
-    <i class="compact-button__icon fa-light fa-shield-check"></i>
-    <span class="compact-button__label">User Roles</span>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
   </button>
   <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
     <i class="compact-button__icon fa-light fa-building"></i>
@@ -900,31 +897,54 @@
     <i class="compact-button__icon fa-light fa-users"></i>
     <span class="compact-button__label">Users & Groups</span>
   </button>
-</div>
-
-<!-- Sidebar Navigation -->
-<div class="sidebar-nav">
-  <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
-    <i class="sidebar-button__icon fa-light fa-credit-card"></i>
-    <span class="sidebar-button__label">Subs &<br>Licenses</span>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
   </button>
-  <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
-    <i class="sidebar-button__icon fa-light fa-shield-check"></i>
-    <span class="sidebar-button__label">User<br>Roles</span>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
-    <i class="sidebar-button__icon fa-light fa-building"></i>
-    <span class="sidebar-button__label">Company</span>
-  </button>
-  <button class="sidebar-button selected">
-    <i class="sidebar-button__icon fa-light fa-users"></i>
-    <span class="sidebar-button__label">Users &<br>Groups</span>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
   </button>
 </div>
 
-<!-- Main Content -->
-<div class="main-content">
-  <div class="container">
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
     
     <!-- Header -->
     <div class="header">
@@ -1282,7 +1302,6 @@
     </div>
 
   </div>
-</div>
 
 <script>
 // Tab switching
@@ -2039,6 +2058,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </div>
 </div>
+
+  </div><!-- /main-content -->
+</div><!-- /layout -->
 
 </body>
 </html>
