@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Overview - Version Two</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="blueprint-workflow-styles.css">
+<link rel="stylesheet" href="blueprint-navigation.css">
+<link rel="stylesheet" href="blueprint-button-styles.css">
+<style>
+/* Page-specific styles for Company Overview */
+
+.content { padding: 0 20px; }
+
+/* Organization Header */
+.org-header { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 24px; 
+  margin-bottom: 24px; 
+}
+.org-header-top { 
+  display: flex; 
+  align-items: center; 
+  gap: 16px; 
+  margin-bottom: 12px; 
+}
+.org-name { 
+  font-size: 28px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0; 
+}
+.status-badge { 
+  display: inline-flex; 
+  align-items: center; 
+  padding: 6px 12px; 
+  background: #459d13; 
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 14px; 
+  font-weight: 600; 
+}
+.org-id { 
+  font-size: 14px; 
+  color: #88888e; 
+  margin: 0; 
+}
+
+/* Card Grid */
+.cards-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 24px; 
+  margin-bottom: 24px; 
+}
+
+/* Info Card */
+.info-card { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+}
+.card-title { 
+  font-size: 18px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0 0 16px 0; 
+  padding-bottom: 12px; 
+  border-bottom: 1px solid #dad8d7; 
+}
+.info-row { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 10px 0; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.info-row:last-child { border-bottom: none; }
+.info-label { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #88888e; 
+}
+.info-value { 
+  font-size: 14px; 
+  color: #1c1f22; 
+  font-weight: 500; 
+}
+
+/* Users Summary Card */
+.users-summary .card-title { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+.summary-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 16px; 
+  margin-bottom: 16px; 
+}
+.stat-item { 
+  background: #f4f4f4; 
+  padding: 16px; 
+  border-radius: 6px; 
+}
+.stat-value { 
+  font-size: 32px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0 0 4px 0; 
+}
+.stat-label { 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #88888e; 
+  margin: 0; 
+}
+
+/* Subscriptions Section */
+.subscriptions-section { margin-bottom: 24px; }
+.section-title { 
+  font-size: 20px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0 0 16px 0; 
+}
+.subscription-cards { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 24px; 
+}
+.subscription-card { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+}
+.subscription-card:hover { 
+  border-color: #0c79a8; 
+  box-shadow: 0 4px 12px rgba(12, 121, 168, 0.15); 
+  cursor: pointer; 
+}
+.card-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 16px; 
+  padding-bottom: 12px; 
+  border-bottom: 1px solid #dad8d7; 
+}
+.product-name { 
+  font-size: 16px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0; 
+}
+.tier-badge { 
+  padding: 4px 8px; 
+  background: #88888e; 
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 12px; 
+  font-weight: 600; 
+}
+.card-status { 
+  display: inline-flex; 
+  align-items: center; 
+  padding: 4px 10px; 
+  background: #459d13; 
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 12px; 
+  font-weight: 600; 
+  margin-bottom: 12px; 
+}
+
+/* Seat Utilization */
+.seat-info { 
+  margin-bottom: 12px; 
+}
+.seat-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  font-size: 14px; 
+  margin-bottom: 8px; 
+}
+.seat-label { 
+  font-weight: 600; 
+  color: #1c1f22; 
+}
+.seat-count { 
+  font-weight: 500; 
+  color: #88888e; 
+}
+.progress-bar { 
+  width: 100%; 
+  height: 12px; 
+  background: #e7e6e5; 
+  border-radius: 6px; 
+  overflow: hidden; 
+  margin-bottom: 6px; 
+}
+.progress-fill { 
+  height: 100%; 
+  transition: width 0.3s ease; 
+}
+.progress-fill.good { background: #459d13; }
+.progress-fill.warning { background: #ed7800; }
+.progress-fill.danger { background: #b70900; }
+.capacity-label { 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #88888e; 
+}
+.capacity-label.good { color: #459d13; }
+.capacity-label.warning { color: #ed7800; }
+.capacity-label.danger { color: #b70900; }
+
+/* Geographic/Category Access */
+.access-info { 
+  margin-top: 12px; 
+  padding-top: 12px; 
+  border-top: 1px solid #e7e6e5; 
+}
+.access-row { 
+  font-size: 13px; 
+  color: #4a4f55; 
+  margin-bottom: 6px; 
+}
+.access-row:last-child { margin-bottom: 0; }
+.access-icon { 
+  margin-right: 6px; 
+  color: #88888e; 
+}
+
+/* Renewal Date */
+.renewal-date { 
+  font-size: 13px; 
+  color: #88888e; 
+  margin-top: 12px; 
+}
+
+/* Activity Feed */
+.activity-section { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+  margin-bottom: 24px; 
+}
+.activity-item { 
+  display: flex; 
+  gap: 12px; 
+  padding: 12px 0; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-date { 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #88888e; 
+  min-width: 80px; 
+}
+.activity-text { 
+  font-size: 14px; 
+  color: #1c1f22; 
+  flex: 1; 
+}
+
+/* Billing Card - Owner Only */
+.billing-section { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+  margin-bottom: 24px; 
+  position: relative; 
+}
+.owner-badge { 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  padding: 4px 8px; 
+  background: #88888e; 
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 11px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+}
+.billing-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 16px; 
+  margin-bottom: 16px; 
+}
+
+/* Quick Actions */
+.quick-actions { 
+  display: flex; 
+  gap: 12px; 
+  flex-wrap: wrap; 
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .subscription-cards { 
+    grid-template-columns: 1fr; 
+  }
+  .cards-grid { 
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 768px) {
+  .content { padding: 0 10px; }
+  .org-name { font-size: 22px; }
+  .subscription-cards { 
+    grid-template-columns: 1fr; 
+  }
+  .cards-grid { 
+    grid-template-columns: 1fr; 
+  }
+  .summary-grid { 
+    grid-template-columns: 1fr; 
+  }
+  .billing-grid { 
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 600px) {
+  .org-header-top { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      <div class="content">
+        
+        <!-- Organization Header -->
+        <div class="org-header">
+          <div class="org-header-top">
+            <h1 class="org-name">Cornerstone Construction Group</h1>
+            <span class="status-badge">Active</span>
+          </div>
+          <p class="org-id">Organization ID: ORG-45829</p>
+        </div>
+
+        <!-- Company Info & Users Summary Cards -->
+        <div class="cards-grid">
+          
+          <!-- Company Information -->
+          <div class="info-card">
+            <h2 class="card-title">Company Information</h2>
+            <div class="info-row">
+              <span class="info-label">Address</span>
+              <span class="info-value">4850 Industrial Parkway, Suite 200</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">City, State ZIP</span>
+              <span class="info-value">Columbus, OH 43229</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Phone</span>
+              <span class="info-value">(614) 555-7800</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Website</span>
+              <span class="info-value">cornerstonecg.com</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Industry</span>
+              <span class="info-value">General Contractor</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Business Type</span>
+              <span class="info-value">Commercial</span>
+            </div>
+          </div>
+
+          <!-- Users Summary -->
+          <div class="info-card users-summary">
+            <div class="card-title">
+              <span>Users Summary</span>
+              <button class="btn-primary">
+                <i class="fa-light fa-user-plus"></i>
+                Add User
+              </button>
+            </div>
+            <div class="summary-grid">
+              <div class="stat-item">
+                <p class="stat-value">47</p>
+                <p class="stat-label">Total Users</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-value">42</p>
+                <p class="stat-label">Active Users</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-value">3</p>
+                <p class="stat-label">Pending Invitations</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-value">2</p>
+                <p class="stat-label">Inactive Users</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Subscriptions Section -->
+        <div class="subscriptions-section">
+          <h2 class="section-title">Subscriptions</h2>
+          <div class="subscription-cards">
+            
+            <!-- Project Intelligence Card -->
+            <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow.html'">
+              <div class="card-header">
+                <h3 class="product-name">Project Intelligence</h3>
+                <span class="tier-badge">Gold</span>
+              </div>
+              <span class="card-status">Active</span>
+              
+              <div class="seat-info">
+                <div class="seat-row">
+                  <span class="seat-label">Seat Utilization</span>
+                  <span class="seat-count">25 of 30 seats</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill warning" style="width: 83%"></div>
+                </div>
+                <p class="capacity-label warning">Approaching capacity</p>
+              </div>
+
+              <div class="access-info">
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-map-marked-alt"></i>
+                  <strong>Geographic Access:</strong> 300 counties in 3 states
+                </div>
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-layer-group"></i>
+                  <strong>Category Access:</strong> 4 of 17 categories
+                </div>
+              </div>
+
+              <p class="renewal-date">
+                <i class="fa-light fa-calendar-day"></i>
+                Renews March 15, 2026
+              </p>
+            </div>
+
+            <!-- Bid Management Card -->
+            <div class="subscription-card" onclick="window.location.href='v2-bid-management-subscriptions.html'">
+              <div class="card-header">
+                <h3 class="product-name">Bid Management</h3>
+                <span class="tier-badge">Professional</span>
+              </div>
+              <span class="card-status">Active</span>
+              
+              <div class="seat-info">
+                <div class="seat-row">
+                  <span class="seat-label">Seat Utilization</span>
+                  <span class="seat-count">18 of 25 seats</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill good" style="width: 72%"></div>
+                </div>
+                <p class="capacity-label good">Good capacity</p>
+              </div>
+
+              <p class="renewal-date">
+                <i class="fa-light fa-calendar-day"></i>
+                Renews March 15, 2026
+              </p>
+            </div>
+
+            <!-- Takeoff & Estimating Card -->
+            <div class="subscription-card">
+              <div class="card-header">
+                <h3 class="product-name">Takeoff & Estimating</h3>
+                <span class="tier-badge">Professional</span>
+              </div>
+              <span class="card-status">Active</span>
+              
+              <div class="seat-info">
+                <div class="seat-row">
+                  <span class="seat-label">License Utilization</span>
+                  <span class="seat-count">8 of 10 licenses</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill warning" style="width: 80%"></div>
+                </div>
+                <p class="capacity-label warning">Approaching capacity</p>
+              </div>
+
+              <p class="renewal-date">
+                <i class="fa-light fa-calendar-day"></i>
+                Renews March 15, 2026
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="activity-section">
+          <h2 class="card-title">Recent Activity</h2>
+          <div class="activity-item">
+            <span class="activity-date">Feb 3, 2026</span>
+            <span class="activity-text">Added user <strong>Sarah Martinez</strong> to Project Intelligence</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Feb 2, 2026</span>
+            <span class="activity-text">Assigned Bid Management license to <strong>James Cooper</strong></span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Jan 31, 2026</span>
+            <span class="activity-text">Updated role for <strong>Michael Chen</strong> to Organization Admin</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Jan 30, 2026</span>
+            <span class="activity-text">Removed user <strong>David Thompson</strong> from organization</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Jan 29, 2026</span>
+            <span class="activity-text">Reassigned Project Intelligence license from <strong>Lisa Park</strong> to <strong>Robert Wilson</strong></span>
+          </div>
+        </div>
+
+        <!-- Billing Summary - Owner Only -->
+        <div class="billing-section">
+          <span class="owner-badge">Owner Only</span>
+          <h2 class="card-title">Billing Summary</h2>
+          <div class="billing-grid">
+            <div class="info-row">
+              <span class="info-label">Next Invoice Date</span>
+              <span class="info-value">March 1, 2026</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Next Invoice Amount</span>
+              <span class="info-value">$4,875.00</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Annual Contract Value</span>
+              <span class="info-value">$58,500.00</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Payment Method</span>
+              <span class="info-value">Visa ••••4829</span>
+            </div>
+          </div>
+          <button class="btn-secondary">
+            <i class="fa-light fa-credit-card"></i>
+            View Billing Portal
+          </button>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button class="btn-primary">
+            <i class="fa-light fa-user-plus"></i>
+            Add User
+          </button>
+          <button class="btn-secondary" onclick="window.location.href='v2-subscription-overview.html'">
+            <i class="fa-light fa-file-invoice"></i>
+            Manage Licenses
+          </button>
+          <button class="btn-secondary" onclick="window.location.href='v2-subscription-overview.html'">
+            <i class="fa-light fa-list-check"></i>
+            View All Subscriptions
+          </button>
+          <button class="btn-secondary">
+            <i class="fa-light fa-building"></i>
+            Edit Company Profile
+          </button>
+          <button class="btn-ghost">
+            <i class="fa-light fa-receipt"></i>
+            View Billing
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('show');
+  overlay.classList.toggle('show');
+  hamburger.classList.toggle('active');
+}
+</script>
+
+</body>
+</html>
