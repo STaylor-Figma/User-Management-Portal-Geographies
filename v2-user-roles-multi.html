@@ -648,12 +648,12 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">BM - Admin</a>
+                          <a class="role-link">Company Admin</a>
                           <span class="role-badge bm">BM</span>
                         </div>
-                        <div class="role-success">
-                          <i class="fa-solid fa-check"></i>
-                          <span>Can be copied</span>
+                        <div class="role-warning">
+                          <i class="fa-solid fa-triangle-exclamation"></i>
+                          <span>BPM Specific Role</span>
                         </div>
                       </div>
                     </td>
@@ -662,15 +662,43 @@
                       <ul class="permission-list">
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>Manage Projects</span>
+                          <span>Project Mgmt</span>
                         </li>
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>Manage Team</span>
+                          <span>CCBM User Control (Bid Managment ONLY)</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>5</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr data-role-type="Project Manager">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Project Manager</a>
+                          <span class="role-badge bm">BM</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Create/Manage Projects</span>
                         </li>
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>View All Bids</span>
+                          <span>Bidder Communication</span>
                         </li>
                       </ul>
                     </td>
@@ -688,12 +716,12 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">BM - Team Member</a>
+                          <a class="role-link">Team Member</a>
                           <span class="role-badge bm">BM</span>
                         </div>
-                        <div class="role-success">
-                          <i class="fa-solid fa-check"></i>
-                          <span>Can be copied</span>
+                        <div class="role-warning">
+                          <i class="fa-solid fa-triangle-exclamation"></i>
+                          <span>BPM Specific Role</span>
                         </div>
                       </div>
                     </td>
@@ -702,54 +730,11 @@
                       <ul class="permission-list">
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>View Assigned Projects</span>
+                          <span>Limited project participation</span>
                         </li>
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>Submit Bids</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle denied"></span>
-                          <span>NO Manage Team</span>
-                        </li>
-                      </ul>
-                    </td>
-                    <td>34</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                      </div>
-                    </td>
-                  </tr>
-                  
-                  <tr data-role-type="Custom">
-                    <td>
-                      <div class="role-name">
-                        <div class="role-name-row">
-                          <a class="role-link">Custom BM Viewer</a>
-                        </div>
-                        <div class="role-based-on">
-                          <i class="fa-solid fa-pencil"></i>
-                          <span>Based On: BM - Team Member</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td><span class="role-type-badge custom">CUSTOM</span></td>
-                    <td>
-                      <ul class="permission-list">
-                        <li class="permission-item">
-                          <span class="permission-circle granted"></span>
-                          <span>View All Bids</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle denied"></span>
-                          <span>NO Submit Bids</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle denied"></span>
-                          <span>NO Manage Team</span>
+                          <span>Bid Management Only</span>
                         </li>
                       </ul>
                     </td>
@@ -759,7 +744,6 @@
                         <button class="action-btn">View</button>
                         <button class="action-btn">Copy</button>
                         <button class="action-btn">Assign</button>
-                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -837,12 +821,8 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">OST - Admin</a>
+                          <a class="role-link">Takeoff Admin</a>
                           <span class="role-badge ost">OST</span>
-                        </div>
-                        <div class="role-success">
-                          <i class="fa-solid fa-check"></i>
-                          <span>Can be copied</span>
                         </div>
                       </div>
                     </td>
@@ -851,19 +831,19 @@
                       <ul class="permission-list">
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>Manage All Projects</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle granted"></span>
                           <span>Manage Templates</span>
                         </li>
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>Export Estimates</span>
+                          <span>Manage Formulas</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Settings</span>
                         </li>
                       </ul>
                     </td>
-                    <td>8</td>
+                    <td>2</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
@@ -877,51 +857,13 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">OST - Estimator</a>
+                          <a class="role-link">Regional Estimator</a>
                           <span class="role-badge ost">OST</span>
-                        </div>
-                        <div class="role-success">
-                          <i class="fa-solid fa-check"></i>
-                          <span>Can be copied</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td><span class="role-type-badge standard">STANDARD</span></td>
-                    <td>
-                      <ul class="permission-list">
-                        <li class="permission-item">
-                          <span class="permission-circle granted"></span>
-                          <span>Create Estimates</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle granted"></span>
-                          <span>Perform Takeoffs</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle denied"></span>
-                          <span>NO Manage Templates</span>
-                        </li>
-                      </ul>
-                    </td>
-                    <td>27</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                      </div>
-                    </td>
-                  </tr>
-                  
-                  <tr data-group-type="Custom">
-                    <td>
-                      <div class="role-name">
-                        <div class="role-name-row">
-                          <a class="role-link">Custom Viewer</a>
+                          <span class="role-type-badge custom">CUSTOM</span>
                         </div>
                         <div class="role-based-on">
                           <i class="fa-solid fa-pencil"></i>
-                          <span>Based On: OST - Estimator</span>
+                          <span>Based On: Takeoff Admin</span>
                         </div>
                       </div>
                     </td>
@@ -930,25 +872,17 @@
                       <ul class="permission-list">
                         <li class="permission-item">
                           <span class="permission-circle granted"></span>
-                          <span>View Estimates</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle denied"></span>
-                          <span>NO Create Estimates</span>
-                        </li>
-                        <li class="permission-item">
-                          <span class="permission-circle denied"></span>
-                          <span>NO Export Estimates</span>
+                          <span>Estimating for West Coast projects ONLY</span>
                         </li>
                       </ul>
                     </td>
-                    <td>3</td>
+                    <td>2</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
                         <button class="action-btn">Copy</button>
                         <button class="action-btn">Assign</button>
-                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                        <button class="action-btn delete-btn"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -956,7 +890,19 @@
               </table>
             </div>
 
-            <!-- Table Footer -->
+            <!-- Pagination -->
+            <div class="pagination">
+              <span class="results-info">1-5 of 5</span>
+              <button class="pagination-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+              <button class="pagination-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                      </div>
+                    </td>
+                  </tr>\n                </tbody>\n              </table>\n            </div>\n\n            <!-- Table Footer -->
             <div class="table-footer">
               <div class="results-count">
                 <strong id="ostResultsCount">3</strong> Results Found
