@@ -315,6 +315,7 @@ body {
   border-radius: var(--radius-md); 
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   box-sizing: border-box;
+  padding-bottom: 20px;
 }
 .header { 
   padding: var(--spacing-large-700) 20px; 
