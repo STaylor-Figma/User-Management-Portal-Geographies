@@ -13,6 +13,34 @@
 
 .content { padding: 0 20px; }
 
+/* Status Badge */
+.status-badge { 
+  display: inline-flex; 
+  align-items: center; 
+  padding: 6px 12px; 
+  background: #459d13; 
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 14px; 
+  font-weight: 600; 
+}
+
+/* Alert Banners */
+.alert { 
+  padding: 10px 12px; 
+  border-radius: 4px; 
+  font-size: 13px; 
+  margin-bottom: 16px; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+.alert-success { 
+  background: #efe; 
+  border: 1px solid #cfc; 
+  color: #060; 
+}
+
 /* Organization Header */
 .org-header { 
   background: #fff; 
@@ -369,7 +397,7 @@
         <div class="header-top">
           <div style="display: flex; align-items: center; gap: 16px;">
             <h1>Serenity Construction</h1>
-            <span class="user-badge">ORG-45829</span>
+            <span class="status-badge">ORG-45829</span>
           </div>
           <div class="header-icons">
             <button class="icon-btn" onclick="openInviteDrawer()">
