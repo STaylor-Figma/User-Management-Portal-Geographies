@@ -113,58 +113,125 @@
 </head>
 <body>
 
-<!-- Navigation -->
-<div class="layout">
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">CC</div>
-    </div>
-    <nav class="sidebar-nav">
-      <a href="#" class="nav-item">
-        <i class="fa-light fa-tachometer-alt"></i>
-        <span>Dashboard</span>
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fa-light fa-users"></i>
-        <span>My People</span>
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fa-light fa-user-tie"></i>
-        <span>Company</span>
-      </a>
-      <a href="#" class="nav-item">
-        <i class="fa-light fa-address-card"></i>
-        <span>Users</span>
-      </a>
-      <a href="#" class="nav-item active">
-        <i class="fa-light fa-credit-card"></i>
-        <span>Billing</span>
-      </a>
-    </nav>
+<!-- Top Bar - Desktop/Tablet Responsive -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
   </div>
-
-  <div class="main-content">
-    <div class="header">
-      <h1>Subscriptions & Licenses</h1>
-      <div class="header-actions">
-        <button class="icon-btn"><i class="fa-regular fa-user"></i></button>
-        <button class="icon-btn"><i class="fa-regular fa-rotate"></i></button>
-        <button class="icon-btn"><i class="fa-regular fa-ellipsis-h"></i></button>
-      </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
     </div>
+  </div>
+</div>
 
-    <div class="content">
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab">Organization Overview</button>
-        <button class="tab">Project Intelligence</button>
-        <button class="tab active">Bid Management</button>
-        <button class="tab">Takeoff & Estimating</button>
-        <button class="tab">API Apps</button>
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-ellipsis"></i>
+              <span class="tooltip">More</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
+          <button class="tab active">Bid Management</button>
+          <button class="tab">Takeoff & Estimating</button>
+          <button class="tab">API Apps</button>
+        </div>
       </div>
 
-      <!-- Page Content -->
-      <div class="page-content">
+      <div class="content">
+        <!-- Page Content -->
+        <div class="page-content">
         <!-- Table Controls -->
         <div class="table-controls">
           <div class="table-controls-left">
@@ -364,6 +431,17 @@
 </div>
 
 <script>
+// Toggle mobile navigation
+function toggleMobileNav() {
+  const menu = document.querySelector('.hamburger-menu');
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  
+  menu.classList.toggle('active');
+  nav.classList.toggle('show');
+  overlay.classList.toggle('show');
+}
+
 // Select All Checkbox
 document.getElementById('selectAll').addEventListener('change', function(e) {
   const checkboxes = document.querySelectorAll('.row-checkbox');
