@@ -403,7 +403,9 @@
             <div class="filters">
               <select class="filter-btn" id="subscriptionFilter" onchange="filterTable()">
                 <option value="">Show All Subscriptions</option>
-                <option value="Full Access">Full Access</option>
+                <option value="Project Intelligence">Project Intelligence</option>
+                <option value="Bid Management">Bid Management</option>
+                <option value="Takeoff">Takeoff & Estimating</option>
                 <option value="Not Assigned">Not Assigned</option>
               </select>
               <select class="filter-btn" id="roleFilter" onchange="filterTable()">
@@ -671,13 +673,20 @@ function filterTable() {
   
   rows.forEach(row => {
     const cells = row.querySelectorAll('td');
-    const subscriptionText = cells[1]?.textContent.trim() || '';
-    const roleText = cells[2]?.textContent.trim() || '';
-    const groupText = cells[3]?.textContent.trim().split(/\d+/)[0].trim() || '';
+    const projectIntelText = cells[1]?.textContent.trim() || '';
+    const bidMgmtText = cells[2]?.textContent.trim() || '';
+    const takeoffText = cells[3]?.textContent.trim() || '';
     
-    const subscriptionMatch = !subscriptionFilter || subscriptionText.includes(subscriptionFilter);
-    const roleMatch = !roleFilter || roleText.includes(roleFilter);
-    const groupMatch = !groupFilter || groupText.includes(groupFilter);
+    // Check if subscription appears in any of the three columns
+    let subscriptionMatch = !subscriptionFilter;
+    if (subscriptionFilter) {
+      subscriptionMatch = projectIntelText.includes(subscriptionFilter) ||
+                          bidMgmtText.includes(subscriptionFilter) ||
+                          takeoffText.includes(subscriptionFilter);
+    }
+    
+    const roleMatch = !roleFilter || bidMgmtText.includes(roleFilter);
+    const groupMatch = !groupFilter || takeoffText.split(/\d+/)[0].trim().includes(groupFilter);
     
     if (subscriptionMatch && roleMatch && groupMatch) {
       row.style.display = '';
