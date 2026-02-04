@@ -150,6 +150,35 @@
   text-transform: uppercase; 
 }
 
+/* Pills - Subscription/License indicators */
+.pill { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 6px; 
+  padding: 6px 8px; 
+  background: #e7e6e5; 
+  border-radius: 30px; 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #1c1f22; 
+  height: 26px; 
+  line-height: 14px; 
+}
+.pill-counter { 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 2px 6px; 
+  background: #feffff; 
+  border-radius: 30px; 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #1c1f22; 
+  min-width: 20px; 
+  height: 20px; 
+  line-height: 14px; 
+}
+
 /* License Status */
 .license-status { 
   display: flex; 
@@ -1033,16 +1062,13 @@
                 </div>
               </td>
               <td>
-                <div class="license-status">
-                  <span class="status-text">Full Access</span>
-                  <span class="date-badge">Modified 123</span>
-                </div>
+                <span class="pill">Full Access<span class="pill-counter">Modified 123</span></span>
               </td>
               <td>
-                <span class="product-role-badge">BM - Team Member</span>
+                <span class="pill">BM - Team Member</span>
               </td>
               <td>
-                <span class="product-role-badge">Estimator 123</span>
+                <span class="pill">Estimator<span class="pill-counter">123</span></span>
               </td>
               <td>March 12, 2025</td>
             </tr>
@@ -1061,16 +1087,13 @@
                 </div>
               </td>
               <td>
-                <div class="license-status">
-                  <span class="status-text">Active</span>
-                  <span class="date-badge">Modified 45</span>
-                </div>
+                <span class="pill">Active<span class="pill-counter">Modified 45</span></span>
               </td>
               <td>
-                <span class="product-role-badge">BM - Admin</span>
+                <span class="pill">BM - Admin</span>
               </td>
               <td>
-                <span class="product-role-badge">Takeoff Admin</span>
+                <span class="pill">Takeoff Admin</span>
               </td>
               <td>March 15, 2025</td>
             </tr>
@@ -1088,15 +1111,13 @@
                 </div>
               </td>
               <td>
-                <div class="license-status">
-                  <span class="status-text">No Access</span>
-                </div>
+                <span class="pill">No Access</span>
               </td>
               <td>
-                <span class="status-text">No Access</span>
+                <span class="pill">No Access</span>
               </td>
               <td>
-                <span class="product-role-badge">Estimator 456</span>
+                <span class="pill">Estimator<span class="pill-counter">456</span></span>
               </td>
               <td>March 10, 2025</td>
             </tr>
