@@ -1457,6 +1457,43 @@ function closeManageGroupDrawer() {
   document.getElementById('drawerOverlay').classList.remove('active');
 }
 
+// Tab switching functions
+function switchCreateGroupTab(tabIndex) {
+  const drawer = document.getElementById('createGroupDrawer');
+  const tabs = drawer.querySelectorAll('.drawer-tab');
+  const contents = drawer.querySelectorAll('[id^="createGroupTabContent"]');
+  
+  tabs.forEach((tab, index) => {
+    if (index === tabIndex) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+  
+  contents.forEach((content, index) => {
+    content.style.display = index === tabIndex ? 'block' : 'none';
+  });
+}
+
+function switchManageGroupTab(tabIndex) {
+  const drawer = document.getElementById('manageGroupDrawer');
+  const tabs = drawer.querySelectorAll('.drawer-tab');
+  const contents = drawer.querySelectorAll('[id^="manageGroupTabContent"]');
+  
+  tabs.forEach((tab, index) => {
+    if (index === tabIndex) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+  
+  contents.forEach((content, index) => {
+    content.style.display = index === tabIndex ? 'block' : 'none';
+  });
+}
+
 function openManageUsersDrawer() {
   document.getElementById('manageUsersDrawer').classList.add('active');
   document.getElementById('drawerOverlay').classList.add('active');
@@ -1723,16 +1760,16 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="drawer-header">
     <h2 class="drawer-title">Create Group</h2>
     <button class="drawer-close" onclick="closeCreateGroupDrawer()">
-      <i class="fa-regular fa-xmark"></i>
+      <i class="fa-regular fa-ellipsis-h"></i>
     </button>
   </div>
   
   <div class="drawer-tabs">
-    <button class="drawer-tab active">Group Details</button>
-    <button class="drawer-tab">Add Existing Users</button>
+    <button class="drawer-tab active" onclick="switchCreateGroupTab(0)">Group Details</button>
+    <button class="drawer-tab" onclick="switchCreateGroupTab(1)">Add Existing Users</button>
   </div>
   
-  <div class="drawer-content">
+  <div class="drawer-content" id="createGroupTabContent0">
     <div class="form-group">
       <label class="form-label">Group Name</label>
       <input type="text" class="form-input" placeholder="Group Name">
@@ -1825,6 +1862,16 @@ document.addEventListener('DOMContentLoaded', function() {
     </table>
   </div>
   
+  <div class="drawer-content" id="createGroupTabContent1" style="display: none;">
+    <div class="helper-text">
+      Quickly assign an existing user to an existing group. Adding the user will automatically give them the same permissions that have been set to the group.
+    </div>
+    
+    <div style="padding: 20px; text-align: center; color: #88888e;">
+      <p>User selection interface would go here</p>
+    </div>
+  </div>
+  
   <div class="drawer-footer">
     <div class="drawer-footer-left">
       <button class="btn-secondary">Reset</button>
@@ -1841,16 +1888,16 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="drawer-header">
     <h2 class="drawer-title">Manage Group</h2>
     <button class="drawer-close" onclick="closeManageGroupDrawer()">
-      <i class="fa-regular fa-xmark"></i>
+      <i class="fa-regular fa-ellipsis-h"></i>
     </button>
   </div>
   
   <div class="drawer-tabs">
-    <button class="drawer-tab active">Group Details</button>
-    <button class="drawer-tab">Manage Users</button>
+    <button class="drawer-tab active" onclick="switchManageGroupTab(0)">Group Details</button>
+    <button class="drawer-tab" onclick="switchManageGroupTab(1)">Manage Users</button>
   </div>
   
-  <div class="drawer-content">
+  <div class="drawer-content" id="manageGroupTabContent0">
     <div class="form-group">
       <label class="form-label">Group Name</label>
       <input type="text" class="form-input" value="Browncoats">
@@ -1943,6 +1990,16 @@ document.addEventListener('DOMContentLoaded', function() {
         </tr>
       </tbody>
     </table>
+  </div>
+  
+  <div class="drawer-content" id="manageGroupTabContent1" style="display: none;">
+    <div class="helper-text">
+      Deselecting users from this group will remove their permissions from the group's subscriptions. To retain those permissions, add them separately or keep them in the group.
+    </div>
+    
+    <div style="padding: 20px; text-align: center; color: #88888e;">
+      <p>User management interface would go here</p>
+    </div>
   </div>
   
   <div class="drawer-footer">
