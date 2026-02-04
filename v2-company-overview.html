@@ -150,13 +150,11 @@
 }
 .seat-label { 
   font-weight: 500; 
-  color: #1c1f22; 
 }
 .seat-count { 
-  font-weight: 400; 
   color: #666; 
 }
-.progress-bar { 
+.seat-bar { 
   width: 100%; 
   height: 8px; 
   background: #e0e0e0; 
@@ -164,14 +162,10 @@
   overflow: hidden; 
   margin-bottom: 12px; 
 }
-.progress-fill { 
+.seat-fill { 
   height: 100%; 
   background: #424242; 
-  transition: width 0.3s ease; 
 }
-.progress-fill.good { background: #424242; }
-.progress-fill.warning { background: #424242; }
-.progress-fill.danger { background: #424242; }
 
 /* Geographic/Category Access */
 .access-info { 
@@ -470,8 +464,8 @@
                   <span class="seat-label">Seat Utilization</span>
                   <span class="seat-count">25 of 30 seats</span>
                 </div>
-                <div class="progress-bar">
-                  <div class="progress-fill warning" style="width: 83%"></div>
+                <div class="seat-bar">
+                  <div class="seat-fill" style="width: 83%"></div>
                 </div>
               </div>
 
@@ -503,8 +497,8 @@
                   <span class="seat-label">Seat Utilization</span>
                   <span class="seat-count">18 of 25 seats</span>
                 </div>
-                <div class="progress-bar">
-                  <div class="progress-fill good" style="width: 72%"></div>
+                <div class="seat-bar">
+                  <div class="seat-fill" style="width: 72%"></div>
                 </div>
               </div>
 
@@ -525,8 +519,8 @@
                   <span class="seat-label">License Utilization</span>
                   <span class="seat-count">8 of 10 licenses</span>
                 </div>
-                <div class="progress-bar">
-                  <div class="progress-fill warning" style="width: 80%"></div>
+                <div class="seat-bar">
+                  <div class="seat-fill" style="width: 80%"></div>
                 </div>
               </div>
 
