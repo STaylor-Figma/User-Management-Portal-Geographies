@@ -573,12 +573,20 @@ function filterTable() {
     const bidMgmtText = cells[2]?.textContent.trim() || '';
     const takeoffText = cells[3]?.textContent.trim() || '';
     
-    // Check if subscription appears in any of the three columns
+    // Check if subscription is assigned
     let subscriptionMatch = !subscriptionFilter;
     if (subscriptionFilter) {
-      subscriptionMatch = projectIntelText.includes(subscriptionFilter) ||
-                          bidMgmtText.includes(subscriptionFilter) ||
-                          takeoffText.includes(subscriptionFilter);
+      if (subscriptionFilter === 'Not Assigned') {
+        subscriptionMatch = projectIntelText.includes('Not Assigned') ||
+                            bidMgmtText.includes('Not Assigned') ||
+                            takeoffText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Project Intelligence') {
+        subscriptionMatch = !projectIntelText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Bid Management') {
+        subscriptionMatch = !bidMgmtText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Takeoff') {
+        subscriptionMatch = !takeoffText.includes('Not Assigned');
+      }
     }
     
     const roleMatch = !roleFilter || bidMgmtText.includes(roleFilter);
