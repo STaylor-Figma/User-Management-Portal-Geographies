@@ -637,8 +637,9 @@
                 <thead>
                   <tr>
                     <th>Role Name</th>
-                    <th>Role Type</th>
-                    <th>Permissions</th>
+                    <th>Type</th>
+                    <th>Key Permissions</th>
+                    <th>Users</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -646,27 +647,34 @@
                   <tr data-role-type="Admin">
                     <td>
                       <div class="role-name">
-                        <a class="role-link">BM - Admin</a>
-                        <span class="role-badge bm">BM</span>
+                        <div class="role-name-row">
+                          <a class="role-link">BM - Admin</a>
+                          <span class="role-badge bm">BM</span>
+                        </div>
+                        <div class="role-success">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Can be copied</span>
+                        </div>
                       </div>
                     </td>
                     <td><span class="role-type-badge standard">STANDARD</span></td>
                     <td>
                       <ul class="permission-list">
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Manage projects</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Projects</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Manage team members</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Team</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>View all bids</span>
+                          <span class="permission-circle granted"></span>
+                          <span>View All Bids</span>
                         </li>
                       </ul>
                     </td>
+                    <td>12</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
@@ -679,27 +687,34 @@
                   <tr data-role-type="Team Member">
                     <td>
                       <div class="role-name">
-                        <a class="role-link">BM - Team Member</a>
-                        <span class="role-badge bm">BM</span>
+                        <div class="role-name-row">
+                          <a class="role-link">BM - Team Member</a>
+                          <span class="role-badge bm">BM</span>
+                        </div>
+                        <div class="role-success">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Can be copied</span>
+                        </div>
                       </div>
                     </td>
                     <td><span class="role-type-badge standard">STANDARD</span></td>
                     <td>
                       <ul class="permission-list">
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>View assigned projects</span>
+                          <span class="permission-circle granted"></span>
+                          <span>View Assigned Projects</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Submit bids</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Submit Bids</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot denied"></span>
-                          <span>Manage team members</span>
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Team</span>
                         </li>
                       </ul>
                     </td>
+                    <td>34</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
@@ -712,32 +727,39 @@
                   <tr data-role-type="Custom">
                     <td>
                       <div class="role-name">
-                        <a class="role-link">Custom BM Viewer</a>
+                        <div class="role-name-row">
+                          <a class="role-link">Custom BM Viewer</a>
+                        </div>
+                        <div class="role-based-on">
+                          <i class="fa-solid fa-pencil"></i>
+                          <span>Based On: BM - Team Member</span>
+                        </div>
                       </div>
                     </td>
                     <td><span class="role-type-badge custom">CUSTOM</span></td>
                     <td>
                       <ul class="permission-list">
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>View all bids</span>
+                          <span class="permission-circle granted"></span>
+                          <span>View All Bids</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot denied"></span>
-                          <span>Submit bids</span>
+                          <span class="permission-circle denied"></span>
+                          <span>NO Submit Bids</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot denied"></span>
-                          <span>Manage projects</span>
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Team</span>
                         </li>
                       </ul>
                     </td>
+                    <td>5</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
                         <button class="action-btn">Copy</button>
                         <button class="action-btn">Assign</button>
-                        <button class="action-btn">Delete</button>
+                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -804,8 +826,9 @@
                 <thead>
                   <tr>
                     <th>Role Name</th>
-                    <th>Role Type</th>
-                    <th>Permissions</th>
+                    <th>Type</th>
+                    <th>Key Permissions</th>
+                    <th>Users</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -813,27 +836,34 @@
                   <tr data-group-type="Admin">
                     <td>
                       <div class="role-name">
-                        <a class="role-link">OST - Admin</a>
-                        <span class="role-badge ost">OST</span>
+                        <div class="role-name-row">
+                          <a class="role-link">OST - Admin</a>
+                          <span class="role-badge ost">OST</span>
+                        </div>
+                        <div class="role-success">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Can be copied</span>
+                        </div>
                       </div>
                     </td>
                     <td><span class="role-type-badge standard">STANDARD</span></td>
                     <td>
                       <ul class="permission-list">
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Manage all projects</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Manage All Projects</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Manage templates</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Templates</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Export estimates</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Export Estimates</span>
                         </li>
                       </ul>
                     </td>
+                    <td>8</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
@@ -846,27 +876,34 @@
                   <tr data-group-type="Estimator">
                     <td>
                       <div class="role-name">
-                        <a class="role-link">OST - Estimator</a>
-                        <span class="role-badge ost">OST</span>
+                        <div class="role-name-row">
+                          <a class="role-link">OST - Estimator</a>
+                          <span class="role-badge ost">OST</span>
+                        </div>
+                        <div class="role-success">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Can be copied</span>
+                        </div>
                       </div>
                     </td>
                     <td><span class="role-type-badge standard">STANDARD</span></td>
                     <td>
                       <ul class="permission-list">
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Create estimates</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Create Estimates</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>Perform takeoffs</span>
+                          <span class="permission-circle granted"></span>
+                          <span>Perform Takeoffs</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot denied"></span>
-                          <span>Manage templates</span>
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Templates</span>
                         </li>
                       </ul>
                     </td>
+                    <td>27</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
@@ -879,32 +916,39 @@
                   <tr data-group-type="Custom">
                     <td>
                       <div class="role-name">
-                        <a class="role-link">Custom Viewer</a>
+                        <div class="role-name-row">
+                          <a class="role-link">Custom Viewer</a>
+                        </div>
+                        <div class="role-based-on">
+                          <i class="fa-solid fa-pencil"></i>
+                          <span>Based On: OST - Estimator</span>
+                        </div>
                       </div>
                     </td>
                     <td><span class="role-type-badge custom">CUSTOM</span></td>
                     <td>
                       <ul class="permission-list">
                         <li class="permission-item">
-                          <span class="permission-dot granted"></span>
-                          <span>View estimates</span>
+                          <span class="permission-circle granted"></span>
+                          <span>View Estimates</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot denied"></span>
-                          <span>Create estimates</span>
+                          <span class="permission-circle denied"></span>
+                          <span>NO Create Estimates</span>
                         </li>
                         <li class="permission-item">
-                          <span class="permission-dot denied"></span>
-                          <span>Export estimates</span>
+                          <span class="permission-circle denied"></span>
+                          <span>NO Export Estimates</span>
                         </li>
                       </ul>
                     </td>
+                    <td>3</td>
                     <td>
                       <div class="action-buttons">
                         <button class="action-btn">View</button>
                         <button class="action-btn">Copy</button>
                         <button class="action-btn">Assign</button>
-                        <button class="action-btn">Delete</button>
+                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
