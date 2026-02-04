@@ -401,19 +401,21 @@
 
 /* Drawer Header */
 .drawer-header { 
-  padding: 14px 20px; 
+  padding: 0;
   background: #f4f4f4; 
   border-bottom: 1px solid #e7e6e5; 
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
+  min-height: 60px;
 }
 .drawer-title { 
   font-family: 'Montserrat', sans-serif;
   font-size: 20px; 
   font-weight: 700; 
   color: #1c1f22; 
-  margin: 0; 
+  margin: 0;
+  padding: 14px 0 14px 20px;
 }
 .drawer-close { 
   background: none; 
@@ -421,9 +423,9 @@
   font-size: 24px; 
   cursor: pointer; 
   color: #4a4f55; 
-  padding: 0; 
-  width: 32px; 
-  height: 32px; 
+  padding: 14px 10px;
+  width: auto;
+  height: auto;
   display: flex; 
   align-items: center; 
   justify-content: center; 
@@ -898,21 +900,24 @@
 
 /* Drawer Footer */
 .drawer-footer { 
-  padding: 20px; 
+  padding: 0;
   border-top: 1px solid #e7e6e5; 
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  background: white; 
+  background: white;
+  min-height: 72px;
 }
 .drawer-footer-left { 
   display: flex; 
-  gap: 12px; 
+  gap: 12px;
+  padding: 20px;
 }
 .drawer-footer-right { 
   display: flex; 
   gap: 12px; 
-  align-items: center; 
+  align-items: center;
+  padding: 20px;
 }
 .link-button { 
   background: none; 
