@@ -49,6 +49,9 @@
   margin: 0 0 16px 0; 
   padding-bottom: 12px; 
   border-bottom: 1px solid #dad8d7; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
 }
 .info-row { 
   display: flex; 
@@ -69,11 +72,6 @@
 }
 
 /* Users Summary Card */
-.users-summary .card-title { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-}
 .summary-grid { 
   display: grid; 
   grid-template-columns: repeat(2, 1fr); 
@@ -246,13 +244,6 @@
   margin-bottom: 16px; 
 }
 
-/* Quick Actions */
-.quick-actions { 
-  display: flex; 
-  gap: 12px; 
-  flex-wrap: wrap; 
-}
-
 /* Responsive Design */
 @media (max-width: 1024px) {
   .subscription-cards { 
@@ -390,7 +381,13 @@
           
           <!-- Company Information -->
           <div class="info-card">
-            <h2 class="card-title">Company Information</h2>
+            <div class="card-title">
+              <span>Company Information</span>
+              <button class="btn-secondary">
+                <i class="fa-light fa-pen-to-square"></i>
+                Edit
+              </button>
+            </div>
             <div class="info-row">
               <span class="info-label">Address</span>
               <span class="info-value">4850 Industrial Parkway, Suite 200</span>
@@ -583,30 +580,6 @@
           <button class="btn-secondary">
             <i class="fa-light fa-credit-card"></i>
             View Billing Portal
-          </button>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-          <button class="btn-primary">
-            <i class="fa-light fa-user-plus"></i>
-            Add User
-          </button>
-          <button class="btn-secondary" onclick="window.location.href='v2-subscription-overview.html'">
-            <i class="fa-light fa-file-invoice"></i>
-            Manage Licenses
-          </button>
-          <button class="btn-secondary" onclick="window.location.href='v2-subscription-overview.html'">
-            <i class="fa-light fa-list-check"></i>
-            View All Subscriptions
-          </button>
-          <button class="btn-secondary">
-            <i class="fa-light fa-building"></i>
-            Edit Company Profile
-          </button>
-          <button class="btn-ghost">
-            <i class="fa-light fa-receipt"></i>
-            View Billing
           </button>
         </div>
 
