@@ -2868,14 +2868,8 @@ function loadManageUsersIndividualMode() {
         </div>
         <div id="manageUsersLicenseChips" style="margin-top: 13px; display: flex; flex-direction: column; gap: 8px;">
           <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">NY - Nassau / Suffolk</span>
-            <button onclick="removeLicenseChip('ny-nassau')" style="background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; width: 14px; height: 14px;">
-              <i class="fa-regular fa-xmark" style="font-size: 12px; color: #1c1f22;"></i>
-            </button>
-          </div>
-          <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: inline-flex; align-items: center; justify-content: space-between; gap: 6px;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">NY - Long Island</span>
-            <button onclick="removeLicenseChip('ny-longisland')" style="background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; width: 14px; height: 14px;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Project Intelligence Starter</span>
+            <button onclick="removeLicenseChip('pi-starter')" style="background: transparent; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; width: 14px; height: 14px;">
               <i class="fa-regular fa-xmark" style="font-size: 12px; color: #1c1f22;"></i>
             </button>
           </div>
@@ -2893,47 +2887,20 @@ function loadManageUsersIndividualMode() {
             <div style="display: flex; gap: 4px; align-items: center;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
               <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">31</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">20</span>
               </div>
             </div>
-            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
+            <button onclick="window.location.href='v2-modify-users-workflow.html'" style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
           </div>
           <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Subscription</span>
           </div>
           <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Project Intelligence Starter</span>
             <div style="display: flex; gap: 10px; align-items: center;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Assigned</span>
-              <button onclick="unassignLicense('ny-nassau')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <button onclick="unassignLicense('pi-starter')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                 <i class="fa-regular fa-minus" style="font-size: 16px; color: #4a4f55;"></i>
-              </button>
-            </div>
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Assigned</span>
-              <button onclick="unassignLicense('ny-longisland')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <i class="fa-regular fa-minus" style="font-size: 16px; color: #4a4f55;"></i>
-              </button>
-            </div>
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
-              <button onclick="assignLicense('pa-philly')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-              </button>
-            </div>
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Keystone</span>
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
-              <button onclick="assignLicense('pa-keystone')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
               </button>
             </div>
           </div>
@@ -3017,29 +2984,17 @@ function loadManageUsersBulkMode() {
             <div style="display: flex; gap: 4px; align-items: center;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
               <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">31</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">20</span>
               </div>
             </div>
-            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
+            <button onclick="window.location.href='v2-modify-users-workflow.html'" style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
           </div>
           <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Subscription</span>
           </div>
           <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Keystone</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Project Intelligence Starter</span>
+            <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">
           </div>
         </div>
         
