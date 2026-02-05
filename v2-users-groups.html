@@ -476,7 +476,11 @@
 .drawer-content { 
   flex: 1; 
   overflow-y: auto; 
-  padding: 0;
+  background: #feffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .drawer-two-column { 
   display: grid; 
@@ -761,34 +765,57 @@
   transform: translateX(28px); 
 }
 
+/* Toggle Container */
+.toggle-container {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Subscription Assignment Table */
 .subscription-table { 
-  width: 100%; 
-  margin: 0;
-  border-collapse: collapse;
+  width: 455px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
-.subscription-table th { 
-  text-align: left; 
-  padding: 0 20px 10px 20px; 
-  border-bottom: 1px solid #4a4f55; 
+.subscription-table-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #4a4f55;
+}
+.subscription-table-header span {
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px; 
   font-weight: 700;
-  color: #1c1f22; 
-  height: 40px;
-  vertical-align: bottom;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1c1f22;
 }
-.subscription-table th:last-child {
-  text-align: right;
-  padding-right: 30px;
+.subscription-table-header span:first-child {
+  width: 227px;
+  flex-shrink: 0;
 }
-.subscription-table td { 
-  padding: 5px 20px; 
-  border-bottom: 1px solid #dad8d7; 
+.subscription-table-header span:last-child {
+  width: 120px;
+  flex-shrink: 0;
+  text-align: center;
+  margin-left: auto;
 }
-.subscription-table td:last-child {
-  text-align: right;
-  padding-right: 30px;
+.subscription-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  border-bottom: 1px solid #dad8d7;
+}
+.subscription-info {
+  width: 227px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .subscription-name { 
   font-family: 'Montserrat', sans-serif;
@@ -800,9 +827,16 @@
   display: flex; 
   align-items: center; 
   gap: 6px; 
-  font-family: 'Gotham Book', sans-serif;
-  font-size: 13px; 
-  margin-top: 4px; 
+}
+.subscription-availability i {
+  font-size: 14px;
+}
+.subscription-availability span {
+  font-family: 'Gotham', sans-serif;
+  font-weight: 400; 
+  font-size: 14px; 
+  line-height: 16px;
+  letter-spacing: -0.28px;
 }
 .subscription-availability.available { 
   color: #28a745; 
@@ -811,7 +845,7 @@
   color: #dc3545; 
 }
 .subscription-availability.low { 
-  color: #dc7200; 
+  color: #ffc107; 
 }
 
 /* Helper Text */
@@ -820,8 +854,8 @@
   font-size: 14px; 
   font-weight: 500; 
   color: #212529; 
-  padding: 0 20px 10px 20px; 
-  margin: 0;
+  margin: 10px 0 0 0;
+  padding: 0;
   line-height: 16px;
 }
 
@@ -1784,12 +1818,12 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
   
   <div class="drawer-content" id="createGroupTabContent0">
-    <div class="form-group" style="padding: 0 20px;">
+    <div class="form-group">
       <label class="form-label">Group Name</label>
       <input type="text" class="form-input" placeholder="Group Name">
     </div>
     
-    <div class="form-group" style="padding: 0 20px;">
+    <div class="form-group">
       <label class="form-label">Group Description</label>
       <textarea class="form-textarea" placeholder="Group description that provides more information about this specific group."></textarea>
     </div>
@@ -1798,86 +1832,87 @@ document.addEventListener('DOMContentLoaded', function() {
       Adding a subscription to this group automatically assigns a seat to any new user. To change this, visit the users view of the group to adjust individual users.
     </div>
     
-    <table class="subscription-table">
-      <thead>
-        <tr>
-          <th>Subscription</th>
-          <th>Assign to Group</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="subscription-name">Project Intelligence Pro</div>
-            <div class="subscription-availability unavailable">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>You have no seats available</span>
-            </div>
-          </td>
-          <td>
-            <div class="toggle-switch disabled">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">Project Intelligence Starter</div>
-            <div class="subscription-availability unavailable">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>You have no seats available</span>
-            </div>
-          </td>
-          <td>
-            <div class="toggle-switch disabled">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">Bid Management</div>
-            <div class="subscription-availability available">
-              <i class="fa-solid fa-check"></i>
-              <span>You have 16 seats available</span>
-            </div>
-          </td>
-          <td>
-            <div class="toggle-switch" id="toggle-bm" onclick="toggleSubscription('bm')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">OnScreen Takeoff</div>
-            <div class="subscription-availability available">
-              <i class="fa-solid fa-check"></i>
-              <span>You have 8 seats available</span>
-            </div>
-          </td>
-          <td>
-            <div class="toggle-switch" id="toggle-ost" onclick="toggleSubscription('ost')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">QuickBid - Shared</div>
-            <div class="subscription-availability low">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>You have 2 seats available</span>
-            </div>
-          </td>
-          <td>
-            <div class="toggle-switch" id="toggle-qb" onclick="toggleSubscription('qb')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="subscription-table">
+      <div class="subscription-table-header">
+        <span>Subscription</span>
+        <span>Assign to Group</span>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Pro</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Starter</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Bid Management</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 16 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-bm" onclick="toggleSubscription('bm')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">OnScreen Takeoff</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 8 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-ost" onclick="toggleSubscription('ost')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">QuickBid - Shared</div>
+          <div class="subscription-availability low">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>You have 2 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-qb" onclick="toggleSubscription('qb')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   
   <div class="drawer-content" id="createGroupTabContent1" style="display: none;">
