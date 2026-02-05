@@ -749,10 +749,14 @@
   background: #00a1e0; 
 }
 .toggle-switch.disabled { 
-  background: #dad8d7;
-  opacity: 0.3; 
+  opacity: 0.5; 
   cursor: not-allowed; 
   pointer-events: none;
+}
+.toggle-switch.on.disabled {
+  background: #00a1e0 !important;
+  opacity: 0.5;
+}
 }
 .toggle-circle { 
   position: absolute; 
@@ -2740,7 +2744,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
         <div class="toggle-container" style="width: 110px;">
-          <div class="toggle-switch active disabled" style="pointer-events: none;">
+          <div class="toggle-switch on disabled">
             <div class="toggle-circle"></div>
           </div>
         </div>
@@ -2763,7 +2767,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
         <div class="toggle-container" style="width: 110px;">
-          <div class="toggle-switch active disabled" style="pointer-events: none;">
+          <div class="toggle-switch on disabled">
             <div class="toggle-circle"></div>
           </div>
         </div>
@@ -2786,7 +2790,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
         <div class="toggle-container" style="width: 110px;">
-          <div class="toggle-switch active disabled" style="pointer-events: none;">
+          <div class="toggle-switch on disabled">
             <div class="toggle-circle"></div>
           </div>
         </div>
