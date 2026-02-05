@@ -11,6 +11,9 @@ test.describe('Accessibility Tests', () => {
   test.beforeEach(async ({ page }) => {
     // Ensure local server is running at http://localhost:3000
     // Start with: lsof -ti:3000 | xargs kill -9 2>/dev/null; node ../server.js &
+    
+    // Wait for styles to load after navigation
+    await page.waitForLoadState('networkidle');
   });
 
   test('v2-users-groups.html should not have accessibility violations', async ({ page }) => {
@@ -23,8 +26,30 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  // My Profile - Single & Multi
   test('v2-my-profile.html should not have accessibility violations', async ({ page }) => {
     await page.goto('http://localhost:3000/v2-my-profile.html');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('v2-my-profile-multi.html should not have accessibility violations', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-my-profile-multi.html');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  // User Roles - Single & Multi
+  test('v2-user-roles.html should not have accessibility violations', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-user-roles.html');
     
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
@@ -43,6 +68,28 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  // Subscription Overview - Single & Multi
+  test('v2-subscription-overview.html should not have accessibility violations', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-subscription-overview.html');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  test('v2-subscription-overview-multi.html should not have accessibility violations', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-subscription-overview-multi.html');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
+  // Company Overview
   test('v2-company-overview.html should not have accessibility violations', async ({ page }) => {
     await page.goto('http://localhost:3000/v2-company-overview.html');
     
@@ -53,6 +100,7 @@ test.describe('Accessibility Tests', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  // Subscription Detail Landing
   test('subscription-detail-landing.html should not have accessibility violations', async ({ page }) => {
     await page.goto('http://localhost:3000/subscription-detail-landing.html');
     
