@@ -931,8 +931,8 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 .drawer {
   position: fixed;
   top: 0;
-  right: -500px;
-  width: 500px;
+  right: -1050px;
+  width: 1050px;
   max-width: 90vw;
   height: 100%;
   background: var(--neutral-0);
@@ -941,6 +941,8 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   overflow-y: auto;
   transition: right 0.3s ease-out;
   z-index: 9999;
+  display: flex;
+  flex-direction: column;
 }
 .drawer.active {
   right: 0;
