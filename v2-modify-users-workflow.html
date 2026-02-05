@@ -8,6 +8,47 @@
 <link rel="stylesheet" href="blueprint-workflow-styles.css">
 <link rel="stylesheet" href="blueprint-navigation.css">
 <link rel="stylesheet" href="blueprint-button-styles.css">
+<style>
+/* County Grid - 2-3 Column Layout */
+.county-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
+  margin-top: 12px;
+}
+
+@media (max-width: 1200px) {
+  .county-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .county-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.county-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #4a4f55;
+}
+
+.county-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.county-item span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+}
+</style>
 </head>
 <body>
 
