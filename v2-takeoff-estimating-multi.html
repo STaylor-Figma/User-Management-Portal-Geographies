@@ -582,7 +582,21 @@ function updateFloatingStatus() {
 // Update selected users and button states
 function updateSelectedUsers() {
   const checkboxes = document.querySelectorAll('.user-checkbox:checked');
+  const allCheckboxes = document.querySelectorAll('.user-checkbox');
   selectedUsers = Array.from(checkboxes).map(cb => cb.dataset.userId);
+  
+  // Update Select All checkbox state
+  const selectAllCheckbox = document.getElementById('selectAll');
+  if (checkboxes.length === 0) {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = false;
+  } else if (checkboxes.length === allCheckboxes.length) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
+  } else {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = true;
+  }
   
   const addBtn = document.getElementById('addLicenseBtn');
   const removeBtn = document.getElementById('removeLicenseBtn');
