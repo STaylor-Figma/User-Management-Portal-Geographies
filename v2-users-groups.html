@@ -1868,14 +1868,14 @@ document.addEventListener('DOMContentLoaded', function() {
       <!-- Left Column - Form Fields (636px) -->
       <div style="width: 636px; display: flex; flex-direction: column; gap: 13px;">
         <!-- Headers Row with User Information and License(s) -->
-        <div style="display: flex; gap: 10px;">
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
           <!-- User Information Header (532px) -->
           <div style="width: 532px; padding: 10px 5px; border-bottom: 2px solid #4a4f55;">
             <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">User Information</span>
           </div>
           <!-- License(s) Header with Bid Center Button (192px) -->
           <div style="width: 192px; display: flex; flex-direction: column; gap: 0;">
-            <div style="padding: 10px; border-bottom: 2px solid #4a4f55; height: 40px; display: flex; align-items: center;">
+            <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
             </div>
             <div style="padding: 10px; display: flex; align-items: center;">
@@ -2083,16 +2083,16 @@ document.addEventListener('DOMContentLoaded', function() {
     <div style="position: relative; width: 100%; height: 32px;">
       <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
       <div style="position: absolute; left: 0; top: 0;">
-        <button style="background: white; border: 2px solid #0c79a8; border-radius: 4px; padding: 8px; height: 32px; max-height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #0c79a8; opacity: 0.3; cursor: not-allowed;">Reset</button>
+        <button class="btn-secondary" disabled>Reset</button>
       </div>
       
       <!-- Right Side - Cancel + Send Invitation Buttons -->
       <div style="position: absolute; right: 0; top: 0; display: flex; gap: 20px; align-items: center;">
         <!-- Cancel Button (Link Small) -->
-        <button onclick="closeInviteDrawer()" style="background: transparent; border: none; padding: 8px; height: 32px; max-height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #0c79a8; cursor: pointer;">Cancel</button>
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
         
         <!-- Send Invitation Button (Primary Small - Disabled) -->
-        <button style="background: #0c79a8; border: none; border-radius: 4px; padding: 8px; height: 32px; max-height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: white; opacity: 0.3; cursor: not-allowed;">Send Invitation</button>
+        <button class="btn-primary" disabled>Send Invitation</button>
       </div>
     </div>
   </div>
