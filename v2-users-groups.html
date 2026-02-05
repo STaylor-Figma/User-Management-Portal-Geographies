@@ -1844,149 +1844,102 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="drawer" id="inviteDrawer">
   <!-- Header -->
   <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
-    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Header</h2>
+    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Invite User(s)</h2>
     <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
-      <i class="fa-regular fa-rocket" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
+      <i class="fa-regular fa-xmark" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
     </button>
   </div>
   
   <!-- Content Container -->
   <div style="background: white; height: 690px; display: flex; flex-direction: column; position: relative;">
-    <!-- Toggle Section (Table Actions Header) -->
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
     <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
-      <div style="display: flex; gap: 32px; align-items: center;">
-        <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;">
-          <button style="background: transparent; border: none; display: flex; gap: 6px; align-items: center; padding: 4px 8px; cursor: pointer;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Left Label</span>
-            <div style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center;">
-              <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
-            </div>
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Right Label</span>
-          </button>
-          <button style="background: #e7e6e5; border: none; border-radius: 4px; padding: 8px; height: 32px; display: flex; gap: 6px; align-items: center; cursor: pointer;">
-            <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 14px; line-height: 14px; color: #4a4f55; letter-spacing: -0.28px;">Default Small</span>
-            <i class="fa-regular fa-rocket" style="font-size: 14px; line-height: 16px; color: #4a4f55;"></i>
-          </button>
+      <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Individual Mode</span>
+        <div style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
         </div>
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Bulk Mode</span>
       </div>
     </div>
     
     <!-- Main Content Area with Form and Tables -->
-    <div style="position: absolute; left: 13px; top: 15px; display: flex; gap: 13px; width: 1004px;">
+    <div style="position: absolute; left: 13px; top: 60px; display: flex; gap: 13px; width: 1004px;">
       <!-- Left Column - Form Fields (636px) -->
-      <div style="width: 636px; display: flex; flex-direction: column; gap: 0;">
-        <!-- Table Actions Header -->
-        <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: flex-start; width: 100%;">
-          <div style="display: flex; gap: 32px; align-items: flex-start; width: 100%;">
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <button style="background: transparent; border: none; display: flex; gap: 6px; align-items: center; padding: 4px 8px; cursor: pointer;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Left Label</span>
-                <div style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center;">
-                  <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
-                </div>
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Right Label</span>
-              </button>
-              <button style="background: #e7e6e5; border: none; border-radius: 4px; padding: 8px; height: 32px; display: flex; gap: 6px; align-items: center; cursor: pointer;">
-                <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 14px; line-height: 14px; color: #4a4f55; letter-spacing: -0.28px;">Default Small</span>
-                <i class="fa-regular fa-rocket" style="font-size: 14px; line-height: 16px; color: #4a4f55;"></i>
-              </button>
-            </div>
-          </div>
+      <div style="width: 636px; display: flex; flex-direction: column; gap: 13px;">
+        <!-- User Information Header -->
+        <div style="padding: 10px 0; border-bottom: 2px solid #4a4f55;">
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">User Information</span>
         </div>
         
-        <!-- Form Fields Section -->
-        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
-          <!-- Header Row -->
-          <div style="background: white; height: 40px; padding-left: 5px; padding-right: 10px; display: flex; align-items: center; width: 100%;">
-            <div style="display: flex; gap: 9px; width: 532px;">
-              <div style="width: 192px; padding: 10px; display: flex; align-items: center;">
-                <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; color: #4a4f55;">Cell Header</span>
-              </div>
-              <div style="width: 192px; padding: 10px; display: flex; align-items: center;">
-                <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; color: #4a4f55;">Cell Header</span>
-              </div>
-            </div>
-            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #4a4f55;"></div>
-          </div>
-          
-          <!-- Form Rows -->
+        <!-- Form Fields -->
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <!-- Row 1: First Name & Last Name -->
           <div style="display: flex; gap: 10px;">
-            <!-- Row 1: First Name & Last Name -->
-            <div style="display: flex; gap: 10px; align-items: flex-start; z-index: 4;">
-              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">First Name <span style="color: #b70900;">*</span></label>
-                <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
-                </button>
-              </div>
-              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Last Name <span style="color: #b70900;">*</span></label>
-                <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
-                </button>
-              </div>
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">First Name <span style="color: #b70900;">*</span></label>
+              <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="First Name">
             </div>
-            <div style="width: 192px; padding: 10px; display: flex; align-items: flex-start;">
-              <span style="font-family: 'Gotham', sans-serif; font-weight: 400; font-size: 14px; line-height: 16px; color: #4a4f55; letter-spacing: -0.28px;">Cell Content</span>
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Last Name <span style="color: #b70900;">*</span></label>
+              <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="Last Name">
             </div>
           </div>
           
+          <!-- Row 2: Role & Title -->
           <div style="display: flex; gap: 10px;">
-            <!-- Row 2: Role & Title -->
-            <div style="display: flex; gap: 10px; align-items: flex-start; z-index: 3;">
-              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Role</label>
-                <div style="position: relative;">
-                  <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; max-height: 300px; width: 100%; display: flex; align-items: center; justify-content: space-between; padding-left: 7px; padding-right: 2px; cursor: pointer;">
-                    <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; padding: 3px 3px 0 0; text-align: left; flex: 1; overflow: hidden;">Make a Selection</span>
-                    <div style="width: 32px; height: 32px; padding: 2px; display: flex; align-items: center; justify-content: center;">
-                      <div style="width: 26px; height: 26px; border-radius: 9999px; padding: 6px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fa-regular fa-rocket" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
-                      </div>
-                    </div>
-                  </button>
-                </div>
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Role</label>
+              <div style="position: relative;">
+                <select style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 3px 7px 0; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; width: 100%; cursor: pointer; appearance: none;">
+                  <option>Team Member</option>
+                </select>
+                <i class="fa-regular fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #4a4f55; pointer-events: none;"></i>
               </div>
-              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Title</label>
-                <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
-                </button>
-              </div>
+            </div>
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Title</label>
+              <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="Title">
             </div>
           </div>
           
           <!-- Row 3: Email Address -->
-          <div style="display: flex; flex-direction: column; gap: 3px; width: 418px; z-index: 2;">
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 418px;">
             <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Email Address <span style="color: #b70900;">*</span></label>
-            <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
-            </button>
+            <input type="email" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="username@email.com">
           </div>
           
           <!-- Row 4: Phone Number -->
-          <div style="display: flex; flex-direction: column; gap: 3px; width: 418px; z-index: 1;">
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 418px;">
             <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Phone Number</label>
-            <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
-            </button>
+            <input type="tel" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="(000) 000-0000">
           </div>
         </div>
       </div>
       
       <!-- Right Column - License Tables (355px) -->
       <div style="width: 355px; display: flex; flex-direction: column; gap: 5px;">
+        <!-- License(s) Header -->
+        <div style=\"padding: 10px 0; border-bottom: 2px solid #4a4f55;\">\n          <span style=\"font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;\">License(s)</span>\n        </div>
+        
+        <!-- Bid Center Pill -->
+        <div style="padding: 8px 10px; display: flex; align-items: center;">
+          <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: inline-flex; align-items: center; justify-content: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Bid Center</span>
+          </div>
+        </div>
+        
         <!-- Table 1: Project Intelligence Licenses -->
         <div style="display: flex; flex-direction: column; width: 100%;">
           <!-- Table Header -->
           <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
             <div style="display: flex; gap: 4px; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Cell Header</span>
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
               <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; min-width: 16px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white; text-align: center;">123</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white; text-align: center;">31</span>
               </div>
             </div>
-            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">Ghost Small</button>
+            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
           </div>
           
           <!-- Table Columns Container -->
@@ -1995,60 +1948,52 @@ document.addEventListener('DOMContentLoaded', function() {
             <div style="width: 185px; display: flex; flex-direction: column;">
               <!-- Column Header -->
               <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Cell Header</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
               </div>
               <!-- Rows -->
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
               </div>
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
               </div>
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
               </div>
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Keystone</span>
               </div>
             </div>
             
             <!-- Right Column: Availability (170px) -->
             <div style="width: 170px; display: flex; flex-direction: column;">
               <!-- Column Header -->
-              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Cell Header</span>
+              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;"></span>
               </div>
-              <!-- Rows with Pills and Ellipsis Buttons -->
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <!-- Rows with Available Count and + Buttons -->
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">2 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">3 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
             </div>
@@ -2056,16 +2001,16 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         
         <!-- Table 2: Takeoff & Estimating Licenses -->
-        <div style="display: flex; flex-direction: column; width: 100%;">
+        <div style="display: flex; flex-direction: column; width: 100%; margin-top: 15px;">
           <!-- Table Header -->
           <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
             <div style="display: flex; gap: 4px; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Cell Header</span>
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Takeoff & Estimating Licenses</span>
               <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; min-width: 16px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white; text-align: center;">123</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white; text-align: center;">31</span>
               </div>
             </div>
-            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">Ghost Small</button>
+            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
           </div>
           
           <!-- Table Columns Container -->
@@ -2074,60 +2019,52 @@ document.addEventListener('DOMContentLoaded', function() {
             <div style="width: 185px; display: flex; flex-direction: column;">
               <!-- Column Header -->
               <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Cell Header</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
               </div>
               <!-- Rows -->
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff</span>
               </div>
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff with AI</span>
               </div>
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OST Planviewer</span>
               </div>
               <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Cell Content</span>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">QuickBid</span>
               </div>
             </div>
             
             <!-- Right Column: Availability (170px) -->
             <div style="width: 170px; display: flex; flex-direction: column;">
               <!-- Column Header -->
-              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Cell Header</span>
+              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;"></span>
               </div>
-              <!-- Rows with Pills and Ellipsis Buttons -->
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <!-- Rows with Available Count and + Buttons -->
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">3 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">1 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 0 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Text Here</span>
-                </div>
-                <button style="background: transparent; border: none; border-radius: 32px; width: 32px; height: 32px; padding: 3px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; line-height: 18px; color: #4a4f55;"></i>
+              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
                 </button>
               </div>
             </div>
@@ -2140,15 +2077,15 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Footer -->
   <div style="background: white; border-top: 1px solid #dad8d7; padding: 20px; display: flex; align-items: center;">
     <div style="position: relative; width: 100%; height: 32px;">
-      <!-- Left Side - Secondary Button -->
+      <!-- Left Side - Reset Button -->
       <div style="position: absolute; left: 0; top: 0;">
-        <button disabled style="background: white; border: 2px solid #0c79a8; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #0c79a8; opacity: 0.3; cursor: not-allowed;">Secondary Small</button>
+        <button style="background: white; border: 2px solid #0c79a8; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #0c79a8; cursor: pointer;">Reset</button>
       </div>
       
-      <!-- Right Side - Link + Primary Buttons -->
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
       <div style="position: absolute; right: 0; top: 0; display: flex; gap: 20px; align-items: center;">
-        <button onclick="closeInviteDrawer()" style="background: transparent; border: none; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #0c79a8; cursor: pointer;">Link Small</button>
-        <button disabled style="background: #0c79a8; border: none; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: white; opacity: 0.3; cursor: not-allowed;">Primary Small</button>
+        <button onclick="closeInviteDrawer()" style="background: transparent; border: none; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #0c79a8; cursor: pointer;">Cancel</button>
+        <button style="background: #0c79a8; border: none; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: white; cursor: pointer;">Send Invitation</button>
       </div>
     </div>
   </div>
