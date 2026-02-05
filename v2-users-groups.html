@@ -1843,74 +1843,134 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Invite Users Drawer -->
 <div class="drawer" id="inviteDrawer">
   <!-- Header -->
-  <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 20px; display: flex; align-items: flex-end; justify-content: space-between;">
-    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: 24px; color: #1c1f22; margin: 0;">Invite User(s)</h2>
-    <button onclick="closeInviteDrawer()" style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
-      <i class="fa-regular fa-xmark" style="font-size: 18px; color: #4a4f55;"></i>
+  <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Header</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-rocket" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
     </button>
   </div>
   
   <!-- Content Container -->
   <div style="background: white; height: 690px; display: flex; flex-direction: column; position: relative;">
-    <!-- Toggle Section at Top -->
+    <!-- Toggle Section (Table Actions Header) -->
     <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
-      <div style="display: flex; gap: 6px; align-items: center; padding: 4px 8px;">
-        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Individual Mode</span>
-        <div style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center; cursor: pointer;">
-          <div style="width: 20px; height: 20px; background: white; border-radius: 50%; transition: transform 0.3s;"></div>
+      <div style="display: flex; gap: 32px; align-items: center;">
+        <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;">
+          <button style="background: transparent; border: none; display: flex; gap: 6px; align-items: center; padding: 4px 8px; cursor: pointer;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Left Label</span>
+            <div style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center;">
+              <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
+            </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Right Label</span>
+          </button>
+          <button style="background: #e7e6e5; border: none; border-radius: 4px; padding: 8px; height: 32px; display: flex; gap: 6px; align-items: center; cursor: pointer;">
+            <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 14px; line-height: 14px; color: #4a4f55; letter-spacing: -0.28px;">Default Small</span>
+            <i class="fa-regular fa-rocket" style="font-size: 14px; line-height: 16px; color: #4a4f55;"></i>
+          </button>
         </div>
-        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Bulk Mode</span>
       </div>
     </div>
     
     <!-- Main Content Area with Form and Tables -->
-    <div style="position: absolute; left: 13px; top: 61px; display: flex; gap: 13px;">
+    <div style="position: absolute; left: 13px; top: 15px; display: flex; gap: 13px; width: 1004px;">
       <!-- Left Column - Form Fields (636px) -->
-      <div style="width: 636px; display: flex; flex-direction: column; gap: 13px;">
-        <!-- Row 1: First Name & Last Name -->
-        <div style="display: flex; gap: 10px;">
-          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">First Name <span style="color: #b70900;">*</span></label>
-            <input type="text" placeholder="Placeholder" style="height: 32px; background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px 7px 3px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">
-          </div>
-          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Last Name <span style="color: #b70900;">*</span></label>
-            <input type="text" placeholder="Placeholder" style="height: 32px; background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px 7px 3px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">
+      <div style="width: 636px; display: flex; flex-direction: column; gap: 0;">
+        <!-- Table Actions Header -->
+        <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: flex-start; width: 100%;">
+          <div style="display: flex; gap: 32px; align-items: flex-start; width: 100%;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button style="background: transparent; border: none; display: flex; gap: 6px; align-items: center; padding: 4px 8px; cursor: pointer;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Left Label</span>
+                <div style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center;">
+                  <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
+                </div>
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Right Label</span>
+              </button>
+              <button style="background: #e7e6e5; border: none; border-radius: 4px; padding: 8px; height: 32px; display: flex; gap: 6px; align-items: center; cursor: pointer;">
+                <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 14px; line-height: 14px; color: #4a4f55; letter-spacing: -0.28px;">Default Small</span>
+                <i class="fa-regular fa-rocket" style="font-size: 14px; line-height: 16px; color: #4a4f55;"></i>
+              </button>
+            </div>
           </div>
         </div>
         
-        <!-- Row 2: Role & Title -->
-        <div style="display: flex; gap: 10px;">
-          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Role</label>
-            <div style="position: relative;">
-              <input type="text" placeholder="Make a Selection" style="height: 32px; background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px 32px 3px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; width: 100%;">
-              <div style="position: absolute; right: 2px; top: 0; height: 32px; width: 32px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
-                <i class="fa-regular fa-chevron-down" style="font-size: 18px; color: #4a4f55;"></i>
+        <!-- Form Fields Section -->
+        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
+          <!-- Header Row -->
+          <div style="background: white; height: 40px; padding-left: 5px; padding-right: 10px; display: flex; align-items: center; width: 100%;">
+            <div style="display: flex; gap: 9px; width: 532px;">
+              <div style="width: 192px; padding: 10px; display: flex; align-items: center;">
+                <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; color: #4a4f55;">Cell Header</span>
+              </div>
+              <div style="width: 192px; padding: 10px; display: flex; align-items: center;">
+                <span style="font-family: 'Gotham', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; color: #4a4f55;">Cell Header</span>
+              </div>
+            </div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #4a4f55;"></div>
+          </div>
+          
+          <!-- Form Rows -->
+          <div style="display: flex; gap: 10px;">
+            <!-- Row 1: First Name & Last Name -->
+            <div style="display: flex; gap: 10px; align-items: flex-start; z-index: 4;">
+              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">First Name <span style="color: #b70900;">*</span></label>
+                <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
+                </button>
+              </div>
+              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Last Name <span style="color: #b70900;">*</span></label>
+                <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
+                </button>
+              </div>
+            </div>
+            <div style="width: 192px; padding: 10px; display: flex; align-items: flex-start;">
+              <span style="font-family: 'Gotham', sans-serif; font-weight: 400; font-size: 14px; line-height: 16px; color: #4a4f55; letter-spacing: -0.28px;">Cell Content</span>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 10px;">
+            <!-- Row 2: Role & Title -->
+            <div style="display: flex; gap: 10px; align-items: flex-start; z-index: 3;">
+              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Role</label>
+                <div style="position: relative;">
+                  <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; max-height: 300px; width: 100%; display: flex; align-items: center; justify-content: space-between; padding-left: 7px; padding-right: 2px; cursor: pointer;">
+                    <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; padding: 3px 3px 0 0; text-align: left; flex: 1; overflow: hidden;">Make a Selection</span>
+                    <div style="width: 32px; height: 32px; padding: 2px; display: flex; align-items: center; justify-content: center;">
+                      <div style="width: 26px; height: 26px; border-radius: 9999px; padding: 6px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-regular fa-rocket" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+                <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Title</label>
+                <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
+                </button>
               </div>
             </div>
           </div>
-          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Title</label>
-            <input type="text" placeholder="Placeholder" style="height: 32px; background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px 7px 3px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">
+          
+          <!-- Row 3: Email Address -->
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 418px; z-index: 2;">
+            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Email Address <span style="color: #b70900;">*</span></label>
+            <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
+            </button>
           </div>
-        </div>
-        
-        <!-- Row 3: Email Address -->
-        <div style="width: 418px; display: flex; flex-direction: column; gap: 3px;">
-          <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Email Address <span style="color: #b70900;">*</span></label>
-          <input type="email" placeholder="Placeholder" style="height: 32px; background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px 7px 3px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; width: 100%;">
-        </div>
-        
-        <!-- Row 4: Phone Number -->
-        <div style="width: 418px; display: flex; flex-direction: column; gap: 3px;">
-          <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Phone Number</label>
-          <input type="tel" placeholder="Placeholder" style="height: 32px; background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px 7px 3px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; width: 100%;">
-        </div>
-        
-        <!-- Row 5: Empty cell placeholder -->
-        <div style="padding: 10px;">
-          <span style="font-family: 'Gotham', sans-serif; font-weight: 400; font-size: 14px; line-height: 16px; color: #4a4f55; letter-spacing: -0.28px;">Cell Content</span>
+          
+          <!-- Row 4: Phone Number -->
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 418px; z-index: 1;">
+            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Phone Number</label>
+            <button style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px 3px 7px; display: flex; align-items: flex-start; width: 100%; text-align: left; cursor: pointer;">
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e;">Placeholder</span>
+            </button>
+          </div>
         </div>
       </div>
       
