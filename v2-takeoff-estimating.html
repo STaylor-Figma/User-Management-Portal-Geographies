@@ -247,8 +247,8 @@
         <!-- User License Table -->
         <div class="table-controls">
           <div class="table-controls-left">
-            <button class="btn-primary" id="addLicenseBtn" disabled>Add License to Selected</button>
-            <button class="btn-secondary" id="removeLicenseBtn" disabled>Remove License</button>
+            <button class="btn-primary" id="addLicenseBtn" disabled onclick="openAssignModal()">Add License to Selected</button>
+            <button class="btn-secondary" id="removeLicenseBtn" disabled onclick="bulkRemoveLicenses()">Remove License</button>
           </div>
           <div class="table-controls-right">
             <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
@@ -738,6 +738,41 @@ function confirmRemoveLicense() {
   renderSummaryCards();
   renderUserTable();
   selectedUsers = [];
+}
+
+// Bulk Remove Licenses
+function bulkRemoveLicenses() {
+  if (selectedUsers.length === 0) return;
+  
+  // Use the first selected user for the modal
+  const firstUser = users.find(u => u.id === selectedUsers[0]);
+  const licenseName = firstUser.desktopLicense || firstUser.webLicense;
+  
+  if (selectedUsers.length === 1) {
+    openRemoveModal(selectedUsers[0], firstUser.desktopLicense ? 'desktop' : 'web');
+  } else {
+    // For multiple users, show a bulk confirmation
+    if (confirm(`Remove licenses from ${selectedUsers.length} selected users?`)) {
+      selectedUsers.forEach(userId => {
+        const user = users.find(u => u.id === userId);
+        if (user.desktopLicense) {
+          const tier = subscriptions.find(s => s.tierName === user.desktopLicense && s.appType === 'desktop');
+          if (tier) tier.assignedSeats--;
+          user.desktopLicense = null;
+        }
+        if (user.webLicense) {
+          const tier = subscriptions.find(s => s.tierName === user.webLicense && s.appType === 'web');
+          if (tier) tier.assignedSeats--;
+          user.webLicense = null;
+        }
+      });
+      
+      renderSummaryCards();
+      renderUserTable();
+      selectedUsers = [];
+      document.getElementById('selectAll').checked = false;
+    }
+  }
 }
 
 // Force Return Modal
