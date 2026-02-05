@@ -72,8 +72,8 @@
 
 /* Action Buttons */
 .action-btn { padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; }
-.action-btn.add { background: #00a1e0; color: #fff; }
-.action-btn.add:hover { background: #0c79a8; }
+.action-btn.add { background: transparent; color: #00a651; border: 1px solid #00a651; }
+.action-btn.add:hover { background: #00a651; color: #fff; }
 .action-btn.remove { background: transparent; color: #d32f2f; border: 1px solid #d32f2f; }
 .action-btn.remove:hover { background: #d32f2f; color: #fff; }
 .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
@@ -247,8 +247,8 @@
         <!-- User License Table -->
         <div class="table-controls">
           <div class="table-controls-left">
-            <button class="btn-primary" id="addLicenseBtn" disabled onclick="openAssignModal()">Add License to Selected</button>
-            <button class="btn-secondary" id="removeLicenseBtn" disabled onclick="bulkRemoveLicenses()">Remove License</button>
+            <button class="btn-secondary" id="addLicenseBtn" disabled onclick="openAssignModal()" style="color: #00a651; border-color: #00a651;">Add License to Selected</button>
+            <button class="btn-secondary" id="removeLicenseBtn" disabled onclick="bulkRemoveLicenses()" style="color: #d32f2f; border-color: #d32f2f;">Remove License</button>
           </div>
           <div class="table-controls-right">
             <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
