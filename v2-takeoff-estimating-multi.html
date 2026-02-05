@@ -208,9 +208,23 @@
       
       <!-- Header & Tabs -->
       <div class="header">
-        <h1>Subscriptions & Licenses</h1>
-        
-        <!-- Tabs -->
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
         <div class="tabs">
           <button class="tab" onclick="window.location.href='v2-subscription-overview-multi.html'">Organization Overview</button>
           <button class="tab" onclick="window.location.href='v2-modify-users-workflow-multi.html'">Project Intelligence</button>
