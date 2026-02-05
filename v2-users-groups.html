@@ -1781,8 +1781,10 @@ function switchManageGroupTab(tabIndex) {
 function openManageUsersDrawer() {
   // Load Individual Mode first
   loadManageUsersIndividualMode();
-  // Reset toggle to off position
-  document.getElementById('manageUsersModeToggle').classList.remove('on');
+  // Reset toggle to start position
+  const toggle = document.getElementById('manageUsersModeToggle');
+  toggle.classList.remove('bulk');
+  toggle.style.justifyContent = 'flex-start';
   // Show drawer
   document.getElementById('manageUsersDrawer').classList.add('active');
   document.getElementById('drawerOverlay').classList.add('active');
@@ -2791,11 +2793,11 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Content Container -->
   <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
     <!-- Toggle Section - Individual Mode / Bulk Mode -->
-    <div style="background: #f2fafe; padding: 10px 13px; display: flex; align-items: center; gap: 10px;">
-      <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleManageUsersMode()">
+    <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;" onclick="toggleManageUsersMode()">
         <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Individual Mode</span>
-        <div class="mode-toggle" id="manageUsersModeToggle">
-          <div class="mode-toggle-circle"></div>
+        <div id="manageUsersModeToggle" style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: 50%; transition: all 0.3s ease;"></div>
         </div>
         <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Bulk Mode</span>
       </div>
@@ -3080,14 +3082,16 @@ function loadManageUsersBulkMode() {
 // Manage Users Drawer - Toggle between modes
 function toggleManageUsersMode() {
   const toggle = document.getElementById('manageUsersModeToggle');
-  const isOn = toggle.classList.contains('on');
   
-  if (isOn) {
-    toggle.classList.remove('on');
-    loadManageUsersIndividualMode();
-  } else {
-    toggle.classList.add('on');
+  toggle.classList.toggle('bulk');
+  if (toggle.classList.contains('bulk')) {
+    // Switch to Bulk Mode
+    toggle.style.justifyContent = 'flex-end';
     loadManageUsersBulkMode();
+  } else {
+    // Switch to Individual Mode
+    toggle.style.justifyContent = 'flex-start';
+    loadManageUsersIndividualMode();
   }
   
   // Reinitialize change tracking after mode switch
