@@ -2706,144 +2706,172 @@ document.addEventListener('DOMContentLoaded', function() {
       Deselecting users from this group will remove their permissions from the group's subscriptions. To retain those permissions, add them separately or keep them in the group.
     </div>
     
-    <div class="user-table">
-      <div class="user-table-header">
-        <div class="header-left">
-          <div class="checkbox-field">
+    <div class="subscription-table" style="width: 455px;">
+      <div class="subscription-table-header">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <div class="checkbox-field" style="padding: 8px;">
             <div class="checkbox">
               <i class="fa-solid fa-minus-square" style="font-size: 16px; color: #00a1e0;"></i>
             </div>
           </div>
           <span>User Name</span>
         </div>
-        <span class="header-right">Group Admin</span>
+        <span style="text-align: right; width: 110px;">Group Admin</span>
       </div>
       
-      <div class="user-table-row owner-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7;">
+        <div class="subscription-info" style="flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Malcom Reynolds</span>
+            <div class="role-badge">OWNER</div>
           </div>
-          <span class="user-name">Malcom Reynolds</span>
-          <div class="role-badge">OWNER</div>
+          <div style="display: flex; align-items: center; gap: 6px; padding-left: 10px;">
+            <i class="fa-regular fa-rocket" style="font-size: 14px; color: #4a4f55;"></i>
+            <span style="font-family: 'Gotham', sans-serif; font-size: 14px; color: #4a4f55;">Cell Content</span>
+          </div>
         </div>
-        <div class="row-right">
-          <div class="toggle-switch on disabled" style="opacity: 0.3;">
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch disabled" style="opacity: 0.3;">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row admin-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7;">
+        <div class="subscription-info" style="flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">River Tam</span>
+            <div class="role-badge">ADMIN</div>
           </div>
-          <span class="user-name">River Tam</span>
-          <div class="role-badge">ADMIN</div>
+          <div style="display: flex; align-items: center; gap: 6px; padding-left: 10px;">
+            <i class="fa-regular fa-rocket" style="font-size: 14px; color: #4a4f55;"></i>
+            <span style="font-family: 'Gotham', sans-serif; font-size: 14px; color: #4a4f55;">Cell Content</span>
+          </div>
         </div>
-        <div class="row-right">
-          <div class="toggle-switch on disabled" style="opacity: 0.3;">
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch disabled" style="opacity: 0.3;">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row admin-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7;">
+        <div class="subscription-info" style="flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Zoe Washburne</span>
+            <div class="role-badge">ADMIN</div>
           </div>
-          <span class="user-name">Zoe Washburne</span>
-          <div class="role-badge">ADMIN</div>
+          <div style="display: flex; align-items: center; gap: 6px; padding-left: 10px;">
+            <i class="fa-regular fa-rocket" style="font-size: 14px; color: #4a4f55;"></i>
+            <span style="font-family: 'Gotham', sans-serif; font-size: 14px; color: #4a4f55;">Cell Content</span>
+          </div>
         </div>
-        <div class="row-right">
-          <div class="toggle-switch on disabled" style="opacity: 0.3;">
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch disabled" style="opacity: 0.3;">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row user-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7; height: 39px;">
+        <div class="subscription-info">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Kaylee Frye</span>
           </div>
-          <span class="user-name">Kaylee Frye</span>
         </div>
-        <div class="row-right">
+        <div class="toggle-container" style="width: 110px;">
           <div class="toggle-switch">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row user-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7; height: 39px;">
+        <div class="subscription-info">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Simon Tam</span>
           </div>
-          <span class="user-name">Simon Tam</span>
         </div>
-        <div class="row-right">
+        <div class="toggle-container" style="width: 110px;">
           <div class="toggle-switch">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row user-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7; height: 39px;">
+        <div class="subscription-info">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-regular fa-square" style="font-size: 16px; color: #88888e;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Jayne Cobb</span>
           </div>
-          <span class="user-name">Jayne Cobb</span>
         </div>
-        <div class="row-right">
+        <div class="toggle-container" style="width: 110px;">
           <div class="toggle-switch">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row user-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7; height: 39px;">
+        <div class="subscription-info">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Inara Serra</span>
           </div>
-          <span class="user-name">Inara Serra</span>
         </div>
-        <div class="row-right">
+        <div class="toggle-container" style="width: 110px;">
           <div class="toggle-switch">
             <div class="toggle-circle"></div>
           </div>
         </div>
       </div>
       
-      <div class="user-table-row user-row">
-        <div class="row-left">
-          <div class="checkbox-field">
-            <div class="checkbox">
-              <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+      <div class="subscription-row" style="border-bottom: 1px solid #dad8d7; height: 39px;">
+        <div class="subscription-info">
+          <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
+            <div class="checkbox-field" style="padding: 8px;">
+              <div class="checkbox">
+                <i class="fa-solid fa-check-square" style="font-size: 16px; color: #00a1e0;"></i>
+              </div>
             </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: #1c1f22;">Brandon Haystack</span>
           </div>
-          <span class="user-name">Brandon Haystack</span>
         </div>
-        <div class="row-right">
+        <div class="toggle-container" style="width: 110px;">
           <div class="toggle-switch">
             <div class="toggle-circle"></div>
           </div>
