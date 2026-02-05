@@ -360,6 +360,26 @@ body {
 </head>
 <body>
 
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
 <!-- Compact Navigation -->
 <div class="compact-nav">
   <div class="compact-nav-left">
@@ -435,11 +455,11 @@ body {
         <div id="view-mode">
           <div class="field-row">
             <div class="field-label">First Name</div>
-            <div class="field-value">Blake</div>
+            <div class="field-value">Christopher</div>
           </div>
           <div class="field-row">
             <div class="field-label">Last Name</div>
-            <div class="field-value">Richardson</div>
+            <div class="field-value">Donaldson</div>
           </div>
           <div class="field-row">
             <div class="field-label">Phone</div>
@@ -459,11 +479,11 @@ body {
         <div id="edit-mode" class="hidden">
           <div class="field-row">
             <div class="field-label">First Name*</div>
-            <input type="text" class="field-input" value="Blake" required>
+            <input type="text" class="field-input" value="Christopher" required>
           </div>
           <div class="field-row">
             <div class="field-label">Last Name*</div>
-            <input type="text" class="field-input" value="Richardson" required>
+            <input type="text" class="field-input" value="Donaldson" required>
           </div>
           <div class="field-row">
             <div class="field-label">Phone</div>
@@ -496,7 +516,7 @@ body {
         
         <div class="field-row">
           <div class="field-label">Email</div>
-          <div class="read-only-field">blake.richardson@acmebpm.com</div>
+          <div class="read-only-field">christopher.donaldson@acmebpm.com</div>
         </div>
         <div class="field-row">
           <div class="field-label">User ID</div>
