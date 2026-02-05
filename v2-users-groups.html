@@ -740,13 +740,16 @@
   border-radius: 20px; 
   cursor: pointer; 
   transition: background 0.3s; 
+  padding: 4px;
 }
 .toggle-switch.on { 
-  background: #0c79a8; 
+  background: #00a1e0; 
 }
-.toggle-switch:disabled { 
+.toggle-switch.disabled { 
+  background: #dad8d7;
   opacity: 0.3; 
   cursor: not-allowed; 
+  pointer-events: none;
 }
 .toggle-circle { 
   position: absolute; 
@@ -1793,41 +1796,33 @@ document.addEventListener('DOMContentLoaded', function() {
       <thead>
         <tr>
           <th>Subscription</th>
-          <th style="width: 100px; text-align: right;">Assign to Group</th>
+          <th style="width: 120px; text-align: right;">Assign to Group</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
             <div class="subscription-name">Project Intelligence Pro</div>
-            <div class="subscription-availability unavailable">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>You have no seats available</span>
-            </div>
           </td>
           <td style="text-align: right;">
-            <div class="toggle-switch" id="toggle-pi-pro" disabled></div>
+            <div class="toggle-switch disabled">
+              <div class="toggle-circle"></div>
+            </div>
           </td>
         </tr>
         <tr>
           <td>
             <div class="subscription-name">Project Intelligence Starter</div>
-            <div class="subscription-availability unavailable">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>You have no seats available</span>
-            </div>
           </td>
           <td style="text-align: right;">
-            <div class="toggle-switch" id="toggle-pi-starter" disabled></div>
+            <div class="toggle-switch disabled">
+              <div class="toggle-circle"></div>
+            </div>
           </td>
         </tr>
         <tr>
           <td>
             <div class="subscription-name">Bid Management</div>
-            <div class="subscription-availability available">
-              <i class="fa-solid fa-check"></i>
-              <span>You have 16 seats available</span>
-            </div>
           </td>
           <td style="text-align: right;">
             <div class="toggle-switch" id="toggle-bm" onclick="toggleSubscription('bm')">
@@ -1838,10 +1833,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <tr>
           <td>
             <div class="subscription-name">OnScreen Takeoff</div>
-            <div class="subscription-availability available">
-              <i class="fa-solid fa-check"></i>
-              <span>You have 8 seats available</span>
-            </div>
           </td>
           <td style="text-align: right;">
             <div class="toggle-switch" id="toggle-ost" onclick="toggleSubscription('ost')">
@@ -1852,10 +1843,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <tr>
           <td>
             <div class="subscription-name">QuickBid - Shared</div>
-            <div class="subscription-availability low">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>You have 2 seats available</span>
-            </div>
           </td>
           <td style="text-align: right;">
             <div class="toggle-switch" id="toggle-qb" onclick="toggleSubscription('qb')">
@@ -1869,12 +1856,148 @@ document.addEventListener('DOMContentLoaded', function() {
   
   <div class="drawer-content" id="createGroupTabContent1" style="display: none;">
     <div class="helper-text">
-      Quickly assign an existing user to an existing group. Adding the user will automatically give them the same permissions that have been set to the group.
+      You can invite users to this new group! Note that admins will only manage subscriptions for this group. To grant full admin access, change their role in the organization. Owners and admins automatically have privileges for all groups.
     </div>
     
-    <div style="padding: 20px; text-align: center; color: #88888e;">
-      <p>User selection interface would go here</p>
-    </div>
+    <table class="subscription-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;"></th>
+          <th>User Name</th>
+          <th style="width: 110px; text-align: right;">Group Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-malcom" class="checkbox-input">
+              <label for="user-malcom" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Malcom Reynolds</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch on" onclick="toggleUserAdmin('malcom')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-river" class="checkbox-input">
+              <label for="user-river" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">River Tam</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch on" onclick="toggleUserAdmin('river')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-zoe" class="checkbox-input">
+              <label for="user-zoe" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Zoe Washburne</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch on" onclick="toggleUserAdmin('zoe')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-kaylee" class="checkbox-input">
+              <label for="user-kaylee" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Kaylee Frye</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" onclick="toggleUserAdmin('kaylee')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-simon" class="checkbox-input">
+              <label for="user-simon" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Simon Tam</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" onclick="toggleUserAdmin('simon')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-jayne" class="checkbox-input">
+              <label for="user-jayne" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Jayne Cobb</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" onclick="toggleUserAdmin('jayne')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-inara" class="checkbox-input">
+              <label for="user-inara" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Inara Serra</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" onclick="toggleUserAdmin('inara')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="user-brandon" class="checkbox-input">
+              <label for="user-brandon" class="checkbox-label"></label>
+            </div>
+          </td>
+          <td>
+            <div class="subscription-name">Brandon Haystack</div>
+          </td>
+          <td style="text-align: right;">
+            <div class="toggle-switch" onclick="toggleUserAdmin('brandon')">
+              <div class="toggle-circle"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   
   <div class="drawer-footer">
