@@ -28,7 +28,7 @@ export default defineConfig({
   /* Shared settings for all the projects below */
   use: {
     /* Base URL for your tests */
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:3000',
     
     /* Collect trace when retrying the failed test */
     trace: 'on-first-retry',

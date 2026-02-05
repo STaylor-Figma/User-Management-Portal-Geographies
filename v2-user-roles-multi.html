@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -161,7 +161,7 @@
 <!-- Top Bar - Desktop/Tablet Responsive -->
 <div class="top-bar">
   <div class="top-bar-left">
-    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+    <button type="button" class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
       <div class="menu-icon">
         <span></span>
         <span></span>
@@ -183,27 +183,27 @@
 
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
-  <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-company-overview.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-building"></i>
     <span class="compact-button__label">Company</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-users-groups.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-users"></i>
     <span class="compact-button__label">Users & Groups</span>
   </button>
-  <button class="compact-button selected">
+  <button type="button" class="compact-button selected" aria-label="Button">
     <i class="compact-button__icon fa-light fa-users-gear"></i>
     <span class="compact-button__label">User Roles</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-subscription-overview.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button type="button" class="compact-button" aria-label="Button">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -214,27 +214,27 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
-    <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-company-overview.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-building"></i>
       <span class="sidebar-button__label">Company</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-users-groups.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-users"></i>
       <span class="sidebar-button__label">Users &<br>Groups</span>
     </button>
-    <button class="sidebar-button selected">
+    <button type="button" class="sidebar-button selected" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-users-gear"></i>
       <span class="sidebar-button__label">User<br>Roles</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button type="button" class="sidebar-button" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -249,24 +249,24 @@
         <div class="header-top">
           <h1>User Roles</h1>
           <div class="header-icons">
-            <button class="icon-btn" onclick="openInviteDrawer()">
+            <button type="button" class="icon-btn" onclick="openInviteDrawer()" aria-label="Invite user">
               <i class="fa-solid fa-user-plus"></i>
               <span class="tooltip">Invite User</span>
             </button>
-            <button class="icon-btn">
+            <button type="button" class="icon-btn" aria-label="Action">
               <i class="fa-solid fa-clock-rotate-left"></i>
               <span class="tooltip">History</span>
             </button>
-            <button class="icon-btn">
+            <button type="button" class="icon-btn" aria-label="Action">
               <i class="fa-solid fa-user-headset"></i>
               <span class="tooltip">Support User</span>
             </button>
           </div>
         </div>
         <div class="tabs">
-          <button class="tab active" onclick="switchTab('organizational')">Organizational</button>
-          <button class="tab" onclick="switchTab('bid-management')">Bid Management</button>
-          <button class="tab" onclick="switchTab('takeoff')">Takeoff & Estimating</button>
+          <button type="button" class="tab active" onclick="switchTab('organizational')">Organizational</button>
+          <button type="button" class="tab" onclick="switchTab('bid-management')">Bid Management</button>
+          <button type="button" class="tab" onclick="switchTab('takeoff')">Takeoff & Estimating</button>
         </div>
       </div>
 
@@ -301,7 +301,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Account Owner</a>
+                          <a href="#" class="role-link">Account Owner</a>
                           <span class="role-badge owner">OWNER</span>
                         </div>
                         <div class="role-warning">
@@ -342,7 +342,7 @@
                     <td>1</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View Details</button>
+                        <button type="button" class="action-btn">View Details</button>
                       </div>
                     </td>
                   </tr>
@@ -351,7 +351,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Account Admin</a>
+                          <a href="#" class="role-link">Account Admin</a>
                           <span class="role-badge admin">ADMIN</span>
                         </div>
                         <div class="role-success">
@@ -392,9 +392,9 @@
                     <td>5</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>
@@ -403,7 +403,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Team Member</a>
+                          <a href="#" class="role-link">Team Member</a>
                         </div>
                         <div class="role-success">
                           <i class="fa-solid fa-check"></i>
@@ -439,9 +439,9 @@
                     <td>43</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>
@@ -450,7 +450,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Regional Admin</a>
+                          <a href="#" class="role-link">Regional Admin</a>
                           <span class="role-badge admin">ADMIN</span>
                         </div>
                         <div class="role-based-on">
@@ -487,10 +487,10 @@
                     <td>1</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
+                        <button type="button" class="action-btn" style="color: #d32f2f;" aria-label="Button"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -499,7 +499,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">License Manager</a>
+                          <a href="#" class="role-link">License Manager</a>
                         </div>
                         <div class="role-based-on">
                           <i class="fa-solid fa-pencil"></i>
@@ -535,10 +535,10 @@
                     <td>1</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
+                        <button type="button" class="action-btn" style="color: #d32f2f;" aria-label="Button"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -547,7 +547,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Bid Center User</a>
+                          <a href="#" class="role-link">Bid Center User</a>
                         </div>
                       </div>
                     </td>
@@ -571,7 +571,7 @@
                     <td>43</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View Details</button>
+                        <button type="button" class="action-btn">View Details</button>
                       </div>
                     </td>
                   </tr>
@@ -596,8 +596,8 @@
                 </div>
                 <div class="page-nav">
                   <span class="page-info">1-4 of 4</span>
-                  <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
-                  <button class="page-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                  <button type="button" class="page-btn" disabled aria-label="Button"><i class="fa-regular fa-chevron-left"></i></button>
+                  <button type="button" class="page-btn" aria-label="Button"><i class="fa-regular fa-chevron-right"></i></button>
                 </div>
               </div>
             </div>
@@ -627,7 +627,7 @@
               </div>
             </div>
             <div class="table-controls-right">
-              <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
+              <button type="button" class="search-btn" aria-label="Search"><i class="fa-regular fa-magnifying-glass"></i></button>
             </div>
           </div>
 
@@ -649,7 +649,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Company Admin</a>
+                          <a href="#" class="role-link">Company Admin</a>
                           <span class="role-badge bm">BM</span>
                         </div>
                         <div class="role-warning">
@@ -674,9 +674,9 @@
                     <td>5</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>
@@ -685,7 +685,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Project Manager</a>
+                          <a href="#" class="role-link">Project Manager</a>
                           <span class="role-badge bm">BM</span>
                         </div>
                       </div>
@@ -706,9 +706,9 @@
                     <td>12</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>
@@ -717,7 +717,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Team Member</a>
+                          <a href="#" class="role-link">Team Member</a>
                           <span class="role-badge bm">BM</span>
                         </div>
                         <div class="role-warning">
@@ -742,9 +742,9 @@
                     <td>5</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>
@@ -769,8 +769,8 @@
                 </div>
                 <div class="page-nav">
                   <span class="page-info">1-3 of 3</span>
-                  <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
-                  <button class="page-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                  <button type="button" class="page-btn" disabled aria-label="Button"><i class="fa-regular fa-chevron-left"></i></button>
+                  <button type="button" class="page-btn" aria-label="Button"><i class="fa-regular fa-chevron-right"></i></button>
                 </div>
               </div>
             </div>
@@ -800,7 +800,7 @@
               </div>
             </div>
             <div class="table-controls-right">
-              <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
+              <button type="button" class="search-btn" aria-label="Search"><i class="fa-regular fa-magnifying-glass"></i></button>
             </div>
           </div>
 
@@ -822,7 +822,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Takeoff Admin</a>
+                          <a href="#" class="role-link">Takeoff Admin</a>
                           <span class="role-badge ost">OST</span>
                         </div>
                       </div>
@@ -847,9 +847,9 @@
                     <td>2</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>
@@ -858,7 +858,7 @@
                     <td>
                       <div class="role-name">
                         <div class="role-name-row">
-                          <a class="role-link">Regional Estimator</a>
+                          <a href="#" class="role-link">Regional Estimator</a>
                           <span class="role-badge ost">OST</span>
                         </div>
                         <div class="role-based-on">
@@ -879,10 +879,10 @@
                     <td>2</td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
+                        <button type="button" class="action-btn" style="color: #d32f2f;" aria-label="Button"><i class="fa-regular fa-trash-can"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -893,13 +893,13 @@
             <!-- Pagination -->
             <div class="pagination">
               <span class="results-info">1-5 of 5</span>
-              <button class="pagination-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
-              <button class="pagination-btn"><i class="fa-regular fa-chevron-right"></i></button>
+              <button type="button" class="pagination-btn" disabled aria-label="Button"><i class="fa-regular fa-chevron-left"></i></button>
+              <button type="button" class="pagination-btn" aria-label="Button"><i class="fa-regular fa-chevron-right"></i></button>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
+                        <button type="button" class="action-btn">View</button>
+                        <button type="button" class="action-btn">Copy</button>
+                        <button type="button" class="action-btn">Assign</button>
                       </div>
                     </td>
                   </tr>\n                </tbody>\n              </table>\n            </div>\n\n            <!-- Table Footer -->
@@ -919,8 +919,8 @@
                 </div>
                 <div class="page-nav">
                   <span class="page-info">1-3 of 3</span>
-                  <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
-                  <button class="page-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                  <button type="button" class="page-btn" disabled aria-label="Button"><i class="fa-regular fa-chevron-left"></i></button>
+                  <button type="button" class="page-btn" aria-label="Button"><i class="fa-regular fa-chevron-right"></i></button>
                 </div>
               </div>
             </div>
@@ -1016,7 +1016,7 @@ function toggleMobileNav() {
   <!-- Header -->
   <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
     <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Invite User(s)</h2>
-    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+    <button type="button" onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;" aria-label="Button">
       <i class="fa-regular fa-xmark" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
     </button>
   </div>
@@ -1045,16 +1045,16 @@ function toggleMobileNav() {
     <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
       <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
       <div>
-        <button class="btn-secondary" disabled>Reset</button>
+        <button type="button" class="btn-secondary" disabled>Reset</button>
       </div>
       
       <!-- Right Side - Cancel + Send Invitation Buttons -->
       <div style="display: flex; gap: 20px; align-items: center;">
         <!-- Cancel Button (Link Small) -->
-        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        <button type="button" class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
         
         <!-- Send Invitation Button (Primary Small - Disabled) -->
-        <button class="btn-primary" disabled>Send Invitation</button>
+        <button type="button" class="btn-primary" disabled>Send Invitation</button>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -357,7 +357,7 @@
 <!-- Top Bar -->
 <div class="top-bar">
   <div class="top-bar-left">
-    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+    <button type="button" class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
       <div class="menu-icon">
         <span></span>
         <span></span>
@@ -376,27 +376,27 @@
 
 <!-- Compact Navigation (Top) -->
 <div class="compact-nav">
-  <button class="compact-button selected" onclick="window.location.href='v2-my-profile.html'">
+  <button type="button" class="compact-button selected" onclick="window.location.href='v2-my-profile.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-company-overview.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-building"></i>
     <span class="compact-button__label">Company</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-users-groups.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-users"></i>
     <span class="compact-button__label">Users & Groups</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-user-roles.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-users-gear"></i>
     <span class="compact-button__label">User Roles</span>
   </button>
-  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+  <button type="button" class="compact-button" onclick="window.location.href='v2-subscription-overview.html'" aria-label="Button">
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button type="button" class="compact-button" aria-label="Button">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -407,27 +407,27 @@
   
   <!-- Sidebar Navigation -->
   <nav class="sidebar-nav" aria-label="Main navigation">
-    <button class="sidebar-button selected" onclick="window.location.href='v2-my-profile.html'">
+    <button type="button" class="sidebar-button selected" onclick="window.location.href='v2-my-profile.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-company-overview.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-building"></i>
       <span class="sidebar-button__label">Company</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-users-groups.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-users"></i>
       <span class="sidebar-button__label">Users &<br>Groups</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-user-roles.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-users-gear"></i>
       <span class="sidebar-button__label">User<br>Roles</span>
     </button>
-    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <button type="button" class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button type="button" class="sidebar-button" aria-label="Button">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -452,7 +452,7 @@
             <div class="card-title-wrapper">
               <h2 class="card-title">Personal Information</h2>
             </div>
-            <button class="edit-button" onclick="toggleEditMode()">
+            <button type="button" class="edit-button" onclick="toggleEditMode()" aria-label="Button">
               <i class="fa-light fa-pencil"></i>
             </button>
           </div>
@@ -485,28 +485,28 @@
           <div id="edit-mode" class="hidden">
             <div class="field-row">
               <div class="field-label">First Name*</div>
-              <input type="text" class="field-input" value="Christopher" required>
+              <input type="text" class="field-input" value="Christopher" required aria-label="text field">
             </div>
             <div class="field-row">
               <div class="field-label">Last Name*</div>
-              <input type="text" class="field-input" value="Donaldson" required>
+              <input type="text" class="field-input" value="Donaldson" required aria-label="text field">
             </div>
             <div class="field-row">
               <div class="field-label">Phone</div>
-              <input type="tel" class="field-input" value="(404) 555-1234">
+              <input type="tel" class="field-input" value="(404) 555-1234" aria-label="tel field">
             </div>
             <div class="field-row">
               <div class="field-label">Job Title</div>
-              <input type="text" class="field-input" value="Architectural Sales Rep">
+              <input type="text" class="field-input" value="Architectural Sales Rep" aria-label="text field">
             </div>
             <div class="field-row">
               <div class="field-label">Department</div>
-              <input type="text" class="field-input" value="Southeast Region Sales">
+              <input type="text" class="field-input" value="Southeast Region Sales" aria-label="text field">
             </div>
             
             <div class="button-group">
-              <button class="btn-primary">Save Changes</button>
-              <button class="btn-outline" onclick="toggleEditMode()">Cancel</button>
+              <button type="button" class="btn-primary">Save Changes</button>
+              <button type="button" class="btn-outline" onclick="toggleEditMode()">Cancel</button>
             </div>
           </div>
         </div>
@@ -655,10 +655,10 @@
           <div class="password-notice">
             <p>Your password was last changed <strong>45 days ago</strong></p>
           </div>
-          <button class="btn-outline" style="margin-bottom: 20px;">Change Password</button>
+          <button type="button" class="btn-outline" style="margin-bottom: 20px;">Change Password</button>
           
           <!-- Logout -->
-          <button class="btn-default btn-full-width">Logout</button>
+          <button type="button" class="btn-default btn-full-width">Logout</button>
         </div>
         
       </div>

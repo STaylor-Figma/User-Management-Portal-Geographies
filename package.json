@@ -11,10 +11,15 @@
     "test:report": "playwright show-report",
     "test:codegen": "playwright codegen"
   },
-  "keywords": ["portal", "user-management", "blueprint"],
+  "keywords": [
+    "portal",
+    "user-management",
+    "blueprint"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@playwright/test": "^1.48.0"
   }
 }
