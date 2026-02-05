@@ -937,7 +937,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   height: 100%;
   background: var(--neutral-0);
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
-  padding: var(--spacing-large-1000);
+  padding: 0;
   overflow-y: auto;
   transition: right 0.3s ease-out;
   z-index: 9999;
