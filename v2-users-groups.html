@@ -2618,84 +2618,87 @@ document.addEventListener('DOMContentLoaded', function() {
       Adding a subscription to this group automatically assigns a seat to any new user. To change this, visit the users view of the group to adjust individual users.
     </div>
     
-    <table class="subscription-table">
-      <thead>
-        <tr>
-          <th>Subscription</th>
-          <th style="width: 100px; text-align: right;">Assign to Group</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="subscription-name">Project Intelligence Pro</div>
-            <div class="subscription-availability unavailable">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>You have no seats available</span>
-            </div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch on" id="toggle-manage-pi-pro" onclick="toggleSubscription('manage-pi-pro')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">Project Intelligence Starter</div>
-            <div class="subscription-availability unavailable">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>You have no seats available</span>
-            </div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" id="toggle-manage-pi-starter" disabled></div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">Bid Management</div>
-            <div class="subscription-availability available">
-              <i class="fa-solid fa-check"></i>
-              <span>You have 16 seats available</span>
-            </div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch on" id="toggle-manage-bm" onclick="toggleSubscription('manage-bm')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">OnScreen Takeoff</div>
-            <div class="subscription-availability available">
-              <i class="fa-solid fa-check"></i>
-              <span>You have 8 seats available</span>
-            </div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" id="toggle-manage-ost" onclick="toggleSubscription('manage-ost')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="subscription-name">QuickBid - Shared</div>
-            <div class="subscription-availability low">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>You have 2 seats available</span>
-            </div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" id="toggle-manage-qb" onclick="toggleSubscription('manage-qb')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="subscription-table">
+      <div class="subscription-table-header">
+        <span>Subscription</span>
+        <span>Assign to Group</span>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Pro</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch on" id="toggle-manage-pi-pro" onclick="toggleSubscription('manage-pi-pro')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Starter</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Bid Management</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 16 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch on" id="toggle-manage-bm" onclick="toggleSubscription('manage-bm')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">OnScreen Takeoff</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 8 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-manage-ost" onclick="toggleSubscription('manage-ost')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">QuickBid - Shared</div>
+          <div class="subscription-availability low">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>You have 2 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-manage-qb" onclick="toggleSubscription('manage-qb')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   
   <div class="drawer-content" id="manageGroupTabContent1" style="display: none;">
