@@ -11,18 +11,12 @@
 <style>
 /* Page-specific styles for My Profile */
 
-body {
-  background: #f2f2f2;
-}
-
-.content {
-  padding: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
+.container { 
+  padding: 20px; 
 }
 
 /* Page Title */
-.page-title {
+.header h1 {
   font-family: 'Montserrat', sans-serif;
   font-size: 24px;
   font-weight: 500;
@@ -380,283 +374,299 @@ body {
   </div>
 </div>
 
-<!-- Compact Navigation -->
+<!-- Compact Navigation (Top) -->
 <div class="compact-nav">
-  <div class="compact-nav-left">
-    <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
-      <i class="fa-light fa-users"></i>
-      <span>Users & Groups</span>
-    </button>
-    <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
-      <i class="fa-light fa-shield-check"></i>
-      <span>User Roles</span>
-    </button>
-    <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
-      <i class="fa-light fa-layer-group"></i>
-      <span>Subscriptions</span>
-    </button>
-    <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
-      <i class="fa-light fa-building"></i>
-      <span>Company</span>
-    </button>
-  </div>
-  <div class="compact-nav-right">
-    <button class="compact-button active" onclick="window.location.href='v2-my-profile.html'">
-      <i class="fa-light fa-user-circle"></i>
-      <span>My Profile</span>
-    </button>
-  </div>
+  <button class="compact-button selected" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
 </div>
 
-<!-- Sidebar Navigation -->
-<div class="sidebar-nav">
-  <div class="nav-item" onclick="window.location.href='v2-users-groups.html'">
-    <i class="fa-light fa-users"></i>
-    <span>Users & Groups</span>
-  </div>
-  <div class="nav-item" onclick="window.location.href='v2-user-roles.html'">
-    <i class="fa-light fa-shield-check"></i>
-    <span>User Roles</span>
-  </div>
-  <div class="nav-item" onclick="window.location.href='v2-subscription-overview.html'">
-    <i class="fa-light fa-layer-group"></i>
-    <span>Subscriptions</span>
-  </div>
-  <div class="nav-item" onclick="window.location.href='v2-company-overview.html'">
-    <i class="fa-light fa-building"></i>
-    <span>Company</span>
-  </div>
-  <div class="nav-item active" onclick="window.location.href='v2-my-profile.html'">
-    <i class="fa-light fa-user-circle"></i>
-    <span>My Profile</span>
-  </div>
-</div>
-
-<!-- Main Content -->
-<div class="content">
-  <h1 class="page-title">My Profile</h1>
+<!-- Layout -->
+<div class="layout">
   
-  <div class="profile-grid">
-    <!-- LEFT COLUMN -->
-    <div class="left-column">
-      
-      <!-- Card 1: Personal Information -->
-      <div class="profile-card">
-        <div class="card-header">
-          <div class="card-title-wrapper">
-            <h2 class="card-title">Personal Information</h2>
-          </div>
-          <button class="edit-button" onclick="toggleEditMode()">
-            <i class="fa-light fa-pencil"></i>
-          </button>
-        </div>
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button selected" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+    
+    <!-- Header -->
+    <div class="header">
+      <h1>My Profile</h1>
+    </div>
+  
+    <div class="profile-grid">
+      <!-- LEFT COLUMN -->
+      <div class="left-column">
         
-        <!-- View Mode -->
-        <div id="view-mode">
-          <div class="field-row">
-            <div class="field-label">First Name</div>
-            <div class="field-value">Christopher</div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">Last Name</div>
-            <div class="field-value">Donaldson</div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">Phone</div>
-            <div class="field-value">(404) 555-1234</div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">Job Title</div>
-            <div class="field-value">Architectural Sales Rep</div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">Department</div>
-            <div class="field-value">Southeast Region Sales</div>
-          </div>
-        </div>
-        
-        <!-- Edit Mode -->
-        <div id="edit-mode" class="hidden">
-          <div class="field-row">
-            <div class="field-label">First Name*</div>
-            <input type="text" class="field-input" value="Christopher" required>
-          </div>
-          <div class="field-row">
-            <div class="field-label">Last Name*</div>
-            <input type="text" class="field-input" value="Donaldson" required>
-          </div>
-          <div class="field-row">
-            <div class="field-label">Phone</div>
-            <input type="tel" class="field-input" value="(404) 555-1234">
-          </div>
-          <div class="field-row">
-            <div class="field-label">Job Title</div>
-            <input type="text" class="field-input" value="Architectural Sales Rep">
-          </div>
-          <div class="field-row">
-            <div class="field-label">Department</div>
-            <input type="text" class="field-input" value="Southeast Region Sales">
+        <!-- Card 1: Personal Information -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="card-title-wrapper">
+              <h2 class="card-title">Personal Information</h2>
+            </div>
+            <button class="edit-button" onclick="toggleEditMode()">
+              <i class="fa-light fa-pencil"></i>
+            </button>
           </div>
           
-          <div class="button-group">
-            <button class="btn-primary">Save Changes</button>
-            <button class="btn-outline" onclick="toggleEditMode()">Cancel</button>
+          <!-- View Mode -->
+          <div id="view-mode">
+            <div class="field-row">
+              <div class="field-label">First Name</div>
+              <div class="field-value">Christopher</div>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Last Name</div>
+              <div class="field-value">Donaldson</div>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Phone</div>
+              <div class="field-value">(404) 555-1234</div>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Job Title</div>
+              <div class="field-value">Architectural Sales Rep</div>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Department</div>
+              <div class="field-value">Southeast Region Sales</div>
+            </div>
           </div>
-        </div>
-      </div>
-      
-      <!-- Card 2: Account Information -->
-      <div class="profile-card">
-        <div class="card-header">
-          <div class="card-title-wrapper">
-            <h2 class="card-title">Account Information</h2>
-            <p class="card-helper-text">Contact your admin to update</p>
+          
+          <!-- Edit Mode -->
+          <div id="edit-mode" class="hidden">
+            <div class="field-row">
+              <div class="field-label">First Name*</div>
+              <input type="text" class="field-input" value="Christopher" required>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Last Name*</div>
+              <input type="text" class="field-input" value="Donaldson" required>
+            </div>
+            <div class="field-row">
+              <div class="field-label">Phone</div>
+              <input type="tel" class="field-input" value="(404) 555-1234">
+            </div>
+            <div class="field-row">
+              <div class="field-label">Job Title</div>
+              <input type="text" class="field-input" value="Architectural Sales Rep">
+            </div>
+            <div class="field-row">
+              <div class="field-label">Department</div>
+              <input type="text" class="field-input" value="Southeast Region Sales">
+            </div>
+            
+            <div class="button-group">
+              <button class="btn-primary">Save Changes</button>
+              <button class="btn-outline" onclick="toggleEditMode()">Cancel</button>
+            </div>
           </div>
         </div>
         
-        <div class="field-row">
-          <div class="field-label">Email</div>
-          <div class="read-only-field">christopher.donaldson@acmebpm.com</div>
-        </div>
-        <div class="field-row">
-          <div class="field-label">User ID</div>
-          <div class="read-only-field">USR-2847561</div>
-        </div>
-        <div class="field-row">
-          <div class="field-label">Status</div>
-          <div class="read-only-field">
-            <span class="status-indicator">
-              <span class="status-dot"></span>
-              Active
-            </span>
+        <!-- Card 2: Account Information -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="card-title-wrapper">
+              <h2 class="card-title">Account Information</h2>
+              <p class="card-helper-text">Contact your admin to update</p>
+            </div>
+          </div>
+          
+          <div class="field-row">
+            <div class="field-label">Email</div>
+            <div class="read-only-field">christopher.donaldson@acmebpm.com</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">User ID</div>
+            <div class="read-only-field">USR-2847561</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Status</div>
+            <div class="read-only-field">
+              <span class="status-indicator">
+                <span class="status-dot"></span>
+                Active
+              </span>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Created</div>
+            <div class="read-only-field">January 15, 2024</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Last Login</div>
+            <div class="read-only-field">February 4, 2025 at 2:34 PM</div>
           </div>
         </div>
-        <div class="field-row">
-          <div class="field-label">Created</div>
-          <div class="read-only-field">January 15, 2024</div>
-        </div>
-        <div class="field-row">
-          <div class="field-label">Last Login</div>
-          <div class="read-only-field">February 4, 2025 at 2:34 PM</div>
-        </div>
+        
       </div>
       
+      <!-- RIGHT COLUMN -->
+      <div class="right-column">
+        
+        <!-- Card 3: My Access -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="card-title-wrapper">
+              <h2 class="card-title">My Access</h2>
+              <p class="card-helper-text">Contact your admin to request changes</p>
+            </div>
+          </div>
+          
+          <!-- Role -->
+          <div class="profile-section">
+            <div class="section-label">Role</div>
+            <div class="pill">Team Member</div>
+          </div>
+          
+          <!-- Groups -->
+          <div class="profile-section">
+            <div class="section-label">Group(s)</div>
+            <div class="pill-container">
+              <span class="pill">Southeast Region</span>
+              <span class="pill">Architectural Sales</span>
+            </div>
+            <a href="#" class="profile-link">View my groups</a>
+          </div>
+          
+          <!-- Licenses -->
+          <div class="profile-section">
+            <div class="section-label">License(s)</div>
+            <div class="license-list">
+              <div class="license-item">
+                <span class="license-dot active"></span>
+                <a href="#" class="license-name">Project Intelligence</a>
+              </div>
+              <div class="license-item">
+                <span class="license-dot active"></span>
+                <a href="#" class="license-name">Bid Management</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Geographic Access (CCPI only) -->
+          <div class="profile-section">
+            <div class="section-label">Geographic Access</div>
+            <div class="field-value">Southeast Region: FL, GA, SC, NC, TN, AL</div>
+          </div>
+          
+          <!-- Category Access (CCPI only) -->
+          <div class="profile-section">
+            <div class="section-label">Project Categories</div>
+            <div class="pill-container">
+              <span class="pill">Commercial</span>
+              <span class="pill">Industrial</span>
+              <span class="pill">Institutional</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 4: Resources & Support -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="card-title-wrapper">
+              <h2 class="card-title">Resources & Support</h2>
+            </div>
+          </div>
+          
+          <!-- Your Admins -->
+          <div class="profile-section">
+            <div class="section-label">Your Admins</div>
+            <p class="card-helper-text" style="margin-bottom: 10px;">Contact for access changes:</p>
+            <div class="admin-list">
+              <a href="mailto:dana.martinez@acmebpm.com" class="admin-link">Dana Martinez</a>
+              <a href="mailto:eric.thompson@acmebpm.com" class="admin-link">Eric Thompson</a>
+            </div>
+          </div>
+          
+          <!-- Customer Support -->
+          <div class="profile-section">
+            <div class="section-label">Customer Support</div>
+            <a href="mailto:support@constructconnect.com" class="profile-link">Email Customer Success</a>
+            <a href="https://help.constructconnect.com" class="profile-link" target="_blank">Visit Help Center</a>
+          </div>
+          
+          <!-- Training Resources -->
+          <div class="profile-section">
+            <div class="section-label">Resources</div>
+            <a href="#" class="profile-link">Training Video Library</a>
+            <a href="#" class="profile-link">Bid Like a Boss Webinars</a>
+            <a href="#" class="profile-link">Keyboard Shortcuts</a>
+          </div>
+        </div>
+        
+        <!-- Card 5: Security -->
+        <div class="profile-card">
+          <div class="card-header">
+            <div class="card-title-wrapper">
+              <h2 class="card-title">Security</h2>
+            </div>
+          </div>
+          
+          <!-- Password Section -->
+          <div class="password-notice">
+            <p>Your password was last changed <strong>45 days ago</strong></p>
+          </div>
+          <button class="btn-outline" style="margin-bottom: 20px;">Change Password</button>
+          
+          <!-- Logout -->
+          <button class="btn-default btn-full-width">Logout</button>
+        </div>
+        
+      </div>
     </div>
     
-    <!-- RIGHT COLUMN -->
-    <div class="right-column">
-      
-      <!-- Card 3: My Access -->
-      <div class="profile-card">
-        <div class="card-header">
-          <div class="card-title-wrapper">
-            <h2 class="card-title">My Access</h2>
-            <p class="card-helper-text">Contact your admin to request changes</p>
-          </div>
-        </div>
-        
-        <!-- Role -->
-        <div class="profile-section">
-          <div class="section-label">Role</div>
-          <div class="pill">Team Member</div>
-        </div>
-        
-        <!-- Groups -->
-        <div class="profile-section">
-          <div class="section-label">Group(s)</div>
-          <div class="pill-container">
-            <span class="pill">Southeast Region</span>
-            <span class="pill">Architectural Sales</span>
-          </div>
-          <a href="#" class="profile-link">View my groups</a>
-        </div>
-        
-        <!-- Licenses -->
-        <div class="profile-section">
-          <div class="section-label">License(s)</div>
-          <div class="license-list">
-            <div class="license-item">
-              <span class="license-dot active"></span>
-              <a href="#" class="license-name">Project Intelligence</a>
-            </div>
-            <div class="license-item">
-              <span class="license-dot active"></span>
-              <a href="#" class="license-name">Bid Management</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Geographic Access (CCPI only) -->
-        <div class="profile-section">
-          <div class="section-label">Geographic Access</div>
-          <div class="field-value">Southeast Region: FL, GA, SC, NC, TN, AL</div>
-        </div>
-        
-        <!-- Category Access (CCPI only) -->
-        <div class="profile-section">
-          <div class="section-label">Project Categories</div>
-          <div class="pill-container">
-            <span class="pill">Commercial</span>
-            <span class="pill">Industrial</span>
-            <span class="pill">Institutional</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Card 4: Resources & Support -->
-      <div class="profile-card">
-        <div class="card-header">
-          <div class="card-title-wrapper">
-            <h2 class="card-title">Resources & Support</h2>
-          </div>
-        </div>
-        
-        <!-- Your Admins -->
-        <div class="profile-section">
-          <div class="section-label">Your Admins</div>
-          <p class="card-helper-text" style="margin-bottom: 10px;">Contact for access changes:</p>
-          <div class="admin-list">
-            <a href="mailto:dana.martinez@acmebpm.com" class="admin-link">Dana Martinez</a>
-            <a href="mailto:eric.thompson@acmebpm.com" class="admin-link">Eric Thompson</a>
-          </div>
-        </div>
-        
-        <!-- Customer Support -->
-        <div class="profile-section">
-          <div class="section-label">Customer Support</div>
-          <a href="mailto:support@constructconnect.com" class="profile-link">Email Customer Success</a>
-          <a href="https://help.constructconnect.com" class="profile-link" target="_blank">Visit Help Center</a>
-        </div>
-        
-        <!-- Training Resources -->
-        <div class="profile-section">
-          <div class="section-label">Resources</div>
-          <a href="#" class="profile-link">Training Video Library</a>
-          <a href="#" class="profile-link">Bid Like a Boss Webinars</a>
-          <a href="#" class="profile-link">Keyboard Shortcuts</a>
-        </div>
-      </div>
-      
-      <!-- Card 5: Security -->
-      <div class="profile-card">
-        <div class="card-header">
-          <div class="card-title-wrapper">
-            <h2 class="card-title">Security</h2>
-          </div>
-        </div>
-        
-        <!-- Password Section -->
-        <div class="password-notice">
-          <p>Your password was last changed <strong>45 days ago</strong></p>
-        </div>
-        <button class="btn-outline" style="margin-bottom: 20px;">Change Password</button>
-        
-        <!-- Logout -->
-        <button class="btn-default btn-full-width">Logout</button>
-      </div>
-      
     </div>
   </div>
+  
 </div>
 
 <script>
@@ -671,6 +681,12 @@ function toggleEditMode() {
     viewMode.classList.add('hidden');
     editMode.classList.remove('hidden');
   }
+}
+
+function toggleMobileNav() {
+  // Mobile nav toggle functionality
+  const sidebar = document.querySelector('.sidebar-nav');
+  sidebar.classList.toggle('mobile-open');
 }
 </script>
 
