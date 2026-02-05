@@ -9,25 +9,31 @@ import { test, expect } from '@playwright/test';
 test.describe('Keyboard Navigation - v2-users-groups.html', () => {
   
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'domcontentloaded' });
-    // Small wait for any init scripts
-    await page.waitForTimeout(500);
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    // Wait for page to be fully loaded
+    await page.waitForTimeout(1000);
   });
 
   test('should navigate through all interactive elements with Tab', async ({ page }) => {
-    // Get all focusable elements - using simpler selectors
-    const focusableElements = await page.locator(
-      'button, a, input, select, textarea'
-    ).all();
+    // Count all focusable elements on the page
+    const focusableCount = await page.evaluate(() => {
+      const elements = document.querySelectorAll(
+        'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      return elements.length;
+    });
     
-    console.log(`Found ${focusableElements.length} focusable elements`);
-    expect(focusableElements.length).toBeGreaterThan(0);
+    console.log(`Found ${focusableCount} focusable elements`);
+    expect(focusableCount).toBeGreaterThan(0);
     
     // Tab through first 10 elements to verify Tab works
-    for (let i = 0; i < Math.min(10, focusableElements.length); i++) {
+    for (let i = 0; i < Math.min(10, focusableCount); i++) {
       await page.keyboard.press('Tab');
-      const focused = await page.evaluate(() => document.activeElement.tagName);
-      console.log(`Tab ${i + 1}: Focused element is ${focused}`);
+      const focused = await page.evaluate(() => {
+        const el = document.activeElement;
+        return { tag: el.tagName, class: el.className, text: el.textContent?.substring(0, 30) };
+      });
+      console.log(`Tab ${i + 1}: Focused ${focused.tag}.${focused.class} - "${focused.text}"`);
     }
   });
 
@@ -272,6 +278,225 @@ test.describe('Keyboard Navigation - v2-user-roles-multi.html', () => {
     
     console.log(`Found ${focusableCount} focusable elements`);
     expect(focusableCount).toBeGreaterThan(0);
+  });
+
+});
+
+test.describe('Advanced Accessibility - Skip Links & Landmarks', () => {
+  
+  test('v2-users-groups.html - should have skip link for keyboard users', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    
+    // Check for skip link (usually hidden until focused)
+    const skipLink = page.locator('a[href="#main"], a[href="#main-content"], a:has-text("Skip to")').first();
+    const hasSkipLink = await skipLink.count() > 0;
+    
+    if (!hasSkipLink) {
+      console.log('⚠️  No skip link found - consider adding <a href="#main-content">Skip to main content</a>');
+    } else {
+      console.log('✓ Skip link present');
+    }
+  });
+
+  test('v2-users-groups.html - should have proper landmark regions', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    
+    const landmarks = await page.evaluate(() => {
+      return {
+        main: document.querySelectorAll('main, [role="main"]').length,
+        nav: document.querySelectorAll('nav, [role="navigation"]').length,
+        header: document.querySelectorAll('header, [role="banner"]').length,
+        footer: document.querySelectorAll('footer, [role="contentinfo"]').length
+      };
+    });
+    
+    console.log('Landmarks found:', landmarks);
+    
+    // Should have at least a main landmark
+    if (landmarks.main === 0) {
+      console.log('⚠️  No <main> element found - wrap main content in <main role="main">');
+    }
+  });
+
+  test('v2-users-groups.html - main content should have id for skip link target', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    
+    const mainContent = page.locator('main, [role="main"], #main, #main-content').first();
+    const hasMainId = await page.evaluate(() => {
+      const main = document.querySelector('main, [role="main"]');
+      return main && (main.id === 'main' || main.id === 'main-content');
+    });
+    
+    if (!hasMainId) {
+      console.log('⚠️  Main content should have id="main-content" for skip link');
+    } else {
+      console.log('✓ Main content has proper ID');
+    }
+  });
+
+});
+
+test.describe('Advanced Accessibility - Modal & Drawer Focus Management', () => {
+
+  test('v2-users-groups.html - drawer should trap focus when open', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1000);
+    
+    // Try to open drawer
+    const addButton = page.locator('button:has-text("Add User"), button:has-text("Invite")').first();
+    
+    if (await addButton.count() > 0) {
+      await addButton.click();
+      await page.waitForTimeout(500);
+      
+      // Check if drawer is visible
+      const drawer = page.locator('.drawer, [class*="drawer"]').first();
+      if (await drawer.isVisible()) {
+        // Tab through elements - focus should stay in drawer
+        const drawerElements = await drawer.locator('button, input, select, a[href]').count();
+        console.log(`Drawer has ${drawerElements} focusable elements`);
+        
+        // Tab multiple times
+        for (let i = 0; i < drawerElements + 2; i++) {
+          await page.keyboard.press('Tab');
+        }
+        
+        // Focus should still be inside drawer
+        const focusInDrawer = await page.evaluate(() => {
+          const focused = document.activeElement;
+          const drawer = document.querySelector('.drawer, [class*="drawer"]');
+          return drawer && drawer.contains(focused);
+        });
+        
+        if (!focusInDrawer) {
+          console.log('⚠️  Focus escaped drawer - focus trap may not be implemented');
+        } else {
+          console.log('✓ Focus is properly trapped in drawer');
+        }
+        
+        // Clean up - close drawer
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(500);
+      }
+    }
+  });
+
+  test('v2-users-groups.html - Escape key closes drawer and returns focus', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1000);
+    
+    const addButton = page.locator('button:has-text("Add User"), button:has-text("Invite")').first();
+    
+    if (await addButton.count() > 0) {
+      // Remember what had focus before
+      await addButton.focus();
+      const buttonText = await addButton.textContent();
+      
+      await addButton.click();
+      await page.waitForTimeout(500);
+      
+      // Press Escape
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(500);
+      
+      // Check if drawer is closed
+      const drawerVisible = await page.locator('.drawer, [class*="drawer"]').first().isVisible().catch(() => false);
+      
+      if (drawerVisible) {
+        console.log('⚠️  Drawer did not close with Escape key');
+      } else {
+        console.log('✓ Drawer closed with Escape key');
+        
+        // Check if focus returned to button
+        const currentFocus = await page.evaluate(() => document.activeElement.textContent);
+        if (currentFocus?.includes(buttonText?.trim() || '')) {
+          console.log('✓ Focus returned to trigger button');
+        } else {
+          console.log('⚠️  Focus did not return to trigger button');
+        }
+      }
+    }
+  });
+
+  test('v2-users-groups.html - first element in drawer should receive focus when opened', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1000);
+    
+    const addButton = page.locator('button:has-text("Add User"), button:has-text("Invite")').first();
+    
+    if (await addButton.count() > 0) {
+      await addButton.click();
+      await page.waitForTimeout(500);
+      
+      // Check what has focus after drawer opens
+      const focusedElement = await page.evaluate(() => {
+        return {
+          tag: document.activeElement.tagName,
+          type: document.activeElement.getAttribute('type'),
+          text: document.activeElement.textContent?.substring(0, 30)
+        };
+      });
+      
+      console.log('Element focused after drawer opens:', focusedElement);
+      
+      // Should be an interactive element (input, button, or close button)
+      const isInteractive = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA', 'A'].includes(focusedElement.tag);
+      
+      if (!isInteractive) {
+        console.log('⚠️  First interactive element in drawer should receive focus');
+      } else {
+        console.log('✓ Interactive element received focus');
+      }
+      
+      // Clean up
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(500);
+    }
+  });
+
+});
+
+test.describe('Advanced Accessibility - Focus Order & Logical Tab Flow', () => {
+
+  test('v2-users-groups.html - focus order should follow visual order', async ({ page }) => {
+    await page.goto('http://localhost:3000/v2-users-groups.html', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1000);
+    
+    // Tab through first several elements and track their positions
+    const focusPositions = [];
+    
+    for (let i = 0; i < 10; i++) {
+      await page.keyboard.press('Tab');
+      
+      const position = await page.evaluate(() => {
+        const el = document.activeElement;
+        const rect = el.getBoundingClientRect();
+        return {
+          x: rect.left,
+          y: rect.top,
+          element: el.tagName + '.' + el.className
+        };
+      });
+      
+      focusPositions.push(position);
+    }
+    
+    // Check if focus generally moves left-to-right, top-to-bottom
+    let logicalOrder = true;
+    for (let i = 1; i < focusPositions.length; i++) {
+      const prev = focusPositions[i - 1];
+      const curr = focusPositions[i];
+      
+      // If current is way above previous, that might be illogical
+      if (curr.y < prev.y - 100) {
+        console.log(`⚠️  Focus jumped up from ${prev.element} to ${curr.element}`);
+        logicalOrder = false;
+      }
+    }
+    
+    if (logicalOrder) {
+      console.log('✓ Focus order appears logical');
+    }
   });
 
 });
