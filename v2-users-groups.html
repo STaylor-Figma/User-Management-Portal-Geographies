@@ -401,6 +401,7 @@
   transition: transform 0.3s ease-out; 
   display: flex; 
   flex-direction: column; 
+  padding: 0 !important;
 }
 .drawer.active { 
   transform: translateX(0); 
@@ -1764,7 +1765,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="drawer-header">
     <h2 class="drawer-title">Create Group</h2>
     <button class="drawer-close" onclick="closeCreateGroupDrawer()">
-      <i class="fa-regular fa-ellipsis-h"></i>
+      <i class="fa-regular fa-xmark"></i>
     </button>
   </div>
   
@@ -1892,7 +1893,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="drawer-header">
     <h2 class="drawer-title">Manage Group</h2>
     <button class="drawer-close" onclick="closeManageGroupDrawer()">
-      <i class="fa-regular fa-ellipsis-h"></i>
+      <i class="fa-regular fa-xmark"></i>
     </button>
   </div>
   
