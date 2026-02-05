@@ -859,6 +859,150 @@
   line-height: 16px;
 }
 
+/* User Table */
+.user-table {
+  width: 455px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid #4a4f55;
+}
+
+.header-left {
+  width: 227px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.header-left span,
+.header-right {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1c1f22;
+}
+
+.header-right {
+  width: 227px;
+  text-align: right;
+}
+
+.user-table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  border-bottom: 1px solid #dad8d7;
+}
+
+.user-table-row.user-row {
+  height: 39px;
+}
+
+.row-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-row .row-left {
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.row-main {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.row-warning {
+  padding-left: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.row-warning i {
+  font-size: 14px;
+  color: #e8a227;
+}
+
+.row-warning span {
+  font-family: 'Gotham', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.28px;
+  color: #e8a227;
+}
+
+.row-right {
+  width: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1c1f22;
+}
+
+.checkbox-field {
+  padding: 8px;
+  border-radius: 4px;
+  background: transparent;
+}
+
+.checkbox {
+  width: 14px;
+  background: #ffffff;
+  border-radius: 2px;
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox i {
+  font-size: 16px;
+  line-height: 14px;
+}
+
+.checkbox i.fa-square {
+  color: #88888e;
+}
+
+.checkbox i.fa-square-check {
+  color: #00a1e0;
+}
+
+.role-badge {
+  background: #88888e;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+}
+
 /* Bulk Upload Section */
 .bulk-instructions { 
   background: #f8f9fa; 
@@ -1920,145 +2064,168 @@ document.addEventListener('DOMContentLoaded', function() {
       You can invite users to this new group! Note that admins will only manage subscriptions for this group. To grant full admin access, change their role in the organization. Owners and admins automatically have privileges for all groups.
     </div>
     
-    <table class="subscription-table">
-      <thead>
-        <tr>
-          <th style="width: 40px;"></th>
-          <th>User Name</th>
-          <th>Group Admin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-malcom" class="checkbox-input">
-              <label for="user-malcom" class="checkbox-label"></label>
+    <div class="user-table">
+      <div class="user-table-header">
+        <div class="header-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
             </div>
-          </td>
-          <td>
-            <div class="subscription-name">Malcom Reynolds</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch on" onclick="toggleUserAdmin('malcom')">
-              <div class="toggle-circle"></div>
+          </div>
+          <span>User Name</span>
+        </div>
+        <span class="header-right">Group Admin</span>
+      </div>
+      
+      <div class="user-table-row owner-row">
+        <div class="row-left">
+          <div class="row-main">
+            <div class="checkbox-field">
+              <div class="checkbox">
+                <i class="fa-regular fa-square"></i>
+              </div>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-river" class="checkbox-input">
-              <label for="user-river" class="checkbox-label"></label>
+            <span class="user-name">Malcom Reynolds</span>
+            <div class="role-badge">OWNER</div>
+          </div>
+          <div class="row-warning">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch on">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row admin-row">
+        <div class="row-left">
+          <div class="row-main">
+            <div class="checkbox-field">
+              <div class="checkbox">
+                <i class="fa-regular fa-square"></i>
+              </div>
             </div>
-          </td>
-          <td>
-            <div class="subscription-name">River Tam</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch on" onclick="toggleUserAdmin('river')">
-              <div class="toggle-circle"></div>
+            <span class="user-name">River Tam</span>
+            <div class="role-badge">ADMIN</div>
+          </div>
+          <div class="row-warning">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch on">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row admin-row">
+        <div class="row-left">
+          <div class="row-main">
+            <div class="checkbox-field">
+              <div class="checkbox">
+                <i class="fa-regular fa-square"></i>
+              </div>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-zoe" class="checkbox-input">
-              <label for="user-zoe" class="checkbox-label"></label>
+            <span class="user-name">Zoe Washburne</span>
+            <div class="role-badge">ADMIN</div>
+          </div>
+          <div class="row-warning">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch on">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
             </div>
-          </td>
-          <td>
-            <div class="subscription-name">Zoe Washburne</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch on" onclick="toggleUserAdmin('zoe')">
-              <div class="toggle-circle"></div>
+          </div>
+          <span class="user-name">Kaylee Frye</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-kaylee" class="checkbox-input">
-              <label for="user-kaylee" class="checkbox-label"></label>
+          </div>
+          <span class="user-name">Simon Tam</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
             </div>
-          </td>
-          <td>
-            <div class="subscription-name">Kaylee Frye</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" onclick="toggleUserAdmin('kaylee')">
-              <div class="toggle-circle"></div>
+          </div>
+          <span class="user-name">Jayne Cobb</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-simon" class="checkbox-input">
-              <label for="user-simon" class="checkbox-label"></label>
+          </div>
+          <span class="user-name">Inara Serra</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
             </div>
-          </td>
-          <td>
-            <div class="subscription-name">Simon Tam</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" onclick="toggleUserAdmin('simon')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-jayne" class="checkbox-input">
-              <label for="user-jayne" class="checkbox-label"></label>
-            </div>
-          </td>
-          <td>
-            <div class="subscription-name">Jayne Cobb</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" onclick="toggleUserAdmin('jayne')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-inara" class="checkbox-input">
-              <label for="user-inara" class="checkbox-label"></label>
-            </div>
-          </td>
-          <td>
-            <div class="subscription-name">Inara Serra</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" onclick="toggleUserAdmin('inara')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="checkbox-wrapper">
-              <input type="checkbox" id="user-brandon" class="checkbox-input">
-              <label for="user-brandon" class="checkbox-label"></label>
-            </div>
-          </td>
-          <td>
-            <div class="subscription-name">Brandon Haystack</div>
-          </td>
-          <td style="text-align: right;">
-            <div class="toggle-switch" onclick="toggleUserAdmin('brandon')">
-              <div class="toggle-circle"></div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+          <span class="user-name">Brandon Haystack</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   
   <div class="drawer-footer">
