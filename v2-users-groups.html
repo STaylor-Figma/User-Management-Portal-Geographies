@@ -1004,6 +1004,95 @@
   color: #ffffff;
 }
 
+/* Invite Users Drawer Specific Styles */
+.invite-mode-toggle {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 8px;
+}
+
+.invite-mode-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4a4f55;
+}
+
+.invite-toggle-switch {
+  width: 54px;
+  height: 26px;
+  background: #88888e;
+  border-radius: 20px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.invite-toggle-circle {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+}
+
+.invite-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.invite-form-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: #1c1f22;
+}
+
+.invite-form-input {
+  height: 32px;
+  background: #fffffa;
+  border: 1px solid #dad8d7;
+  border-radius: 4px;
+  padding: 8px 7px 3px 7px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1c1f22;
+}
+
+.invite-form-input::placeholder {
+  color: #88888e;
+}
+
+.invite-ghost-btn {
+  border: 1px solid #88888e;
+  background: transparent;
+  border-radius: 4px;
+  padding: 8px;
+  height: 32px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4a4f55;
+  cursor: pointer;
+}
+
+.license-ellipsis-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.license-ellipsis-btn:hover {
+  background: #f4f4f4;
+}
+
 /* Bulk Upload Section */
 .bulk-instructions { 
   background: #f8f9fa; 
@@ -1752,185 +1841,183 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Invite Users Drawer -->
 <div class="drawer" id="inviteDrawer">
-  <div class="drawer-header">
-    <h2 class="drawer-title">Invite User(s)</h2>
+  <div class="drawer-header" style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 10px 14px 20px;">
+    <h2 class="drawer-title" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; color: #1c1f22;">Invite User(s)</h2>
     <button class="drawer-close" onclick="closeInviteDrawer()">
       <i class="fa-regular fa-xmark"></i>
     </button>
   </div>
   
-  <div class="drawer-content">
+  <div class="drawer-content" style="background: white; padding: 20px 13px; display: flex; gap: 20px; flex-direction: column;">
     <!-- Mode Toggle -->
-    <div class="mode-toggle-container">
-      <div class="mode-toggle" id="inviteModeToggle" onclick="toggleInviteMode()">
-        <div class="mode-toggle-slider"></div>
-        <div class="mode-toggle-labels">
-          <div class="mode-toggle-label">Individual Mode</div>
-          <div class="mode-toggle-label">Bulk Mode</div>
+    <div class="invite-mode-toggle-wrapper" style="background: #f2fafe; padding: 10px; width: 636px;">
+      <div class="invite-mode-toggle">
+        <span class="invite-mode-label">Individual Mode</span>
+        <div class="invite-toggle-switch">
+          <div class="invite-toggle-circle"></div>
         </div>
+        <span class="invite-mode-label">Bulk Mode</span>
       </div>
     </div>
     
-    <div class="drawer-two-column">
-      <!-- Individual Mode Content -->
-      <div class="drawer-left-panel" id="individualModeContent">
-        <div class="form-group">
-          <label class="form-label">First Name <span class="required">*</span></label>
-          <input type="text" class="form-input" placeholder="First Name">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Last Name <span class="required">*</span></label>
-          <input type="text" class="form-input" placeholder="Last Name">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Role</label>
-          <select class="form-select">
-            <option>Team Member</option>
-            <option>Admin</option>
-            <option>Owner</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Title</label>
-          <input type="text" class="form-input" placeholder="Title">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Email Address <span class="required">*</span></label>
-          <input type="email" class="form-input" placeholder="username@email.com">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Phone Number</label>
-          <input type="tel" class="form-input" placeholder="(000) 000-0000">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">License(s)</label>
-          <div class="license-chips">
-            <span class="license-chip default">Bid Center</span>
+    <!-- Two Column Layout -->
+    <div style="display: flex; gap: 15px;">
+      <!-- Left Column: Form -->
+      <div style="width: 636px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; gap: 10px;">
+          <div class="invite-form-field" style="width: 204px;">
+            <label class="invite-form-label">First Name <span style="color: #b70900;">*</span></label>
+            <input type="text" class="invite-form-input" placeholder="First Name">
           </div>
+          <div class="invite-form-field" style="width: 204px;">
+            <label class="invite-form-label">Last Name <span style="color: #b70900;">*</span></label>
+            <input type="text" class="invite-form-input" placeholder="Last Name">
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+          <div class="invite-form-field" style="width: 204px;">
+            <label class="invite-form-label">Role</label>
+            <select class="invite-form-input">
+              <option>Team Member</option>
+              <option>Admin</option>
+              <option>Owner</option>
+            </select>
+          </div>
+          <div class="invite-form-field" style="width: 204px;">
+            <label class="invite-form-label">Title</label>
+            <input type="text" class="invite-form-input" placeholder="Title">
+          </div>
+        </div>
+        
+        <div class="invite-form-field">
+          <label class="invite-form-label">Email Address <span style="color: #b70900;">*</span></label>
+          <input type="email" class="invite-form-input" placeholder="username@email.com">
+        </div>
+        
+        <div class="invite-form-field">
+          <label class="invite-form-label">Phone Number</label>
+          <input type="tel" class="invite-form-input" placeholder="(000) 000-0000">
         </div>
       </div>
       
-      <!-- Bulk Mode Content -->
-      <div class="drawer-left-panel" id="bulkModeContent" style="display: none;">
-        <div class="bulk-instructions">
-          <h3>To invite multiple users to this company's account:</h3>
-          <ul>
-            <li>Download the template and complete the required fields: First Name, Last Name, and Email</li>
-            <li>Save as .xls or .csv format</li>
-            <li>Upload your file to invite the users listed in your file</li>
-          </ul>
-          <div class="bulk-buttons">
-            <button class="btn-secondary">Download Template</button>
-            <button class="btn-default">Upload File</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- License Assignment Panel (Right) -->
-      <div class="drawer-right-panel">
-        <div class="license-section">
-          <div class="license-section-header">
-            <div class="license-section-title">
-              Project Intelligence Licenses
-              <span class="license-count-badge">31</span>
-            </div>
-            <button class="view-info-btn">View Info</button>
-          </div>
-          <div class="license-subheader">Feature</div>
-          
-          <div class="license-feature-row">
-            <div class="license-feature-info">
-              <div class="license-feature-name">NY - Nassau / Suffolk</div>
-              <div class="license-availability available">
-                <i class="fa-solid fa-check"></i>
-                <span>6 Available</span>
+      <!-- Right Column: License Tables -->
+      <div style="width: 355px; display: flex; flex-direction: column; gap: 5px;">
+        <!-- Project Intelligence Licenses Table -->
+        <div class="license-table">
+          <div class="license-table-header" style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
+              <div class="license-count-indicator" style="background: #185a7d; border-radius: 20px; padding: 2px 6px;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">31</span>
               </div>
             </div>
-            <button class="license-action-btn" onclick="assignLicense('ny-nassau')">
-              <i class="fa-regular fa-plus"></i>
-            </button>
+            <button class="invite-ghost-btn">View Info</button>
           </div>
           
-          <div class="license-feature-row">
-            <div class="license-feature-info">
-              <div class="license-feature-name">NY - Long Island</div>
-              <div class="license-availability available">
-                <i class="fa-solid fa-check"></i>
-                <span>6 Available</span>
+          <div class="license-table-cols" style="display: flex;">
+            <div style="width: 185px;">
+              <div class="license-table-col-header" style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
               </div>
             </div>
-            <button class="license-action-btn" onclick="assignLicense('ny-longisland')">
-              <i class="fa-regular fa-plus"></i>
-            </button>
-          </div>
-          
-          <div class="license-feature-row">
-            <div class="license-feature-info">
-              <div class="license-feature-name">PA - Philadelphia</div>
-              <div class="license-availability available">
-                <i class="fa-solid fa-check"></i>
-                <span>6 Available</span>
+            <div style="width: 170px;">
+              <div class="license-table-col-header" style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Availability</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+                <div class="license-pill" style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">6 Available</span>
+                </div>
+                <button class="license-ellipsis-btn" style="width: 32px; height: 32px; border-radius: 32px; padding: 3px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; color: #4a4f55;"></i>
+                </button>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+                <div class="license-pill" style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">6 Available</span>
+                </div>
+                <button class="license-ellipsis-btn" style="width: 32px; height: 32px; border-radius: 32px; padding: 3px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; color: #4a4f55;"></i>
+                </button>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+                <div class="license-pill" style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">6 Available</span>
+                </div>
+                <button class="license-ellipsis-btn" style="width: 32px; height: 32px; border-radius: 32px; padding: 3px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; color: #4a4f55;"></i>
+                </button>
               </div>
             </div>
-            <button class="license-action-btn" onclick="assignLicense('pa-philly')">
-              <i class="fa-regular fa-plus"></i>
-            </button>
           </div>
         </div>
         
-        <div class="license-section">
-          <div class="license-section-header">
-            <div class="license-section-title">
-              Takeoff & Estimating Licenses
-              <span class="license-count-badge">31</span>
-            </div>
-            <button class="view-info-btn">View Info</button>
-          </div>
-          <div class="license-subheader">Feature</div>
-          
-          <div class="license-feature-row">
-            <div class="license-feature-info">
-              <div class="license-feature-name">OnScreen Takeoff</div>
-              <div class="license-availability available">
-                <i class="fa-solid fa-check"></i>
-                <span>3 Available</span>
+        <!-- Takeoff & Estimating Licenses Table -->
+        <div class="license-table">
+          <div class="license-table-header" style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Takeoff & Estimating Licenses</span>
+              <div class="license-count-indicator" style="background: #185a7d; border-radius: 20px; padding: 2px 6px;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">31</span>
               </div>
             </div>
-            <button class="license-action-btn" onclick="assignLicense('ost')">
-              <i class="fa-regular fa-plus"></i>
-            </button>
+            <button class="invite-ghost-btn">View Info</button>
           </div>
           
-          <div class="license-feature-row">
-            <div class="license-feature-info">
-              <div class="license-feature-name">OnScreen Takeoff with AI</div>
-              <div class="license-availability low">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>1 Available</span>
+          <div class="license-table-cols" style="display: flex;">
+            <div style="width: 185px;">
+              <div class="license-table-col-header" style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff with AI</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">QuickBid</span>
               </div>
             </div>
-            <button class="license-action-btn" onclick="assignLicense('ost-ai')">
-              <i class="fa-regular fa-plus"></i>
-            </button>
-          </div>
-          
-          <div class="license-feature-row">
-            <div class="license-feature-info">
-              <div class="license-feature-name">QuickBid</div>
-              <div class="license-availability available">
-                <i class="fa-solid fa-check"></i>
-                <span>6 Available</span>
+            <div style="width: 170px;">
+              <div class="license-table-col-header" style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Availability</span>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+                <div class="license-pill" style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">3 Available</span>
+                </div>
+                <button class="license-ellipsis-btn" style="width: 32px; height: 32px; border-radius: 32px; padding: 3px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; color: #4a4f55;"></i>
+                </button>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+                <div class="license-pill" style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">1 Available</span>
+                </div>
+                <button class="license-ellipsis-btn" style="width: 32px; height: 32px; border-radius: 32px; padding: 3px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; color: #4a4f55;"></i>
+                </button>
+              </div>
+              <div class="license-row" style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
+                <div class="license-pill" style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;">
+                  <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">6 Available</span>
+                </div>
+                <button class="license-ellipsis-btn" style="width: 32px; height: 32px; border-radius: 32px; padding: 3px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-regular fa-ellipsis" style="font-size: 18px; color: #4a4f55;"></i>
+                </button>
               </div>
             </div>
-            <button class="license-action-btn" onclick="assignLicense('quickbid')">
-              <i class="fa-regular fa-plus"></i>
-            </button>
           </div>
         </div>
       </div>
@@ -1939,11 +2026,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   <div class="drawer-footer">
     <div class="drawer-footer-left">
-      <button class="btn-secondary">Reset</button>
+      <button class="btn-secondary" disabled style="opacity: 0.3;">Reset</button>
     </div>
     <div class="drawer-footer-right">
       <button class="link-button" onclick="closeInviteDrawer()">Cancel</button>
-      <button class="btn-primary">Send Invitation</button>
+      <button class="btn-primary" disabled style="opacity: 0.3;">Send Invitation</button>
     </div>
   </div>
 </div>
