@@ -1869,23 +1869,14 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     
     <!-- Main Content Area with Form and Tables -->
-    <div id="individualModeContent" style="position: absolute; left: 13px; top: 60px; display: flex; flex-direction: column; gap: 0; width: 1004px;">
+    <div id="individualModeContent" style="position: absolute; left: 13px; top: 60px; display: flex; gap: 15px; width: 1004px;">
       
-      <!-- Headers Row - User Information and License(s) side by side -->
-      <div style="display: flex; gap: 0px; width: 100%;">
-        <div style="width: 636px; padding: 10px 5px; border-bottom: 2px solid #4a4f55;">
+      <!-- Column 1: User Information (636px) -->
+      <div style="width: 636px; display: flex; flex-direction: column;">
+        <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55;">
           <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">User Information</span>
         </div>
-        <div style="width: 355px; padding: 10px 5px; border-bottom: 2px solid #4a4f55; margin-left: 13px;">
-          <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
-        </div>
-      </div>
-      
-      <!-- Content Row - Form Fields and License Tables side by side -->
-      <div style="display: flex; gap: 0px; width: 100%; margin-top: 13px;">
-        <!-- Left Column - Form Fields (636px) -->
-        <div style="width: 636px; display: flex; flex-direction: column; gap: 13px;">
-          <!-- Row 1: First Name & Last Name -->
+        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
           <div style="display: flex; gap: 10px;">
             <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
               <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">First Name <span style="color: #b70900;">*</span></label>
@@ -1896,8 +1887,6 @@ document.addEventListener('DOMContentLoaded', function() {
               <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="Last Name">
             </div>
           </div>
-          
-          <!-- Row 2: Role & Title -->
           <div style="display: flex; gap: 10px;">
             <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
               <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Role</label>
@@ -1913,168 +1902,149 @@ document.addEventListener('DOMContentLoaded', function() {
               <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="Title">
             </div>
           </div>
-          
-          <!-- Row 3: Email Address -->
           <div style="display: flex; flex-direction: column; gap: 3px; width: 418px;">
             <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Email Address <span style="color: #b70900;">*</span></label>
             <input type="email" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="username@email.com">
           </div>
-          
-          <!-- Row 4: Phone Number -->
           <div style="display: flex; flex-direction: column; gap: 3px; width: 418px;">
             <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Phone Number</label>
             <input type="tel" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="(000) 000-0000">
           </div>
         </div>
-        
-        <!-- Right Column - License Tables (355px) -->
-        <div style="width: 355px; display: flex; flex-direction: column; gap: 5px; margin-left: 13px;">
-          <!-- Bid Center Button -->
-          <div style="padding: 10px 5px; display: flex; align-items: center;">
+      </div>
+      
+      <!-- Column 2: License(s) with Bid Center -->
+      <div style="width: 185px; display: flex; flex-direction: column;">
+        <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55;">
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
+        </div>
+        <div style="display: flex; flex-direction: column; margin-top: 13px;">
+          <div style="padding: 5px; margin-bottom: 10px;">
             <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: inline-flex; align-items: center; justify-content: center;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Bid Center</span>
             </div>
           </div>
-        
-        <!-- Table 1: Project Intelligence Licenses -->
-        <div style="display: flex; flex-direction: column; width: 100%;">
-          <!-- Table Header -->
-          <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+          
+          <!-- Project Intelligence Header -->
+          <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 5px; min-height: 44px; display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; gap: 4px; align-items: center;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
-              <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; min-width: 16px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white; text-align: center;">31</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">31</span>
               </div>
             </div>
-            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Keystone</span>
           </div>
           
-          <!-- Table Columns Container -->
-          <div style="display: flex;">
-            <!-- Left Column: Feature Names (185px) -->
-            <div style="width: 185px; display: flex; flex-direction: column;">
-              <!-- Column Header -->
-              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
-              </div>
-              <!-- Rows -->
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Keystone</span>
-              </div>
-            </div>
-            
-            <!-- Right Column: Availability (170px) -->
-            <div style="width: 170px; display: flex; flex-direction: column;">
-              <!-- Column Header -->
-              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;"></span>
-              </div>
-              <!-- Rows with Available Count and + Buttons -->
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">2 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">3 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Table 2: Takeoff & Estimating Licenses -->
-        <div style="display: flex; flex-direction: column; width: 100%; margin-top: 15px;">
-          <!-- Table Header -->
-          <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+          <!-- Takeoff & Estimating Header -->
+          <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 5px; min-height: 44px; display: flex; align-items: center; justify-content: space-between; margin-top: 15px;">
             <div style="display: flex; gap: 4px; align-items: center;">
               <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Takeoff & Estimating Licenses</span>
-              <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; min-width: 16px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white; text-align: center;">31</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: white;">31</span>
               </div>
             </div>
-            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff with AI</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OST Planviewer</span>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">QuickBid</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Column 3: Availability -->
+      <div style="width: 170px; display: flex; flex-direction: column;">
+        <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55; height: 38px;">
+        </div>
+        <div style="display: flex; flex-direction: column; margin-top: 13px;">
+          <div style="padding: 5px; margin-bottom: 10px; height: 26px;">
           </div>
           
-          <!-- Table Columns Container -->
-          <div style="display: flex;">
-            <!-- Left Column: Feature Names (185px) -->
-            <div style="width: 185px; display: flex; flex-direction: column;">
-              <!-- Column Header -->
-              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
-              </div>
-              <!-- Rows -->
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff</span>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OnScreen Takeoff with AI</span>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">OST Planviewer</span>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">QuickBid</span>
-              </div>
-            </div>
-            
-            <!-- Right Column: Availability (170px) -->
-            <div style="width: 170px; display: flex; flex-direction: column;">
-              <!-- Column Header -->
-              <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: flex-end;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;"></span>
-              </div>
-              <!-- Rows with Available Count and + Buttons -->
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">3 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">1 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-              <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
-                <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                  <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
-                </button>
-              </div>
-            </div>
+          <!-- Project Intelligence Availability -->
+          <div style="padding: 8px 5px; min-height: 44px; display: flex; align-items: center; justify-content: flex-end;">
+            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 5px; height: 38px;">
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">2 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">3 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          
+          <!-- Takeoff & Estimating Availability -->
+          <div style="padding: 8px 5px; min-height: 44px; display: flex; align-items: center; justify-content: flex-end; margin-top: 15px;">
+            <button style="background: transparent; border: 1px solid #88888e; border-radius: 4px; padding: 8px; height: 32px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid #4a4f55; padding: 8px 5px; height: 38px;">
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">3 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">1 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
+          </div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 5px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">6 Available</span>
+            <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <i class="fa-regular fa-plus" style="font-size: 16px; color: #4a4f55;"></i>
+            </button>
           </div>
         </div>
       </div>
