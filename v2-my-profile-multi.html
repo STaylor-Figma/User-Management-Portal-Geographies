@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - User Management Portal</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="blueprint-workflow-styles.css">
+<link rel="stylesheet" href="blueprint-navigation.css">
+<link rel="stylesheet" href="blueprint-button-styles.css">
+<style>
+/* Page-specific styles for My Profile */
+
+.content { padding: 0 20px; }
+
+/* Profile Sidebar */
+.profile-sidebar {
+  width: 320px;
+  background: #feffff;
+  border: 1px solid #dad8d7;
+  border-radius: 4px;
+  padding: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.profile-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #4a4f55;
+  margin: 0 0 20px 0;
+}
+
+/* Profile Section */
+.profile-section {
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #88888e;
+}
+
+.profile-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.section-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4a4f55;
+  margin: 0 0 10px 0;
+}
+
+.section-content {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a4f55;
+  line-height: 16px;
+}
+
+/* Role Badge */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background: #e7e6e5;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a4f55;
+  line-height: 14px;
+}
+
+/* Group Pills */
+.group-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.group-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background: #e7e6e5;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a4f55;
+  line-height: 14px;
+}
+
+/* Links */
+.profile-link {
+  color: #00a1e0;
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.profile-link:hover {
+  color: #0c79a8;
+}
+
+/* License Items */
+.license-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.license-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.active {
+  background: #00a651;
+}
+
+.status-dot.inactive {
+  background: #88888e;
+}
+
+.license-name {
+  color: #00a1e0;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.license-name:hover {
+  color: #0c79a8;
+}
+
+.license-status {
+  color: #88888e;
+  font-weight: 500;
+}
+
+/* Admin List */
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.helper-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #4a4f55;
+  margin-bottom: 10px;
+}
+
+/* Resources List */
+.resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Password Notice */
+.password-notice {
+  background: #f4f4f4;
+  padding: 16px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.password-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a4f55;
+  margin: 0;
+  line-height: 16px;
+}
+
+/* Button Styles */
+.profile-button {
+  padding: 8px 12px;
+  border: 1px solid #88888e;
+  border-radius: 4px;
+  background: white;
+  color: #4a4f55;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 16px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-button:hover {
+  background: #f4f4f4;
+}
+
+.profile-button.default {
+  background: #e7e6e5;
+  border: 1px solid #e7e6e5;
+}
+
+.profile-button.default:hover {
+  background: #dad8d7;
+}
+
+/* Centered Layout */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left-section">
+    <button class="hamburger-menu" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+      <div class="hamburger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">BL</div>
+      <span>Blake Lawrence</span>
+    </div>
+  </div>
+</div>
+
+<!-- Compact Navigation (Top) -->
+<div class="compact-nav">
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles-multi.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview-multi.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles-multi.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview-multi.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="profile-container">
+      
+      <!-- Profile Sidebar Panel -->
+      <div class="profile-sidebar">
+        
+        <!-- Title -->
+        <h1 class="profile-title">My Profile</h1>
+        
+        <!-- Role Badge Section -->
+        <div class="profile-section">
+          <div class="role-badge">Team Member</div>
+        </div>
+        
+        <!-- Group(s) Section -->
+        <div class="profile-section">
+          <div class="section-label">Group(s)</div>
+          <div class="group-pills">
+            <span class="group-pill">Southeast Region</span>
+            <span class="group-pill">Architectural Sales</span>
+          </div>
+          <a href="#" class="profile-link">View my groups</a>
+        </div>
+        
+        <!-- License(s) Section -->
+        <div class="profile-section">
+          <div class="section-label">License(s)</div>
+          <div class="license-list">
+            <div class="license-item">
+              <span class="status-dot active"></span>
+              <a href="#" class="license-name">Project Intelligence</a>
+            </div>
+            <div class="license-item">
+              <span class="status-dot active"></span>
+              <a href="#" class="license-name">Bid Management</a>
+            </div>
+            <div class="license-item">
+              <span class="status-dot inactive"></span>
+              <span class="license-name" style="color: #4a4f55; text-decoration: none; cursor: default;">On Screen Takeoff</span>
+              <span class="license-status">(Not assigned)</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Admins Section -->
+        <div class="profile-section">
+          <div class="section-label">Admins</div>
+          <div class="helper-text">Contact for access changes:</div>
+          <div class="admin-list">
+            <a href="#" class="profile-link">Dana Martinez</a>
+            <a href="#" class="profile-link">Eric Thompson</a>
+          </div>
+        </div>
+        
+        <!-- Customer Support Section -->
+        <div class="profile-section">
+          <div class="section-label">Customer Support</div>
+          <a href="mailto:support@constructconnect.com" class="profile-link">Email Customer Success</a>
+        </div>
+        
+        <!-- Resources Section -->
+        <div class="profile-section">
+          <div class="section-label">Resources</div>
+          <div class="resource-list">
+            <a href="#" class="profile-link">Training Video Library</a>
+            <a href="#" class="profile-link">Bid Like a Boss Webinars</a>
+            <a href="#" class="profile-link">Keyboard Shortcuts</a>
+          </div>
+        </div>
+        
+        <!-- Password Notice Section -->
+        <div class="profile-section">
+          <div class="password-notice">
+            <p class="password-text">Your password was last changed 45 days ago</p>
+            <button class="profile-button">Change Password</button>
+          </div>
+        </div>
+        
+        <!-- Logout Section -->
+        <div class="profile-section">
+          <button class="profile-button default">Logout</button>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<script>
+function toggleMobileMenu() {
+  const nav = document.querySelector('.sidebar-nav');
+  const compactNav = document.querySelector('.compact-nav');
+  nav.classList.toggle('show');
+  compactNav.classList.toggle('show');
+}
+</script>
+
+</body>
+</html>
