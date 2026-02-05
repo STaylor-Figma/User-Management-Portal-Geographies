@@ -1879,8 +1879,11 @@ function loadBulkMode() {
       </div>
     </div>
     
-    <!-- Column 2: License Tables (wider in bulk mode) -->
-    <div style="width: 571px; display: flex; flex-direction: column; gap: 20px;">
+    <!-- Spacer to align license tables with Individual Mode -->
+    <div style="width: 233px;"></div>
+    
+    <!-- Column 2: License Tables (same width and position as Individual Mode) -->
+    <div style="width: 365px; display: flex; flex-direction: column; gap: 20px;">
       ${getLicenseTablesHTML()}
     </div>
   `;
