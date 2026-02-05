@@ -1850,11 +1850,10 @@ function loadIndividualMode() {
       <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55; height: 38px; display: flex; align-items: center;">
         <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
       </div>
-      <div style="margin-top: 13px; display: flex; justify-content: flex-start;">
-        <button style="background: #e7e6e5; border: none; border-radius: 30px; height: 26px; padding: 6px 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-          <i class="fa-regular fa-briefcase" style="font-size: 12px;"></i>
-          Bid Center
-        </button>
+      <div style="margin-top: 13px;">
+        <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: inline-flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">Bid Center</span>
+        </div>
       </div>
     </div>
     
@@ -1908,10 +1907,10 @@ function getLicenseTablesHTML() {
         <div style="display: flex; align-items: center; gap: 4px;">
           <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
           <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px; display: flex; align-items: center; justify-content: center;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #ffffff;">31</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #ffffff;">20</span>
           </div>
         </div>
-        <button class="btn-ghost" style="height: 32px; padding: 8px; border: 1px solid #88888e; border-radius: 4px; background: transparent; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">
+        <button onclick="window.location.href='v2-modify-users-workflow-multi.html'" class="btn-ghost" style="height: 32px; padding: 8px; border: 1px solid #88888e; border-radius: 4px; background: transparent; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">
           View Info
         </button>
       </div>
@@ -1919,19 +1918,13 @@ function getLicenseTablesHTML() {
       <div style="display: flex;">
         <div style="width: 185px; display: flex; flex-direction: column;">
           <div style="background: #ffffff; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px; display: flex; align-items: center;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Feature</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Subscription</span>
           </div>
           <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; gap: 5px;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Nassau / Suffolk</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Project Intelligence Starter</span>
           </div>
           <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; gap: 5px;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">NY - Long Island</span>
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; gap: 5px;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Philadelphia</span>
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px; display: flex; align-items: center; gap: 5px;">
-            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">PA - Keystone</span>
+            <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 18px; color: #4a4f55;">Project Intelligence Pro</span>
           </div>
         </div>
         
@@ -1941,7 +1934,7 @@ function getLicenseTablesHTML() {
           </div>
           <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
             <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">2 Available</span>
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">7 Available</span>
             </div>
             <button style="background: transparent; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
               <i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i>
@@ -1949,25 +1942,13 @@ function getLicenseTablesHTML() {
           </div>
           <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
             <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">3 Available</span>
+              <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">13 Available</span>
             </div>
             <button style="background: transparent; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
               <i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i>
             </button>
           </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-            <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">6 Available</span>
-            </div>
-            <button style="background: transparent; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-              <i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i>
-            </button>
-          </div>
-          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-            <div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px; display: flex; align-items: center;">
-              <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22;">6 Available</span>
-            </div>
-            <button style="background: transparent; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        </div>
               <i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i>
             </button>
           </div>
