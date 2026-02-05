@@ -9,12 +9,22 @@
 <link rel="stylesheet" href="blueprint-navigation.css">
 <link rel="stylesheet" href="blueprint-button-styles.css">
 <style>
+/* Zone Counties Container */
+.zone-counties {
+  padding: 20px;
+}
+
+@media (max-width: 1200px) {
+  .zone-counties {
+    padding: 10px;
+  }
+}
+
 /* County Grid - 2-3 Column Layout */
 .county-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px 16px;
-  margin-top: 12px;
 }
 
 @media (max-width: 1200px) {
@@ -47,6 +57,27 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   line-height: 1.4;
+}
+
+/* Show All Button */
+.show-all {
+  text-align: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #dad8d7;
+}
+
+.show-all {
+  color: #185a7d;
+  text-decoration: underline;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.show-all:hover {
+  color: #0c79a8;
 }
 
 /* Page-specific overrides for Blueprint Design System */
