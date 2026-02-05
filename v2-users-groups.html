@@ -2041,9 +2041,9 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 
   <!-- Main Content Area - Bulk Mode -->
-  <div id="bulkModeContent" style="padding: 60px 13px 20px 13px; display: none; gap: 15px; width: 1004px;">
+  <div id="bulkModeContent" style="padding: 15px 13px 20px 13px; display: none; gap: 15px; width: 1004px;">
     
-    <!-- Column 1: Upload Instructions (replaces User Information) -->
+    <!-- Column 1: Upload Instructions (wider in Bulk Mode) -->
     <div style="width: 418px; display: flex; flex-direction: column; background: #ffffff; padding: 10px; gap: 10px;">
       <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #1c1f22;">
         To invite multiple users to this company's account:
@@ -2065,21 +2065,8 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
     
-    <!-- Column 2: License(s) with Bid Center (same as Individual Mode) -->
-    <div style="width: 218px; display: flex; flex-direction: column;">
-      <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55; height: 38px; display: flex; align-items: center;">
-        <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
-      </div>
-      <div style="margin-top: 13px; display: flex; justify-content: flex-start;">
-        <button style="background: #e7e6e5; border: none; border-radius: 30px; height: 26px; padding: 6px 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-          <i class="fa-regular fa-briefcase" style="font-size: 12px;"></i>
-          Bid Center
-        </button>
-      </div>
-    </div>
-    
-    <!-- Column 3: License Tables (same as Individual Mode) -->
-    <div style="width: 365px; display: flex; flex-direction: column; gap: 20px;">
+    <!-- Column 2: License Tables ONLY (no License(s) header or Bid Center in Bulk Mode) -->
+    <div style="width: 571px; display: flex; flex-direction: column; gap: 20px;">
       <!-- Project Intelligence Licenses Table -->
       <div style="display: flex; flex-direction: column;">
         <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; height: 40px;">
