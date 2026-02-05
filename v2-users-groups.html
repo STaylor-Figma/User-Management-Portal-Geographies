@@ -2042,15 +2042,15 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
   
   <!-- Footer -->
-  <div style="background: white; border-top: 1px solid #dad8d7; padding: 20px; display: flex; align-items: center; flex-shrink: 0; min-height: 72px;">
-    <div style="position: relative; width: 100%; height: 32px;">
+  <div style="background: #ffffff; border-top: 1px solid #dad8d7; padding: 20px; display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
       <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
-      <div style="position: absolute; left: 0; top: 0;">
+      <div>
         <button class="btn-secondary" disabled>Reset</button>
       </div>
       
       <!-- Right Side - Cancel + Send Invitation Buttons -->
-      <div style="position: absolute; right: 0; top: 0; display: flex; gap: 20px; align-items: center;">
+      <div style="display: flex; gap: 20px; align-items: center;">
         <!-- Cancel Button (Link Small) -->
         <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
         
