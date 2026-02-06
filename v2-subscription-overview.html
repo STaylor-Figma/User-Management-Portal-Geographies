@@ -589,28 +589,7 @@
 
 </div>
 
-<!-- Add User Drawer (Slide from Right) -->
-<div id="addUserDrawer" class="drawer">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-    <h2 style="margin: 0;">Invite User</h2>
-    <button onclick="closeAddUserDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
-  </div>
-  
-  <div style="text-align: center; padding: 48px 24px;">
-    <div style="font-size: 64px; margin-bottom: 24px;">📝</div>
-    <h3 style="margin-bottom: 16px; color: #424242;">Invite User Workflow Coming Soon</h3>
-    <p style="color: #999; font-size: 13px;">
-      For now, use the "Modify" workflow to manage geographic access for existing subscription users.
-    </p>
-  </div>
-  
-  <div style="margin-top: 32px; text-align: center;">
-    <button onclick="closeAddUserDrawer()" class="btn btn-primary">Close</button>
-  </div>
-</div>
 
-<!-- Drawer Overlay -->
-<div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
 
 <!-- User Profile Drawer -->
 <div id="userProfileDrawer" class="drawer">
@@ -639,19 +618,6 @@
 <div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
 
 <script>
-// Open invite drawer
-function openInviteDrawer() {
-  document.getElementById('addUserDrawer').classList.add('show');
-  document.getElementById('drawerOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeAddUserDrawer() {
-  document.getElementById('addUserDrawer').classList.remove('show');
-  document.getElementById('drawerOverlay').classList.remove('show');
-  document.body.style.overflow = 'auto';
-}
-
 // Open user profile drawer
 function openUserProfileDrawer(userName) {
   document.getElementById('userProfileName').textContent = userName;
