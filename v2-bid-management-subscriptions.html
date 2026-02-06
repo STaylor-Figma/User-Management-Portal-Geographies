@@ -230,10 +230,10 @@
               <div class="capacity-container">
                 <div class="capacity-header">
                   <span>Bid Management Seats</span>
-                  <span class="capacity-used">4/20 Used</span>
+                  <span class="capacity-used" id="capacityUsed">9/20 Used</span>
                 </div>
                 <div class="capacity-bar">
-                  <div class="capacity-fill" style="width: 20%;"></div>
+                  <div class="capacity-fill" id="capacityFill" style="width: 45%;"></div>
                 </div>
               </div>
             </div>
@@ -242,12 +242,20 @@
             <div class="filters">
               <button class="btn-primary" id="authorizeBtn" disabled>Authorize</button>
               <button class="btn-secondary" id="deauthorizeBtn" disabled>Deauthorize</button>
-              <button class="filter-btn">
-                <div class="filter-btn-content">
-                  <span>All Bid Management Roles</span>
-                  <i class="fa-regular fa-chevron-down"></i>
-                </div>
-              </button>
+              <select class="filter-btn" id="bmRoleFilter" onchange="filterByRole()">
+                <option value="">All Bid Management Roles</option>
+                <option value="Company Admin">Company Admin</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Bid Coordinator">Bid Coordinator</option>
+                <option value="Estimator">Estimator</option>
+                <option value="PQ Analyst">PQ Analyst</option>
+                <option value="Team Member">Team Member</option>
+                <option value="Intern">Intern</option>
+                <option value="">────────────</option>
+                <option value="Senior Estimator">Senior Estimator (Custom)</option>
+                <option value="">────────────</option>
+                <option value="No Role">No Role Assigned</option>
+              </select>
             </div>
           </div>
 
@@ -371,7 +379,102 @@
                 </td>
               </tr>
 
-              <!-- Row 6: Jayne Cobb - Requested Access -->
+              <!-- Row 6: Hoban Washburne - Project Manager, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Hoban Washburne</a>
+                  </div>
+                </td>
+                <td>Project Manager</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 7: Inara Serra - PQ Analyst, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Inara Serra</a>
+                  </div>
+                </td>
+                <td>PQ Analyst</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 8: Shepherd Book - Intern, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Shepherd Book</a>
+                  </div>
+                </td>
+                <td>Intern</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 9: Derrial Book - Senior Estimator (Custom), Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Derrial Book</a>
+                  </div>
+                </td>
+                <td>Senior Estimator</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 10: Saffron - Company Admin, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Saffron</a>
+                  </div>
+                </td>
+                <td>Company Admin</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 11: Jayne Cobb - Requested Access -->
               <tr>
                 <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
                 <td class="user-name-cell">
@@ -396,7 +499,7 @@
         <!-- Table Footer -->
         <div class="table-footer">
           <div class="results-count">
-            <strong>6</strong> Results Found
+            <strong>11</strong> Results Found
           </div>
           <div class="pagination-controls">
             <div class="rows-per-page">
@@ -409,7 +512,7 @@
               </select>
             </div>
             <div class="page-nav">
-              <span class="page-info">1-6 of 6</span>
+              <span class="page-info">1-11 of 11</span>
               <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
               <button class="page-btn" disabled><i class="fa-regular fa-chevron-right"></i></button>
             </div>
@@ -476,18 +579,19 @@ document.querySelectorAll('.toggle-input').forEach(toggle => {
     const usedSeats = document.querySelectorAll('.toggle-input:checked').length;
     const percentage = (usedSeats / totalSeats) * 100;
     
-    document.querySelector('.capacity-used').textContent = `${usedSeats}/${totalSeats} Used`;
-    document.querySelector('.capacity-fill').style.width = `${percentage}%`;
+    document.getElementById('capacityUsed').textContent = `${usedSeats}/${totalSeats} Used`;
+    document.getElementById('capacityFill').style.width = `${percentage}%`;
     
     // Update access and status badges
     const row = this.closest('tr');
     const accessBadge = row.querySelector('.access-badge');
     const statusBadge = row.querySelector('.status-badge');
+    const roleCell = row.querySelectorAll('td')[2];
     
     if (this.checked) {
       // Authorized
       accessBadge.className = 'access-badge bm';
-      accessBadge.textContent = 'BM';
+      accessBadge.textContent = 'YES';
       statusBadge.className = 'status-badge active';
       statusBadge.textContent = 'Active';
     } else {
@@ -496,9 +600,31 @@ document.querySelectorAll('.toggle-input').forEach(toggle => {
       accessBadge.textContent = 'N/A';
       statusBadge.className = 'status-badge na';
       statusBadge.textContent = 'N/A';
+      roleCell.textContent = '-';
     }
   });
 });
+
+// Role filter function
+function filterByRole() {
+  const filter = document.getElementById('bmRoleFilter').value;
+  const rows = document.querySelectorAll('.bm-table tbody tr');
+  let visibleCount = 0;
+  
+  rows.forEach(row => {
+    const roleCell = row.querySelectorAll('td')[2];
+    const roleText = roleCell.textContent.trim();
+    
+    if (!filter || roleText === filter || (filter === 'No Role' && roleText === '-')) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  
+  document.querySelector('.results-count strong').textContent = visibleCount;
+}
 
 // Initialize button states
 updateActionButtons();
