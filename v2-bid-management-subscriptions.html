@@ -100,6 +100,42 @@
 .page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 18px; color: #4a4f55; border-radius: 50%; padding: 10px; display: flex; align-items: center; justify-content: center; }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 .page-btn:not(:disabled):hover { background: #f0f0f0; }
+
+/* ============================================ */
+/* MODAL SYSTEM */
+/* ============================================ */
+
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 9998; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal { background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; position: relative; z-index: 9999; }
+.modal.small { width: 400px; }
+.modal.medium { width: 600px; }
+.modal.large { width: 800px; }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid #dad8d7; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.modal-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 600; color: #1c1f22; margin: 0; }
+.modal-close { background: none; border: none; cursor: pointer; padding: 4px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4a4f55; font-size: 20px; }
+.modal-close:hover { background: #f0f0f0; }
+.modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid #dad8d7; display: flex; gap: 12px; justify-content: flex-end; flex-shrink: 0; }
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; color: #4a4f55; margin-bottom: 8px; }
+.form-select { width: 100%; padding: 10px 12px; border: 1px solid #dad8d7; border-radius: 4px; font-family: 'Montserrat', sans-serif; font-size: 14px; color: #1c1f22; background: #fff; }
+.modal-warning { padding: 12px 16px; background: #fff3cd; border-left: 4px solid #f5a623; border-radius: 4px; margin-bottom: 20px; }
+.modal-warning-text { font-family: 'Montserrat', sans-serif; font-size: 13px; color: #856404; line-height: 1.4; }
+.modal-info { padding: 12px 16px; background: #d1ecf1; border-left: 4px solid #0c5460; border-radius: 4px; margin-bottom: 20px; }
+.modal-info-text { font-family: 'Montserrat', sans-serif; font-size: 13px; color: #0c5460; line-height: 1.4; }
+.role-options { display: flex; flex-direction: column; gap: 8px; }
+.role-option { padding: 12px 16px; border: 2px solid #dad8d7; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.role-option:hover { border-color: #00a1e0; background: #f2fafe; }
+.role-option.selected { border-color: #00a1e0; background: #e6f7ff; }
+.role-option-name { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; color: #1c1f22; margin-bottom: 4px; }
+.role-option-desc { font-family: 'Montserrat', sans-serif; font-size: 12px; color: #4a4f55; line-height: 1.4; }
+.role-option-note { margin-top: 6px; padding: 8px; background: #fff3cd; border-left: 3px solid #f5a623; font-family: 'Montserrat', sans-serif; font-size: 12px; color: #856404; font-style: italic; }
+.summary-list { background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px; }
+.summary-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #dad8d7; font-family: 'Montserrat', sans-serif; font-size: 14px; }
+.summary-item:last-child { border-bottom: none; }
+.summary-label { color: #4a4f55; font-weight: 500; }
+.summary-value { color: #1c1f22; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -240,8 +276,8 @@
 
             <!-- Action Buttons -->
             <div class="filters">
-              <button class="btn-primary" id="authorizeBtn" disabled>Authorize</button>
-              <button class="btn-secondary" id="deauthorizeBtn" disabled>Deauthorize</button>
+              <button class="btn-primary" id="authorizeBtn" disabled onclick="bulkAuthorize()">Authorize</button>
+              <button class="btn-secondary" id="deauthorizeBtn" disabled onclick="bulkDeauthorize()">Deauthorize</button>
               <select class="filter-btn" id="bmRoleFilter" onchange="filterByRole()">
                 <option value="">All Bid Management Roles</option>
                 <option value="Company Admin">Company Admin</option>
@@ -263,7 +299,7 @@
             <button class="search-btn">
               <i class="fa-regular fa-search"></i>
             </button>
-            <button class="btn-default">Subscription Details</button>
+            <button class="btn-default" onclick="showSubscriptionDetails()">Subscription Details</button>
           </div>
         </div>
 
@@ -628,6 +664,121 @@ function filterByRole() {
 
 // Initialize button states
 updateActionButtons();
+
+// Modal Functions
+function showSubscriptionDetails() {
+  document.getElementById('subscriptionDetailsModal').classList.remove('hide');
+}
+
+function authorizeUser(userId, userName) {
+  // Store user info for modal
+  window.currentAuthUser = { id: userId, name: userName };
+  document.getElementById('authUserName').textContent = userName;
+  document.getElementById('authorizeModal').classList.remove('hide');
+}
+
+function bulkAuthorize() {
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  if (selected.length === 0) return;
+  
+  const userNames = Array.from(selected).map(cb => {
+    const row = cb.closest('tr');
+    return row.cells[1].textContent.trim();
+  });
+  
+  document.getElementById('bulkAuthCount').textContent = selected.length;
+  document.getElementById('bulkAuthList').innerHTML = userNames.map(name => 
+    `<div class="checkbox-list-item"><i class="fa-solid fa-user" style="color: #88888e; margin-right: 8px;"></i>${name}</div>`
+  ).join('');
+  
+  document.getElementById('bulkAuthorizeModal').classList.remove('hide');
+}
+
+function bulkDeauthorize() {
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  if (selected.length === 0) return;
+  
+  const userNames = Array.from(selected).map(cb => {
+    const row = cb.closest('tr');
+    return row.cells[1].textContent.trim();
+  });
+  
+  document.getElementById('bulkDeauthCount').textContent = selected.length;
+  document.getElementById('bulkDeauthList').innerHTML = userNames.map(name => 
+    `<div class="checkbox-list-item"><i class="fa-solid fa-user" style="color: #88888e; margin-right: 8px;"></i>${name}</div>`
+  ).join('');
+  
+  document.getElementById('bulkDeauthorizeModal').classList.remove('hide');
+}
+
+function changeUserRole(userId, userName, currentRole) {
+  window.currentRoleChange = { id: userId, name: userName, current: currentRole };
+  document.getElementById('changeRoleUserName').textContent = userName;
+  document.getElementById('changeRoleCurrentRole').textContent = currentRole;
+  document.getElementById('changeRoleModal').classList.remove('hide');
+}
+
+function reassignSeat(userId, userName, currentRole) {
+  // Simulate finding users who would be deauthorized
+  window.currentReassign = { id: userId, name: userName, role: currentRole };
+  document.getElementById('reassignUserName').textContent = userName;
+  document.getElementById('reassignRole').textContent = currentRole;
+  document.getElementById('reassignSeatModal').classList.remove('hide');
+}
+
+function confirmAuthorize() {
+  const role = document.getElementById('authRoleSelect').value;
+  if (!role) {
+    alert('Please select a role');
+    return;
+  }
+  
+  console.log('Authorizing user:', window.currentAuthUser.name, 'with role:', role);
+  // Update UI would happen here
+  closeModal('authorizeModal');
+}
+
+function confirmBulkAuthorize() {
+  const role = document.getElementById('bulkAuthRoleSelect').value;
+  if (!role) {
+    alert('Please select a role');
+    return;
+  }
+  
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  console.log('Bulk authorizing', selected.length, 'users with role:', role);
+  // Update UI would happen here
+  closeModal('bulkAuthorizeModal');
+}
+
+function confirmBulkDeauthorize() {
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  console.log('Bulk deauthorizing', selected.length, 'users');
+  // Update UI would happen here
+  closeModal('bulkDeauthorizeModal');
+}
+
+function confirmChangeRole() {
+  const newRole = document.getElementById('newRoleSelect').value;
+  if (!newRole) {
+    alert('Please select a new role');
+    return;
+  }
+  
+  console.log('Changing role for', window.currentRoleChange.name, 'from', window.currentRoleChange.current, 'to', newRole);
+  // Update UI would happen here
+  closeModal('changeRoleModal');
+}
+
+function confirmReassign() {
+  console.log('Reassigning seat to', window.currentReassign.name, 'with role', window.currentReassign.role);
+  // Update UI would happen here
+  closeModal('reassignSeatModal');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.add('hide');
+}
 </script>
 
 <!-- Invite Drawer JavaScript -->
@@ -681,6 +832,358 @@ updateActionButtons();
         <!-- Send Invitation Button (Primary Small - Disabled) -->
         <button class="btn-primary" disabled>Send Invitation</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Authorize User Modal -->
+<div class="modal-overlay hide" id="authorizeModal">
+  <div class="modal-dialog" style="max-width: 500px;">
+    <div class="modal-header">
+      <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #1c1f22; margin: 0;">Authorize User</h2>
+      <button class="modal-close" onclick="closeModal('authorizeModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; margin-bottom: 20px;">
+        Authorize <strong id="authUserName"></strong> for Bid Management and assign a role:
+      </p>
+      
+      <div class="form-row">
+        <label class="form-label">Role <span style="color: #d32f2f;">*</span></label>
+        <select id="authRoleSelect" class="modal-input">
+          <option value="">Select a role...</option>
+          <option value="Company Admin">Company Admin</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Bid Coordinator">Bid Coordinator</option>
+          <option value="Estimator">Estimator</option>
+          <option value="PQ Analyst">PQ Analyst</option>
+          <option value="Team Member">Team Member</option>
+          <option value="Intern">Intern</option>
+          <option value="" disabled>──────────</option>
+          <option value="Senior Estimator">Senior Estimator (Custom)</option>
+        </select>
+      </div>
+      
+      <div style="background: #f2fafe; border-left: 3px solid #00a1e0; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #4a4f55; margin: 0;">
+          <i class="fa-solid fa-circle-info" style="color: #00a1e0; margin-right: 6px;"></i>
+          This will consume 1 seat from your Bid Management subscription (9/20 used).
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('authorizeModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmAuthorize()">Authorize User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Authorize Modal -->
+<div class="modal-overlay hide" id="bulkAuthorizeModal">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #1c1f22; margin: 0;">Bulk Authorize Users</h2>
+      <button class="modal-close" onclick="closeModal('bulkAuthorizeModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; margin-bottom: 16px;">
+        Authorize <strong id="bulkAuthCount"></strong> users for Bid Management and assign them all the same role:
+      </p>
+      
+      <div class="form-row">
+        <label class="form-label">Role <span style="color: #d32f2f;">*</span></label>
+        <select id="bulkAuthRoleSelect" class="modal-input">
+          <option value="">Select a role...</option>
+          <option value="Company Admin">Company Admin</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Bid Coordinator">Bid Coordinator</option>
+          <option value="Estimator">Estimator</option>
+          <option value="PQ Analyst">PQ Analyst</option>
+          <option value="Team Member">Team Member</option>
+          <option value="Intern">Intern</option>
+          <option value="" disabled>──────────</option>
+          <option value="Senior Estimator">Senior Estimator (Custom)</option>
+        </select>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Users to Authorize</div>
+        <div class="checkbox-list" id="bulkAuthList" style="max-height: 200px; overflow-y: auto; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px;">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div style="background: #fffbea; border-left: 3px solid #f59e0b; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #4a4f55; margin: 0;">
+          <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; margin-right: 6px;"></i>
+          This will consume <strong id="bulkAuthCount2"></strong> seats from your Bid Management subscription.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('bulkAuthorizeModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmBulkAuthorize()">Authorize All</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Deauthorize Modal -->
+<div class="modal-overlay hide" id="bulkDeauthorizeModal">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #1c1f22; margin: 0;">Deauthorize Users</h2>
+      <button class="modal-close" onclick="closeModal('bulkDeauthorizeModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; margin-bottom: 16px;">
+        Are you sure you want to deauthorize <strong id="bulkDeauthCount"></strong> users from Bid Management?
+      </p>
+      
+      <div class="modal-section">
+        <div class="section-title">Users to Deauthorize</div>
+        <div class="checkbox-list" id="bulkDeauthList" style="max-height: 200px; overflow-y: auto; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px;">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div style="background: #fee; border-left: 3px solid #d32f2f; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #4a4f55; margin: 0;">
+          <i class="fa-solid fa-circle-exclamation" style="color: #d32f2f; margin-right: 6px;"></i>
+          These users will lose access to Bid Management immediately. This action can be reversed.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('bulkDeauthorizeModal')">Cancel</button>
+      <button class="btn-secondary" style="background: #d32f2f; color: white;" onclick="confirmBulkDeauthorize()">Deauthorize All</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change Role Modal -->
+<div class="modal-overlay hide" id="changeRoleModal">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-header">
+      <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #1c1f22; margin: 0;">Change User Role</h2>
+      <button class="modal-close" onclick="closeModal('changeRoleModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; margin-bottom: 16px;">
+        Change the role for <strong id="changeRoleUserName"></strong>:
+      </p>
+      
+      <div class="form-row">
+        <label class="form-label">Current Role</label>
+        <input type="text" id="changeRoleCurrentRole" class="modal-input" disabled style="background: #f4f4f4;">
+      </div>
+      
+      <div class="form-row">
+        <label class="form-label">New Role <span style="color: #d32f2f;">*</span></label>
+        <select id="newRoleSelect" class="modal-input">
+          <option value="">Select a new role...</option>
+          <option value="Company Admin">Company Admin</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Bid Coordinator">Bid Coordinator</option>
+          <option value="Estimator">Estimator</option>
+          <option value="PQ Analyst">PQ Analyst</option>
+          <option value="Team Member">Team Member</option>
+          <option value="Intern">Intern</option>
+          <option value="" disabled>──────────</option>
+          <option value="Senior Estimator">Senior Estimator (Custom)</option>
+        </select>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Permission Changes</div>
+        <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <div style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #88888e; margin-bottom: 8px; text-transform: uppercase;">Permissions Gained</div>
+              <div id="permissionsGained" style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #00a651;">
+                <div><i class="fa-solid fa-plus" style="margin-right: 6px;"></i>Create Bids</div>
+                <div><i class="fa-solid fa-plus" style="margin-right: 6px;"></i>Delete Bids</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #88888e; margin-bottom: 8px; text-transform: uppercase;">Permissions Lost</div>
+              <div id="permissionsLost" style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #d32f2f;">
+                <div><i class="fa-solid fa-minus" style="margin-right: 6px;"></i>Manage Company Settings</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background: #fffbea; border-left: 3px solid #f59e0b; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #4a4f55; margin: 0;">
+          <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; margin-right: 6px;"></i>
+          Role changes take effect immediately and may impact the user's access to certain features.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('changeRoleModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmChangeRole()">Change Role</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reassign Seat Modal -->
+<div class="modal-overlay hide" id="reassignSeatModal">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #1c1f22; margin: 0;">Reassign Seat</h2>
+      <button class="modal-close" onclick="closeModal('reassignSeatModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; margin-bottom: 16px;">
+        Your Bid Management subscription is at capacity (20/20 seats used).
+      </p>
+      
+      <div style="background: #f2fafe; border: 1px solid #b3e0f7; border-radius: 4px; padding: 16px; margin-bottom: 16px;">
+        <div style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; color: #1c1f22; margin-bottom: 8px;">
+          <i class="fa-solid fa-user-plus" style="color: #00a1e0; margin-right: 6px;"></i>Authorizing
+        </div>
+        <div style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55;">
+          <strong id="reassignUserName"></strong> as <strong id="reassignRole"></strong>
+        </div>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Select a user to deauthorize</div>
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #88888e; margin-bottom: 12px;">
+          Choose an active user whose seat will be reassigned:
+        </p>
+        
+        <div class="checkbox-list" style="max-height: 250px; overflow-y: auto; border: 1px solid #dad8d7; border-radius: 4px; padding: 8px;">
+          <label class="checkbox-list-item">
+            <input type="radio" name="reassignUser" value="kaylee">
+            <span><i class="fa-solid fa-user" style="color: #88888e; margin-right: 8px;"></i>Kaylee Frye</span>
+            <span class="role-badge" style="background: #e8f5e9; color: #00a651; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto;">Estimator</span>
+          </label>
+          <label class="checkbox-list-item">
+            <input type="radio" name="reassignUser" value="simon">
+            <span><i class="fa-solid fa-user" style="color: #88888e; margin-right: 8px;"></i>Simon Tam</span>
+            <span class="role-badge" style="background: #e8f5e9; color: #00a651; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto;">Team Member</span>
+          </label>
+          <label class="checkbox-list-item">
+            <input type="radio" name="reassignUser" value="badger">
+            <span><i class="fa-solid fa-user" style="color: #88888e; margin-right: 8px;"></i>Badger</span>
+            <span class="role-badge" style="background: #e8f5e9; color: #00a651; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: auto;">Intern</span>
+          </label>
+        </div>
+      </div>
+      
+      <div style="background: #fee; border-left: 3px solid #d32f2f; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #4a4f55; margin: 0;">
+          <i class="fa-solid fa-circle-exclamation" style="color: #d32f2f; margin-right: 6px;"></i>
+          The selected user will lose access to Bid Management immediately when you confirm.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('reassignSeatModal')">Cancel</button>
+      <button class="btn-secondary" style="background: #f59e0b; color: white;" onclick="confirmReassign()">Reassign Seat</button>
+    </div>
+  </div>
+</div>
+
+<!-- Subscription Details Modal -->
+<div class="modal-overlay hide" id="subscriptionDetailsModal">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-header">
+      <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 20px; color: #1c1f22; margin: 0;">Bid Management Subscription Details</h2>
+      <button class="modal-close" onclick="closeModal('subscriptionDetailsModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Subscription Overview -->
+      <div class="modal-section">
+        <div class="section-title">Subscription Overview</div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+          <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #88888e; margin-bottom: 4px; text-transform: uppercase; font-weight: 600;">Plan Type</div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #1c1f22; font-weight: 600;">Professional</div>
+          </div>
+          <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #88888e; margin-bottom: 4px; text-transform: uppercase; font-weight: 600;">Billing Cycle</div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #1c1f22; font-weight: 600;">Annual</div>
+          </div>
+          <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #88888e; margin-bottom: 4px; text-transform: uppercase; font-weight: 600;">Renewal Date</div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #1c1f22; font-weight: 600;">Dec 15, 2025</div>
+          </div>
+          <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #88888e; margin-bottom: 4px; text-transform: uppercase; font-weight: 600;">Seats Used</div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #1c1f22; font-weight: 600;">9 of 20</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Capacity Usage -->
+      <div class="modal-section">
+        <div class="section-title">Capacity Usage</div>
+        <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; font-weight: 500;">Active Users</span>
+              <span style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55; font-weight: 600;">9 / 20 (45%)</span>
+            </div>
+            <div style="background: #e7e6e5; border-radius: 9999px; height: 8px; overflow: hidden;">
+              <div style="background: #00a651; width: 45%; height: 100%; border-radius: 9999px;"></div>
+            </div>
+          </div>
+          <div style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #88888e;">
+            11 seats available
+          </div>
+        </div>
+      </div>
+      
+      <!-- Subscription Features -->
+      <div class="modal-section">
+        <div class="section-title">Included Features</div>
+        <div style="background: #f9f9f9; border: 1px solid #dad8d7; border-radius: 4px; padding: 16px;">
+          <div style="display: grid; gap: 8px;">
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55;">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Unlimited Bids & Projects
+            </div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55;">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Custom Roles & Permissions
+            </div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55;">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Advanced Reporting
+            </div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55;">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Priority Support
+            </div>
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4a4f55;">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>API Access
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact -->
+      <div style="background: #f2fafe; border-left: 3px solid #00a1e0; padding: 12px; border-radius: 4px; margin-top: 16px;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #4a4f55; margin: 0;">
+          <i class="fa-solid fa-circle-info" style="color: #00a1e0; margin-right: 6px;"></i>
+          Need to add more seats or upgrade your plan? <a href="#" style="color: #00a1e0; text-decoration: none; font-weight: 600;">Contact Sales</a>
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="closeModal('subscriptionDetailsModal')">Close</button>
     </div>
   </div>
 </div>
