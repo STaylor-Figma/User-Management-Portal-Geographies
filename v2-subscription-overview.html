@@ -92,9 +92,13 @@
 /* Drawer */
 .drawer { display: none; position: fixed; top: 0; right: 0; width: 500px; height: 100vh; background: white; box-shadow: -4px 0 20px rgba(0,0,0,0.2); z-index: 2000; padding: 32px; overflow-y: auto; }
 .drawer.show { display: block; animation: slideInRight 0.3s ease; }
+.drawer.active { display: block; animation: slideInRight 0.3s ease; }
+.drawer.active { display: block; animation: slideInRight 0.3s ease; }
 @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
 .drawer-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
 .drawer-overlay.show { display: block; }
+.drawer-overlay.active { display: block; }
+.drawer-overlay.active { display: block; }
 
 /* Hamburger Menu Button */
 .hamburger-menu { display: none; width: 44px; height: 44px; padding: 10px; align-items: center; justify-content: center; background: #01304a; border: none; border-right: 1px solid #185a7d; cursor: pointer; }
