@@ -154,6 +154,499 @@
   .tab { font-size: 12px; padding: 6px 10px; }
   .filter-btn { font-size: 12px; padding: 6px 10px; }
 }
+
+/* ============================================ */
+/* MODAL SYSTEM - Blueprint Design System */
+/* ============================================ */
+
+/* Modal Overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+/* Modal Container */
+.modal {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 9999;
+}
+
+.modal.small { width: 400px; }
+.modal.medium { width: 600px; }
+.modal.large { width: 800px; }
+.modal.xlarge { width: 1000px; }
+
+/* Modal Header */
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #dad8d7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1c1f22;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a4f55;
+  font-size: 20px;
+}
+
+.modal-close:hover {
+  background: #f0f0f0;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-body-section {
+  margin-bottom: 24px;
+}
+
+.modal-body-section:last-child {
+  margin-bottom: 0;
+}
+
+.modal-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c1f22;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #dad8d7;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* Form Elements in Modals */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a4f55;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dad8d7;
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #1c1f22;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #00a1e0;
+  box-shadow: 0 0 0 3px rgba(0, 161, 224, 0.1);
+}
+
+.form-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dad8d7;
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #1c1f22;
+  background: #fff;
+}
+
+.form-help {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: #88888e;
+  margin-top: 6px;
+}
+
+/* Role Option Cards */
+.role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.role-option {
+  padding: 12px 16px;
+  border: 2px solid #dad8d7;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.role-option:hover {
+  border-color: #00a1e0;
+  background: #f2fafe;
+}
+
+.role-option.selected {
+  border-color: #00a1e0;
+  background: #e6f7ff;
+}
+
+.role-option-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.role-option-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1c1f22;
+}
+
+.role-option-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: #4a4f55;
+  line-height: 1.4;
+}
+
+.role-option-note {
+  margin-top: 6px;
+  padding: 8px;
+  background: #fff3cd;
+  border-left: 3px solid #f5a623;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: #856404;
+  font-style: italic;
+}
+
+/* Permission Lists in Modals */
+.permission-group {
+  margin-bottom: 20px;
+}
+
+.permission-group-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4a4f55;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.permission-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.permission-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.permission-access {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.permission-access.view { background: #e0f2ff; color: #0066cc; }
+.permission-access.edit { background: #d4edda; color: #155724; }
+.permission-access.create { background: #cfe2ff; color: #004085; }
+.permission-access.delete { background: #f8d7da; color: #721c24; }
+.permission-access.approve { background: #d1ecf1; color: #0c5460; }
+
+.permission-name {
+  flex: 1;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: #1c1f22;
+}
+
+/* User Lists in Modals */
+.user-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #dad8d7;
+  border-radius: 4px;
+}
+
+.user-list-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #dad8d7;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-list-item:last-child {
+  border-bottom: none;
+}
+
+.user-list-item:hover {
+  background: #f9f9f9;
+}
+
+.user-list-checkbox {
+  flex-shrink: 0;
+}
+
+.user-list-info {
+  flex: 1;
+}
+
+.user-list-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c1f22;
+  margin-bottom: 2px;
+}
+
+.user-list-email {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: #88888e;
+}
+
+/* Warning/Info Boxes in Modals */
+.modal-warning {
+  padding: 12px 16px;
+  background: #fff3cd;
+  border-left: 4px solid #f5a623;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.modal-warning-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #856404;
+  margin-bottom: 6px;
+}
+
+.modal-warning-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: #856404;
+  line-height: 1.4;
+}
+
+.modal-info {
+  padding: 12px 16px;
+  background: #d1ecf1;
+  border-left: 4px solid: #0c5460;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.modal-info-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: #0c5460;
+  line-height: 1.4;
+}
+
+/* Permission Impact Display */
+.permission-impact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.impact-column {
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.impact-column.losing {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.impact-column.gaining {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.impact-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.impact-column.losing .impact-title {
+  color: #721c24;
+}
+
+.impact-column.gaining .impact-title {
+  color: #155724;
+}
+
+.impact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.impact-list li {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  padding: 4px 0 4px 20px;
+  position: relative;
+}
+
+.impact-column.losing .impact-list li {
+  color: #721c24;
+}
+
+.impact-column.gaining .impact-list li {
+  color: #155724;
+}
+
+.impact-list li:before {
+  position: absolute;
+  left: 0;
+  font-family: 'Font Awesome 6 Pro';
+  font-weight: 900;
+}
+
+.impact-column.losing .impact-list li:before {
+  content: '\f00d';
+  color: #d32f2f;
+}
+
+.impact-column.gaining .impact-list li:before {
+  content: '\f00c';
+  color: #00a365;
+}
+
+/* Callout Box */
+.callout-box {
+  padding: 16px;
+  background: #e6f7ff;
+  border: 2px solid #00a1e0;
+  border-radius: 6px;
+  margin: 16px 0;
+}
+
+.callout-box strong {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #004d73;
+  margin-bottom: 8px;
+}
+
+.callout-box p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: #004d73;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Summary List */
+.summary-list {
+  background: #f9f9f9;
+  border: 1px solid #dad8d7;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #dad8d7;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  color: #4a4f55;
+  font-weight: 500;
+}
+
+.summary-value {
+  color: #1c1f22;
+  font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -1090,6 +1583,477 @@ function toggleMobileNav() {
   nav.classList.toggle('open');
   overlay.classList.toggle('open');
   hamburger.classList.toggle('active');
+}
+
+// ============================================
+// MODAL SYSTEM - BID MANAGEMENT ROLES
+// ============================================
+
+// Role Data Structure
+const roleData = {
+  'Company Admin': {
+    type: 'STANDARD',
+    description: 'Full access to all Bid Management features. User management, project creation, reporting, audit logs.',
+    permissions: {
+      'Account Management': [
+        { name: 'User Management', access: 'Edit' },
+        { name: 'Organization Settings', access: 'Edit' }
+      ],
+      'Projects': [
+        { name: 'Create Projects', access: 'Create' },
+        { name: 'Manage All Projects', access: 'Edit' },
+        { name: 'Delete Projects', access: 'Delete' }
+      ],
+      'Bid Process': [
+        { name: 'Send Invitations to Bid', access: 'Create' },
+        { name: 'Organize & Level Bids', access: 'Edit' },
+        { name: 'Approve Bids', access: 'Approve' }
+      ],
+      'Documents': [
+        { name: 'Upload Documents', access: 'Create' },
+        { name: 'Manage Documents', access: 'Edit' }
+      ],
+      'Communications': [
+        { name: 'Bidder Communications', access: 'Edit' },
+        { name: 'General Communications', access: 'Edit' }
+      ],
+      'Prequalification': [
+        { name: 'PQ Scopes Management', access: 'Edit' },
+        { name: 'PQ Analysis', access: 'Edit' }
+      ],
+      'Reporting': [
+        { name: 'View Reports', access: 'View' },
+        { name: 'Export Reports', access: 'View' },
+        { name: 'Audit Logs', access: 'View' }
+      ]
+    },
+    users: 1
+  },
+  'Project Manager': {
+    type: 'STANDARD',
+    description: 'Create and manage projects, bidder communications, PQ Scopes management',
+    permissions: {
+      'Account Management': [],
+      'Projects': [
+        { name: 'Create Projects', access: 'Create' },
+        { name: 'Manage Own Projects', access: 'Edit' }
+      ],
+      'Bid Process': [
+        { name: 'Send Invitations to Bid', access: 'Create' },
+        { name: 'Organize & Level Bids', access: 'Edit' }
+      ],
+      'Documents': [
+        { name: 'Upload Documents', access: 'Create' },
+        { name: 'View Documents', access: 'View' }
+      ],
+      'Communications': [
+        { name: 'Bidder Communications', access: 'Edit' },
+        { name: 'General Communications', access: 'Edit' }
+      ],
+      'Prequalification': [
+        { name: 'PQ Scopes Management', access: 'Edit' }
+      ],
+      'Reporting': [
+        { name: 'View Reports', access: 'View' }
+      ]
+    },
+    users: 1
+  },
+  'Bid Coordinator': {
+    type: 'STANDARD',
+    description: 'Manage bid process, send Invitations to Bid, organize and level bids, PQ Scopes management',
+    permissions: {
+      'Bid Process': [
+        { name: 'Send Invitations to Bid', access: 'Create' },
+        { name: 'Organize & Level Bids', access: 'Edit' },
+        { name: 'Track Bids', access: 'View' }
+      ],
+      'Documents': [
+        { name: 'Upload Bid Documents', access: 'Create' },
+        { name: 'View Documents', access: 'View' }
+      ],
+      'Communications': [
+        { name: 'Bidder Communications', access: 'Edit' }
+      ],
+      'Prequalification': [
+        { name: 'PQ Scopes Management', access: 'Edit' }
+      ],
+      'Reporting': [
+        { name: 'View Bid Reports', access: 'View' }
+      ]
+    },
+    users: 1
+  },
+  'Estimator': {
+    type: 'STANDARD',
+    description: 'Review and submit bids, upload bid documents, PQ Scopes access',
+    permissions: {
+      'Bid Process': [
+        { name: 'Submit Bids', access: 'Create' },
+        { name: 'Review Bids', access: 'View' }
+      ],
+      'Documents': [
+        { name: 'Upload Bid Documents', access: 'Create' },
+        { name: 'View Documents', access: 'View' }
+      ],
+      'Prequalification': [
+        { name: 'PQ Scopes Access', access: 'View' }
+      ]
+    },
+    users: 3
+  },
+  'PQ Analyst': {
+    type: 'STANDARD',
+    description: 'Prequalification analysis, general communications',
+    note: 'This role can perform prequalification analysis but cannot manage PQ Scopes. For PQ Scopes access, assign Estimator, Bid Coordinator, Project Manager, or Company Admin.',
+    permissions: {
+      'Prequalification': [
+        { name: 'PQ Analysis', access: 'Edit' }
+      ],
+      'Communications': [
+        { name: 'General Communications', access: 'View' }
+      ]
+    },
+    users: 1
+  },
+  'Team Member': {
+    type: 'STANDARD',
+    description: 'Limited project participation, view documents, basic bid submission',
+    permissions: {
+      'Projects': [
+        { name: 'View Projects', access: 'View' }
+      ],
+      'Documents': [
+        { name: 'View Documents', access: 'View' }
+      ],
+      'Bid Process': [
+        { name: 'Basic Bid Participation', access: 'View' }
+      ]
+    },
+    users: 1
+  },
+  'Intern': {
+    type: 'STANDARD',
+    description: 'View-only access, most restricted role',
+    permissions: {
+      'Projects': [
+        { name: 'View Projects', access: 'View' }
+      ],
+      'Documents': [
+        { name: 'View Documents', access: 'View' }
+      ]
+    },
+    users: 1
+  },
+  'Senior Estimator': {
+    type: 'CUSTOM',
+    basedOn: 'Estimator',
+    description: 'Based on Estimator + additional project visibility',
+    permissions: {
+      'Projects': [
+        { name: 'View All Projects', access: 'View' }
+      ],
+      'Bid Process': [
+        { name: 'Submit Bids', access: 'Create' },
+        { name: 'Review Bids', access: 'View' }
+      ],
+      'Documents': [
+        { name: 'Upload Bid Documents', access: 'Create' },
+        { name: 'View Documents', access: 'View' }
+      ],
+      'Prequalification': [
+        { name: 'PQ Scopes Access', access: 'View' }
+      ]
+    },
+    users: 1
+  }
+};
+
+// View Role Details
+function viewRoleDetails(roleName) {
+  const role = roleData[roleName];
+  if (!role) return;
+  
+  let permissionsHTML = '';
+  for (const [category, perms] of Object.entries(role.permissions)) {
+    if (perms.length > 0) {
+      permissionsHTML += `
+        <div class="permission-group">
+          <div class="permission-group-title">${category}</div>
+          <div class="permission-items">
+            ${perms.map(p => `
+              <div class="permission-detail">
+                <span class="permission-access ${p.access.toLowerCase()}">${p.access}</span>
+                <span class="permission-name">${p.name}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  let noteHTML = '';
+  if (role.note) {
+    noteHTML = `<div class="callout-box"><strong>Important Note:</strong><p>${role.note}</p></div>`;
+  }
+  
+  let basedOnHTML = '';
+  if (role.basedOn) {
+    basedOnHTML = `<p style="font-size: 13px; color: #7b2cbf; font-weight: 600; margin-bottom: 16px;"><i class="fa-solid fa-pencil"></i> Based On: ${role.basedOn}</p>`;
+  }
+  
+  const modalHTML = `
+    <div class="modal-overlay active" id="roleDetailsModal" onclick="closeModalOnOverlay(event, 'roleDetailsModal')">
+      <div class="modal large" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">${roleName} <span class="role-badge bm" style="margin-left: 8px;">BM</span></h2>
+          <button class="modal-close" onclick="closeModal('roleDetailsModal')"><i class="fa-regular fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          ${basedOnHTML}
+          <div class="modal-body-section">
+            <p style="font-size: 14px; color: #4a4f55; margin-bottom: 20px;">${role.description}</p>
+            ${noteHTML}
+          </div>
+          <div class="modal-body-section">
+            <div class="modal-section-title">Permissions</div>
+            ${permissionsHTML}
+          </div>
+          <div class="modal-body-section">
+            <div class="modal-section-title">Users Assigned (${role.users})</div>
+            <p style="font-size: 13px; color: #88888e; font-style: italic;">User list would appear here in production</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal('roleDetailsModal')">Close</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Copy Role
+function copyRole(roleName) {
+  const role = roleData[roleName];
+  if (!role) return;
+  
+  const modalHTML = `
+    <div class="modal-overlay active" id="copyRoleModal" onclick="closeModalOnOverlay(event, 'copyRoleModal')">
+      <div class="modal medium" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Create Custom Role</h2>
+          <button class="modal-close" onclick="closeModal('copyRoleModal')"><i class="fa-regular fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-info">
+            <p class="modal-info-text">Creating a custom role based on: <strong>${roleName}</strong></p>
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Role Name</label>
+            <input type="text" class="form-input" id="newRoleName" placeholder="Enter unique role name">
+            <p class="form-help">This name must be unique across all your roles</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-input" id="newRoleDesc" value="${role.description}">
+          </div>
+          <div class="modal-body-section">
+            <p style="font-size: 13px; color: #4a4f55; margin-bottom: 12px;">All permissions from <strong>${roleName}</strong> will be copied. You can modify them after creation.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal('copyRoleModal')">Cancel</button>
+          <button class="btn-primary" onclick="createCustomRole()">Create Role</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Edit Role (Custom roles only)
+function editRole(roleName) {
+  const role = roleData[roleName];
+  if (!role || role.type !== 'CUSTOM') return;
+  
+  const modalHTML = `
+    <div class="modal-overlay active" id="editRoleModal" onclick="closeModalOnOverlay(event, 'editRoleModal')">
+      <div class="modal medium" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Edit Custom Role</h2>
+          <button class="modal-close" onclick="closeModal('editRoleModal')"><i class="fa-regular fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-warning">
+            <p class="modal-warning-title">Users Affected: ${role.users}</p>
+            <p class="modal-warning-text">Changes to this role will affect ${role.users} user(s) currently assigned this role.</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role Name</label>
+            <input type="text" class="form-input" value="${roleName}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-input" value="${role.description}">
+          </div>
+          <div class="modal-body-section">
+            <p style="font-size: 13px; color: #7b2cbf; font-weight: 600;"><i class="fa-solid fa-pencil"></i> Based On: ${role.basedOn}</p>
+            <p style="font-size: 13px; color: #88888e; margin-top: 8px;">Permission editing interface would appear here in production</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal('editRoleModal')">Cancel</button>
+          <button class="btn-primary" onclick="saveRoleEdits()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Delete Role (Custom roles only)
+function deleteRole(roleName) {
+  const role = roleData[roleName];
+  if (!role || role.type !== 'CUSTOM') return;
+  
+  let warningHTML = '';
+  if (role.users > 0) {
+    warningHTML = `
+      <div class="modal-warning">
+        <p class="modal-warning-title">Users Currently Assigned</p>
+        <p class="modal-warning-text">This role is currently assigned to ${role.users} user(s). Choose a replacement role for these users before deleting.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Replacement Role</label>
+        <select class="form-select" id="replacementRole">
+          <option value="">Select a role...</option>
+          ${Object.keys(roleData).filter(r => r !== roleName && roleData[r].type === 'STANDARD').map(r => 
+            `<option value="${r}">${r}</option>`
+          ).join('')}
+        </select>
+      </div>
+    `;
+  } else {
+    warningHTML = `<p style="font-size: 14px; color: #4a4f55;">Are you sure you want to delete the custom role <strong>"${roleName}"</strong>? This action cannot be undone.</p>`;
+  }
+  
+  const modalHTML = `
+    <div class="modal-overlay active" id="deleteRoleModal" onclick="closeModalOnOverlay(event, 'deleteRoleModal')">
+      <div class="modal small" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Delete Custom Role</h2>
+          <button class="modal-close" onclick="closeModal('deleteRoleModal')"><i class="fa-regular fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          ${warningHTML}
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal('deleteRoleModal')">Cancel</button>
+          <button class="btn-danger" onclick="confirmDeleteRole('${roleName}')">Delete Role</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Assign Role
+function assignRole(roleName) {
+  const role = roleData[roleName];
+  if (!role) return;
+  
+  const modalHTML = `
+    <div class="modal-overlay active" id="assignRoleModal" onclick="closeModalOnOverlay(event, 'assignRoleModal')">
+      <div class="modal large" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Assign ${roleName} Role</h2>
+          <button class="modal-close" onclick="closeModal('assignRoleModal')"><i class="fa-regular fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-info">
+            <p class="modal-info-text">Select users to assign the ${roleName} role. Users must have a BM license or one will be authorized.</p>
+          </div>
+          <div class="modal-body-section">
+            <div class="modal-section-title">Available Users</div>
+            <div class="user-list">
+              <div class="user-list-item">
+                <input type="checkbox" class="user-list-checkbox checkbox">
+                <div class="user-list-info">
+                  <div class="user-list-name">Hoban Washburne</div>
+                  <div class="user-list-email">hoban@serenity.com • Current Role: None</div>
+                </div>
+              </div>
+              <div class="user-list-item">
+                <input type="checkbox" class="user-list-checkbox checkbox">
+                <div class="user-list-info">
+                  <div class="user-list-name">Malcolm Reynolds</div>
+                  <div class="user-list-email">mal@serenity.com • No BM License</div>
+                </div>
+              </div>
+              <div class="user-list-item">
+                <input type="checkbox" class="user-list-checkbox checkbox">
+                <div class="user-list-info">
+                  <div class="user-list-name">Jayne Cobb</div>
+                  <div class="user-list-email">jayne@serenity.com • No BM License (Requested)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-warning" style="margin-top: 16px;">
+            <p class="modal-warning-title">Seat Availability</p>
+            <p class="modal-warning-text">11 seats available out of 20. Selected users without licenses will use available seats.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal('assignRoleModal')">Cancel</button>
+          <button class="btn-primary" onclick="confirmAssignRole('${roleName}')">Assign Role</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+// Modal Utility Functions
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.remove();
+  }
+}
+
+function closeModalOnOverlay(event, modalId) {
+  if (event.target.classList.contains('modal-overlay')) {
+    closeModal(modalId);
+  }
+}
+
+// Placeholder action functions
+function createCustomRole() {
+  alert('Custom role would be created in production');
+  closeModal('copyRoleModal');
+}
+
+function saveRoleEdits() {
+  alert('Role changes would be saved in production');
+  closeModal('editRoleModal');
+}
+
+function confirmDeleteRole(roleName) {
+  alert(`Role "${roleName}" would be deleted in production`);
+  closeModal('deleteRoleModal');
+}
+
+function confirmAssignRole(roleName) {
+  alert(`Users would be assigned "${roleName}" role in production`);
+  closeModal('assignRoleModal');
 }
 </script>
 
