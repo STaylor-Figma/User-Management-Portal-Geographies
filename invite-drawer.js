@@ -64,8 +64,7 @@ function loadIndividualMode() {
         <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
       </div>
       <div style="margin-top: 13px; display: flex; justify-content: flex-start;">
-        <button style="background: #e7e6e5; border: none; border-radius: 30px; height: 26px; padding: 6px 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-          <i class="fa-regular fa-briefcase" style="font-size: 12px;"></i>
+        <button style="background: #e7e6e5; border: none; border-radius: 30px; height: 26px; padding: 6px 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22; cursor: pointer; display: flex; align-items: center;">
           Bid Center
         </button>
       </div>
