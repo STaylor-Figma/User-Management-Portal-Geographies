@@ -1150,7 +1150,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Company Admin')">Company Admin</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                       </div>
                     </td>
@@ -1172,7 +1171,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Project Manager')">Project Manager</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                       </div>
                     </td>
@@ -1194,7 +1192,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Bid Coordinator')">Bid Coordinator</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                       </div>
                     </td>
@@ -1216,7 +1213,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Estimator')">Estimator</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                       </div>
                     </td>
@@ -1238,7 +1234,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('PQ Analyst')">PQ Analyst</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                         <div class="role-warning">
                           <i class="fa-solid fa-circle-info"></i>
@@ -1264,7 +1259,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Team Member')">Team Member</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                       </div>
                     </td>
@@ -1286,7 +1280,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Intern')">Intern</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                       </div>
                     </td>
@@ -1308,7 +1301,6 @@
                       <div class="role-name">
                         <div class="role-name-row">
                           <a class="role-link" onclick="viewRoleDetails('Senior Estimator')">Senior Estimator</a>
-                          <span class="role-badge bm">BM</span>
                         </div>
                         <div class="role-based-on">
                           <i class="fa-solid fa-pencil"></i>
@@ -1807,7 +1799,7 @@ function viewRoleDetails(roleName) {
     <div class="modal-overlay active" id="roleDetailsModal" onclick="closeModalOnOverlay(event, 'roleDetailsModal')">
       <div class="modal large" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <h2 class="modal-title">${roleName} <span class="role-badge bm" style="margin-left: 8px;">BM</span></h2>
+          <h2 class="modal-title">${roleName}</h2>
           <button class="modal-close" onclick="closeModal('roleDetailsModal')"><i class="fa-regular fa-xmark"></i></button>
         </div>
         <div class="modal-body">
