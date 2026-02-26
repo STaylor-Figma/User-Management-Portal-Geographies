@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Overview - Version Two</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* Page-specific styles for Company Overview */
+
+.content { padding: 0 20px; }
+
+/* Card Grid */
+.cards-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 24px; 
+  margin-bottom: 24px; 
+}
+
+/* Info Card */
+.info-card { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+}
+.card-title { 
+  font-size: 18px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0 0 16px 0; 
+  padding-bottom: 12px; 
+  border-bottom: 1px solid #dad8d7; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+.info-row { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 10px 0; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.info-row:last-child { border-bottom: none; }
+.info-label { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #88888e; 
+}
+.info-value { 
+  font-size: 14px; 
+  color: #1c1f22; 
+  font-weight: 500; 
+}
+
+/* Users Summary Card */
+.summary-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 16px; 
+  margin-bottom: 16px; 
+}
+.stat-item { 
+  background: #f4f4f4; 
+  padding: 16px; 
+  border-radius: 6px; 
+}
+.stat-value { 
+  font-size: 32px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0 0 4px 0; 
+}
+.stat-label { 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #88888e; 
+  margin: 0; 
+}
+
+/* Subscriptions Section */
+.subscriptions-section { margin-bottom: 24px; }
+.section-title { 
+  font-size: 20px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0 0 16px 0; 
+}
+.subscription-cards { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 24px; 
+}
+.subscription-card { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+}
+.subscription-card:hover { 
+  border-color: #0c79a8; 
+  box-shadow: 0 4px 12px rgba(12, 121, 168, 0.15); 
+  cursor: pointer; 
+}
+.card-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 16px; 
+  padding-bottom: 12px; 
+  border-bottom: 1px solid #dad8d7; 
+}
+.product-name { 
+  font-size: 16px; 
+  font-weight: 700; 
+  color: #1c1f22; 
+  margin: 0; 
+}
+
+/* Seat Utilization */
+.seat-info { 
+  margin-bottom: 12px; 
+}
+.seat-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  font-size: 13px; 
+  margin-bottom: 8px; 
+}
+.seat-label { 
+  font-weight: 500; 
+}
+.seat-count { 
+  color: #666; 
+}
+.seat-bar { 
+  width: 100%; 
+  height: 8px; 
+  background: #e0e0e0; 
+  border-radius: 4px; 
+  overflow: hidden; 
+  margin-bottom: 12px; 
+}
+.seat-fill { 
+  height: 100%; 
+  background: #424242; 
+}
+
+/* Geographic/Category Access */
+.access-info { 
+  margin-top: 12px; 
+  padding-top: 12px; 
+  border-top: 1px solid #e7e6e5; 
+}
+.access-row { 
+  font-size: 13px; 
+  color: #4a4f55; 
+  margin-bottom: 6px; 
+}
+.access-row:last-child { margin-bottom: 0; }
+.access-icon { 
+  margin-right: 6px; 
+  color: #88888e; 
+}
+
+/* Renewal Date */
+.renewal-date { 
+  font-size: 13px; 
+  color: #88888e; 
+  margin-top: 12px; 
+}
+
+/* Activity Feed */
+.activity-section { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+  margin-bottom: 24px; 
+}
+.activity-item { 
+  display: flex; 
+  gap: 12px; 
+  padding: 12px 0; 
+  border-bottom: 1px solid #e7e6e5; 
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-date { 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: #88888e; 
+  min-width: 80px; 
+}
+.activity-text { 
+  font-size: 14px; 
+  color: #1c1f22; 
+  flex: 1; 
+}
+
+/* Billing Card - Owner Only */
+.billing-section { 
+  background: #fff; 
+  border: 2px solid #424242; 
+  border-radius: 8px; 
+  padding: 20px; 
+  margin-bottom: 24px; 
+  position: relative; 
+}
+.owner-badge { 
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  padding: 4px 8px; 
+  background: #88888e; 
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 11px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+}
+.billing-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 16px; 
+  margin-bottom: 16px; 
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .subscription-cards { 
+    grid-template-columns: 1fr; 
+  }
+  .cards-grid { 
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 768px) {
+  .content { padding: 0 10px; }
+  .org-name { font-size: 22px; }
+  .subscription-cards { 
+    grid-template-columns: 1fr; 
+  }
+  .cards-grid { 
+    grid-template-columns: 1fr; 
+  }
+  .summary-grid { 
+    grid-template-columns: 1fr; 
+  }
+  .billing-grid { 
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 600px) {
+  .org-header-top { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <h1>Serenity Construction</h1>
+            <span class="status-badge">ORG-45829</span>
+          </div>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- Company Info & Users Summary Cards -->
+        <div class="cards-grid">
+          
+          <!-- Company Information -->
+          <div class="info-card">
+            <div class="card-title">
+              <span>Company Information</span>
+              <button class="btn-default">
+                <i class="fa-light fa-pen-to-square"></i>
+                Edit
+              </button>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Address</span>
+              <span class="info-value">4850 Industrial Parkway, Suite 200</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">City, State ZIP</span>
+              <span class="info-value">Columbus, OH 43229</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Phone</span>
+              <span class="info-value">(614) 555-7800</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Website</span>
+              <span class="info-value">cornerstonecg.com</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Industry</span>
+              <span class="info-value">General Contractor</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Business Type</span>
+              <span class="info-value">Commercial</span>
+            </div>
+          </div>
+
+          <!-- Users Summary -->
+          <div class="info-card users-summary">
+            <div class="card-title">
+              <span>Users Summary</span>
+
+            </div>
+            <div class="summary-grid">
+              <div class="stat-item">
+                <p class="stat-value">47</p>
+                <p class="stat-label">Total Users</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-value">42</p>
+                <p class="stat-label">Active Users</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-value">3</p>
+                <p class="stat-label">Pending Invitations</p>
+              </div>
+              <div class="stat-item">
+                <p class="stat-value">2</p>
+                <p class="stat-label">Inactive Users</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Subscriptions Section -->
+        <div class="subscriptions-section">
+          <h2 class="section-title">Subscriptions</h2>
+          <div class="subscription-cards">
+            
+            <!-- Project Intelligence Card -->
+            <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow.html'">
+              <div class="card-header">Project Intelligence</div>
+              
+              <div class="alert alert-success">✓ You have available seats.</div>
+              
+              <div class="seat-row">
+                <span class="seat-label">Project Intelligence Starter Seats</span>
+                <span class="seat-count">25/30 Used - 5 seats available</span>
+              </div>
+              <div class="seat-bar">
+                <div class="seat-fill" style="width: 83%"></div>
+              </div>
+              
+              <div class="access-info">
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-map-marked-alt"></i>
+                  <strong>Geographic Access:</strong> 300 counties in 3 states
+                </div>
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-layer-group"></i>
+                  <strong>Category Access:</strong> 4 of 17 categories
+                </div>
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-calendar-day"></i>
+                  Renews March 15, 2026
+                </div>
+              </div>
+            </div>
+
+            <!-- Bid Management Card -->
+            <div class="subscription-card" onclick="window.location.href='v2-bid-management-subscriptions.html'">
+              <div class="card-header">Bid Management</div>
+              
+              <div class="alert alert-success">✓ You have available seats.</div>
+              
+              <div class="seat-row">
+                <span class="seat-label">Seats</span>
+                <span class="seat-count">18/25 Used</span>
+              </div>
+              <div class="seat-bar">
+                <div class="seat-fill" style="width: 72%"></div>
+              </div>
+              
+              <div class="access-info">
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-calendar-day"></i>
+                  Renews March 15, 2026
+                </div>
+              </div>
+            </div>
+
+            <!-- Takeoff & Estimating Card -->
+            <div class="subscription-card">
+              <div class="card-header">Takeoff & Estimating</div>
+              
+              <div class="alert alert-success">✓ You have available seats.</div>
+              
+              <div class="seat-row">
+                <span class="seat-label">Web Takeoff with AI</span>
+                <span class="seat-count">8/10 Used</span>
+              </div>
+              <div class="seat-bar">
+                <div class="seat-fill" style="width: 80%"></div>
+              </div>
+              
+              <div class="access-info">
+                <div class="access-row">
+                  <i class="access-icon fa-light fa-calendar-day"></i>
+                  Renews March 15, 2026
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="activity-section">
+          <h2 class="card-title">Recent Activity</h2>
+          <div class="activity-item">
+            <span class="activity-date">Feb 3, 2026</span>
+            <span class="activity-text">Added user <strong>Sarah Martinez</strong> to Project Intelligence</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Feb 2, 2026</span>
+            <span class="activity-text">Assigned Bid Management license to <strong>James Cooper</strong></span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Jan 31, 2026</span>
+            <span class="activity-text">Updated role for <strong>Michael Chen</strong> to Organization Admin</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Jan 30, 2026</span>
+            <span class="activity-text">Removed user <strong>David Thompson</strong> from organization</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Jan 29, 2026</span>
+            <span class="activity-text">Reassigned Project Intelligence license from <strong>Lisa Park</strong> to <strong>Robert Wilson</strong></span>
+          </div>
+        </div>
+
+        <!-- Billing Summary - Owner Only -->
+        <div class="billing-section">
+          <span class="owner-badge">Owner Only</span>
+          <h2 class="card-title">Billing Summary</h2>
+          <div class="billing-grid">
+            <div class="info-row">
+              <span class="info-label">Next Invoice Date</span>
+              <span class="info-value">March 1, 2026</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Next Invoice Amount</span>
+              <span class="info-value">$4,875.00</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Annual Contract Value</span>
+              <span class="info-value">$58,500.00</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Payment Method</span>
+              <span class="info-value">Visa ••••4829</span>
+            </div>
+          </div>
+          <button class="btn-default">
+            <i class="fa-light fa-credit-card"></i>
+            View Billing Portal
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('show');
+  overlay.classList.toggle('show');
+  hamburger.classList.toggle('active');
+}
+
+// Drawer functions
+function openInviteDrawer() {
+  document.getElementById('inviteDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+  loadIndividualMode();
+}
+
+function closeInviteDrawer() {
+  document.getElementById('inviteDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+function loadIndividualMode() {
+  const content = document.getElementById('drawerContent');
+  content.innerHTML = `
+    <div style="width: 418px; display: flex; flex-direction: column;">
+      <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55; height: 38px; display: flex; align-items: center;">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">User Information</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
+        <div style="display: flex; gap: 10px;">
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">First Name <span style="color: #b70900;">*</span></label>
+            <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="First Name">
+          </div>
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Last Name <span style="color: #b70900;">*</span></label>
+            <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="Last Name">
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Role</label>
+            <div style="position: relative;">
+              <select style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 3px 7px 0; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #88888e; width: 100%; cursor: pointer; appearance: none;">
+                <option>Team Member</option>
+              </select>
+              <i class="fa-regular fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #4a4f55; pointer-events: none;"></i>
+            </div>
+          </div>
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Title</label>
+            <input type="text" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="Title">
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+          <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Email Address <span style="color: #b70900;">*</span></label>
+          <input type="email" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="username@email.com">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+          <label style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #1c1f22;">Phone Number</label>
+          <input type="tel" style="background: #fffffa; border: 1px solid #dad8d7; border-radius: 4px; height: 32px; padding: 8px 7px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22; width: 100%;" placeholder="(000) 000-0000">
+        </div>
+      </div>
+    </div>
+    <div style="width: 218px; display: flex; flex-direction: column;">
+      <div style="padding: 10px 5px; border-bottom: 2px solid #4a4f55; height: 38px; display: flex; align-items: center;">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">License(s)</span>
+      </div>
+      <div style="margin-top: 13px;">
+        <button style="background: #e7e6e5; border: none; border-radius: 30px; height: 26px; padding: 6px 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; line-height: 14px; color: #1c1f22; cursor: pointer;">Bid Center</button>
+      </div>
+    </div>
+    <div style="width: 365px; display: flex; flex-direction: column; gap: 20px;">
+      ${getLicenseTablesHTML()}
+    </div>
+  `;
+}
+
+function loadBulkMode() {
+  const content = document.getElementById('drawerContent');
+  content.innerHTML = `
+    <div style="width: 418px; display: flex; flex-direction: column; background: #ffffff; padding: 10px 30px; gap: 10px;">
+      <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #1c1f22;">
+        To invite multiple users to this company's account:
+      </div>
+      <ul style="margin: 0; padding-left: 20px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #1c1f22;">
+        <li style="margin-bottom: 8px;">Download the template and complete the required fields: First Name, Last Name, and Email</li>
+        <li style="margin-bottom: 8px;">Save as .xls or .csv format</li>
+        <li>Upload your file to invite the users listed in your file</li>
+      </ul>
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button style="height: 32px; padding: 8px; border: 1px solid #88888e; border-radius: 4px; background: transparent; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer;">Download Template</button>
+        <button style="height: 32px; padding: 8px; border-radius: 4px; background: #e7e6e5; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; line-height: 16px; color: #4a4f55; cursor: pointer; border: none;">Upload File</button>
+      </div>
+    </div>
+    <div style="width: 233px;"></div>
+    <div style="width: 365px; display: flex; flex-direction: column; gap: 20px;">
+      ${getLicenseTablesHTML()}
+    </div>
+  `;
+}
+
+function getLicenseTablesHTML() {
+  return `
+    <div style="display: flex; flex-direction: column;">
+      <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; height: 40px;">
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Project Intelligence Licenses</span>
+          <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #ffffff;">31</span></div>
+        </div>
+        <button style="height: 32px; padding: 8px; border: 1px solid #88888e; border-radius: 4px; background: transparent; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55; cursor: pointer;">View Info</button>
+      </div>
+      <div style="display: flex;">
+        <div style="width: 185px; display: flex; flex-direction: column;">
+          <div style="background: #ffffff; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; color: #4a4f55;">Feature</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">NY - Nassau / Suffolk</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">NY - Long Island</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">PA - Philadelphia</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">PA - Keystone</span></div>
+        </div>
+        <div style="width: 170px; display: flex; flex-direction: column;">
+          <div style="background: #ffffff; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; color: #4a4f55;">Availability</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">2 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">3 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">6 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">6 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <div style="background: #f4f4f4; border-bottom: 2px solid #88888e; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; height: 40px;">
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; line-height: 14px; color: #4a4f55;">Takeoff & Estimating Licenses</span>
+          <div style="background: #185a7d; border-radius: 20px; padding: 2px 6px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #ffffff;">31</span></div>
+        </div>
+        <button style="height: 32px; padding: 8px; border: 1px solid #88888e; border-radius: 4px; background: transparent; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55; cursor: pointer;">View Info</button>
+      </div>
+      <div style="display: flex;">
+        <div style="width: 185px; display: flex; flex-direction: column;">
+          <div style="background: #ffffff; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; color: #4a4f55;">Product</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">OnScreen Takeoff</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">OnScreen Takeoff with AI</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">OST Planviewer</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">QuickBid</span></div>
+        </div>
+        <div style="width: 170px; display: flex; flex-direction: column;">
+          <div style="background: #ffffff; border-bottom: 2px solid #4a4f55; padding: 8px 10px; height: 38px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; color: #4a4f55;">Availability</span></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">3 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">1 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">6 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+          <div style="border-bottom: 1px solid #dad8d7; padding: 8px 10px 8px 0; height: 38px; display: flex; justify-content: flex-end; gap: 6px;"><div style="background: #e7e6e5; border-radius: 30px; padding: 6px 8px; height: 26px;"><span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; color: #1c1f22;">6 Available</span></div><button style="background: transparent; border: none; width: 32px; height: 32px; cursor: pointer;"><i class="fa-regular fa-plus" style="font-size: 18px; color: #4a4f55;"></i></button></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleInviteMode() {
+  const toggle = document.getElementById('inviteModeToggle');
+  toggle.classList.toggle('bulk');
+  if (toggle.classList.contains('bulk')) {
+    toggle.style.justifyContent = 'flex-end';
+    loadBulkMode();
+  } else {
+    toggle.style.justifyContent = 'flex-start';
+    loadIndividualMode();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('drawerOverlay');
+  if (overlay) {
+    overlay.addEventListener('click', function() {
+      closeInviteDrawer();
+    });
+  }
+});
+</script>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="inviteDrawer">
+  <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; color: #1c1f22; margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; cursor: pointer; padding: 6px; width: 26px; height: 26px;"><i class="fa-regular fa-xmark" style="font-size: 18px; color: #4a4f55;"></i></button>
+  </div>
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; overflow-y: auto;">
+    <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center;">
+      <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;" onclick="toggleInviteMode()">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: 50%; transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: #4a4f55;">Bulk Mode</span>
+      </div>
+    </div>
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;"></div>
+  </div>
+  <div style="background: #ffffff; border-top: 1px solid #dad8d7; padding: 20px; display: flex; min-height: 72px;">
+    <div style="width: 100%; display: flex; justify-content: space-between;">
+      <button class="btn-secondary" disabled>Reset</button>
+      <div style="display: flex; gap: 20px;">
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;" onclick="toggleInviteMode()">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: 50%; transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: #ffffff; border-top: 1px solid #dad8d7; padding: 20px; display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

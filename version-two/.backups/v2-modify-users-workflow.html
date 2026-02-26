@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modify Users - Geographic Assignment</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* Zone Counties Container */
+.zone-counties {
+  padding: 20px;
+}
+
+@media (max-width: 1200px) {
+  .zone-counties {
+    padding: 10px;
+  }
+}
+
+/* County Grid - 2-3 Column Layout */
+.county-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
+}
+
+@media (max-width: 1200px) {
+  .county-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .county-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.county-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #4a4f55;
+}
+
+.county-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.county-item span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Show All Button */
+.show-all {
+  text-align: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #dad8d7;
+}
+
+.show-all {
+  color: #185a7d;
+  text-decoration: underline;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.show-all:hover {
+  color: #0c79a8;
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button selected" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button selected" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
+          <button class="tab active">Project Intelligence</button>
+          <button class="tab" onclick="window.location.href='v2-bid-management-subscriptions.html'">Bid Management</button>
+          <button class="tab" onclick="window.location.href='v2-takeoff-estimating.html'">Takeoff & Estimating</button>
+          <button class="tab" style="display: none;">API Apps</button>
+        </div>
+      </div>
+
+      <!-- Split View -->
+      <div class="split-view">
+        
+        <!-- LEFT PANEL: User Table -->
+        <div class="left-panel">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search users...">
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px">
+                  <input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()">
+                </th>
+                <th>User Name</th>
+                <th>Assigned Geography</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users"></tbody>
+          </table>
+        </div>
+
+        <!-- RIGHT PANEL: Two-State Dynamic View -->
+        <div class="right-panel">
+          
+          <!-- STATE 1: Default Info View (shows when no users selected) -->
+          <div id="defaultView">
+            <div class="content-wrapper">
+              <div class="subscription-card">
+                <div class="subscription-title">Project Intelligence Starter Seats</div>
+                <div class="subscription-subtitle">
+                  Your organization's purchased Market Zones. Assign counties to users to activate their Project Intelligence Starter access.
+                </div>
+                <div class="seat-info">
+                  7 / 20 Seats - 13 seats available
+                  <div class="info-icon">
+                    i
+                    <div class="tooltip">Assigning geography to a user activates one seat.</div>
+                  </div>
+                </div>
+                <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
+                
+                <!-- Informational Content -->
+                <div id="defaultInfoText" style="margin-top: 24px; font-size: 14px; line-height: 1.6; color: #666;">
+                  <p style="margin-bottom: 12px;">Your current assigned seats include:</p>
+                  <ul style="margin-left: 20px; margin-bottom: 16px;">
+                    <li>2 Full access</li>
+                    <li>2 Modified</li>
+                  </ul>
+                  <p style="margin-bottom: 12px;">
+                    By clicking 'add' you assign a seat and provide the user full access.
+                  </p>
+                  <p>
+                    Once a user has been added, you can then modify their access to specific counties.
+                  </p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; margin-top: 16px;">
+                  <button class="btn btn-secondary" id="addSelectedBtn" disabled onclick="addSelectedUsers()">Add Selected User(s)</button>
+                  <button class="btn btn-secondary" id="modifySelectedBtn" disabled onclick="showModifyView()">Modify Selected Users</button>
+                </div>
+              </div>
+
+              <!-- Selected User Info (dynamic) -->
+              <div id="selectedUserInfo"></div>
+            </div>
+          </div>
+
+          <!-- STATE 2: Zone Selection View (shows when users WITH subscriptions selected) -->
+          <div id="zoneSelectionView">
+            
+            <!-- Subscription Card (stays at top) -->
+            <div class="subscription-card" style="margin-bottom: 16px;">
+              <div class="subscription-title">Project Intelligence Starter Seats</div>
+              <div class="subscription-subtitle">
+                Select zones and counties to assign to selected users.
+              </div>
+              <div class="seat-info">
+                7 / 20 Seats - 13 seats available
+              </div>
+              <div class="seat-bar"><div class="seat-fill" style="width: 35%"></div></div>
+            </div>
+
+            <!-- Instruction Text -->
+            <p style="margin-bottom: 16px; font-size: 14px; color: #666;">
+              Select one or more of the zones below to assign to the selected user(s)
+            </p>
+
+            <!-- Zone Controls -->
+            <div class="zone-controls" style="margin-bottom: 16px;">
+              <label id="selectAllLabel" class="disabled-checkbox-label" style="font-weight:600;" data-disabled="false">
+                <input type="checkbox" id="selectAll" onclick="toggleSelectAll()">
+                <span>Select All Zones</span>
+              </label>
+              <input type="text" placeholder="🔍 Search zones..." style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; width: 250px;">
+            </div>
+
+            <!-- Zone List (scrollable) -->
+            <div class="zone-content" id="zones"></div>
+
+            <!-- Save Button (Sticky Footer) -->
+            <div class="actions">
+              <button class="btn btn-secondary" onclick="reset()">Cancel</button>
+              <button class="btn btn-primary" id="saveUpdatesBtn" onclick="save()" disabled>Save Updates</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Add User Drawer (Slide from Right) -->
+<div id="addUserDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">Invite User</h2>
+    <button onclick="closeAddUserDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">📝</div>
+    <h3 style="margin-bottom: 16px; color: #424242;">Invite User Workflow Coming Soon</h3>
+    <p style="color: #999; font-size: 13px;">
+      For now, use the "Modify" workflow to manage geographic access for existing subscription users.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeAddUserDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeAddUserDrawer()"></div>
+
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: 13px;">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
+<!-- Success Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="success-icon">✓</div>
+    <h2 style="margin-bottom: 16px;">Geography Updated!</h2>
+    <p id="msg" style="color: #666; line-height: 1.6;"></p>
+    <button onclick="closeModal()" class="btn btn-primary" style="margin-top: 24px;">Close</button>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal" id="confirmationModal">
+  <div class="modal-content">
+    <div class="success-icon">✓</div>
+    <h2 style="margin-bottom: 12px;">User Added Successfully</h2>
+    <p id="confirmationMessage" style="color: #666; line-height: 1.5; margin-bottom: 24px;"></p>
+    <button onclick="closeConfirmationModal()" class="btn btn-primary">OK</button>
+  </div>
+</div>
+
+<script src="../complete-zone-data.js"></script>
+<script>
+// Initialize data
+var data = {
+  users: [
+    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:2, name:'River Tam', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:5, accessType:'modified', assignedCounties:{'1-0':true,'1-1':true,'1-2':true,'2-0':true,'2-1':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:4, name:'Kylee Frye', role:'Estimator', zones:'Modified', zoneCount:3, accessType:'modified', assignedCounties:{'3-0':true,'3-1':true,'4-0':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
+    {id:8, name:'Brandon Haystack', role:'Senior Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Starter', disabled:false}
+  ],
+  zones: COMPLETE_ZONE_DATA.zones.slice(0, 10) // First 10 zones for performance
+};
+
+// Selection state
+var sel = {users:{}, counties:{}};
+var expanded = {};
+var showAll = {};
+
+// Render function
+function render() {
+  // Render user table
+  var h = '';
+  for(var i = 0; i < data.users.length; i++) {
+    var u = data.users[i];
+    var rowClass = sel.users[u.id] ? 'selected' : '';
+    
+    h += '<tr class="' + rowClass + '">';
+    
+    // Checkbox
+    h += '<td><input type="checkbox" ' + (sel.users[u.id] ? 'checked' : '') + 
+         ' onclick="toggleUser(' + u.id + ')"></td>';
+    
+    // User name
+    h += '<td><div><a onclick="openUserProfileDrawer(\'' + u.name + '\')" class="user-link">' + u.name + '</a></div>' +
+         '<div class="user-role">' + u.role + '</div></td>';
+    
+    // Geography
+    var zoneHtml = '';
+    if(u.accessType === 'none') {
+      zoneHtml = '<span class="zone-badge no-access">No Access</span>';
+    } else if(u.accessType === 'full') {
+      // Full Access - no counter
+      zoneHtml = '<span class="zone-badge">Full Access</span>';
+    } else if(u.accessType === 'modified' && u.zoneCount) {
+      // Modified - show zone count
+      zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
+    } else {
+      zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
+    }
+    h += '<td>' + zoneHtml + '</td>';
+    
+    // Actions
+    h += '<td><div class="user-actions">';
+    if(u.accessType === 'none') {
+      h += '<button class="action-btn add" onclick="addUserFromTable(' + u.id + ')">+ Add</button>';
+    } else {
+      h += '<button class="action-btn remove" onclick="removeUser(' + u.id + ')">✕ Remove</button>';
+    }
+    h += '</div></td>';
+    
+    h += '</tr>';
+  }
+  document.getElementById('users').innerHTML = h;
+  
+  // Render zones if zone view is active
+  renderZones();
+  
+  // Update right panel view
+  updateRightPanel();
+  
+  // Update header checkbox state
+  updateUserHeaderState();
+}
+
+// Render zones
+function renderZones() {
+  var h = '';
+  var indeterminateZones = []; // Track which zones need indeterminate state
+  
+  for(var i = 0; i < data.zones.length; i++) {
+    var z = data.zones[i];
+    var zoneState = getZoneCheckboxState(z.id);
+    var isExpanded = expanded[z.id];
+    var displayAll = showAll[z.id];
+    
+    h += '<div class="zone-card' + (isExpanded ? ' expanded' : '') + '">';
+    h += '<div class="zone-header" onclick="toggleExpand(' + z.id + ')">';
+    
+    // Zone checkbox with data-zone-id for later indeterminate setting
+    h += '<input type="checkbox" data-zone-id="' + z.id + '" ' +
+         (zoneState.checked ? 'checked' : '') +
+         ' onclick="event.stopPropagation(); toggleZone(' + z.id + ')">';
+    
+    // Track indeterminate zones
+    if(zoneState.indeterminate) {
+      indeterminateZones.push(z.id);
+    }
+    
+    // Zone info
+    h += '<div class="zone-info">';
+    h += '<div class="zone-name">' + z.name + '</div>';
+    h += '<div class="zone-details">' + z.states.join(', ') + ' - ' + z.countyCount + ' Counties Available</div>';
+    h += '</div>';
+    
+    // User count badge
+    h += '<div class="zone-users">👥 5</div>';
+    
+    // Expand arrow
+    h += '<div class="expand-arrow">▼</div>';
+    h += '</div>';
+    
+    // Counties (expandable)
+    if(isExpanded) {
+      h += '<div class="zone-counties">';
+      h += '<div class="county-grid">';
+      
+      var countiesToShow = displayAll ? z.counties.length : Math.min(20, z.counties.length);
+      for(var j = 0; j < countiesToShow; j++) {
+        var county = z.counties[j];
+        var countyKey = z.id + '-' + j;
+        h += '<div class="county-item">';
+        h += '<input type="checkbox" ' + (sel.counties[countyKey] ? 'checked' : '') +
+             ' onclick="toggleCounty(' + z.id + ', ' + j + ')">';
+        h += '<span>' + county.name + ' (' + county.state + ')</span>';
+        h += '</div>';
+      }
+      
+      h += '</div>';
+      
+      // Show all button if more than 20 counties
+      if(z.counties.length > 20 && !displayAll) {
+        h += '<div class="show-all" onclick="toggleShowAll(' + z.id + ')">Show all ' + z.counties.length + ' counties</div>';
+      }
+      
+      h += '</div>';
+    }
+    
+    h += '</div>';
+  }
+  
+  document.getElementById('zones').innerHTML = h;
+  
+  // Set indeterminate state via JavaScript (can't be done in HTML)
+  for(var i = 0; i < indeterminateZones.length; i++) {
+    var checkbox = document.querySelector('input[data-zone-id="' + indeterminateZones[i] + '"]');
+    if(checkbox) {
+      checkbox.indeterminate = true;
+    }
+  }
+  
+  // Update "Select All Zones" checkbox state
+  updateSelectAllZonesState();
+}
+
+// Update "Select All Zones" checkbox state
+function updateSelectAllZonesState() {
+  var selectAllCheckbox = document.getElementById('selectAll');
+  if(!selectAllCheckbox) return;
+  
+  var totalCounties = 0;
+  var selectedCounties = 0;
+  
+  for(var i = 0; i < data.zones.length; i++) {
+    var zone = data.zones[i];
+    totalCounties += zone.counties.length;
+    for(var j = 0; j < zone.counties.length; j++) {
+      if(sel.counties[zone.id + '-' + j]) {
+        selectedCounties++;
+      }
+    }
+  }
+  
+  if(selectedCounties === 0) {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = false;
+  } else if(selectedCounties === totalCounties) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
+  } else {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = true;
+  }
+}
+
+// Update right panel based on user selection
+function updateRightPanel() {
+  // Count selected users by type
+  var selectedNoAccess = 0;
+  var selectedFull = 0;
+  var selectedModified = 0;
+  var selectedUsers = [];
+  
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id]) {
+      selectedUsers.push(data.users[i]);
+      if(data.users[i].accessType === 'none') {
+        selectedNoAccess++;
+      } else if(data.users[i].accessType === 'full') {
+        selectedFull++;
+      } else if(data.users[i].accessType === 'modified') {
+        selectedModified++;
+      }
+    }
+  }
+  
+  // Update selected user info display
+  var selectedUserInfo = document.getElementById('selectedUserInfo');
+  var defaultInfoText = document.getElementById('defaultInfoText');
+  
+  if(selectedFull > 0 || selectedModified > 0) {
+    // Show selected user info
+    var infoHtml = '<div class="selected-user-info">';
+    infoHtml += '<h3>Selected User' + (selectedUsers.length > 1 ? 's' : '') + '</h3>';
+    
+    for(var j = 0; j < selectedUsers.length; j++) {
+      var u = selectedUsers[j];
+      if(u.accessType !== 'none') {
+        infoHtml += '<p><strong>' + u.name + '</strong> - ' + u.zones;
+        if(u.accessType === 'full') {
+          infoHtml += ' (has access to all zones in subscription)';
+        } else if(u.accessType === 'modified' && u.zoneCount) {
+          // Get actual zone names and counts
+          var assignedZones = {};
+          var countyCount = 0;
+          for(var countyKey in u.assignedCounties) {
+            if(u.assignedCounties[countyKey]) {
+              var parts = countyKey.split('-');
+              var zoneId = parseInt(parts[0]);
+              assignedZones[zoneId] = true;
+              countyCount++;
+            }
+          }
+          
+          var zoneNames = [];
+          for(var zoneId in assignedZones) {
+            var zone = data.zones.find(function(z) { return z.id === parseInt(zoneId); });
+            if(zone) {
+              zoneNames.push(zone.name);
+            }
+          }
+          
+          var actualZoneCount = zoneNames.length;
+          infoHtml += ' (' + countyCount + ' count' + (countyCount !== 1 ? 'ies' : 'y') + ' across ' + actualZoneCount + ' zone' + (actualZoneCount !== 1 ? 's' : '') + ')';
+          
+          if(zoneNames.length > 0) {
+            infoHtml += '<br><span style="font-size: 13px; color: #666; margin-left: 8px;">Zones: ' + zoneNames.join(', ') + '</span>';
+          }
+        }
+        infoHtml += '</p>';
+      }
+    }
+    
+    infoHtml += '</div>';
+    
+    // Add note for No Access users
+    if(selectedNoAccess > 0) {
+      infoHtml += '<div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 4px;">';
+      infoHtml += '<p style="margin: 0; font-size: 13px; line-height: 18px; color: #0c4a6e;"><strong>Note:</strong> Adding user(s) with No Access will give them Full Access to the application. They can be modified later.</p>';
+      infoHtml += '</div>';
+    }
+    
+    selectedUserInfo.innerHTML = infoHtml;
+    defaultInfoText.style.display = 'none';
+  } else {
+    // Hide selected user info, show default text
+    selectedUserInfo.innerHTML = '';
+    defaultInfoText.style.display = 'block';
+  }
+  
+  // Update button states in default view
+  var addBtn = document.getElementById('addSelectedBtn');
+  var modifyBtn = document.getElementById('modifySelectedBtn');
+  
+  if(addBtn) addBtn.disabled = selectedNoAccess === 0;
+  if(modifyBtn) modifyBtn.disabled = (selectedFull + selectedModified) === 0;
+  
+  // Don't auto-show zone selection - only show when Modify button is clicked
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  
+  // Keep current view state unless explicitly changed
+}
+
+// Toggle user selection
+function toggleUser(id) {
+  sel.users[id] = !sel.users[id];
+  render();
+}
+
+// Toggle all users
+function toggleAllUsers() {
+  var checkbox = document.getElementById('selectAllUsers');
+  var newState = checkbox.checked;
+  
+  for(var i = 0; i < data.users.length; i++) {
+    sel.users[data.users[i].id] = newState;
+  }
+  render();
+}
+
+// Update header checkbox state
+function updateUserHeaderState() {
+  var selectedCount = 0;
+  
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id]) selectedCount++;
+  }
+  
+  var checkbox = document.getElementById('selectAllUsers');
+  checkbox.checked = selectedCount === data.users.length && data.users.length > 0;
+  checkbox.indeterminate = selectedCount > 0 && selectedCount < data.users.length;
+}
+
+// Zone checkbox state
+function getZoneCheckboxState(zoneId){
+  var zone = data.zones.find(z => z.id === zoneId);
+  if(!zone) return {checked: false, indeterminate: false};
+  var selectedCount = 0;
+  for(var i = 0; i < zone.counties.length; i++){
+    if(sel.counties[zoneId + '-' + i]) selectedCount++;
+  }
+  if(selectedCount === 0) return {checked: false, indeterminate: false};
+  if(selectedCount === zone.counties.length) return {checked: true, indeterminate: false};
+  return {checked: false, indeterminate: true};
+}
+
+// Toggle zone
+function toggleZone(id){
+  var zone = data.zones.find(z => z.id === id);
+  if(!zone) return;
+  var state = getZoneCheckboxState(id);
+  var newState = !state.checked && !state.indeterminate;
+  for(var i = 0; i < zone.counties.length; i++){
+    sel.counties[id + '-' + i] = newState;
+  }
+  updateSaveButton();
+  render();
+}
+
+// Toggle county
+function toggleCounty(zoneId, countyIndex){
+  var countyKey = zoneId + '-' + countyIndex;
+  sel.counties[countyKey] = !sel.counties[countyKey];
+  updateSaveButton();
+  render();
+}
+
+// Update Save Updates button state
+function updateSaveButton() {
+  var saveBtn = document.getElementById('saveUpdatesBtn');
+  if(!saveBtn) return;
+  
+  // Check if any counties are selected
+  var hasSelection = false;
+  for(var key in sel.counties) {
+    if(sel.counties[key]) {
+      hasSelection = true;
+      break;
+    }
+  }
+  
+  saveBtn.disabled = !hasSelection;
+}
+
+// Toggle expand
+function toggleExpand(id){
+  expanded[id] = !expanded[id];
+  render();
+}
+
+// Toggle show all counties
+function toggleShowAll(id){
+  showAll[id] = !showAll[id];
+  render();
+}
+
+// Toggle select all zones
+function toggleSelectAll(){
+  var checkbox = document.getElementById('selectAll');
+  var newState = checkbox.checked;
+  
+  for(var i = 0; i < data.zones.length; i++){
+    var zone = data.zones[i];
+    for(var j = 0; j < zone.counties.length; j++){
+      sel.counties[zone.id + '-' + j] = newState;
+    }
+  }
+  updateSaveButton();
+  render();
+}
+
+// Add selected users (assign subscriptions)
+function addSelectedUsers() {
+  var selectedUsers = [];
+  for(var i = 0; i < data.users.length; i++) {
+    if(sel.users[data.users[i].id] && data.users[i].accessType === 'none') {
+      selectedUsers.push(data.users[i].name);
+      // Update user to Full Access
+      data.users[i].zones = 'Full Access';
+      data.users[i].accessType = 'full';
+      data.users[i].zoneCount = null;
+      data.users[i].assignedCounties = {};
+    }
+  }
+  
+  if(selectedUsers.length > 0) {
+    alert('Added subscription and Full Access for: ' + selectedUsers.join(', '));
+    // Clear selections and re-render
+    sel.users = {};
+    sel.counties = {};
+    render();
+  }
+}
+
+// Show modify view (switch to zone selection)
+function showModifyView() {
+  // Clear current county selections
+  sel.counties = {};
+  
+  // Pre-populate with counties from selected modified users
+  // If multiple users selected, merge their counties
+  for(var i = 0; i < data.users.length; i++) {
+    var u = data.users[i];
+    if(sel.users[u.id] && u.accessType === 'modified' && u.assignedCounties) {
+      for(var key in u.assignedCounties) {
+        if(u.assignedCounties[key]) {
+          sel.counties[key] = true;
+        }
+      }
+    }
+  }
+  
+  // Show zone selection view
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  
+  defaultView.style.display = 'none';
+  zoneView.style.display = 'flex';
+  zoneView.classList.add('active');
+  
+  // Render zones with pre-populated selections
+  renderZones();
+  updateSaveButton();
+}
+
+// Open invite drawer (for adding NEW users to organization)
+function openInviteDrawer() {
+  document.getElementById('addUserDrawer').classList.add('show');
+  document.getElementById('drawerOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAddUserDrawer() {
+  document.getElementById('addUserDrawer').classList.remove('show');
+  document.getElementById('drawerOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Add user from table (assign seat to existing No Access user)
+function addUserFromTable(userId) {
+  // Find the user
+  var user = data.users.find(function(u) { return u.id === userId; });
+  if (!user) return;
+  
+  // Assign full access - update ALL properties
+  user.zones = 'Full Access';
+  user.accessType = 'full';
+  user.zoneCount = null;
+  user.assignedCounties = {};
+  
+  // Unselect the user
+  delete sel.users[userId];
+  
+  // Re-render and update panel
+  render();
+  
+  // Show confirmation modal
+  var modal = document.getElementById('confirmationModal');
+  var message = document.getElementById('confirmationMessage');
+  message.textContent = user.name + ' has been assigned a full seat to this subscription.';
+  modal.classList.add('show');
+}
+
+function closeConfirmationModal() {
+  document.getElementById('confirmationModal').classList.remove('show');
+}
+
+// Remove user
+function removeUser(userId) {
+  if(confirm('Remove this user\'s subscription and geographic access?')) {
+    var user = data.users.find(u => u.id === userId);
+    if(user) {
+      user.zones = 'No Access';
+      user.disabled = true;
+      sel.users[userId] = false;
+      render();
+    }
+  }
+}
+
+// Save
+function save(){
+  var un = [], selections = [];
+  
+  // Get selected user names
+  for(var i=0; i<data.users.length; i++) {
+    if(sel.users[data.users[i].id]) un.push(data.users[i].name);
+  }
+  
+  // Get selected geography summary
+  for(var i=0; i<data.zones.length; i++){
+    var z = data.zones[i];
+    var selectedCounties = [];
+    for(var j=0; j<z.counties.length; j++){
+      if(sel.counties[z.id+'-'+j]) selectedCounties.push(z.counties[j]);
+    }
+    if(selectedCounties.length > 0){
+      if(selectedCounties.length === z.counties.length){
+        selections.push(z.name + ' (All ' + z.counties.length + ' counties)');
+      } else {
+        selections.push(z.name + ' (' + selectedCounties.length + ' of ' + z.counties.length + ' counties)');
+      }
+    }
+  }
+  
+  // Show modal
+  document.getElementById('msg').innerHTML = 
+    'Geography assigned to: ' + un.join(', ') + '<br><br>Selections: ' + selections.join(', ');
+  document.getElementById('modal').className = 'modal show';
+  
+  // Update user data
+  for(var i=0; i<data.users.length; i++){
+    if(sel.users[data.users[i].id]){
+      data.users[i].zones = 'Modified ' + selections.length;
+    }
+  }
+}
+
+// Close modal
+function closeModal(){
+  document.getElementById('modal').className = 'modal';
+  reset();
+}
+
+// Reset
+function reset(){
+  sel = {users:{}, counties:{}};
+  expanded = {};
+  showAll = {};
+  
+  // Return to default view
+  var defaultView = document.getElementById('defaultView');
+  var zoneView = document.getElementById('zoneSelectionView');
+  defaultView.style.display = 'flex';
+  zoneView.style.display = 'none';
+  zoneView.classList.remove('active');
+  
+  render();
+}
+
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Initialize
+render();
+</script>
+
+<script>
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+</script>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;" onclick="toggleInviteMode()">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: 50%; transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: #ffffff; border-top: 1px solid #dad8d7; padding: 20px; display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

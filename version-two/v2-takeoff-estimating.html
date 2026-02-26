@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Takeoff & Estimating - Subscriptions & Licenses</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* Page-specific styles */
+
+.content { padding: 0 20px; }
+
+/* Tabs */
+.tabs { display: flex; gap: var(--spacing-medium-600); border-bottom: 2px solid var(--neutral-300); margin-bottom: 0; overflow: clip; padding-right: 10px; }
+.tab { padding: var(--spacing-small-250) 2px; font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); font-family: var(--font-family-blueprintfont); color: var(--neutral-600); background: none; border: none; border-bottom: 4px solid transparent; cursor: pointer; transition: all 200ms ease-out; transition: none; line-height: 16px; }
+.tab:hover { color: var(--neutral-600); }
+.tab.active { font-weight: var(--font-weight-text-bold); border-bottom-color: var(--neutral-600); color: var(--neutral-600); }
+
+/* Section Headers */
+.section-header { margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid var(--neutral-500); }
+.section-header h2 { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-600); font-weight: var(--font-weight-text-semibold); color: var(--neutral-600); margin: 0; }
+.section-helper { font-size: var(--font-size-200); color: var(--neutral-400); margin-top: 5px; }
+
+/* Summary Cards Grid */
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-small-400); margin-bottom: 24px; }
+
+/* Summary Card */
+.summary-card { background: var(--primary-10); border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400); }
+.summary-card.warning { border-color: #f5a623; }
+.summary-card.error { border-color: #d32f2f; }
+.card-title { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); font-weight: var(--font-weight-text-semibold); color: var(--neutral-500); margin-bottom: 12px; }
+.card-seats { font-size: var(--font-size-200); color: var(--neutral-500); margin-bottom: 8px; display: flex; justify-content: space-between; }
+.seat-bar { width: 100%; height: 8px; background: var(--neutral-200); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 8px; }
+.seat-fill { height: 100%; background: var(--primary-400); transition: width 0.3s ease; }
+.seat-fill.warning { background: #f5a623; }
+.seat-fill.error { background: #d32f2f; }
+.card-status { font-size: var(--font-size-200); font-weight: var(--font-weight-text-medium); }
+.card-status.plenty { color: #00a651; }
+.card-status.low { color: #f5a623; }
+.card-status.out { color: #d32f2f; }
+
+/* Table Controls */
+.table-controls { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing-small-250) 0; margin-bottom: 16px; }
+.table-controls-left { display: flex; gap: var(--spacing-small-250); align-items: center; }
+.table-controls-right { display: flex; gap: var(--spacing-small-250); align-items: center; }
+.search-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: var(--radius-circle); cursor: pointer; transition: all 200ms ease-out; font-size: var(--font-size-500); padding: 3px; display: flex; align-items: center; justify-content: center; }
+.search-btn:hover { background: #f0f0f0; }
+
+/* User Table */
+.user-table { width: 100%; border-collapse: collapse; background: #fff; }
+.user-table thead { background: #fff; position: sticky; top: 0; }
+.user-table thead tr { height: 40px; }
+.user-table th { text-align: left; padding: var(--spacing-small-250); font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); font-family: var(--font-family-blueprintfont); color: var(--neutral-500); border-bottom: 2px solid var(--neutral-500); }
+.user-table tbody tr { height: 48px; }
+.user-table td { padding: var(--spacing-small-250); font-size: var(--font-size-300); font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); color: var(--neutral-500); border-bottom: 1px solid var(--neutral-300); vertical-align: middle; }
+.user-table tbody tr:hover { background: #f9f9f9; }
+
+.checkbox-cell { width: 40px; }
+.checkbox { width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out; }
+.user-name-cell { display: flex; flex-direction: column; gap: 4px; }
+.user-link { color: #185a7d; text-decoration: underline; font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); cursor: pointer; transition: all 200ms ease-out; }
+.user-subtitle { font-size: var(--font-size-200); color: var(--neutral-400); display: flex; align-items: center; gap: var(--spacing-micro-150); }
+.role-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; background: var(--neutral-400); color: #fff; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-bold); }
+
+/* License Pills */
+.license-pill { display: inline-flex; align-items: center; padding: var(--spacing-micro-150) 10px; background: var(--neutral-200); border-radius: var(--radius-pill); font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); color: var(--neutral-600); }
+.license-pill.active { background: #00a651; color: #fff; }
+.license-pill.no-access { background: transparent; color: var(--neutral-400); }
+
+/* Action Buttons */
+.action-btn { padding: var(--spacing-micro-150) 12px; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); cursor: pointer; transition: all 200ms ease-out; border: none; }
+.action-btn.add { background: transparent; color: #00a651; border: 1px solid #00a651; }
+.action-btn.add:hover { background: #00a651; color: #fff; }
+.action-btn.remove { background: transparent; color: #d32f2f; border: 1px solid #d32f2f; }
+.action-btn.remove:hover { background: #d32f2f; color: #fff; }
+.action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Floating License Section */
+.floating-summary { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-medium-600); margin-bottom: 20px; }
+.floating-title { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-500); font-weight: var(--font-weight-text-semibold); color: var(--neutral-600); margin-bottom: 8px; }
+.floating-status { font-size: var(--font-size-400); color: var(--neutral-500); margin-bottom: 12px; }
+.floating-note { font-size: var(--font-size-200); color: var(--neutral-400); font-style: italic; }
+
+/* Checkout Table */
+.checkout-table { width: 100%; border-collapse: collapse; background: #fff; }
+.checkout-table thead { background: #fff; }
+.checkout-table th { text-align: left; padding: var(--spacing-small-250); font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); font-family: var(--font-family-blueprintfont); color: var(--neutral-500); border-bottom: 2px solid var(--neutral-500); }
+.checkout-table td { padding: var(--spacing-small-250); font-size: var(--font-size-300); font-family: var(--font-family-blueprintfont); color: var(--neutral-500); border-bottom: 1px solid var(--neutral-300); }
+.checkout-table tbody tr:hover { background: #f9f9f9; }
+
+.status-badge { padding: var(--spacing-micro-100) 8px; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); }
+.status-badge.active { background: #d4edda; color: #155724; }
+.status-badge.borrowed { background: #fff3cd; color: #856404; }
+
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
+.modal.show { display: flex; }
+.modal-content { background: #fff; border-radius: var(--radius-md); padding: var(--spacing-medium-700); max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+.modal-header { margin-bottom: 20px; }
+.modal-title { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-600); font-weight: var(--font-weight-text-semibold); color: var(--neutral-600); margin: 0; }
+.modal-body { margin-bottom: 20px; }
+.modal-footer { display: flex; justify-content: flex-end; gap: var(--spacing-small-250); }
+
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: var(--font-size-300); font-weight: var(--font-weight-text-semibold); color: var(--neutral-500); margin-bottom: 6px; }
+.form-select { width: 100%; padding: var(--spacing-micro-200) 12px; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); font-size: var(--font-size-300); font-family: var(--font-family-blueprintfont); }
+.form-info { font-size: var(--font-size-200); color: var(--neutral-400); margin-top: 4px; }
+
+.warning-box { background: #fff3cd; border: 1px solid #ffc107; border-radius: var(--radius-sm); padding: var(--spacing-small-300); margin-bottom: 16px; }
+.warning-box p { margin: 0; font-size: var(--font-size-300); color: #856404; }
+
+/* Empty State */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--neutral-400); }
+.empty-state i { font-size: 48px; margin-bottom: 16px; }
+.empty-state p { font-size: var(--font-size-300); margin: 0; }
+
+/* Drawer Styles */
+.drawer { position: fixed; top: 0; right: -1050px; width: 1050px; max-width: 90vw; height: 100%; background: white; box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2); padding: 0; overflow-y: auto; transition: right 0.3s ease-out; z-index: 9999; display: flex; flex-direction: column; }
+.drawer.show { right: 0; }
+.drawer.active { right: 0; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9998; }
+.drawer-overlay.show { display: block; }
+.drawer-overlay.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button selected" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button selected" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
+          <button class="tab" onclick="window.location.href='v2-bid-management-subscriptions.html'">Bid Management</button>
+          <button class="tab active">Takeoff & Estimating</button>
+        </div>
+      </div>
+      <div class="content">
+        <!-- SECTION 1: NAMED-USER LICENSES -->
+        <div class="section-header">
+          <h2>Named-User Licenses</h2>
+          <p class="section-helper">Assign dedicated licenses to specific users for desktop and web applications</p>
+        </div>
+
+        <!-- Subscription Summary Cards -->
+        <div class="summary-grid" id="summaryCards">
+          <!-- Cards will be populated by JavaScript -->
+        </div>
+
+        <!-- User License Table -->
+        <div class="table-controls">
+          <div class="table-controls-left">
+            <button class="btn-primary" id="addLicenseBtn" disabled onclick="openAssignModal()">Add License to Selected</button>
+            <button class="btn-secondary" id="removeLicenseBtn" disabled onclick="bulkRemoveLicenses()" style="color: #d32f2f; border-color: #d32f2f;">Remove License</button>
+          </div>
+          <div class="table-controls-right">
+            <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
+          </div>
+        </div>
+
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th class="checkbox-cell"><input type="checkbox" id="selectAll"></th>
+              <th>User Name</th>
+              <th>Desktop License</th>
+              <th>Web License</th>
+              <th>Last Access</th>
+              <th style="width: 120px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+
+        <!-- SECTION 2: FLOATING/SHARED LICENSES -->
+        <div class="section-header" style="margin-top: 50px;">
+          <h2>Floating/Shared Licenses</h2>
+          <p class="section-helper">Pool of licenses available for team members to check out as needed</p>
+        </div>
+
+        <!-- Floating License Summary -->
+        <div class="floating-summary">
+          <div class="floating-title">Shared Licenses - OnScreen Takeoff</div>
+          <div class="floating-status" id="floatingStatus">
+            <strong id="floatingAvailable">8</strong> Available / <strong id="floatingTotal">20</strong> Total
+          </div>
+          <div class="seat-bar">
+            <div class="seat-fill" id="floatingSeatFill" style="width: 60%;"></div>
+          </div>
+          <p class="floating-note">Floating licenses are automatically checked out when users launch the desktop application</p>
+        </div>
+
+        <!-- Current Checkouts Table -->
+        <h3 style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-400); font-weight: var(--font-weight-text-semibold); margin-bottom: 16px;">Current Checkouts</h3>
+        
+        <table class="checkout-table" id="checkoutTable">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Checkout Time</th>
+              <th>Status</th>
+              <th>Machine</th>
+              <th style="width: 120px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="checkoutTableBody">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Assign License Modal -->
+<div class="modal" id="assignLicenseModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Assign License</h3>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Application Type</label>
+        <select class="form-select" id="appTypeSelect" onchange="updateTierOptions()">
+          <option value="">Select application type...</option>
+          <option value="desktop">Desktop (OnScreen Takeoff)</option>
+          <option value="web">Web (Web Takeoff)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">License Tier</label>
+        <select class="form-select" id="tierSelect" disabled>
+          <option value="">Select tier...</option>
+        </select>
+        <p class="form-info" id="tierInfo"></p>
+      </div>
+      <div id="assignError" style="display: none;" class="warning-box">
+        <p></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeAssignModal()">Cancel</button>
+      <button class="btn-primary" id="confirmAssignBtn" onclick="confirmAssignLicense()" disabled>Assign License</button>
+    </div>
+  </div>
+</div>
+
+<!-- Remove License Modal -->
+<div class="modal" id="removeLicenseModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Remove License</h3>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to remove the license from <strong id="removeUserName"></strong>?</p>
+      <p style="font-size: var(--font-size-200); color: var(--neutral-400); margin-top: 10px;">License: <strong id="removeLicenseName"></strong></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeRemoveModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmRemoveLicense()">Remove License</button>
+    </div>
+  </div>
+</div>
+
+<!-- Force Return Modal -->
+<div class="modal" id="forceReturnModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Force Return License</h3>
+    </div>
+    <div class="modal-body">
+      <div class="warning-box">
+        <p><strong>Warning:</strong> This will immediately revoke the license from <strong id="forceReturnUserName"></strong>.</p>
+      </div>
+      <p style="font-size: var(--font-size-300); margin-top: 12px;">If this user has borrowed the license for offline use, they will lose access when they next connect to the internet.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeForceReturnModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmForceReturn()">Force Return</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Sample data structure based on Excel file
+const users = [
+  { id: 'USR001', name: 'Malcolm Reynolds', email: 'malcolm.reynolds@serenity.com', role: 'owner', jobTitle: 'Project Manager', desktopLicense: null, webLicense: null, lastAccess: 'Feb 3, 2026' },
+  { id: 'USR002', name: 'Zoe Washburne', email: 'zoe.washburne@serenity.com', role: 'admin', jobTitle: 'Senior Estimator', desktopLicense: 'OST Professional', webLicense: null, lastAccess: 'Feb 4, 2026' },
+  { id: 'USR003', name: 'Hoban Washburne', email: 'hoban.washburne@serenity.com', role: 'member', jobTitle: 'Estimator', desktopLicense: 'OST Plus', webLicense: 'Web Takeoff', lastAccess: 'Feb 5, 2026' },
+  { id: 'USR004', name: 'Inara Serra', email: 'inara.serra@serenity.com', role: 'member', jobTitle: 'Project Coordinator', desktopLicense: null, webLicense: 'Web Takeoff', lastAccess: 'Feb 2, 2026' },
+  { id: 'USR005', name: 'Jayne Cobb', email: 'jayne.cobb@serenity.com', role: 'member', jobTitle: 'Estimator', desktopLicense: 'PlanViewer', webLicense: null, lastAccess: 'Jan 30, 2026' },
+  { id: 'USR006', name: 'Kaylee Frye', email: 'kaylee.frye@serenity.com', role: 'member', jobTitle: 'Junior Estimator', desktopLicense: null, webLicense: null, lastAccess: 'Never' },
+  { id: 'USR007', name: 'Simon Tam', email: 'simon.tam@serenity.com', role: 'member', jobTitle: 'Cost Engineer', desktopLicense: 'OST Professional', webLicense: null, lastAccess: 'Feb 1, 2026' },
+  { id: 'USR008', name: 'River Tam', email: 'river.tam@serenity.com', role: 'member', jobTitle: 'Analyst', desktopLicense: null, webLicense: null, lastAccess: 'Never' },
+  { id: 'USR009', name: 'Shepherd Book', email: 'shepherd.book@serenity.com', role: 'member', jobTitle: 'Senior Estimator', desktopLicense: 'OST Plus', webLicense: 'Web Takeoff', lastAccess: 'Feb 4, 2026' },
+  { id: 'USR010', name: 'Derrial Book', email: 'derrial.book@serenity.com', role: 'member', jobTitle: 'Estimator', desktopLicense: null, webLicense: null, lastAccess: 'Never' }
+];
+
+const subscriptions = [
+  { id: 'SUB001', tierName: 'Web Takeoff with AI', moduleId: 114, type: 'named-user', appType: 'web', totalSeats: 10, assignedSeats: 3, status: 'active' },
+  { id: 'SUB002', tierName: 'OnScreen Takeoff Professional', moduleId: 110, type: 'named-user', appType: 'desktop', totalSeats: 10, assignedSeats: 2, status: 'active' },
+  { id: 'SUB003', tierName: 'OnScreen Takeoff Plus', moduleId: 108, type: 'named-user', appType: 'desktop', totalSeats: 5, assignedSeats: 2, status: 'active' },
+  { id: 'SUB004', tierName: 'PlanViewer', moduleId: 107, type: 'named-user', appType: 'desktop', totalSeats: 15, assignedSeats: 1, status: 'active' },
+  { id: 'SUB005', tierName: 'OnScreen Takeoff - Floating Pool', moduleId: 110, type: 'floating', appType: 'desktop', totalSeats: 20, assignedSeats: 12, status: 'active' }
+];
+
+const floatingCheckouts = [
+  { id: 'CHK001', userId: 'USR003', userName: 'Hoban Washburne', checkoutTime: '8:45 AM', status: 'active', machine: 'WRK-EST-003', returnDate: null },
+  { id: 'CHK002', userId: 'USR002', userName: 'Zoe Washburne', checkoutTime: '7:30 AM', status: 'active', machine: 'WRK-EST-002', returnDate: null },
+  { id: 'CHK003', userId: 'USR007', userName: 'Simon Tam', checkoutTime: '9:15 AM', status: 'active', machine: 'LAP-SIM-001', returnDate: null },
+  { id: 'CHK004', userId: 'USR009', userName: 'Shepherd Book', checkoutTime: 'Yesterday 4:30 PM', status: 'borrowed', machine: 'LAP-BOOK-001', returnDate: 'Feb 7, 2026' }
+];
+
+let selectedUsers = [];
+let currentRemoveUser = null;
+let currentForceReturnCheckout = null;
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+  renderSummaryCards();
+  renderUserTable();
+  renderCheckoutTable();
+  updateFloatingStatus();
+  
+  // Select All checkbox
+  document.getElementById('selectAll').addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.user-checkbox');
+    checkboxes.forEach(cb => {
+      cb.checked = this.checked;
+    });
+    updateSelectedUsers();
+  });
+});
+
+// Render subscription summary cards
+function renderSummaryCards() {
+  const container = document.getElementById('summaryCards');
+  const namedUserSubs = subscriptions.filter(s => s.type === 'named-user');
+  
+  container.innerHTML = namedUserSubs.map(sub => {
+    const available = sub.totalSeats - sub.assignedSeats;
+    const percentUsed = (sub.assignedSeats / sub.totalSeats) * 100;
+    const percentRemaining = 100 - percentUsed;
+    
+    let statusClass = 'plenty';
+    let statusText = `${available} available`;
+    let cardClass = '';
+    let fillClass = '';
+    
+    if (percentRemaining <= 0) {
+      statusClass = 'out';
+      statusText = 'No seats available';
+      cardClass = 'error';
+      fillClass = 'error';
+    } else if (percentRemaining <= 20) {
+      statusClass = 'low';
+      statusText = `Only ${available} left`;
+      cardClass = 'warning';
+      fillClass = 'warning';
+    }
+    
+    return `
+      <div class="summary-card ${cardClass}">
+        <div class="card-title">${sub.tierName}</div>
+        <div class="card-seats">
+          <span>Seats Used</span>
+          <span><strong>${sub.assignedSeats}</strong> / ${sub.totalSeats}</span>
+        </div>
+        <div class="seat-bar">
+          <div class="seat-fill ${fillClass}" style="width: ${percentUsed}%;"></div>
+        </div>
+        <div class="card-status ${statusClass}">${statusText}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Render user table
+function renderUserTable() {
+  const tbody = document.getElementById('userTableBody');
+  
+  if (users.length === 0) {
+    tbody.innerHTML = `
+      <tr><td colspan="6">
+        <div class="empty-state">
+          <i class="fa-light fa-users"></i>
+          <p>No users in organization</p>
+        </div>
+      </td></tr>
+    `;
+    return;
+  }
+  
+  tbody.innerHTML = users.map(user => `
+    <tr>
+      <td class="checkbox-cell">
+        <input type="checkbox" class="user-checkbox checkbox" data-user-id="${user.id}" onchange="updateSelectedUsers()">
+      </td>
+      <td>
+        <div class="user-name-cell">
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-200);">
+            <a href="#" class="user-link">${user.name}</a>
+            ${user.role !== 'member' ? `<span class="role-badge ${user.role}">${user.role.toUpperCase()}</span>` : ''}
+          </div>
+          <div class="user-subtitle">
+            <i class="fa-regular fa-user"></i>
+            <span>${user.jobTitle}</span>
+          </div>
+        </div>
+      </td>
+      <td>
+        ${user.desktopLicense 
+          ? `<span class="license-pill active">${user.desktopLicense}</span>`
+          : `<span class="license-pill no-access">No Access</span>`
+        }
+      </td>
+      <td>
+        ${user.webLicense 
+          ? `<span class="license-pill active">${user.webLicense}</span>`
+          : `<span class="license-pill no-access">No Access</span>`
+        }
+      </td>
+      <td>${user.lastAccess}</td>
+      <td>
+        ${!user.desktopLicense && !user.webLicense 
+          ? `<button class="action-btn add" onclick="openAssignModal('${user.id}')">+ Add</button>`
+          : `<button class="action-btn remove" onclick="openRemoveModal('${user.id}', 'desktop')">Remove</button>`
+        }
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Render checkout table
+function renderCheckoutTable() {
+  const tbody = document.getElementById('checkoutTableBody');
+  
+  if (floatingCheckouts.length === 0) {
+    tbody.innerHTML = `
+      <tr><td colspan="5">
+        <div class="empty-state">
+          <i class="fa-light fa-circle-check"></i>
+          <p>All shared licenses are currently available</p>
+        </div>
+      </td></tr>
+    `;
+    return;
+  }
+  
+  tbody.innerHTML = floatingCheckouts.map(checkout => `
+    <tr>
+      <td><a href="#" class="user-link">${checkout.userName}</a></td>
+      <td>${checkout.checkoutTime}</td>
+      <td><span class="status-badge ${checkout.status}">${checkout.status === 'active' ? 'Active' : 'Borrowed (Offline)'}</span></td>
+      <td>${checkout.machine}</td>
+      <td>
+        <button class="action-btn remove" onclick="openForceReturnModal('${checkout.id}')">Force Return</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Update floating license status
+function updateFloatingStatus() {
+  const floatingSub = subscriptions.find(s => s.type === 'floating');
+  if (!floatingSub) return;
+  
+  const available = floatingSub.totalSeats - floatingCheckouts.length;
+  const percentUsed = (floatingCheckouts.length / floatingSub.totalSeats) * 100;
+  
+  document.getElementById('floatingAvailable').textContent = available;
+  document.getElementById('floatingTotal').textContent = floatingSub.totalSeats;
+  document.getElementById('floatingSeatFill').style.width = `${percentUsed}%`;
+  
+  if (percentUsed >= 90) {
+    document.getElementById('floatingSeatFill').classList.add('error');
+  } else if (percentUsed >= 75) {
+    document.getElementById('floatingSeatFill').classList.add('warning');
+  }
+}
+
+// Update selected users and button states
+function updateSelectedUsers() {
+  const checkboxes = document.querySelectorAll('.user-checkbox:checked');
+  const allCheckboxes = document.querySelectorAll('.user-checkbox');
+  selectedUsers = Array.from(checkboxes).map(cb => cb.dataset.userId);
+  
+  // Update Select All checkbox state
+  const selectAllCheckbox = document.getElementById('selectAll');
+  if (checkboxes.length === 0) {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = false;
+  } else if (checkboxes.length === allCheckboxes.length) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
+  } else {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = true;
+  }
+  
+  const addBtn = document.getElementById('addLicenseBtn');
+  const removeBtn = document.getElementById('removeLicenseBtn');
+  
+  const hasUsersWithoutLicense = selectedUsers.some(id => {
+    const user = users.find(u => u.id === id);
+    return !user.desktopLicense && !user.webLicense;
+  });
+  
+  const hasUsersWithLicense = selectedUsers.some(id => {
+    const user = users.find(u => u.id === id);
+    return user.desktopLicense || user.webLicense;
+  });
+  
+  addBtn.disabled = !hasUsersWithoutLicense;
+  removeBtn.disabled = !hasUsersWithLicense;
+}
+
+// Assign License Modal
+function openAssignModal(userId) {
+  if (userId) {
+    selectedUsers = [userId];
+  }
+  
+  document.getElementById('assignLicenseModal').classList.add('show');
+  document.getElementById('appTypeSelect').value = '';
+  document.getElementById('tierSelect').value = '';
+  document.getElementById('tierSelect').disabled = true;
+  document.getElementById('confirmAssignBtn').disabled = true;
+  document.getElementById('assignError').style.display = 'none';
+}
+
+function closeAssignModal() {
+  document.getElementById('assignLicenseModal').classList.remove('show');
+}
+
+function updateTierOptions() {
+  const appType = document.getElementById('appTypeSelect').value;
+  const tierSelect = document.getElementById('tierSelect');
+  const tierInfo = document.getElementById('tierInfo');
+  const errorBox = document.getElementById('assignError');
+  
+  if (!appType) {
+    tierSelect.disabled = true;
+    tierSelect.innerHTML = '<option value="">Select tier...</option>';
+    tierInfo.textContent = '';
+    return;
+  }
+  
+  // Check if user already has this type of license
+  const user = users.find(u => u.id === selectedUsers[0]);
+  if (appType === 'desktop' && user.desktopLicense) {
+    errorBox.style.display = 'block';
+    errorBox.querySelector('p').textContent = `User already has a desktop license (${user.desktopLicense}). Remove current license first.`;
+    tierSelect.disabled = true;
+    return;
+  }
+  if (appType === 'web' && user.webLicense) {
+    errorBox.style.display = 'block';
+    errorBox.querySelector('p').textContent = `User already has a web license (${user.webLicense}). Remove current license first.`;
+    tierSelect.disabled = true;
+    return;
+  }
+  
+  errorBox.style.display = 'none';
+  
+  const availableTiers = subscriptions.filter(s => s.type === 'named-user' && s.appType === appType);
+  
+  tierSelect.disabled = false;
+  tierSelect.innerHTML = '<option value="">Select tier...</option>' + 
+    availableTiers.map(tier => {
+      const available = tier.totalSeats - tier.assignedSeats;
+      const disabled = available === 0 ? 'disabled' : '';
+      return `<option value="${tier.id}" ${disabled}>${tier.tierName} (${available} available)</option>`;
+    }).join('');
+  
+  tierSelect.addEventListener('change', function() {
+    if (this.value) {
+      const tier = subscriptions.find(s => s.id === this.value);
+      const available = tier.totalSeats - tier.assignedSeats;
+      
+      if (available > 0) {
+        tierInfo.textContent = `${available} seat${available !== 1 ? 's' : ''} available`;
+        tierInfo.style.color = '#00a651';
+        document.getElementById('confirmAssignBtn').disabled = false;
+      } else {
+        tierInfo.textContent = 'No seats available';
+        tierInfo.style.color = '#d32f2f';
+        document.getElementById('confirmAssignBtn').disabled = true;
+      }
+    } else {
+      tierInfo.textContent = '';
+      document.getElementById('confirmAssignBtn').disabled = true;
+    }
+  });
+}
+
+function confirmAssignLicense() {
+  const tierId = document.getElementById('tierSelect').value;
+  const tier = subscriptions.find(s => s.id === tierId);
+  const user = users.find(u => u.id === selectedUsers[0]);
+  
+  if (tier.appType === 'desktop') {
+    user.desktopLicense = tier.tierName;
+  } else {
+    user.webLicense = tier.tierName;
+  }
+  
+  tier.assignedSeats++;
+  user.lastAccess = 'Just now';
+  
+  closeAssignModal();
+  renderSummaryCards();
+  renderUserTable();
+  selectedUsers = [];
+}
+
+// Remove License Modal
+function openRemoveModal(userId, licenseType) {
+  currentRemoveUser = { userId, licenseType };
+  const user = users.find(u => u.id === userId);
+  
+  const licenseName = licenseType === 'desktop' 
+    ? user.desktopLicense || user.webLicense 
+    : user.webLicense || user.desktopLicense;
+  
+  document.getElementById('removeUserName').textContent = user.name;
+  document.getElementById('removeLicenseName').textContent = licenseName;
+  document.getElementById('removeLicenseModal').classList.add('show');
+}
+
+function closeRemoveModal() {
+  document.getElementById('removeLicenseModal').classList.remove('show');
+  currentRemoveUser = null;
+}
+
+function confirmRemoveLicense() {
+  const { userId } = currentRemoveUser;
+  const user = users.find(u => u.id === userId);
+  
+  // Determine which license to remove
+  if (user.desktopLicense) {
+    const tier = subscriptions.find(s => s.tierName === user.desktopLicense && s.appType === 'desktop');
+    if (tier) tier.assignedSeats--;
+    user.desktopLicense = null;
+  } else if (user.webLicense) {
+    const tier = subscriptions.find(s => s.tierName === user.webLicense && s.appType === 'web');
+    if (tier) tier.assignedSeats--;
+    user.webLicense = null;
+  }
+  
+  closeRemoveModal();
+  renderSummaryCards();
+  renderUserTable();
+  selectedUsers = [];
+}
+
+// Bulk Remove Licenses
+function bulkRemoveLicenses() {
+  if (selectedUsers.length === 0) return;
+  
+  // Use the first selected user for the modal
+  const firstUser = users.find(u => u.id === selectedUsers[0]);
+  const licenseName = firstUser.desktopLicense || firstUser.webLicense;
+  
+  if (selectedUsers.length === 1) {
+    openRemoveModal(selectedUsers[0], firstUser.desktopLicense ? 'desktop' : 'web');
+  } else {
+    // For multiple users, show a bulk confirmation
+    if (confirm(`Remove licenses from ${selectedUsers.length} selected users?`)) {
+      selectedUsers.forEach(userId => {
+        const user = users.find(u => u.id === userId);
+        if (user.desktopLicense) {
+          const tier = subscriptions.find(s => s.tierName === user.desktopLicense && s.appType === 'desktop');
+          if (tier) tier.assignedSeats--;
+          user.desktopLicense = null;
+        }
+        if (user.webLicense) {
+          const tier = subscriptions.find(s => s.tierName === user.webLicense && s.appType === 'web');
+          if (tier) tier.assignedSeats--;
+          user.webLicense = null;
+        }
+      });
+      
+      renderSummaryCards();
+      renderUserTable();
+      selectedUsers = [];
+      document.getElementById('selectAll').checked = false;
+    }
+  }
+}
+
+// Force Return Modal
+function openForceReturnModal(checkoutId) {
+  const checkout = floatingCheckouts.find(c => c.id === checkoutId);
+  currentForceReturnCheckout = checkoutId;
+  
+  document.getElementById('forceReturnUserName').textContent = checkout.userName;
+  document.getElementById('forceReturnModal').classList.add('show');
+}
+
+function closeForceReturnModal() {
+  document.getElementById('forceReturnModal').classList.remove('show');
+  currentForceReturnCheckout = null;
+}
+
+function confirmForceReturn() {
+  const index = floatingCheckouts.findIndex(c => c.id === currentForceReturnCheckout);
+  if (index > -1) {
+    floatingCheckouts.splice(index, 1);
+  }
+  
+  closeForceReturnModal();
+  renderCheckoutTable();
+  updateFloatingStatus();
+}
+
+// Mobile nav toggle
+function toggleMobileNav() {
+  const sidebar = document.querySelector('.sidebar-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('show');
+}
+</script>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: var(--neutral-100); border-bottom: 1px solid var(--neutral-200); height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-800); line-height: normal; color: var(--neutral-600); margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-150); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: var(--font-size-500); line-height: 16px; color: var(--neutral-500);"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: var(--spacing-small-250) 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: var(--spacing-small-250); align-items: center; cursor: pointer; transition: all 200ms ease-out;" onclick="toggleInviteMode()">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: var(--neutral-400); border-radius: 20px; padding: var(--spacing-micro-100); display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: var(--radius-circle); transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: var(--neutral-0); border-top: 1px solid var(--neutral-300); padding: var(--spacing-medium-600); display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organization Overview - Version Two</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* Page-specific overrides for Blueprint Design System */
+
+/* Content Area */
+.content { padding: 0 20px; }
+
+/* Subscription Cards Grid */
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; box-sizing: border-box; }
+
+/* Subscription Card */
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: 8px; padding: 20px; transition: all 0.2s; }
+.subscription-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); transform: translateY(-2px); cursor: pointer; }
+.card-header { font-size: 16px; font-weight: 600; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+
+/* Alert Banners */
+.alert { padding: 10px 12px; border-radius: 4px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.alert-success { background: #efe; border: 1px solid #cfc; color: #060; }
+
+/* Seat Usage */
+.seat-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
+.seat-label { font-weight: 500; }
+.seat-count { color: #666; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+.seat-fill { height: 100%; background: #424242; }
+
+/* Geographic/Category Access */
+.access-info { 
+  margin-top: 16px; 
+  padding-top: 16px; 
+  border-top: 1px solid #e0e0e0; 
+}
+.access-row { 
+  font-size: 13px; 
+  color: #4a4f55; 
+  margin-bottom: 8px; 
+}
+.access-row:last-child { margin-bottom: 0; }
+.access-icon { 
+  margin-right: 6px; 
+  color: #88888e; 
+}
+
+/* User Summary Section */
+.user-summary { margin-top: 24px; padding: 24px; background: #fafafa; border-radius: 8px; }
+.summary-header { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+.summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+.stat-card { background: #fff; padding: 16px; border-radius: 6px; border: 1px solid #e0e0e0; }
+.stat-label { font-size: 12px; color: #666; margin-bottom: 4px; }
+.stat-value { font-size: 24px; font-weight: 600; color: #424242; }
+
+/* Quick Actions */
+.quick-actions { display: flex; gap: 12px; }
+
+/* User Table Section */
+.table-section { margin-top: 32px; background: #fff; border-radius: 8px; padding: 24px; }
+.table-controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 16px; }
+.filters { display: flex; gap: 8px; }
+
+/* User Table */
+.user-table { width: 100%; border-collapse: collapse; }
+.user-table thead { background: #fff; position: sticky; top: 0; }
+.user-table th { text-align: left; padding: 12px 10px; font-size: 12px; font-weight: 700; color: #4a4f55; border-bottom: 2px solid #4a4f55; }
+.user-table td { padding: 12px 10px; border-bottom: 1px solid #dad8d7; vertical-align: top; }
+.user-table tbody tr:hover { background: #f9f9f9; }
+.user-name { display: flex; flex-direction: column; gap: 4px; }
+.user-link { color: #0c79a8; text-decoration: underline; font-size: 14px; font-weight: 500; cursor: pointer; }
+.user-badge { display: inline-flex; padding: 4px 8px; background: #88888e; color: #fff; border-radius: 4px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+.user-role { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #4a4f55; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; background: #e7e6e5; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; height: 26px; line-height: 14px; }
+.pill-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: #feffff; border-radius: 30px; font-size: 12px; font-weight: 600; color: #1c1f22; min-width: 20px; height: 20px; line-height: 14px; }
+
+/* Table Footer */
+.table-footer { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding: 10px 0; border-top: 1px solid #dad8d7; margin-top: 8px; }
+.rows-per-page { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #4a4f55; }
+.rows-select { padding: 7px 10px; border: 1px solid #dad8d7; border-radius: 4px; font-size: 14px; color: #88888e; background: #fff; }
+.page-nav { display: flex; align-items: center; gap: 8px; }
+.page-info { font-size: 14px; color: #4a4f55; }
+.page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 18px; color: #4a4f55; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-btn:not(:disabled):hover { background: #f0f0f0; border-radius: 50%; }
+
+/* Drawer */
+.drawer { position: fixed; top: 0; right: -1050px; width: 1050px; max-width: 90vw; height: 100%; background: white; box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2); padding: 0; overflow-y: auto; transition: right 0.3s ease-out; z-index: 9999; display: flex; flex-direction: column; }
+.drawer.show { right: 0; }
+.drawer.active { right: 0; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9998; }
+.drawer-overlay.show { display: block; }
+.drawer-overlay.active { display: block; }
+.drawer-overlay.active { display: block; }
+
+/* Hamburger Menu Button */
+.hamburger-menu { display: none; width: 44px; height: 44px; padding: 10px; align-items: center; justify-content: center; background: #01304a; border: none; border-right: 1px solid #185a7d; cursor: pointer; }
+.menu-icon { width: 16px; height: 16px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+.hamburger-menu span { display: block; width: 16px; height: 3px; background: #fff; border-radius: 4px; transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: center; }
+.hamburger-menu.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger-menu.active span:nth-child(2) { opacity: 0; }
+.hamburger-menu.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile Navigation Drawer */
+.mobile-nav-drawer { display: none; position: fixed; top: 0; left: -320px; width: 320px; height: 100vh; background: #2c3e50; z-index: 3000; padding: 60px 20px 20px 20px; overflow-y: auto; transition: left 0.3s ease; }
+.mobile-nav-drawer.show { left: 0; }
+.mobile-nav-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2999; }
+.mobile-nav-overlay.show { display: block; }
+.mobile-nav-item { display: flex; align-items: center; gap: 15px; padding: 12px 15px; color: #fff; cursor: pointer; border-radius: 4px; margin-bottom: 8px; transition: background 0.2s; }
+.mobile-nav-item:hover { background: rgba(255,255,255,0.1); }
+.mobile-nav-item.selected { background: #1976d2; }
+.mobile-nav-icon { font-size: 20px; width: 24px; text-align: center; }
+.mobile-nav-label { font-size: 14px; font-weight: 500; }
+
+/* ============================================ */
+/* RESPONSIVE / ADAPTIVE DESIGN - Blueprint Component Library */
+/* Breakpoints: 375px (Mobile), 600px (Tablet Small), 768px (Tablet), 1024px (Tablet Landscape), 1440px+ (Desktop) */
+/* ============================================ */
+
+/* Tablet Landscape - Below 1024px */
+@media (max-width: 1024px) {
+  /* Show hamburger menu, hide desktop sidebar */
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+  .mobile-nav-drawer { display: block; }
+}
+
+/* Tablet (Medium) - Below 768px */
+@media (max-width: 768px) {
+  /* Show hamburger menu, hide desktop sidebar */
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+  .mobile-nav-drawer { display: block; }
+  
+  /* Stack cards vertically */
+  .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+  .content { padding: 0 10px; }
+  
+  /* Adjust logo and user menu */
+  .logo { font-size: 16px; }
+  .user-menu span { display: none; }
+  
+  /* Reduce padding */
+  .main-content { padding: 16px; }
+  .header { padding: 16px; }
+  h1 { font-size: 20px; }
+  
+  /* Stack header elements */
+  .header-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .header-icons { width: 100%; justify-content: flex-end; }
+  
+  /* Stack tabs vertically on very small screens */
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 12px; }
+  
+  /* Make table scrollable */
+  .table-section { padding: 12px; overflow-x: auto; }
+  .user-table { min-width: 800px; }
+  .data-table { min-width: 800px; }
+  
+  /* Adjust filters */
+  .table-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+  .filters { flex-wrap: wrap; }
+}
+
+/* Tablet Small - Below 600px */
+@media (max-width: 600px) {
+  /* Further reduce spacing */
+  .main-content { padding: 12px; }
+  .header { padding: 12px; }
+  h1 { font-size: 18px; }
+  
+  /* Card adjustments */
+  .card-header { font-size: 16px; padding: 8px 12px; }
+  .card-content { padding: 8px; }
+  
+  /* Toast messages */
+  .toast { font-size: 11px; padding: 8px; }
+  
+  /* Seat rows */
+  .seat-row { font-size: 11px; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .seat-count { text-align: left; width: auto; }
+  
+  /* Zones */
+  .zone-badge { font-size: 11px; padding: 4px 6px; height: 24px; }
+  .zone-counter { font-size: 11px; padding: 2px 5px; height: 18px; min-width: 18px; }
+  
+  /* Table */
+  .table-section { padding: 8px; }
+  .user-table th,
+  .user-table td { padding: 8px 6px; font-size: 12px; }
+  
+  /* Hide less critical columns on mobile */
+  .user-table th:nth-child(n+5),
+  .user-table td:nth-child(n+5) { display: none; }
+  
+  /* Footer adjustments */
+  .table-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+  .rows-per-page { justify-content: center; }
+  .page-nav { justify-content: center; }
+  
+  /* Drawer */
+  .drawer { width: 100%; padding: 20px; }
+}
+
+/* Mobile (Extra Small) - Below 375px - Blueprint Mobile Phone Layout */
+@media (max-width: 375px) {
+  h1 { font-size: 16px; }
+  .tabs { gap: 4px; }
+  .tab { font-size: 12px; padding: 6px 10px; }
+  .filter-btn { font-size: 12px; padding: 6px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar - Desktop/Tablet Responsive -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
+          <button class="tab" onclick="window.location.href='v2-bid-management-subscriptions.html'">Bid Management</button>
+          <button class="tab" onclick="window.location.href='v2-takeoff-estimating.html'">Takeoff & Estimating</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Subscription Card -->
+        <div class="cards-grid">
+          
+          <!-- Project Intelligence Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow.html'">
+            <div class="card-header">Project Intelligence</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Project Intelligence Starter Seats</span>
+              <span class="seat-count">7/20 Used - 13 seats available</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 35%"></div>
+            </div>
+            
+            <div class="access-info">
+              <div class="access-row">
+                <i class="access-icon fa-light fa-map-marked-alt"></i>
+                <strong>Geographic Access:</strong> 300 counties in 3 states
+              </div>
+              <div class="access-row">
+                <i class="access-icon fa-light fa-layer-group"></i>
+                <strong>Category Access:</strong> 4 of 17 categories
+              </div>
+              <div class="access-row">
+                <i class="access-icon fa-light fa-calendar-day"></i>
+                Renews March 15, 2026
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Management Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-bid-management-subscriptions.html'">
+            <div class="card-header">Bid Management</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Seats</span>
+              <span class="seat-count">4/20 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 20%"></div>
+            </div>
+          </div>
+
+          <!-- Takeoff & Estimating Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-takeoff-estimating.html'">
+            <div class="card-header">Takeoff & Estimating</div>
+            
+            <div class="alert alert-success">✓ You have available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Web Takeoff with AI</span>
+              <span class="seat-count">3/10 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 30%"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- User Table Section -->
+        <div class="table-section">
+          
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="filters">
+              <select class="filter-btn" id="subscriptionFilter" onchange="filterTable()">
+                <option value="">Show All Subscriptions</option>
+                <option value="Project Intelligence">Project Intelligence</option>
+                <option value="Bid Management">Bid Management</option>
+                <option value="Takeoff">Takeoff & Estimating</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+              <select class="filter-btn" id="roleFilter" onchange="filterTable()">
+                <option value="">Show All Roles</option>
+                <option value="BM - Admin">BM - Admin</option>
+                <option value="BM - Team Member">BM - Team Member</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+              <select class="filter-btn" id="groupFilter" onchange="filterTable()">
+                <option value="">Show All Groups</option>
+                <option value="Estimator">Estimator</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+            </div>
+            <button class="search-btn">🔍</button>
+          </div>
+
+          <!-- User Table -->
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Project Intelligence</th>
+                <th>Bid Management</th>
+                <th>Takeoff & Estimating</th>
+                <th>Last Access Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Malcom Reynolds')" class="user-link">Malcom Reynolds</a>
+                      <span class="user-badge">OWNER</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('River Tam')" class="user-link">River Tam</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Admin</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Zoe Washburne')" class="user-link">Zoe Washburne</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Kaylee Fry')" class="user-link">Kaylee Fry</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Simon Tam')" class="user-link">Simon Tam</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Table Footer -->
+          <div class="table-footer">
+            <div class="rows-per-page">
+              <span>Rows per page</span>
+              <select class="rows-select">
+                <option>50</option>
+                <option>25</option>
+                <option>10</option>
+              </select>
+            </div>
+            <div class="page-nav">
+              <span class="page-info">1-5 of 5</span>
+              <button class="page-btn" disabled>‹</button>
+              <button class="page-btn">›</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: 13px;">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
+<script>
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Table filtering
+function filterTable() {
+  const subscriptionFilter = document.getElementById('subscriptionFilter').value;
+  const roleFilter = document.getElementById('roleFilter').value;
+  const groupFilter = document.getElementById('groupFilter').value;
+  
+  const rows = document.querySelectorAll('.user-table tbody tr');
+  
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const projectIntelText = cells[1]?.textContent.trim() || '';
+    const bidMgmtText = cells[2]?.textContent.trim() || '';
+    const takeoffText = cells[3]?.textContent.trim() || '';
+    
+    // Check if subscription is assigned
+    let subscriptionMatch = !subscriptionFilter;
+    if (subscriptionFilter) {
+      if (subscriptionFilter === 'Not Assigned') {
+        subscriptionMatch = projectIntelText.includes('Not Assigned') ||
+                            bidMgmtText.includes('Not Assigned') ||
+                            takeoffText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Project Intelligence') {
+        subscriptionMatch = !projectIntelText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Bid Management') {
+        subscriptionMatch = !bidMgmtText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Takeoff') {
+        subscriptionMatch = !takeoffText.includes('Not Assigned');
+      }
+    }
+    
+    const roleMatch = !roleFilter || bidMgmtText.includes(roleFilter);
+    const groupMatch = !groupFilter || takeoffText.split(/\d+/)[0].trim().includes(groupFilter);
+    
+    if (subscriptionMatch && roleMatch && groupMatch) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+
+<script>
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+</script>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: #f4f4f4; border-bottom: 1px solid #e7e6e5; height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 24px; line-height: normal; color: #1c1f22; margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; padding: 6px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: 18px; line-height: 16px; color: #4a4f55;"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: 10px 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; cursor: pointer;" onclick="toggleInviteMode()">
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: #88888e; border-radius: 20px; padding: 4px; display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: 50%; transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; line-height: 16px; color: #4a4f55;">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: #ffffff; border-top: 1px solid #dad8d7; padding: 20px; display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

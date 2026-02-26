@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Roles - Version Two</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* Page-specific overrides for Blueprint Design System */
+
+/* Content Area */
+.content { padding: 0 20px; }
+
+/* Tabs - Matches Figma exactly */
+.tabs { display: flex; gap: var(--spacing-medium-600); border-bottom: 2px solid var(--neutral-300); margin-bottom: 10px; overflow: clip; padding-right: 10px; }
+.tab { padding: var(--spacing-small-250) 2px; font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); font-family: var(--font-family-blueprintfont); color: var(--neutral-600); background: none; border: none; border-bottom: 4px solid transparent; cursor: pointer; transition: all 200ms ease-out; transition: none; line-height: 16px; }
+.tab:hover { color: var(--neutral-600); }
+.tab.active { font-weight: var(--font-weight-text-bold); border-bottom-color: var(--neutral-600); color: var(--neutral-600); font-family: var(--font-family-blueprintfont); }
+
+/* Toast Message - Matches Figma exactly */
+.toast { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-small-250); padding: var(--spacing-small-300) 20px; background: #e6f7ff; border-radius: 0; margin: 0 -20px 10px -20px; min-height: 42px; }
+.toast-icon { font-size: var(--font-size-500); color: var(--primary-400); line-height: 18px; flex-shrink: 0; }
+.toast-text { flex: 1; font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); font-family: var(--font-family-blueprintfont); color: var(--neutral-600); line-height: 14px; }
+
+/* Table Controls - Matches Figma exactly */
+.table-controls { display: flex; justify-content: space-between; align-items: flex-start; padding: var(--spacing-small-250) 0; }
+.table-controls-left { display: flex; flex: 1; gap: var(--spacing-small-250); align-items: flex-start; min-height: 1px; min-width: 1px; }
+.filters { display: flex; gap: var(--spacing-small-250); align-items: center; }
+.filter-btn { padding: var(--spacing-micro-200); border: 1px solid var(--neutral-500); background: transparent; border-radius: var(--radius-sm); font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); font-family: var(--font-family-blueprintfont); color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out; display: flex; flex-direction: column; gap: 3px; align-items: flex-start; height: 32px; justify-content: center; position: relative; }
+.filter-btn::before { content: ''; position: absolute; inset: -1px; opacity: 0.1; }
+.filter-btn-content { display: flex; gap: var(--spacing-micro-150); align-items: center; height: 16px; }
+.filter-btn:hover { background: rgba(74, 79, 85, 0.05); }
+.filter-btn i { font-size: var(--font-size-300); line-height: 16px; }
+.table-controls-right { display: flex; gap: var(--spacing-micro-150); align-items: flex-start; justify-content: flex-end; }
+.search-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-500); padding: 3px; }
+.search-btn:hover { background: #f0f0f0; }
+
+/* Roles Table - Matches Figma exactly */
+.roles-table { width: 100%; border-collapse: collapse; background: #fff; }
+.roles-table thead { background: #fff; position: sticky; top: 0; }
+.roles-table thead tr { height: 40px; background: #fff; }
+.roles-table th { text-align: left; padding: var(--spacing-small-250); font-size: var(--font-size-200, 12px); font-weight: var(--font-weight-text-semi-bold, 600); font-family: var(--font-family-blueprintfont, var(--font-family-blueprintfont)); color: var(--neutral-500); line-height: var(--line-height-xsmall, 12px); position: relative; }
+.roles-table thead tr::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0px -2px 0px 0px var(--neutral-500); }
+.roles-table tbody tr { background: #fff; position: relative; }
+.roles-table td { padding: var(--spacing-small-250); font-size: var(--content-body-font-size, 14px); font-family: var(--content-body-font-family, var(--font-family-blueprintfont)); font-weight: var(--content-body-font-weight, 500); color: var(--neutral-500); line-height: var(--content-body-line-height, 16px); vertical-align: top; }
+.roles-table tbody tr::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0px -1px 0px 0px var(--neutral-300); }
+.roles-table tbody tr:hover { background: #f9f9f9; }
+
+/* Role Name Cell */
+.role-name { display: flex; flex-direction: column; gap: 4px; }
+.role-name-row { display: flex; align-items: center; gap: var(--spacing-micro-200); }
+.role-link { color: var(--neutral-600); text-decoration: none; font-size: var(--content-body-font-size, 14px); font-weight: var(--content-body-font-weight, 500); cursor: pointer; transition: all 200ms ease-out; font-family: var(--content-body-font-family, var(--font-family-blueprintfont)); line-height: var(--content-body-line-height, 16px); }
+.role-link:hover { text-decoration: underline; }
+.role-warning { display: flex; align-items: flex-start; gap: 4px; font-size: var(--content-caption-font-size, 12px); color: #d32f2f; font-family: var(--content-caption-font-family, var(--font-family-blueprintfont)); font-weight: var(--content-caption-font-weight, 600); line-height: var(--content-caption-line-height, 14px); }
+.role-warning i { font-size: var(--font-size-200); }
+.role-success { display: flex; align-items: center; gap: 4px; font-size: var(--content-caption-font-size, 12px); color: #00a365; font-family: var(--content-caption-font-family, var(--font-family-blueprintfont)); font-weight: var(--content-caption-font-weight, 600); line-height: var(--content-caption-line-height, 14px); }
+.role-success i { font-size: var(--font-size-200); }
+.role-based-on { display: flex; align-items: center; gap: 4px; font-size: var(--content-caption-font-size, 12px); color: #7b2cbf; font-family: var(--content-caption-font-family, var(--font-family-blueprintfont)); font-weight: var(--content-caption-font-weight, 600); line-height: var(--content-caption-line-height, 14px); }
+.role-based-on i { font-size: var(--font-size-200); }
+.role-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; color: #fff; border-radius: var(--radius-sm); font-size: var(--content-caption-font-size, 12px); font-weight: var(--font-weight-text-bold, 700); font-family: var(--content-caption-font-family, var(--font-family-blueprintfont)); line-height: var(--content-caption-line-height, 14px); }
+.role-badge.owner { background: var(--neutral-400); }
+.role-badge.admin { background: var(--neutral-400); }
+.role-badge.bm { background: #00a365; }
+.role-badge.ost { background: #00a365; }
+
+/* Role Type Badge */
+.role-type-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; border-radius: var(--radius-sm); font-size: var(--content-caption-font-size, 12px); font-weight: var(--font-weight-text-bold, 700); font-family: var(--content-caption-font-family, var(--font-family-blueprintfont)); line-height: var(--content-caption-line-height, 14px); }
+.role-type-badge.standard { background: var(--neutral-400); color: #fff; }
+.role-type-badge.custom { background: #7b2cbf; color: #fff; }
+
+/* Permission Lists */
+.permission-list { list-style: none; padding: 0; margin: 0; }
+.permission-item { display: flex; align-items: center; gap: var(--spacing-micro-150); margin-bottom: 6px; font-size: var(--content-caption-font-size, 12px); font-family: var(--content-caption-font-family, var(--font-family-blueprintfont)); font-weight: var(--content-caption-font-weight, 600); line-height: var(--content-caption-line-height, 14px); }
+.permission-item:last-child { margin-bottom: 0; }
+.permission-circle { width: 12px; height: 12px; border-radius: var(--radius-circle); flex-shrink: 0; border: 2px solid; display: flex; align-items: center; justify-content: center; }
+.permission-circle.granted { border-color: #00a365; background: transparent; }
+.permission-circle.denied { border-color: #d32f2f; background: transparent; position: relative; }
+.permission-circle.denied::after { content: ''; position: absolute; width: 6px; height: 2px; background: #d32f2f; }
+
+/* Action Buttons */
+.action-buttons { display: flex; gap: 2px; }
+.action-btn { padding: var(--spacing-micro-200); background: var(--neutral-200); color: var(--neutral-500); border: none; border-radius: var(--radius-sm); cursor: pointer; transition: all 200ms ease-out; font-size: var(--font-size-300); font-weight: var(--font-weight-text-bold); font-family: var(--font-family-blueprintfont); height: 32px; line-height: 16px; transition: background 0.2s; }
+.action-btn:hover { background: #d0cfce; }
+.action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Table Footer */
+.table-footer { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing-small-250) 0; border-top: 1px solid var(--neutral-300); margin-top: 8px; }
+.results-count { font-size: var(--font-size-300); color: var(--neutral-500); display: flex; align-items: center; gap: 5px; }
+.results-count strong { font-weight: var(--font-weight-text-bold); }
+.rows-per-page { display: flex; align-items: center; gap: var(--spacing-micro-200); font-size: var(--font-size-300); color: var(--neutral-500); }
+.rows-select { padding: 7px 10px; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); font-size: var(--font-size-300); color: var(--neutral-400); font-style: italic; font-family: var(--font-family-blueprintfont, var(--font-family-blueprintfont)); background: #fff; }
+.page-nav { display: flex; align-items: center; gap: var(--spacing-micro-200); }
+.page-info { font-size: var(--font-size-300); color: var(--neutral-500); }
+.page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; transition: all 200ms ease-out; font-size: var(--font-size-500); color: var(--neutral-500); border-radius: var(--radius-circle); }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-btn:not(:disabled):hover { background: #f0f0f0; }
+
+/* Tab Content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Hamburger Menu Button */
+.hamburger-menu { display: none; width: 44px; height: 44px; padding: var(--spacing-small-250); align-items: center; justify-content: center; background: #01304a; border: none; border-right: 1px solid #185a7d; cursor: pointer; transition: all 200ms ease-out; }
+.menu-icon { width: 16px; height: 16px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+.hamburger-menu span { display: block; width: 16px; height: 3px; background: #fff; border-radius: var(--radius-sm); transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: center; }
+.hamburger-menu.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger-menu.active span:nth-child(2) { opacity: 0; }
+.hamburger-menu.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ============================================ */
+/* RESPONSIVE / ADAPTIVE DESIGN - Blueprint Component Library */
+/* Breakpoints: 375px (Mobile), 600px (Tablet Small), 768px (Tablet), 1024px (Tablet Landscape), 1440px+ (Desktop) */
+/* ============================================ */
+
+/* Tablet Landscape - Below 1024px */
+@media (max-width: 1024px) {
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+}
+
+/* Tablet (Medium) - Below 768px */
+@media (max-width: 768px) {
+  .hamburger-menu { display: block; }
+  .sidebar { display: none; }
+  .content { padding: 0 10px; }
+  .tabs { flex-wrap: wrap; gap: var(--spacing-micro-200); }
+  .tab { font-size: var(--font-size-300); padding: var(--spacing-micro-200) 6px; }
+  .table-controls { flex-direction: column; align-items: stretch; gap: var(--spacing-small-300); }
+  .filters { flex-wrap: wrap; }
+  .roles-table { min-width: 800px; }
+  .table-section { overflow-x: auto; }
+}
+
+/* Tablet Small - Below 600px */
+@media (max-width: 600px) {
+  .main-content { padding: var(--spacing-small-300); }
+  .header { padding: var(--spacing-small-300); }
+  h1 { font-size: var(--font-size-500); }
+  .toast { font-size: var(--font-size-100); padding: var(--spacing-micro-200); }
+  .roles-table th,
+  .roles-table td { padding: var(--spacing-micro-200) 6px; font-size: var(--font-size-200); }
+  .table-footer { flex-direction: column; align-items: stretch; gap: var(--spacing-small-300); }
+  .rows-per-page { justify-content: center; }
+  .page-nav { justify-content: center; }
+}
+
+/* Mobile (Extra Small) - Below 375px */
+@media (max-width: 375px) {
+  h1 { font-size: var(--font-size-400); }
+  .tabs { gap: 4px; }
+  .tab { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
+  .filter-btn { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar - Desktop/Tablet Responsive -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>User Roles</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('organizational')">Organizational</button>
+          <button class="tab" onclick="switchTab('bid-management')">Bid Management</button>
+          <button class="tab" onclick="switchTab('takeoff')">Takeoff & Estimating</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Organizational Tab Content -->
+        <div id="organizational" class="tab-content active">
+          
+          <!-- Toast Message -->
+          <div class="toast">
+            <i class="toast-icon fa-regular fa-circle-info"></i>
+            <span class="toast-text">Every user must have exactly one organizational role. These roles control administrative access across all products.</span>
+          </div>
+
+          <!-- Roles Table -->
+          <div class="table-section">
+            <div style="height: 584px; overflow-y: auto; overflow-x: clip; margin-bottom: 10px;">
+              <table class="roles-table">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Type</th>
+                    <th>Key Permissions</th>
+                    <th>Auto Product Roles</th>
+                    <th>Users</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Account Owner</a>
+                          <span class="role-badge owner">OWNER</span>
+                        </div>
+                        <div class="role-warning">
+                          <i class="fa-solid fa-lock"></i>
+                          <span>Cannot be copied</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Billing</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>All User Mgmt</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>All Subscriptions</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Project Intelligence</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Bid Management</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View Details</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Account Admin</a>
+                          <span class="role-badge admin">ADMIN</span>
+                        </div>
+                        <div class="role-success">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Can be copied</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>User Mgmt</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Assign Licenses</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>View Subs Info</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Billing</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>None</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>5</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Team Member</a>
+                        </div>
+                        <div class="role-success">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Can be copied</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>View Own Profile</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Access Products</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Subs & Licenses</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>None</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>43</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Regional Admin</a>
+                          <span class="role-badge admin">ADMIN</span>
+                        </div>
+                        <div class="role-based-on">
+                          <i class="fa-solid fa-pencil"></i>
+                          <span>Based On: Organization Admin</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge custom">CUSTOM</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>User Mgmnt<br>(West Coast Only)</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Assign Licenses</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Billing</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>None</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">License Manager</a>
+                        </div>
+                        <div class="role-based-on">
+                          <i class="fa-solid fa-pencil"></i>
+                          <span>Based On: Organization Admin</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge custom">CUSTOM</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Assign Licenses</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO User Mgmt.</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Billing</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>None</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer -->
+            <div class="table-footer">
+              <div class="results-count">
+                <strong>3</strong> Results Found
+              </div>
+              <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+                <div class="rows-per-page">
+                  <span>Rows per page</span>
+                  <select class="rows-select">
+                    <option>Select Item</option>
+                    <option>50</option>
+                    <option>25</option>
+                    <option>10</option>
+                  </select>
+                </div>
+                <div class="page-nav">
+                  <span class="page-info">1-4 of 4</span>
+                  <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+                  <button class="page-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bid Management Tab Content -->
+        <div id="bid-management" class="tab-content">
+          
+          <!-- Toast Message -->
+          <div class="toast">
+            <i class="toast-icon fa-regular fa-circle-info"></i>
+            <span class="toast-text">Bid Management roles control access to bidding features and project management.</span>
+          </div>
+
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="table-controls-left">
+              <div class="filters">
+                <select class="filter-btn" id="bmRoleFilter" onchange="filterBMTable()">
+                  <option value="">Show All Roles</option>
+                  <option value="Company Admin">Company Admin</option>
+                  <option value="Project Manager">Project Manager</option>
+                  <option value="Bid Coordinator">Bid Coordinator</option>
+                  <option value="Estimator">Estimator</option>
+                  <option value="PQ Analyst">PQ Analyst</option>
+                  <option value="Team Member">Team Member</option>
+                  <option value="Intern">Intern</option>
+                  <option value="" disabled>──────────</option>
+                  <option value="Senior Estimator">Senior Estimator (Custom)</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-controls-right">
+              <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+
+          <!-- Roles Table -->
+          <div class="table-section">
+            <div style="height: 513px; overflow-y: auto; margin-bottom: 10px;">
+              <table class="roles-table">
+                <thead>
+                  <tr>
+                    <th>Role Name</th>
+                    <th>Type</th>
+                    <th>Key Permissions</th>
+                    <th>Users</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="bmTableBody">
+                  <!-- Company Admin -->
+                  <tr data-role-type="Company Admin">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Company Admin')">Company Admin</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Full BM Access</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>User Management</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Project Creation & Deletion</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Reporting & Audit Logs</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>PQ Scopes Management</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Company Admin')">View</button>
+                        <button class="action-btn" onclick="copyRole('Company Admin')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Company Admin')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Project Manager -->
+                  <tr data-role-type="Project Manager">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Project Manager')">Project Manager</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Create/Manage Projects</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Bidder Communications</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>PQ Scopes Management</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO User Management</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Project Manager')">View</button>
+                        <button class="action-btn" onclick="copyRole('Project Manager')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Project Manager')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Bid Coordinator -->
+                  <tr data-role-type="Bid Coordinator">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Bid Coordinator')">Bid Coordinator</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Send Invitations to Bid</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Organize & Level Bids</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>PQ Scopes Management</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Create/Delete Projects</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO User Management</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Bid Coordinator')">View</button>
+                        <button class="action-btn" onclick="copyRole('Bid Coordinator')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Bid Coordinator')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Estimator -->
+                  <tr data-role-type="Estimator">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Estimator')">Estimator</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Submit Bids</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Upload Bid Documents</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>PQ Scopes Access</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Send Invitations</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Projects</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>3</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Estimator')">View</button>
+                        <button class="action-btn" onclick="copyRole('Estimator')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Estimator')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- PQ Analyst -->
+                  <tr data-role-type="PQ Analyst">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('PQ Analyst')">PQ Analyst</a>
+                        </div>
+                        <div class="role-warning">
+                          <i class="fa-solid fa-circle-info"></i>
+                          <span>Does not have PQ Scopes Management Access</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Prequalification Analysis</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>General Communications</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO PQ Scopes Management</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Send Invitations</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Projects</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('PQ Analyst')">View</button>
+                        <button class="action-btn" onclick="copyRole('PQ Analyst')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('PQ Analyst')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Team Member -->
+                  <tr data-role-type="Team Member">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Team Member')">Team Member</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>View Documents</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Basic Bid Submission</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO PQ Scopes</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Projects</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Send Invitations</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Team Member')">View</button>
+                        <button class="action-btn" onclick="copyRole('Team Member')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Team Member')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Intern -->
+                  <tr data-role-type="Intern">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Intern')">Intern</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>View-Only Access</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Bid Submission</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO PQ Scopes</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Manage Projects</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Intern')">View</button>
+                        <button class="action-btn" onclick="copyRole('Intern')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Intern')">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Custom Role Example: Senior Estimator -->
+                  <tr data-role-type="Senior Estimator" style="border-top: 2px solid var(--neutral-300);">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link" onclick="viewRoleDetails('Senior Estimator')">Senior Estimator</a>
+                        </div>
+                        <div class="role-based-on">
+                          <i class="fa-solid fa-pencil"></i>
+                          <span>Based On: Estimator</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge custom">CUSTOM</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Submit Bids</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Upload Bid Documents</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>PQ Scopes Access</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Additional Project Visibility</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle denied"></span>
+                          <span>NO Send Invitations</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>1</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRoleDetails('Senior Estimator')">View</button>
+                        <button class="action-btn" onclick="copyRole('Senior Estimator')">Copy</button>
+                        <button class="action-btn" onclick="assignRole('Senior Estimator')">Assign</button>
+                        <button class="action-btn" onclick="editRole('Senior Estimator')">Edit</button>
+                        <button class="action-btn" style="color: #d32f2f;" onclick="deleteRole('Senior Estimator')"><i class="fa-regular fa-trash-can"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table Footer -->
+            <div class="table-footer">
+              <div class="results-count">
+                <strong id="bmResultsCount">8</strong> Results Found
+              </div>
+              <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+                <div class="rows-per-page">
+                  <span>Rows per page</span>
+                  <select class="rows-select">
+                    <option>Select Item</option>
+                    <option>50</option>
+                    <option>25</option>
+                    <option>10</option>
+                  </select>
+                </div>
+                <div class="page-nav">
+                  <span class="page-info">1-3 of 3</span>
+                  <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+                  <button class="page-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Takeoff & Estimating Tab Content -->
+        <div id="takeoff" class="tab-content">
+          
+          <!-- Toast Message -->
+          <div class="toast">
+            <i class="toast-icon fa-regular fa-circle-info"></i>
+            <span class="toast-text">Takeoff & Estimating roles control access to estimating and takeoff tools.</span>
+          </div>
+
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="table-controls-left">
+              <div class="filters">
+                <select class="filter-btn" id="ostGroupFilter" onchange="filterOSTTable()">
+                  <option value="">Show All Groups</option>
+                  <option value="Admin">OST - Admin</option>
+                  <option value="Estimator">OST - Estimator</option>
+                  <option value="Custom">Custom Roles</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-controls-right">
+              <button class="search-btn"><i class="fa-regular fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+
+          <!-- Roles Table -->
+          <div class="table-section">
+            <div style="height: 513px; overflow-y: auto; margin-bottom: 10px;">
+              <table class="roles-table">
+                <thead>
+                  <tr>
+                    <th>Role Name</th>
+                    <th>Type</th>
+                    <th>Key Permissions</th>
+                    <th>Users</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ostTableBody">
+                  <tr data-group-type="Admin">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Takeoff Admin</a>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge standard">STANDARD</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Templates</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Formulas</span>
+                        </li>
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Manage Settings</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>2</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <tr data-group-type="Estimator">
+                    <td>
+                      <div class="role-name">
+                        <div class="role-name-row">
+                          <a class="role-link">Regional Estimator</a>
+                        </div>
+                        <div class="role-based-on">
+                          <i class="fa-solid fa-pencil"></i>
+                          <span>Based On: Takeoff Admin</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-type-badge custom">CUSTOM</span></td>
+                    <td>
+                      <ul class="permission-list">
+                        <li class="permission-item">
+                          <span class="permission-circle granted"></span>
+                          <span>Estimating for West Coast projects ONLY</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>2</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                        <button class="action-btn" style="color: #d32f2f;"><i class="fa-regular fa-trash-can"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+              <span class="results-info">1-5 of 5</span>
+              <button class="pagination-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+              <button class="pagination-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn">View</button>
+                        <button class="action-btn">Copy</button>
+                        <button class="action-btn">Assign</button>
+                      </div>
+                    </td>
+                  </tr>\n                </tbody>\n              </table>\n            </div>\n\n            <!-- Table Footer -->
+            <div class="table-footer">
+              <div class="results-count">
+                <strong id="ostResultsCount">3</strong> Results Found
+              </div>
+              <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+                <div class="rows-per-page">
+                  <span>Rows per page</span>
+                  <select class="rows-select">
+                    <option>Select Item</option>
+                    <option>50</option>
+                    <option>25</option>
+                    <option>10</option>
+                  </select>
+                </div>
+                <div class="page-nav">
+                  <span class="page-info">1-3 of 3</span>
+                  <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+                  <button class="page-btn"><i class="fa-regular fa-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Tab switching
+function switchTab(tabId) {
+  // Hide all tab content
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
+  
+  // Remove active class from all tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Show selected tab content
+  document.getElementById(tabId).classList.add('active');
+  
+  // Add active class to selected tab
+  event.target.classList.add('active');
+}
+
+// Filter Bid Management table
+function filterBMTable() {
+  const filter = document.getElementById('bmRoleFilter').value;
+  const rows = document.querySelectorAll('#bmTableBody tr');
+  let visibleCount = 0;
+  
+  rows.forEach(row => {
+    const roleType = row.getAttribute('data-role-type');
+    if (!filter || roleType === filter || (filter === 'Custom' && row.querySelector('.role-type-badge.custom'))) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  
+  document.getElementById('bmResultsCount').textContent = visibleCount;
+}
+
+// Filter OST table
+function filterOSTTable() {
+  const filter = document.getElementById('ostGroupFilter').value;
+  const rows = document.querySelectorAll('#ostTableBody tr');
+  let visibleCount = 0;
+  
+  rows.forEach(row => {
+    const groupType = row.getAttribute('data-group-type');
+    if (!filter || groupType === filter || (filter === 'Custom' && row.querySelector('.role-type-badge.custom'))) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  
+  document.getElementById('ostResultsCount').textContent = visibleCount;
+}
+
+// Mobile navigation toggle
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+</script>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: var(--neutral-100); border-bottom: 1px solid var(--neutral-200); height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-800); line-height: normal; color: var(--neutral-600); margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-150); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: var(--font-size-500); line-height: 16px; color: var(--neutral-500);"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: var(--spacing-small-250) 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: var(--spacing-small-250); align-items: center; cursor: pointer; transition: all 200ms ease-out;" onclick="toggleInviteMode()">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: var(--neutral-400); border-radius: 20px; padding: var(--spacing-micro-100); display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: var(--radius-circle); transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: var(--neutral-0); border-top: 1px solid var(--neutral-300); padding: var(--spacing-medium-600); display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

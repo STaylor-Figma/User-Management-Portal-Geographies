@@ -350,26 +350,25 @@ h1 {
   justify-content: center;
   background: transparent;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   cursor: pointer;
   transition: background 0.2s ease;
   position: relative;
 }
 
 .icon-btn:hover {
-  background: #e7e6e5;
+  background: var(--neutral-200);
 }
 
 .icon-btn:focus {
-  outline: none;
-  border: 2px solid #f2fafe;
-  box-shadow: 0px 0px 4px 0px #4a4f55;
+  outline: 2px solid var(--primary-500);
+  box-shadow: 0 0 4px var(--neutral-500);
 }
 
 .icon-btn i {
-  font-size: 18px;
-  color: #4a4f55;
-  line-height: 16px;
+  font-size: var(--font-size-500);
+  color: var(--neutral-500);
+  line-height: var(--line-height-medium);
 }
 
 /* Tooltip (Blueprint Component) */
@@ -404,7 +403,7 @@ h1 {
   align-items: flex-start;
   border-bottom: var(--tab-group-border-width) solid var(--tab-group-underline);
 }
-.tab { 
+.tab {
   padding: var(--tab-padding-vertical) var(--tab-padding-horizontal);
   background: transparent;
   border: none;
@@ -424,7 +423,11 @@ h1 {
 .tab:hover {
   color: var(--tab-text-color-hover);
 }
-.tab.active { 
+.tab:focus {
+  outline: var(--tab-border-width-focus) solid var(--tab-border-color-focus);
+  box-shadow: 0 0 4px var(--neutral-500);
+}
+.tab.active {
   font-weight: var(--tab-font-weight-selected);
   border-bottom-color: var(--tab-border-color-active);
   color: var(--tab-text-color-selected);
@@ -609,21 +612,43 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   gap: var(--spacing-micro-200); 
   align-items: center; 
 }
-.action-btn { 
-  padding: var(--spacing-micro-250) var(--spacing-small-300); 
-  background: var(--neutral-200); 
-  border: none; 
-  border-radius: var(--radius-sm); 
-  cursor: pointer; 
-  font-size: var(--font-size-150); 
-  font-weight: var(--font-weight-text-medium); 
-  transition: background 0.2s; 
-  color: var(--neutral-600); 
+.action-btn {
+  padding: var(--spacing-micro-250) var(--spacing-small-300);
+  background: transparent;
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-medium);
+  transition: all 0.2s ease-out;
+  color: var(--neutral-600);
+  font-family: var(--font-family-blueprintfont);
 }
-.action-btn:hover { background: var(--neutral-300); }
-.action-btn.add { color: var(--primary-500); }
-.action-btn.remove { color: var(--error-500); }
-.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.action-btn:hover {
+  background: rgba(136, 136, 142, 0.1);
+}
+.action-btn:focus {
+  outline: 2px solid var(--primary-500);
+  box-shadow: 0 0 4px var(--neutral-500);
+}
+.action-btn.add {
+  color: var(--primary-500);
+  border-color: var(--primary-500);
+}
+.action-btn.add:hover {
+  background: rgba(12, 121, 168, 0.1);
+}
+.action-btn.remove {
+  color: var(--error-500);
+  border-color: var(--error-500);
+}
+.action-btn.remove:hover {
+  background: rgba(183, 9, 0, 0.1);
+}
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 /* Subscription Card */
 .subscription-card { 
@@ -641,12 +666,12 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   color: var(--neutral-600); 
 }
 .subscription-subtitle { 
-  font-size: var(--font-size-150); 
+  font-size: var(--font-size-200); 
   color: var(--neutral-400); 
   margin-bottom: var(--spacing-micro-200); 
 }
 .seat-info { 
-  font-size: var(--font-size-150); 
+  font-size: var(--font-size-200); 
   margin-top: var(--spacing-small-300); 
   margin-bottom: var(--spacing-micro-200); 
   display: flex; 
@@ -1067,7 +1092,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   /* Table responsiveness */
   th, td { padding: var(--spacing-micro-200) var(--spacing-micro-150); }
   th { font-size: var(--font-size-100); }
-  td { font-size: var(--font-size-150); }
+  td { font-size: var(--font-size-200); }
 }
 
 /* Tablet Small: 600px */
@@ -1098,7 +1123,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   .zone-panel { padding: var(--spacing-small-300); }
   
   /* Buttons */
-  .btn { padding: var(--button-small-padding); height: var(--button-small-height); font-size: var(--font-size-150); }
+  .btn { padding: var(--button-small-padding); height: var(--button-small-height); font-size: var(--font-size-200); }
   
   /* Table */
   table { font-size: var(--font-size-100); }

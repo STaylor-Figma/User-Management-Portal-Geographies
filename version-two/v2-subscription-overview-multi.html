@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organization Overview - Multiple Subscriptions</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="../blueprint-table-styles.css">
+<style>
+/* Page-specific subscription card grid styles */
+.content { padding: 0 20px; }
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-medium-700); margin-bottom: 32px; box-sizing: border-box; }
+.subscription-card { background: #fff; border: 2px solid #424242; border-radius: var(--radius-md); padding: var(--spacing-medium-600); transition: all 0.2s; }
+.subscription-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); transform: translateY(-2px); cursor: pointer; transition: all 200ms ease-out; }
+.card-header { font-size: var(--font-size-400); font-weight: var(--font-weight-text-semibold); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+.alert { padding: var(--spacing-small-250) 12px; border-radius: var(--radius-sm); font-size: var(--font-size-300); margin-bottom: 16px; display: flex; align-items: center; gap: var(--spacing-micro-200); }
+.alert-error { background: #fee; border: 1px solid #fcc; color: #c00; }
+.alert-info { background: #eff8ff; border: 1px solid #cce5ff; color: #004085; }
+.alert-warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+.seat-row { display: flex; justify-content: space-between; align-items: center; font-size: var(--font-size-300); margin-bottom: 8px; }
+.seat-label { font-weight: var(--font-weight-text-medium); }
+.seat-count { color: #666; }
+.seat-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 12px; }
+.seat-fill { height: 100%; background: #424242; }
+.fill-starter { background: var(--primary-400); }
+.fill-pro { background: #459d13; }
+.zones-section { margin-top: 16px; }
+.zones-label { font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); color: #666; margin-bottom: 8px; }
+.zone-list { display: flex; flex-wrap: wrap; gap: var(--spacing-micro-200); }
+.zone-badge { padding: var(--spacing-micro-100) 10px; background: #f0f0f0; border-radius: 12px; font-size: var(--font-size-200); }
+.table-section { margin-top: 32px; background: #fff; border-radius: var(--radius-md); padding: var(--spacing-medium-700); overflow-x: auto; }
+
+/* Tablet - Below 768px */
+@media (max-width: 768px) {
+  /* Stack cards vertically */
+  .cards-grid { grid-template-columns: 1fr; gap: var(--spacing-small-400); }
+  .content { padding: 0 10px; }
+  
+  /* Hide username on smaller screens */
+  .user-menu span { display: none; }
+  
+  /* Make table scrollable */
+  .table-section { padding: var(--spacing-small-300); overflow-x: auto; }
+  .data-table { min-width: 800px; }
+  
+  /* Stack tabs if present */
+  .tabs { flex-wrap: wrap; }
+  .tab { font-size: var(--font-size-300); padding: var(--spacing-micro-150) 12px; }
+}
+
+/* Mobile - Below 600px */
+@media (max-width: 600px) {
+  /* Further reduce table padding */
+  .table-section { padding: var(--spacing-micro-200); }
+  
+  /* Adjust card content */
+  .subscription-card { padding: var(--spacing-small-300); }
+  .card-header { font-size: var(--font-size-300); }
+  
+  /* Smaller alerts */
+  .alert { font-size: var(--font-size-200); padding: var(--spacing-micro-200) 10px; }
+  
+  /* Smaller seat rows */
+  .seat-row { font-size: var(--font-size-200); }
+  
+  /* Smaller zone badges */
+  .zone-badge { font-size: var(--font-size-100); padding: 3px 8px; }
+}
+
+/* Drawer Styles */
+.drawer { position: fixed; top: 0; right: -1050px; width: 1050px; max-width: 90vw; height: 100%; background: white; box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2); padding: 0; overflow-y: auto; transition: right 0.3s ease-out; z-index: 9999; display: flex; flex-direction: column; }
+.drawer.show { right: 0; }
+.drawer.active { right: 0; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9998; }
+.drawer-overlay.show { display: block; }
+.drawer-overlay.active { display: block; }
+</style>
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles-multi.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles-multi.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-user-headset"></i>
+              <span class="tooltip">Support User</span>
+            </button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow-multi.html'">Project Intelligence</button>
+          <button class="tab" onclick="window.location.href='v2-bid-management-subscriptions-multi.html'">Bid Management</button>
+          <button class="tab" onclick="window.location.href='v2-takeoff-estimating-multi.html'">Takeoff & Estimating</button>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content">
+        
+        <!-- Subscription Cards -->
+        <div class="cards-grid">
+          
+          <!-- Project Intelligence Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-modify-users-workflow-multi.html'">
+            <div class="card-header">Project Intelligence</div>
+            
+            <div class="alert alert-error">⚠ You are currently out of Pro seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Project Intelligence Starter Seats</span>
+              <span class="seat-count">7/20 Used - 13 seats available</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill fill-starter" style="width: 35%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Project Intelligence Pro Seats</span>
+              <span class="seat-count">7/7 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill fill-pro" style="width: 100%"></div>
+            </div>
+            
+            <div class="zones-section">
+              <div class="zones-label">Available Market Zone(s)</div>
+              <div class="zone-list">
+                <div class="zone-badge">Alaska - Statewide</div>
+                <div class="zone-badge">IL - Chicago</div>
+                <div class="zone-badge">CA - Northern</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Management Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-bid-management-subscriptions-multi.html'">
+            <div class="card-header">Bid Management</div>
+            
+            <div class="alert alert-info">ℹ You have plenty of available seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Seats</span>
+              <span class="seat-count">4/20 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 20%"></div>
+            </div>
+            
+            <div class="zones-section">
+              <div class="zones-label">Core Features</div>
+              <div style="font-size: var(--font-size-200); color: #666; display: flex; flex-direction: column; gap: 4px;">
+                <div>Create projects</div>
+                <div>Send, Manage, Monitor ITBs</div>
+                <div>Monitor Coverage</div>
+                <div>Bid Evaluation</div>
+                <div>Document Management</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Takeoff & Estimating Card -->
+          <div class="subscription-card" onclick="window.location.href='v2-takeoff-estimating-multi.html'">
+            <div class="card-header">Takeoff & Estimating</div>
+            
+            <div class="alert alert-warning">⚠ You are running low on Quick Bid seats.</div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Web Takeoff with AI</span>
+              <span class="seat-count">4/10 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 40%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">OnScreen Takeoff with AI</span>
+              <span class="seat-count">4/10 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 40%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">Onscreen Takeoff with AI & Quick Bid</span>
+              <span class="seat-count">4/5 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 80%"></div>
+            </div>
+            
+            <div class="seat-row">
+              <span class="seat-label">PlanViewer</span>
+              <span class="seat-count">4/5 Used</span>
+            </div>
+            <div class="seat-bar">
+              <div class="seat-fill" style="width: 80%"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- User Table Section -->
+        <div class="table-section">
+          
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="filters">
+              <select class="filter-btn" id="subscriptionFilter" onchange="filterTable()">
+                <option value="">Show All Subscriptions</option>
+                <option value="Project Intelligence">Project Intelligence</option>
+                <option value="Bid Management">Bid Management</option>
+                <option value="Takeoff">Takeoff & Estimating</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+              <select class="filter-btn" id="roleFilter" onchange="filterTable()">
+                <option value="">Show All Roles</option>
+                <option value="BM - Admin">BM - Admin</option>
+                <option value="BM - Team Member">BM - Team Member</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+              <select class="filter-btn" id="groupFilter" onchange="filterTable()">
+                <option value="">Show All Groups</option>
+                <option value="Estimator">Estimator</option>
+                <option value="Not Assigned">Not Assigned</option>
+              </select>
+            </div>
+            <button class="search-btn"><i class="fal fa-search"></i></button>
+          </div>
+
+          <!-- User Table -->
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Project Intelligence</th>
+                <th>Bid Management</th>
+                <th>Takeoff & Estimating</th>
+                <th>Last Access Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Malcom Reynolds')" class="user-link">Malcom Reynolds</a>
+                      <span class="user-badge">OWNER</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access<span class="pill-counter">PRO</span></span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('River Tam')" class="user-link">River Tam</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Chief Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">BM - Admin</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Zoe Washburne')" class="user-link">Zoe Washburne</a>
+                      <span class="user-badge">ADMIN</span>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Modified<span class="pill-counter">PRO</span></span>
+                </td>
+                <td>
+                  <span class="pill">BM - Team Member</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Kaylee Fry')" class="user-link">Kaylee Fry</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Modified<span class="pill-counter">123</span></span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <div class="user-name">
+                    <div>
+                      <a onclick="openUserProfileDrawer('Simon Tam')" class="user-link">Simon Tam</a>
+                    </div>
+                    <div class="user-role">
+                      <span>👤</span>
+                      <span>Estimator</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="pill">Full Access</span>
+                </td>
+                <td>
+                  <span class="pill">Not Assigned</span>
+                </td>
+                <td>
+                  <span class="pill">Estimator<span class="pill-counter">123</span></span>
+                </td>
+                <td>March 12, 2025</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Table Footer -->
+          <div class="table-footer">
+            <div class="rows-per-page">
+              <span>Rows per page</span>
+              <select class="rows-select">
+                <option>50</option>
+                <option>25</option>
+                <option>10</option>
+              </select>
+            </div>
+            <div class="page-nav">
+              <span class="page-info">1-5 of 5</span>
+              <button class="page-btn" disabled><i class="fal fa-chevron-left"></i></button>
+              <button class="page-btn"><i class="fal fa-chevron-right"></i></button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- User Profile Drawer -->
+<div id="userProfileDrawer" class="drawer">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2 style="margin: 0;">User Profile Summary</h2>
+    <button onclick="closeUserProfileDrawer()" style="background: none; border: none; font-size: var(--font-size-800); cursor: pointer; transition: all 200ms ease-out; color: #666;">✕</button>
+  </div>
+  
+  <div style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">👤</div>
+    <h3 id="userProfileName" style="margin-bottom: 16px; color: #424242;"></h3>
+    <p style="color: #666; line-height: 1.6; margin-bottom: 24px;">
+      User profile details coming soon
+    </p>
+    <p style="color: #999; font-size: var(--font-size-300);">
+      This will display comprehensive user information including role, permissions, subscription details, and activity history.
+    </p>
+  </div>
+  
+  <div style="margin-top: 32px; text-align: center;">
+    <button onclick="closeUserProfileDrawer()" class="btn-primary">Close</button>
+  </div>
+</div>
+
+<!-- User Profile Drawer Overlay -->
+<div id="userProfileOverlay" class="drawer-overlay" onclick="closeUserProfileDrawer()"></div>
+
+<script>
+// Open user profile drawer
+function openUserProfileDrawer(userName) {
+  document.getElementById('userProfileName').textContent = userName;
+  document.getElementById('userProfileDrawer').classList.add('show');
+  document.getElementById('userProfileOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfileDrawer() {
+  document.getElementById('userProfileDrawer').classList.remove('show');
+  document.getElementById('userProfileOverlay').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+// Table filtering
+function filterTable() {
+  const subscriptionFilter = document.getElementById('subscriptionFilter').value;
+  const roleFilter = document.getElementById('roleFilter').value;
+  const groupFilter = document.getElementById('groupFilter').value;
+  
+  const rows = document.querySelectorAll('.user-table tbody tr');
+  
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const projectIntelText = cells[1]?.textContent.trim() || '';
+    const bidMgmtText = cells[2]?.textContent.trim() || '';
+    const takeoffText = cells[3]?.textContent.trim() || '';
+    
+    // Check if subscription is assigned
+    let subscriptionMatch = !subscriptionFilter;
+    if (subscriptionFilter) {
+      if (subscriptionFilter === 'Not Assigned') {
+        subscriptionMatch = projectIntelText.includes('Not Assigned') ||
+                            bidMgmtText.includes('Not Assigned') ||
+                            takeoffText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Project Intelligence') {
+        subscriptionMatch = !projectIntelText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Bid Management') {
+        subscriptionMatch = !bidMgmtText.includes('Not Assigned');
+      } else if (subscriptionFilter === 'Takeoff') {
+        subscriptionMatch = !takeoffText.includes('Not Assigned');
+      }
+    }
+    
+    const roleMatch = !roleFilter || bidMgmtText.includes(roleFilter);
+    const groupMatch = !groupFilter || takeoffText.split(/\d+/)[0].trim().includes(groupFilter);
+    
+    if (subscriptionMatch && roleMatch && groupMatch) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+
+<script>
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+</script>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: var(--neutral-100); border-bottom: 1px solid var(--neutral-200); height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-800); line-height: normal; color: var(--neutral-600); margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-150); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: var(--font-size-500); line-height: 16px; color: var(--neutral-500);"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: var(--spacing-small-250) 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: var(--spacing-small-250); align-items: center; cursor: pointer; transition: all 200ms ease-out;" onclick="toggleInviteMode()">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: var(--neutral-400); border-radius: 20px; padding: var(--spacing-micro-100); display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: var(--radius-circle); transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: var(--neutral-0); border-top: 1px solid var(--neutral-300); padding: var(--spacing-medium-600); display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

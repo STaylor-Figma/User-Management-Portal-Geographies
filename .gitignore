@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Test results
+test-results/
+playwright-report/
+
+# OS files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Editor directories
+.vscode/
+.idea/
+
+# Backup files
+*.backup

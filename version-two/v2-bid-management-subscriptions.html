@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bid Management - Subscriptions & Licenses</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* Page-specific overrides for Blueprint Design System */
+
+/* Content Area */
+.content { padding: 0 20px; }
+
+/* Tabs - Matches Figma exactly */
+.tabs { display: flex; gap: var(--spacing-medium-600); border-bottom: 2px solid var(--neutral-300); margin-bottom: 20px; overflow: clip; padding-right: 10px; }
+.tab { padding: var(--spacing-small-250) 2px; font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); font-family: var(--font-family-blueprintfont); color: var(--neutral-600); background: none; border: none; border-bottom: 4px solid transparent; cursor: pointer; transition: all 200ms ease-out; transition: none; line-height: 16px; }
+.tab:hover { color: var(--neutral-600); }
+.tab.active { font-weight: var(--font-weight-text-bold); border-bottom-color: var(--neutral-600); color: var(--neutral-600); font-family: var(--font-family-blueprintfont); }
+
+/* Subscription Capacity Bar */
+.capacity-section { display: flex; align-items: center; padding-right: 10px; flex-shrink: 0; width: 312px; }
+.capacity-container { display: flex; flex-direction: column; width: 100%; }
+.capacity-header { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 5px; font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); font-family: var(--font-family-blueprintfont); color: var(--neutral-600); line-height: 14px; }
+.capacity-used { text-align: right; width: 80px; }
+.capacity-bar { width: 100%; height: 20px; background: var(--primary-10); border: 1px solid var(--neutral-300); border-radius: 15px; padding: var(--spacing-micro-100); position: relative; }
+.capacity-fill { height: 100%; background: var(--primary-400); border-radius: 100px; transition: width 0.3s ease; }
+
+/* Table Controls - Matches Figma exactly */
+.table-controls { display: flex; justify-content: space-between; align-items: flex-start; padding: var(--spacing-small-250) 0; }
+.table-controls-left { display: flex; flex: 1; gap: var(--spacing-small-250); align-items: flex-start; min-height: 1px; min-width: 1px; }
+.filters { display: flex; gap: var(--spacing-small-250); align-items: center; }
+.filter-btn { padding: var(--spacing-micro-200); border: 1px solid var(--neutral-500); background: transparent; border-radius: var(--radius-sm); font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); font-family: var(--font-family-blueprintfont); color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out; display: flex; flex-direction: column; gap: 3px; align-items: flex-start; height: 32px; justify-content: center; position: relative; }
+.filter-btn::before { content: ''; position: absolute; inset: -1px; opacity: 0.1; }
+.filter-btn-content { display: flex; gap: var(--spacing-micro-150); align-items: center; height: 16px; }
+.filter-btn:hover { background: rgba(74, 79, 85, 0.05); }
+.filter-btn i { font-size: var(--font-size-300); line-height: 16px; }
+.table-controls-right { display: flex; gap: var(--spacing-micro-150); align-items: flex-start; justify-content: flex-end; }
+.search-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-500); padding: 3px; }
+.search-btn:hover { background: #f0f0f0; }
+
+/* BM Table - Matches Figma exactly */
+.bm-table { width: 100%; border-collapse: collapse; background: #fff; }
+.bm-table thead { background: #fff; position: sticky; top: 0; }
+.bm-table thead tr { height: 40px; background: #fff; }
+.bm-table th { text-align: left; padding: var(--spacing-small-250); font-size: var(--font-size-200); font-weight: var(--font-weight-text-semibold); font-family: var(--font-family-blueprintfont); color: var(--neutral-500); line-height: 12px; position: relative; vertical-align: middle; }
+.bm-table thead tr::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0px -2px 0px 0px var(--neutral-500); }
+.bm-table tbody tr { background: #fff; position: relative; height: 36px; }
+.bm-table td { padding: var(--spacing-small-250); font-size: var(--font-size-300); font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); color: var(--neutral-500); line-height: 16px; letter-spacing: -0.28px; vertical-align: top; }
+.bm-table tbody tr::after { content: ''; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0px -1px 0px 0px var(--neutral-300); }
+.bm-table tbody tr:hover { background: #f9f9f9; }
+
+/* Checkbox Column */
+.checkbox-cell { width: 34px; padding: var(--spacing-small-250) !important; vertical-align: top; }
+.checkbox { width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out; margin: 0; }
+
+/* User Name Column */
+.user-name-cell { width: 192px; }
+.user-name { display: flex; align-items: center; gap: var(--spacing-micro-200); white-space: nowrap; }
+.user-link { color: #185a7d; text-decoration: underline; text-decoration-style: solid; font-size: var(--font-size-300); font-weight: var(--font-weight-text-medium); cursor: pointer; transition: all 200ms ease-out; font-family: var(--font-family-blueprintfont); line-height: 18px; white-space: nowrap; }
+.user-link:hover { text-decoration: underline; }
+.role-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; color: #fff; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-bold); font-family: var(--font-family-blueprintfont); line-height: 14px; flex-shrink: 0; }
+.role-badge.owner { background: var(--neutral-400); }
+.role-badge.admin { background: var(--neutral-400); }
+
+/* Access Badge */
+.access-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-bold); font-family: var(--font-family-blueprintfont); line-height: 14px; }
+.access-badge.bm { background: #00a651; color: white; }
+.access-badge.requested { background: var(--neutral-500); color: white; }
+.access-badge.na { background: var(--neutral-200); color: var(--neutral-500); font-weight: var(--font-weight-text-medium); }
+
+/* Status Badge */
+.status-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-bold); font-family: var(--font-family-blueprintfont); line-height: 14px; border: none; }
+.status-badge.active { background: #d4edda; color: #155724; }
+.status-badge.inactive { background: #f5a623; color: var(--neutral-600); }
+.status-badge.na { background: transparent; color: var(--neutral-500); font-weight: var(--font-weight-text-medium); }
+
+/* Toggle Switch - Blueprint Design System */
+.toggle-switch { position: relative; display: inline-block; width: 54px; height: 26px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.toggle-slider { position: absolute; cursor: pointer; transition: all 200ms ease-out; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--neutral-400, var(--neutral-400)); border-radius: var(--radius-xl, 9999px); transition: background-color 0.2s ease-in-out; padding: 3px; }
+.toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: var(--neutral-0, white); border-radius: var(--radius-circle); transition: transform 0.2s ease-in-out; }
+.toggle-switch input:checked + .toggle-slider { background-color: var(--primary-400, var(--primary-400)); }
+.toggle-switch input:checked + .toggle-slider:before { transform: translateX(28px); }
+.toggle-switch input:disabled + .toggle-slider { opacity: var(--opacity-030, 0.3); cursor: not-allowed; }
+.toggle-slider:hover { background-color: var(--neutral-500, var(--neutral-500)); }
+.toggle-switch input:checked + .toggle-slider:hover { background-color: var(--primary-600, #185a7d); }
+
+/* Table Footer */
+.table-footer { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing-small-250) 0; border-top: 1px solid var(--neutral-300); margin-top: 8px; }
+.results-count { font-size: var(--font-size-300); color: var(--neutral-500); display: flex; align-items: center; gap: 5px; font-family: 'Gotham', sans-serif; }
+.results-count strong { font-weight: var(--font-weight-text-bold); }
+.pagination-controls { display: flex; gap: var(--spacing-medium-600); align-items: center; }
+.rows-per-page { display: flex; align-items: center; gap: var(--spacing-micro-150); font-size: var(--font-size-300); color: var(--neutral-500); font-family: 'Gotham', sans-serif; }
+.rows-select { padding: 7px 10px; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); font-size: var(--font-size-300); color: var(--neutral-400); font-style: italic; font-family: 'Gotham', sans-serif; background: #fff; width: 112px; }
+.page-nav { display: flex; align-items: center; gap: var(--spacing-micro-150); }
+.page-info { font-size: var(--font-size-300); color: var(--neutral-500); font-family: 'Gotham', sans-serif; }
+.page-btn { width: 32px; height: 32px; border: none; background: none; cursor: pointer; transition: all 200ms ease-out; font-size: var(--font-size-500); color: var(--neutral-500); border-radius: var(--radius-circle); padding: var(--spacing-small-250); display: flex; align-items: center; justify-content: center; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-btn:not(:disabled):hover { background: #f0f0f0; }
+
+/* ============================================ */
+/* MODAL SYSTEM */
+/* ============================================ */
+
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 9998; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal { background: #fff; border-radius: var(--radius-md); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; position: relative; z-index: 9999; }
+.modal.small { width: 400px; }
+.modal.medium { width: 600px; }
+.modal.large { width: 800px; }
+.modal-header { padding: var(--spacing-medium-600) 24px; border-bottom: 1px solid var(--neutral-300); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.modal-title { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-600); font-weight: var(--font-weight-text-semibold); color: var(--neutral-600); margin: 0; }
+.modal-close { background: none; border: none; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-100); width: 32px; height: 32px; border-radius: var(--radius-circle); display: flex; align-items: center; justify-content: center; color: var(--neutral-500); font-size: var(--font-size-600); }
+.modal-close:hover { background: #f0f0f0; }
+.modal-body { padding: var(--spacing-medium-700); overflow-y: auto; flex: 1; }
+.modal-footer { padding: var(--spacing-small-400) 24px; border-top: 1px solid var(--neutral-300); display: flex; gap: var(--spacing-small-300); justify-content: flex-end; flex-shrink: 0; }
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); font-weight: var(--font-weight-text-semibold); color: var(--neutral-500); margin-bottom: 8px; }
+.form-select { width: 100%; padding: var(--spacing-small-250) 12px; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-600); background: #fff; }
+.modal-warning { padding: var(--spacing-small-300) 16px; background: #fff3cd; border-left: 4px solid #f5a623; border-radius: var(--radius-sm); margin-bottom: 20px; }
+.modal-warning-text { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #856404; line-height: 1.4; }
+.modal-info { padding: var(--spacing-small-300) 16px; background: #d1ecf1; border-left: 4px solid #0c5460; border-radius: var(--radius-sm); margin-bottom: 20px; }
+.modal-info-text { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #0c5460; line-height: 1.4; }
+.role-options { display: flex; flex-direction: column; gap: var(--spacing-micro-200); }
+.role-option { padding: var(--spacing-small-300) 16px; border: 2px solid var(--neutral-300); border-radius: var(--radius-sm); cursor: pointer; transition: all 200ms ease-out; transition: all 0.2s; }
+.role-option:hover { border-color: var(--primary-400); background: #f2fafe; }
+.role-option.selected { border-color: var(--primary-400); background: #e6f7ff; }
+.role-option-name { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); font-weight: var(--font-weight-text-semibold); color: var(--neutral-600); margin-bottom: 4px; }
+.role-option-desc { font-family: var(--font-family-blueprintfont); font-size: var(--font-size-200); color: var(--neutral-500); line-height: 1.4; }
+.role-option-note { margin-top: 6px; padding: var(--spacing-micro-200); background: #fff3cd; border-left: 3px solid #f5a623; font-family: var(--font-family-blueprintfont); font-size: var(--font-size-200); color: #856404; font-style: italic; }
+.summary-list { background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400); }
+.summary-item { display: flex; justify-content: space-between; padding: var(--spacing-micro-200) 0; border-bottom: 1px solid var(--neutral-300); font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); }
+.summary-item:last-child { border-bottom: none; }
+.summary-label { color: var(--neutral-500); font-weight: var(--font-weight-text-medium); }
+.summary-value { color: var(--neutral-600); font-weight: var(--font-weight-text-semibold); }
+</style>
+</head>
+<body>
+
+<!-- Top Bar - Desktop/Tablet Responsive -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button selected" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Desktop >1024px) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button selected" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      
+      <!-- Header & Tabs -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Subscriptions & Licenses</h1>
+          <div class="header-icons">
+            <button class="icon-btn" onclick="openInviteDrawer()">
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="tooltip">Invite User</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span class="tooltip">History</span>
+            </button>
+            <button class="icon-btn">
+              <i class="fa-solid fa-ellipsis"></i>
+              <span class="tooltip">More</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
+          <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
+          <button class="tab active">Bid Management</button>
+          <button class="tab" onclick="window.location.href='v2-takeoff-estimating.html'">Takeoff & Estimating</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Page Content -->
+        <div class="page-content">
+        <!-- Table Controls -->
+        <div class="table-controls">
+          <div class="table-controls-left">
+            <!-- Subscription Capacity Bar -->
+            <div class="capacity-section">
+              <div class="capacity-container">
+                <div class="capacity-header">
+                  <span>Bid Management Seats</span>
+                  <span class="capacity-used" id="capacityUsed">9/20 Used</span>
+                </div>
+                <div class="capacity-bar">
+                  <div class="capacity-fill" id="capacityFill" style="width: 45%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="filters">
+              <button class="btn-primary" id="authorizeBtn" disabled onclick="bulkAuthorize()">Authorize</button>
+              <button class="btn-secondary" id="deauthorizeBtn" disabled onclick="bulkDeauthorize()">Deauthorize</button>
+              <select class="filter-btn" id="bmRoleFilter" onchange="filterByRole()">
+                <option value="">All Bid Management Roles</option>
+                <option value="Company Admin">Company Admin</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Bid Coordinator">Bid Coordinator</option>
+                <option value="Estimator">Estimator</option>
+                <option value="PQ Analyst">PQ Analyst</option>
+                <option value="Team Member">Team Member</option>
+                <option value="Intern">Intern</option>
+                <option value="">────────────</option>
+                <option value="Senior Estimator">Senior Estimator (Custom)</option>
+                <option value="">────────────</option>
+                <option value="No Role">No Role Assigned</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-controls-right">
+            <button class="search-btn">
+              <i class="fa-regular fa-search"></i>
+            </button>
+            <button class="btn-default" onclick="showSubscriptionDetails()">Subscription Details</button>
+          </div>
+        </div>
+
+        <!-- User Assignment Table -->
+        <div class="table-container">
+          <table class="bm-table">
+            <thead>
+              <tr>
+                <th class="checkbox-cell"><input type="checkbox" class="checkbox" id="selectAll"></th>
+                <th class="user-name-cell">User Name</th>
+                <th>Bid Management Role</th>
+                <th>Access</th>
+                <th>User Status</th>
+                <th>Authorized</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1: Malcom Reynolds - OWNER, No BM Access -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Malcom Reynolds</a>
+                    <span class="role-badge owner">OWNER</span>
+                  </div>
+                </td>
+                <td>-</td>
+                <td><span class="access-badge na">N/A</span></td>
+                <td><span class="status-badge na">N/A</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 2: River Tam - OWNER, Bid Coordinator, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">River Tam</a>
+                    <span class="role-badge owner">OWNER</span>
+                  </div>
+                </td>
+                <td>Bid Coordinator</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 3: Zoe Washburne - ADMIN, Estimator, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Zoe Washburne</a>
+                    <span class="role-badge admin">ADMIN</span>
+                  </div>
+                </td>
+                <td>Estimator</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 4: Kaylee Frye - Estimator, Inactive -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Kaylee Frye</a>
+                  </div>
+                </td>
+                <td>Estimator</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge inactive">Inactive</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 5: Simon Tam - Team Member, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Simon Tam</a>
+                  </div>
+                </td>
+                <td>Team Member</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 6: Hoban Washburne - Project Manager, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Hoban Washburne</a>
+                  </div>
+                </td>
+                <td>Project Manager</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 7: Inara Serra - PQ Analyst, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Inara Serra</a>
+                  </div>
+                </td>
+                <td>PQ Analyst</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 8: Shepherd Book - Intern, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Shepherd Book</a>
+                  </div>
+                </td>
+                <td>Intern</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 9: Derrial Book - Senior Estimator (Custom), Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Derrial Book</a>
+                  </div>
+                </td>
+                <td>Senior Estimator</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 10: Saffron - Company Admin, Active -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Saffron</a>
+                  </div>
+                </td>
+                <td>Company Admin</td>
+                <td><span class="access-badge bm">YES</span></td>
+                <td><span class="status-badge active">Active</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+
+              <!-- Row 11: Jayne Cobb - Requested Access -->
+              <tr>
+                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="user-name-cell">
+                  <div class="user-name">
+                    <a href="#" class="user-link">Jayne Cobb</a>
+                  </div>
+                </td>
+                <td>-</td>
+                <td><span class="access-badge requested">Requested</span></td>
+                <td><span class="status-badge na">N/A</span></td>
+                <td>
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Footer -->
+        <div class="table-footer">
+          <div class="results-count">
+            <strong>11</strong> Results Found
+          </div>
+          <div class="pagination-controls">
+            <div class="rows-per-page">
+              <span>Rows per page</span>
+              <select class="rows-select">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="page-nav">
+              <span class="page-info">1-11 of 11</span>
+              <button class="page-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
+              <button class="page-btn" disabled><i class="fa-regular fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Toggle mobile navigation
+function toggleMobileNav() {
+  const menu = document.querySelector('.hamburger-menu');
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  
+  menu.classList.toggle('active');
+  nav.classList.toggle('show');
+  overlay.classList.toggle('show');
+}
+
+// Select All Checkbox
+document.getElementById('selectAll').addEventListener('change', function(e) {
+  const checkboxes = document.querySelectorAll('.row-checkbox');
+  checkboxes.forEach(cb => cb.checked = e.target.checked);
+  updateActionButtons();
+});
+
+// Row Checkboxes
+document.querySelectorAll('.row-checkbox').forEach(cb => {
+  cb.addEventListener('change', updateActionButtons);
+});
+
+// Update Authorize/Deauthorize button states
+function updateActionButtons() {
+  const selected = Array.from(document.querySelectorAll('.row-checkbox:checked'));
+  const authorizeBtn = document.getElementById('authorizeBtn');
+  const deauthorizeBtn = document.getElementById('deauthorizeBtn');
+  
+  // Enable Authorize if any unchecked toggles are selected
+  const canAuthorize = selected.some(cb => {
+    const row = cb.closest('tr');
+    const toggle = row.querySelector('.toggle-input');
+    return !toggle.checked;
+  });
+  
+  // Enable Deauthorize if any checked toggles are selected
+  const canDeauthorize = selected.some(cb => {
+    const row = cb.closest('tr');
+    const toggle = row.querySelector('.toggle-input');
+    return toggle.checked;
+  });
+  
+  authorizeBtn.disabled = !canAuthorize;
+  deauthorizeBtn.disabled = !canDeauthorize;
+}
+
+// Toggle switches
+document.querySelectorAll('.toggle-input').forEach(toggle => {
+  toggle.addEventListener('change', function() {
+    // Update capacity bar
+    const totalSeats = 20;
+    const usedSeats = document.querySelectorAll('.toggle-input:checked').length;
+    const percentage = (usedSeats / totalSeats) * 100;
+    
+    document.getElementById('capacityUsed').textContent = `${usedSeats}/${totalSeats} Used`;
+    document.getElementById('capacityFill').style.width = `${percentage}%`;
+    
+    // Update access and status badges
+    const row = this.closest('tr');
+    const accessBadge = row.querySelector('.access-badge');
+    const statusBadge = row.querySelector('.status-badge');
+    const roleCell = row.querySelectorAll('td')[2];
+    
+    if (this.checked) {
+      // Authorized
+      accessBadge.className = 'access-badge bm';
+      accessBadge.textContent = 'YES';
+      statusBadge.className = 'status-badge active';
+      statusBadge.textContent = 'Active';
+    } else {
+      // Deauthorized
+      accessBadge.className = 'access-badge na';
+      accessBadge.textContent = 'N/A';
+      statusBadge.className = 'status-badge na';
+      statusBadge.textContent = 'N/A';
+      roleCell.textContent = '-';
+    }
+  });
+});
+
+// Role filter function
+function filterByRole() {
+  const filter = document.getElementById('bmRoleFilter').value;
+  const rows = document.querySelectorAll('.bm-table tbody tr');
+  let visibleCount = 0;
+  
+  rows.forEach(row => {
+    const roleCell = row.querySelectorAll('td')[2];
+    const roleText = roleCell.textContent.trim();
+    
+    if (!filter || roleText === filter || (filter === 'No Role' && roleText === '-')) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  
+  document.querySelector('.results-count strong').textContent = visibleCount;
+}
+
+// Initialize button states
+updateActionButtons();
+
+// Modal Functions
+function showSubscriptionDetails() {
+  document.getElementById('subscriptionDetailsModal').classList.remove('hide');
+}
+
+function authorizeUser(userId, userName) {
+  // Store user info for modal
+  window.currentAuthUser = { id: userId, name: userName };
+  document.getElementById('authUserName').textContent = userName;
+  document.getElementById('authorizeModal').classList.remove('hide');
+}
+
+function bulkAuthorize() {
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  if (selected.length === 0) return;
+  
+  const userNames = Array.from(selected).map(cb => {
+    const row = cb.closest('tr');
+    return row.cells[1].textContent.trim();
+  });
+  
+  document.getElementById('bulkAuthCount').textContent = selected.length;
+  document.getElementById('bulkAuthList').innerHTML = userNames.map(name => 
+    `<div class="checkbox-list-item"><i class="fa-solid fa-user" style="color: var(--neutral-400); margin-right: 8px;"></i>${name}</div>`
+  ).join('');
+  
+  document.getElementById('bulkAuthorizeModal').classList.remove('hide');
+}
+
+function bulkDeauthorize() {
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  if (selected.length === 0) return;
+  
+  const userNames = Array.from(selected).map(cb => {
+    const row = cb.closest('tr');
+    return row.cells[1].textContent.trim();
+  });
+  
+  document.getElementById('bulkDeauthCount').textContent = selected.length;
+  document.getElementById('bulkDeauthList').innerHTML = userNames.map(name => 
+    `<div class="checkbox-list-item"><i class="fa-solid fa-user" style="color: var(--neutral-400); margin-right: 8px;"></i>${name}</div>`
+  ).join('');
+  
+  document.getElementById('bulkDeauthorizeModal').classList.remove('hide');
+}
+
+function changeUserRole(userId, userName, currentRole) {
+  window.currentRoleChange = { id: userId, name: userName, current: currentRole };
+  document.getElementById('changeRoleUserName').textContent = userName;
+  document.getElementById('changeRoleCurrentRole').textContent = currentRole;
+  document.getElementById('changeRoleModal').classList.remove('hide');
+}
+
+function reassignSeat(userId, userName, currentRole) {
+  // Simulate finding users who would be deauthorized
+  window.currentReassign = { id: userId, name: userName, role: currentRole };
+  document.getElementById('reassignUserName').textContent = userName;
+  document.getElementById('reassignRole').textContent = currentRole;
+  document.getElementById('reassignSeatModal').classList.remove('hide');
+}
+
+function confirmAuthorize() {
+  const role = document.getElementById('authRoleSelect').value;
+  if (!role) {
+    alert('Please select a role');
+    return;
+  }
+  
+  console.log('Authorizing user:', window.currentAuthUser.name, 'with role:', role);
+  // Update UI would happen here
+  closeModal('authorizeModal');
+}
+
+function confirmBulkAuthorize() {
+  const role = document.getElementById('bulkAuthRoleSelect').value;
+  if (!role) {
+    alert('Please select a role');
+    return;
+  }
+  
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  console.log('Bulk authorizing', selected.length, 'users with role:', role);
+  // Update UI would happen here
+  closeModal('bulkAuthorizeModal');
+}
+
+function confirmBulkDeauthorize() {
+  const selected = document.querySelectorAll('.user-row-checkbox:checked');
+  console.log('Bulk deauthorizing', selected.length, 'users');
+  // Update UI would happen here
+  closeModal('bulkDeauthorizeModal');
+}
+
+function confirmChangeRole() {
+  const newRole = document.getElementById('newRoleSelect').value;
+  if (!newRole) {
+    alert('Please select a new role');
+    return;
+  }
+  
+  console.log('Changing role for', window.currentRoleChange.name, 'from', window.currentRoleChange.current, 'to', newRole);
+  // Update UI would happen here
+  closeModal('changeRoleModal');
+}
+
+function confirmReassign() {
+  console.log('Reassigning seat to', window.currentReassign.name, 'with role', window.currentReassign.role);
+  // Update UI would happen here
+  closeModal('reassignSeatModal');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.add('hide');
+}
+</script>
+
+<!-- Invite Drawer JavaScript -->
+<script src="../invite-drawer.js"></script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: var(--neutral-100); border-bottom: 1px solid var(--neutral-200); height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-800); line-height: normal; color: var(--neutral-600); margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-150); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: var(--font-size-500); line-height: 16px; color: var(--neutral-500);"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: var(--spacing-small-250) 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: var(--spacing-small-250); align-items: center; cursor: pointer; transition: all 200ms ease-out;" onclick="toggleInviteMode()">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: var(--neutral-400); border-radius: 20px; padding: var(--spacing-micro-100); display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: var(--radius-circle); transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      <!-- Content loaded dynamically by JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: var(--neutral-0); border-top: 1px solid var(--neutral-300); padding: var(--spacing-medium-600); display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Authorize User Modal -->
+<div class="modal-overlay hide" id="authorizeModal">
+  <div class="modal-dialog" style="max-width: 500px;">
+    <div class="modal-header">
+      <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-600); color: var(--neutral-600); margin: 0;">Authorize User</h2>
+      <button class="modal-close" onclick="closeModal('authorizeModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin-bottom: 20px;">
+        Authorize <strong id="authUserName"></strong> for Bid Management and assign a role:
+      </p>
+      
+      <div class="form-row">
+        <label class="form-label">Role <span style="color: #d32f2f;">*</span></label>
+        <select id="authRoleSelect" class="modal-input">
+          <option value="">Select a role...</option>
+          <option value="Company Admin">Company Admin</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Bid Coordinator">Bid Coordinator</option>
+          <option value="Estimator">Estimator</option>
+          <option value="PQ Analyst">PQ Analyst</option>
+          <option value="Team Member">Team Member</option>
+          <option value="Intern">Intern</option>
+          <option value="" disabled>──────────</option>
+          <option value="Senior Estimator">Senior Estimator (Custom)</option>
+        </select>
+      </div>
+      
+      <div style="background: #f2fafe; border-left: 3px solid var(--primary-400); padding: var(--spacing-small-300); border-radius: var(--radius-sm); margin-top: 16px;">
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin: 0;">
+          <i class="fa-solid fa-circle-info" style="color: var(--primary-400); margin-right: 6px;"></i>
+          This will consume 1 seat from your Bid Management subscription (9/20 used).
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('authorizeModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmAuthorize()">Authorize User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Authorize Modal -->
+<div class="modal-overlay hide" id="bulkAuthorizeModal">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-600); color: var(--neutral-600); margin: 0;">Bulk Authorize Users</h2>
+      <button class="modal-close" onclick="closeModal('bulkAuthorizeModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin-bottom: 16px;">
+        Authorize <strong id="bulkAuthCount"></strong> users for Bid Management and assign them all the same role:
+      </p>
+      
+      <div class="form-row">
+        <label class="form-label">Role <span style="color: #d32f2f;">*</span></label>
+        <select id="bulkAuthRoleSelect" class="modal-input">
+          <option value="">Select a role...</option>
+          <option value="Company Admin">Company Admin</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Bid Coordinator">Bid Coordinator</option>
+          <option value="Estimator">Estimator</option>
+          <option value="PQ Analyst">PQ Analyst</option>
+          <option value="Team Member">Team Member</option>
+          <option value="Intern">Intern</option>
+          <option value="" disabled>──────────</option>
+          <option value="Senior Estimator">Senior Estimator (Custom)</option>
+        </select>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Users to Authorize</div>
+        <div class="checkbox-list" id="bulkAuthList" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-micro-200);">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div style="background: #fffbea; border-left: 3px solid #f59e0b; padding: var(--spacing-small-300); border-radius: var(--radius-sm); margin-top: 16px;">
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin: 0;">
+          <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; margin-right: 6px;"></i>
+          This will consume <strong id="bulkAuthCount2"></strong> seats from your Bid Management subscription.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('bulkAuthorizeModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmBulkAuthorize()">Authorize All</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Deauthorize Modal -->
+<div class="modal-overlay hide" id="bulkDeauthorizeModal">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-600); color: var(--neutral-600); margin: 0;">Deauthorize Users</h2>
+      <button class="modal-close" onclick="closeModal('bulkDeauthorizeModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin-bottom: 16px;">
+        Are you sure you want to deauthorize <strong id="bulkDeauthCount"></strong> users from Bid Management?
+      </p>
+      
+      <div class="modal-section">
+        <div class="section-title">Users to Deauthorize</div>
+        <div class="checkbox-list" id="bulkDeauthList" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-micro-200);">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div style="background: #fee; border-left: 3px solid #d32f2f; padding: var(--spacing-small-300); border-radius: var(--radius-sm); margin-top: 16px;">
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin: 0;">
+          <i class="fa-solid fa-circle-exclamation" style="color: #d32f2f; margin-right: 6px;"></i>
+          These users will lose access to Bid Management immediately. This action can be reversed.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('bulkDeauthorizeModal')">Cancel</button>
+      <button class="btn-secondary" style="background: #d32f2f; color: white;" onclick="confirmBulkDeauthorize()">Deauthorize All</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change Role Modal -->
+<div class="modal-overlay hide" id="changeRoleModal">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-header">
+      <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-600); color: var(--neutral-600); margin: 0;">Change User Role</h2>
+      <button class="modal-close" onclick="closeModal('changeRoleModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin-bottom: 16px;">
+        Change the role for <strong id="changeRoleUserName"></strong>:
+      </p>
+      
+      <div class="form-row">
+        <label class="form-label">Current Role</label>
+        <input type="text" id="changeRoleCurrentRole" class="modal-input" disabled style="background: var(--neutral-100);">
+      </div>
+      
+      <div class="form-row">
+        <label class="form-label">New Role <span style="color: #d32f2f;">*</span></label>
+        <select id="newRoleSelect" class="modal-input">
+          <option value="">Select a new role...</option>
+          <option value="Company Admin">Company Admin</option>
+          <option value="Project Manager">Project Manager</option>
+          <option value="Bid Coordinator">Bid Coordinator</option>
+          <option value="Estimator">Estimator</option>
+          <option value="PQ Analyst">PQ Analyst</option>
+          <option value="Team Member">Team Member</option>
+          <option value="Intern">Intern</option>
+          <option value="" disabled>──────────</option>
+          <option value="Senior Estimator">Senior Estimator (Custom)</option>
+        </select>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Permission Changes</div>
+        <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-medium-600);">
+            <div>
+              <div style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); color: var(--neutral-400); margin-bottom: 8px; text-transform: uppercase;">Permissions Gained</div>
+              <div id="permissionsGained" style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #00a651;">
+                <div><i class="fa-solid fa-plus" style="margin-right: 6px;"></i>Create Bids</div>
+                <div><i class="fa-solid fa-plus" style="margin-right: 6px;"></i>Delete Bids</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); color: var(--neutral-400); margin-bottom: 8px; text-transform: uppercase;">Permissions Lost</div>
+              <div id="permissionsLost" style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #d32f2f;">
+                <div><i class="fa-solid fa-minus" style="margin-right: 6px;"></i>Manage Company Settings</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background: #fffbea; border-left: 3px solid #f59e0b; padding: var(--spacing-small-300); border-radius: var(--radius-sm); margin-top: 16px;">
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin: 0;">
+          <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; margin-right: 6px;"></i>
+          Role changes take effect immediately and may impact the user's access to certain features.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('changeRoleModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmChangeRole()">Change Role</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reassign Seat Modal -->
+<div class="modal-overlay hide" id="reassignSeatModal">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-header">
+      <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-600); color: var(--neutral-600); margin: 0;">Reassign Seat</h2>
+      <button class="modal-close" onclick="closeModal('reassignSeatModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin-bottom: 16px;">
+        Your Bid Management subscription is at capacity (20/20 seats used).
+      </p>
+      
+      <div style="background: #f2fafe; border: 1px solid #b3e0f7; border-radius: var(--radius-sm); padding: var(--spacing-small-400); margin-bottom: 16px;">
+        <div style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-300); color: var(--neutral-600); margin-bottom: 8px;">
+          <i class="fa-solid fa-user-plus" style="color: var(--primary-400); margin-right: 6px;"></i>Authorizing
+        </div>
+        <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500);">
+          <strong id="reassignUserName"></strong> as <strong id="reassignRole"></strong>
+        </div>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Select a user to deauthorize</div>
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-400); margin-bottom: 12px;">
+          Choose an active user whose seat will be reassigned:
+        </p>
+        
+        <div class="checkbox-list" style="max-height: 250px; overflow-y: auto; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-micro-200);">
+          <label class="checkbox-list-item">
+            <input type="radio" name="reassignUser" value="kaylee">
+            <span><i class="fa-solid fa-user" style="color: var(--neutral-400); margin-right: 8px;"></i>Kaylee Frye</span>
+            <span class="role-badge" style="background: #e8f5e9; color: #00a651; padding: var(--spacing-micro-050) 8px; border-radius: 12px; font-size: var(--font-size-100); margin-left: auto;">Estimator</span>
+          </label>
+          <label class="checkbox-list-item">
+            <input type="radio" name="reassignUser" value="simon">
+            <span><i class="fa-solid fa-user" style="color: var(--neutral-400); margin-right: 8px;"></i>Simon Tam</span>
+            <span class="role-badge" style="background: #e8f5e9; color: #00a651; padding: var(--spacing-micro-050) 8px; border-radius: 12px; font-size: var(--font-size-100); margin-left: auto;">Team Member</span>
+          </label>
+          <label class="checkbox-list-item">
+            <input type="radio" name="reassignUser" value="badger">
+            <span><i class="fa-solid fa-user" style="color: var(--neutral-400); margin-right: 8px;"></i>Badger</span>
+            <span class="role-badge" style="background: #e8f5e9; color: #00a651; padding: var(--spacing-micro-050) 8px; border-radius: 12px; font-size: var(--font-size-100); margin-left: auto;">Intern</span>
+          </label>
+        </div>
+      </div>
+      
+      <div style="background: #fee; border-left: 3px solid #d32f2f; padding: var(--spacing-small-300); border-radius: var(--radius-sm); margin-top: 16px;">
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin: 0;">
+          <i class="fa-solid fa-circle-exclamation" style="color: #d32f2f; margin-right: 6px;"></i>
+          The selected user will lose access to Bid Management immediately when you confirm.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-link" onclick="closeModal('reassignSeatModal')">Cancel</button>
+      <button class="btn-secondary" style="background: #f59e0b; color: white;" onclick="confirmReassign()">Reassign Seat</button>
+    </div>
+  </div>
+</div>
+
+<!-- Subscription Details Modal -->
+<div class="modal-overlay hide" id="subscriptionDetailsModal">
+  <div class="modal-dialog" style="max-width: 700px;">
+    <div class="modal-header">
+      <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-600); color: var(--neutral-600); margin: 0;">Bid Management Subscription Details</h2>
+      <button class="modal-close" onclick="closeModal('subscriptionDetailsModal')">
+        <i class="fa-regular fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Subscription Overview -->
+      <div class="modal-section">
+        <div class="section-title">Subscription Overview</div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-small-400);">
+          <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-200); color: var(--neutral-400); margin-bottom: 4px; text-transform: uppercase; font-weight: var(--font-weight-text-semibold);">Plan Type</div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-500); color: var(--neutral-600); font-weight: var(--font-weight-text-semibold);">Professional</div>
+          </div>
+          <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-200); color: var(--neutral-400); margin-bottom: 4px; text-transform: uppercase; font-weight: var(--font-weight-text-semibold);">Billing Cycle</div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-500); color: var(--neutral-600); font-weight: var(--font-weight-text-semibold);">Annual</div>
+          </div>
+          <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-200); color: var(--neutral-400); margin-bottom: 4px; text-transform: uppercase; font-weight: var(--font-weight-text-semibold);">Renewal Date</div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-500); color: var(--neutral-600); font-weight: var(--font-weight-text-semibold);">Dec 15, 2025</div>
+          </div>
+          <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-200); color: var(--neutral-400); margin-bottom: 4px; text-transform: uppercase; font-weight: var(--font-weight-text-semibold);">Seats Used</div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-500); color: var(--neutral-600); font-weight: var(--font-weight-text-semibold);">9 of 20</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Capacity Usage -->
+      <div class="modal-section">
+        <div class="section-title">Capacity Usage</div>
+        <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); font-weight: var(--font-weight-text-medium);">Active Users</span>
+              <span style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); font-weight: var(--font-weight-text-semibold);">9 / 20 (45%)</span>
+            </div>
+            <div style="background: var(--neutral-200); border-radius: 9999px; height: 8px; overflow: hidden;">
+              <div style="background: #00a651; width: 45%; height: 100%; border-radius: 9999px;"></div>
+            </div>
+          </div>
+          <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-400);">
+            11 seats available
+          </div>
+        </div>
+      </div>
+      
+      <!-- Subscription Features -->
+      <div class="modal-section">
+        <div class="section-title">Included Features</div>
+        <div style="background: #f9f9f9; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); padding: var(--spacing-small-400);">
+          <div style="display: grid; gap: var(--spacing-micro-200);">
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500);">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Unlimited Bids & Projects
+            </div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500);">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Custom Roles & Permissions
+            </div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500);">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Advanced Reporting
+            </div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500);">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>Priority Support
+            </div>
+            <div style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500);">
+              <i class="fa-solid fa-check" style="color: #00a651; margin-right: 8px;"></i>API Access
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact -->
+      <div style="background: #f2fafe; border-left: 3px solid var(--primary-400); padding: var(--spacing-small-300); border-radius: var(--radius-sm); margin-top: 16px;">
+        <p style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: var(--neutral-500); margin: 0;">
+          <i class="fa-solid fa-circle-info" style="color: var(--primary-400); margin-right: 6px;"></i>
+          Need to add more seats or upgrade your plan? <a href="#" style="color: var(--primary-400); text-decoration: none; font-weight: var(--font-weight-text-semibold);">Contact Sales</a>
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="closeModal('subscriptionDetailsModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,3272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users & Groups - Version Two</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="../blueprint-table-styles.css">
+<style>
+/* Page-specific styles for Users & Groups */
+
+.content { padding: 0 20px; }
+
+/* Tabs */
+.tabs-container { 
+  display: flex; 
+  gap: var(--spacing-large-1000); 
+  border-bottom: 2px solid var(--neutral-200); 
+  margin-bottom: 24px; 
+}
+.tab { 
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-micro-150);
+  padding: var(--spacing-small-250) 2px; 
+  cursor: pointer; transition: all 200ms ease-out; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  line-height: 16px;
+  color: var(--neutral-500);
+  background: transparent;
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-radius: var(--radius-sm);
+}
+.tab:hover { 
+  color: var(--primary-500); 
+}
+.tab:hover .tab-count {
+  background: var(--neutral-300);
+}
+.tab.active { 
+  font-weight: var(--font-weight-text-bold); 
+  border-bottom: 4px solid var(--neutral-500);
+}
+.tab.active:hover { 
+  color: var(--primary-500); 
+}
+.tab:focus-visible {
+  outline: 2px solid #f2fafe;
+  box-shadow: 0 0 4px 2px #949494;
+}
+.tab-count { 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-micro-050) 6px; 
+  border-radius: var(--radius-pill); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-semibold); 
+  line-height: 14px;
+  background: var(--neutral-200);
+  color: var(--neutral-500);
+  min-width: 20px;
+  height: 20px;
+}
+.tab.active .tab-count {
+  background: var(--primary-500);
+  color: var(--neutral-0);
+}
+.tab.active:hover .tab-count {
+  background: var(--primary-500);
+}
+
+/* Action Bar */
+.action-bar { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
+}
+.action-bar-left { 
+  display: flex; 
+  gap: var(--spacing-small-300); 
+  align-items: center; 
+}
+.action-bar-right { 
+  display: flex; 
+  gap: var(--spacing-small-300); 
+  align-items: center; 
+}
+
+/* Filter Dropdowns */
+.filter-dropdown { 
+  padding: var(--spacing-micro-200) 12px; 
+  border: 1px solid var(--neutral-500); 
+  border-radius: var(--radius-sm); 
+  background: white; 
+  color: var(--neutral-500); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-medium); 
+  cursor: pointer; transition: all 200ms ease-out; 
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-micro-200);
+}
+
+/* Search Icon Button */
+.search-icon-btn { 
+  width: 32px; 
+  height: 32px; 
+  border: 1px solid var(--neutral-500); 
+  border-radius: var(--radius-sm); 
+  background: white; 
+  color: var(--neutral-500); 
+  cursor: pointer; transition: all 200ms ease-out; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* Table Customizations */
+.user-name-cell { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+}
+.user-name-row { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-200); 
+}
+.user-name-link { 
+  color: var(--primary-500); 
+  text-decoration: none; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-medium); 
+}
+.user-name-link:hover { 
+  text-decoration: underline; 
+}
+.job-function { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+  color: var(--neutral-500); 
+}
+.job-function i { 
+  font-size: var(--font-size-200); 
+}
+
+/* Role Badges (ADMIN/OWNER - Gray) */
+.role-badge { 
+  background: var(--neutral-400); 
+  color: white; 
+  padding: var(--spacing-micro-050) 6px; 
+  border-radius: var(--radius-sm); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-100); 
+  font-weight: var(--font-weight-text-bold); 
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* Pills - Subscription/License indicators */
+.pill { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+  padding: var(--spacing-micro-150) 8px; 
+  background: var(--neutral-200); 
+  border-radius: var(--radius-pill); 
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-semibold); 
+  color: var(--neutral-600); 
+  height: 26px; 
+  line-height: 14px; 
+}
+.pill-counter { 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: var(--spacing-micro-050) 6px; 
+  background: var(--primary-10); 
+  border-radius: var(--radius-pill); 
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-semibold); 
+  color: var(--neutral-600); 
+  min-width: 20px; 
+  height: 20px; 
+  line-height: 14px; 
+}
+
+/* License Status */
+.license-status { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+}
+.status-text { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+}
+.date-badge { 
+  background: var(--neutral-200); 
+  padding: var(--spacing-micro-100) 8px; 
+  border-radius: var(--radius-pill); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-bold);
+  color: var(--neutral-600); 
+  display: inline-block;
+  width: fit-content;
+}
+
+/* Product Role Badge (Gray Pills - NOT colored) */
+.product-role-badge { 
+  background: var(--neutral-200); 
+  color: var(--neutral-600); 
+  padding: var(--spacing-micro-100) 8px; 
+  border-radius: var(--radius-pill); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-bold); 
+  display: inline-block;
+}
+
+/* Group Table Customizations */
+.group-name-cell { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+}
+.group-name { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-600); 
+}
+.group-description { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+  color: var(--neutral-500); 
+}
+.group-users { 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--spacing-micro-150); 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+}
+.user-count-row { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+}
+.subscription-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+}
+.subscription-item { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+}
+.subscription-item i { 
+  color: var(--neutral-400); 
+}
+.no-subscription { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+  color: #dc3545; 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+}
+
+/* Action Buttons in Table */
+.action-buttons { 
+  display: flex; 
+  gap: 2px; 
+  align-items: center; 
+  padding: var(--spacing-small-250);
+}
+.delete-icon-btn { 
+  background: var(--neutral-200);
+  border: none; 
+  color: var(--neutral-500); 
+  font-size: var(--font-size-300); 
+  cursor: pointer; transition: all 200ms ease-out; 
+  padding: var(--spacing-micro-200); 
+  border-radius: var(--radius-sm);
+  height: 32px;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delete-icon-btn:hover { 
+  background: var(--neutral-300);
+}
+
+/* Tab Content */
+.tab-content { 
+  display: none; 
+}
+.tab-content.active { 
+  display: block; 
+}
+
+/* Table Footer */
+.table-footer { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: var(--spacing-small-400) 0; 
+  border-top: 1px solid var(--neutral-200); 
+  margin-top: 16px; 
+}
+.pagination-controls { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-small-400); 
+}
+.rows-per-page { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-200); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+}
+.page-dropdown { 
+  padding: var(--spacing-micro-100) 8px; 
+  border: 1px solid var(--neutral-300); 
+  border-radius: var(--radius-sm); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+}
+.results-count { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  color: var(--neutral-500); 
+}
+.pagination-arrows { 
+  display: flex; 
+  gap: var(--spacing-micro-200); 
+}
+.pagination-arrow { 
+  width: 32px; 
+  height: 32px; 
+  border: 1px solid var(--neutral-300); 
+  border-radius: var(--radius-sm); 
+  background: white; 
+  cursor: pointer; transition: all 200ms ease-out; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+.pagination-arrow:disabled { 
+  opacity: 0.5; 
+  cursor: not-allowed; 
+}
+
+/* Drawer Overlay */
+.drawer-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 1000; 
+  display: none; 
+}
+.drawer-overlay.active { 
+  display: block; 
+}
+
+/* Drawer Panel */
+.drawer { 
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  width: 1029px; 
+  background: white; 
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1); 
+  z-index: 1001; 
+  transform: translateX(100%); 
+  transition: transform 0.3s ease-out; 
+  display: flex; 
+  flex-direction: column; 
+  padding: 0 !important;
+}
+.drawer.active { 
+  transform: translateX(0); 
+}
+
+/* Drawer Header */
+.drawer-header { 
+  padding: 0;
+  background: var(--neutral-100); 
+  border-bottom: 1px solid var(--neutral-200); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  min-height: 60px;
+}
+.drawer-title { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-600); 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-600); 
+  margin: 0;
+  padding: 14px 0 14px 20px;
+}
+.drawer-close { 
+  background: none; 
+  border: none; 
+  font-size: var(--font-size-800); 
+  cursor: pointer; transition: all 200ms ease-out; 
+  color: var(--neutral-500); 
+  padding: 14px 20px 14px 0;
+  width: auto;
+  height: auto;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* Drawer Tabs */
+.drawer-tabs { 
+  display: flex; 
+  gap: var(--spacing-medium-700); 
+  padding: 0 24px; 
+  border-bottom: 1px solid var(--neutral-200); 
+  background: white; 
+}
+.drawer-tab { 
+  padding: var(--spacing-small-300) 0; 
+  cursor: pointer; transition: all 200ms ease-out; 
+  position: relative; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-medium); 
+  color: var(--neutral-500); 
+  background: none; 
+  border: none; 
+}
+.drawer-tab.active { 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-600); 
+}
+.drawer-tab.active::after { 
+  content: ''; 
+  position: absolute; 
+  bottom: -1px; 
+  left: 0; 
+  right: 0; 
+  height: 3px; 
+  background: #01304a; 
+}
+
+/* Drawer Content */
+.drawer-content { 
+  flex: 1; 
+  overflow-y: auto; 
+  background: var(--primary-10);
+  padding: var(--spacing-medium-600);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium-600);
+}
+.drawer-two-column { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: var(--spacing-medium-700); 
+  height: 100%; 
+}
+.drawer-left-panel { 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--spacing-medium-600); 
+}
+.drawer-right-panel { 
+  border-left: 1px solid var(--neutral-200); 
+  padding-left: 24px; 
+}
+
+/* Mode Toggle */
+.mode-toggle-container { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-small-300); 
+  margin-bottom: 20px; 
+}
+.mode-toggle { 
+  position: relative; 
+  width: 200px; 
+  height: 32px; 
+  background: var(--neutral-200); 
+  border-radius: 16px; 
+  cursor: pointer; transition: all 200ms ease-out; 
+}
+.mode-toggle-slider { 
+  position: absolute; 
+  width: 50%; 
+  height: 100%; 
+  background: var(--primary-500); 
+  border-radius: 16px; 
+  transition: transform 0.3s; 
+  top: 0; 
+  left: 0; 
+}
+.mode-toggle.bulk .mode-toggle-slider { 
+  transform: translateX(100%); 
+}
+.mode-toggle-labels { 
+  position: relative; 
+  display: flex; 
+  height: 100%; 
+}
+.mode-toggle-label { 
+  flex: 1; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-semibold); 
+  color: var(--neutral-500); 
+  z-index: 1; 
+  transition: color 0.3s; 
+}
+.mode-toggle:not(.bulk) .mode-toggle-label:first-child,
+.mode-toggle.bulk .mode-toggle-label:last-child { 
+  color: white; 
+}
+
+/* Form Fields */
+.form-group { 
+  margin-bottom: 16px; 
+}
+.form-label { 
+  display: block; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-500); 
+  margin-bottom: 6px; 
+}
+.form-label .required { 
+  color: #dc3545; 
+}
+.form-input { 
+  width: 100%; 
+  padding: var(--spacing-micro-200) 12px; 
+  border: 1px solid var(--neutral-300); 
+  border-radius: var(--radius-sm); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  box-sizing: border-box; 
+}
+.form-textarea { 
+  width: 100%; 
+  padding: var(--spacing-micro-200) 12px; 
+  border: 1px solid var(--neutral-400); 
+  border-radius: var(--radius-sm); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  min-height: 105px; 
+  resize: vertical; 
+  box-sizing: border-box; 
+}
+.form-select { 
+  width: 100%; 
+  padding: var(--spacing-micro-200) 12px; 
+  border: 1px solid var(--neutral-300); 
+  border-radius: var(--radius-sm); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  background: white; 
+  box-sizing: border-box; 
+}
+
+/* License Chips */
+.license-chips { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: var(--spacing-micro-200); 
+  margin-top: 8px; 
+}
+.license-chip { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+  padding: var(--spacing-micro-100) 8px 4px 12px; 
+  background: #28a745; 
+  color: white; 
+  border-radius: 16px; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-medium); 
+}
+.license-chip.default { 
+  background: var(--neutral-500); 
+}
+.license-chip-remove { 
+  background: none; 
+  border: none; 
+  color: white; 
+  cursor: pointer; transition: all 200ms ease-out; 
+  padding: 0; 
+  font-size: var(--font-size-200); 
+  width: 14px; 
+  height: 14px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* License Assignment Panel */
+.license-section { 
+  margin-bottom: 24px; 
+}
+.license-section-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 12px; 
+}
+.license-section-title { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-600); 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-200); 
+}
+.license-count-badge { 
+  background: var(--neutral-200); 
+  color: var(--neutral-600); 
+  padding: var(--spacing-micro-050) 8px; 
+  border-radius: 12px; 
+  font-size: var(--font-size-100); 
+  font-weight: var(--font-weight-text-semibold); 
+}
+.view-info-btn { 
+  padding: var(--spacing-micro-100) 12px; 
+  border: 1px solid var(--primary-500); 
+  background: white; 
+  color: var(--primary-500); 
+  border-radius: var(--radius-sm); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-semibold); 
+  cursor: pointer; transition: all 200ms ease-out; 
+}
+.license-subheader { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-semibold); 
+  color: var(--neutral-400); 
+  margin-bottom: 8px; 
+}
+.license-feature-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: var(--spacing-small-250) 0; 
+  border-bottom: 1px solid var(--neutral-200); 
+}
+.license-feature-row:last-child { 
+  border-bottom: none; 
+}
+.license-feature-info { 
+  flex: 1; 
+}
+.license-feature-name { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+  color: var(--neutral-600); 
+  margin-bottom: 2px; 
+}
+.license-availability { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+}
+.license-availability.available { 
+  color: #28a745; 
+}
+.license-availability.assigned { 
+  color: var(--neutral-600); 
+}
+.license-availability.low { 
+  color: #bf8700; 
+}
+.license-availability.unavailable { 
+  color: var(--neutral-400); 
+}
+.license-action-btn { 
+  width: 32px; 
+  height: 32px; 
+  border: 1px solid var(--neutral-300); 
+  border-radius: var(--radius-sm); 
+  background: white; 
+  cursor: pointer; transition: all 200ms ease-out; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: var(--font-size-400); 
+  color: var(--neutral-600); 
+}
+.license-action-btn:disabled { 
+  opacity: 0.3; 
+  cursor: not-allowed; 
+}
+
+/* Toggle Switch */
+.toggle-switch { 
+  position: relative; 
+  width: 54px; 
+  height: 26px; 
+  background: var(--neutral-400); 
+  border-radius: 20px; 
+  cursor: pointer; transition: all 200ms ease-out; 
+  transition: background 0.3s; 
+  padding: var(--spacing-micro-100);
+}
+.toggle-switch.on { 
+  background: var(--primary-400); 
+}
+.toggle-switch.disabled { 
+  opacity: 0.5;
+  cursor: not-allowed; 
+  pointer-events: none;
+}
+.toggle-circle { 
+  position: absolute; 
+  width: 20px; 
+  height: 20px; 
+  background: white; 
+  border-radius: var(--radius-circle); 
+  top: 3px; 
+  left: 3px; 
+  transition: transform 0.3s; 
+}
+.toggle-switch.on .toggle-circle { 
+  transform: translateX(28px); 
+}
+
+/* Toggle Container */
+.toggle-container {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Subscription Assignment Table */
+.subscription-table { 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 20px;
+}
+.subscription-table-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--neutral-500);
+}
+.subscription-table-header span {
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-bold);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  color: var(--neutral-600);
+}
+.subscription-table-header span:first-child {
+  width: 227px;
+  flex-shrink: 0;
+}
+.subscription-table-header span:last-child {
+  width: 120px;
+  flex-shrink: 0;
+  text-align: center;
+  margin-left: auto;
+}
+.subscription-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  border-bottom: 1px solid var(--neutral-300);
+}
+.subscription-info {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-micro-150);
+}
+.subscription-name { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-600); 
+}
+.subscription-availability { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--spacing-micro-150); 
+}
+.subscription-availability i {
+  font-size: var(--font-size-300);
+}
+.subscription-availability span {
+  font-family: 'Gotham', sans-serif;
+  font-weight: var(--font-weight-text-regular); 
+  font-size: var(--font-size-300); 
+  line-height: 16px;
+  letter-spacing: -0.28px;
+}
+.subscription-availability.available { 
+  color: #28a745; 
+}
+.subscription-availability.unavailable { 
+  color: #dc3545; 
+}
+.subscription-availability.low { 
+  color: #bf8700; 
+}
+
+/* Helper Text */
+.helper-text { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-medium); 
+  color: #212529; 
+  margin: 10px 0 0 0;
+  padding: 0;
+  line-height: 16px;
+}
+
+/* User Table */
+.user-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.user-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid var(--neutral-500);
+}
+
+.header-left {
+  width: 227px;
+  display: flex;
+  gap: var(--spacing-micro-150);
+  align-items: center;
+}
+
+.header-left span,
+.header-right {
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-bold);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  color: var(--neutral-600);
+}
+
+.header-right {
+  width: 227px;
+  text-align: right;
+}
+
+.user-table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  border-bottom: 1px solid var(--neutral-300);
+}
+
+.user-table-row.user-row {
+  height: 39px;
+}
+
+.row-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-row .row-left {
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.row-main {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.row-warning {
+  padding-left: 10px;
+  display: flex;
+  gap: var(--spacing-micro-150);
+  align-items: center;
+  color: #e8a227;
+}
+
+.row-warning i {
+  font-size: var(--font-size-300);
+}
+
+.row-warning span {
+  font-family: 'Gotham', sans-serif;
+  font-weight: var(--font-weight-text-regular);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  letter-spacing: -0.28px;
+  color: #e8a227;
+}
+
+.row-right {
+  width: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-name {
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-bold);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  color: var(--neutral-600);
+}
+
+.checkbox-field {
+  padding: var(--spacing-micro-200);
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+.checkbox {
+  width: 14px;
+  background: var(--neutral-0);
+  border-radius: var(--radius-xs);
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox i {
+  font-size: var(--font-size-400);
+  line-height: 14px;
+}
+
+.checkbox i.fa-square {
+  color: var(--neutral-400);
+}
+
+.checkbox i.fa-square-check {
+  color: var(--primary-400);
+}
+
+.role-badge {
+  background: var(--neutral-400);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-micro-100) 8px;
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-semibold);
+  font-size: var(--font-size-200);
+  line-height: 14px;
+  color: var(--neutral-0);
+}
+
+/* Invite Users Drawer Specific Styles */
+.invite-mode-toggle {
+  display: flex;
+  gap: var(--spacing-micro-150);
+  align-items: center;
+  padding: var(--spacing-micro-100) 8px;
+}
+
+.invite-mode-label {
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-medium);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  color: var(--neutral-500);
+}
+
+.invite-toggle-switch {
+  width: 54px;
+  height: 26px;
+  background: var(--neutral-400);
+  border-radius: 20px;
+  padding: var(--spacing-micro-100);
+  display: flex;
+  align-items: center;
+  cursor: pointer; transition: all 200ms ease-out;
+}
+
+.invite-toggle-circle {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: var(--radius-circle);
+}
+
+.invite-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.invite-form-label {
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-bold);
+  font-size: var(--font-size-200);
+  line-height: 14px;
+  color: var(--neutral-600);
+}
+
+.invite-form-input {
+  height: 32px;
+  background: #fffffa;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-micro-200) 7px 3px 7px;
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-medium);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  color: var(--neutral-600);
+}
+
+.invite-form-input::placeholder {
+  color: var(--neutral-400);
+}
+
+.invite-ghost-btn {
+  border: 1px solid var(--neutral-400);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-micro-200);
+  height: 32px;
+  font-family: var(--font-family-blueprintfont);
+  font-weight: var(--font-weight-text-medium);
+  font-size: var(--font-size-300);
+  line-height: 16px;
+  color: var(--neutral-500);
+  cursor: pointer; transition: all 200ms ease-out;
+}
+
+.license-ellipsis-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer; transition: all 200ms ease-out;
+}
+
+.license-ellipsis-btn:hover {
+  background: var(--neutral-100);
+}
+
+/* Bulk Upload Section */
+.bulk-instructions { 
+  background: #f8f9fa; 
+  padding: var(--spacing-medium-600); 
+  border-radius: var(--radius-md); 
+  margin-bottom: 20px; 
+}
+.bulk-instructions h3 { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-400); 
+  font-weight: var(--font-weight-text-bold); 
+  margin-bottom: 12px; 
+}
+.bulk-instructions ul { 
+  margin: 0; 
+  padding-left: 20px; 
+}
+.bulk-instructions li { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+  margin-bottom: 8px; 
+}
+.bulk-buttons { 
+  display: flex; 
+  gap: var(--spacing-small-300); 
+  margin-top: 16px; 
+}
+
+/* User Table (Bulk) */
+.user-info-table { 
+  width: 100%; 
+  border: 1px solid var(--neutral-200); 
+  border-radius: var(--radius-sm); 
+  overflow: hidden; 
+}
+.user-info-table th { 
+  background: var(--neutral-100); 
+  padding: var(--spacing-small-300); 
+  text-align: left; 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200); 
+  font-weight: var(--font-weight-text-bold); 
+  color: var(--neutral-500); 
+  border-bottom: 1px solid var(--neutral-200); 
+}
+.user-info-table td { 
+  padding: var(--spacing-small-300); 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+  border-bottom: 1px solid var(--neutral-200); 
+}
+.user-info-table tr:last-child td { 
+  border-bottom: none; 
+}
+
+/* Confirmation Message */
+.confirmation-message { 
+  padding: 40px; 
+  text-align: center; 
+}
+.confirmation-message h3 { 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-500); 
+  font-weight: var(--font-weight-text-bold); 
+  margin-bottom: 20px; 
+}
+.confirmation-message ul { 
+  text-align: left; 
+  max-width: 500px; 
+  margin: 20px auto; 
+  padding-left: 20px; 
+}
+.confirmation-message li { 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+  margin-bottom: 8px; 
+}
+.confirmation-center-btn { 
+  margin: 30px 0; 
+}
+
+/* User List (Confirmation) */
+.user-list { 
+  max-width: 500px; 
+  margin: 20px auto; 
+  text-align: left; 
+}
+.user-list-item { 
+  padding: var(--spacing-micro-200) 0; 
+  border-bottom: 1px solid var(--neutral-200); 
+  font-family: 'Gotham Book', sans-serif;
+  font-size: var(--font-size-300); 
+}
+
+/* Drawer Footer */
+.drawer-footer { 
+  padding: 0;
+  border-top: 1px solid var(--neutral-200); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  background: white;
+  min-height: 72px;
+}
+.drawer-footer-left { 
+  display: flex; 
+  gap: var(--spacing-small-300);
+  padding: var(--spacing-medium-600);
+}
+.drawer-footer-right { 
+  display: flex; 
+  gap: var(--spacing-small-300); 
+  align-items: center;
+  padding: var(--spacing-medium-600);
+}
+.link-button { 
+  background: none; 
+  border: none; 
+  color: var(--primary-500); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-bold); 
+  cursor: pointer; transition: all 200ms ease-out; 
+  text-decoration: none; 
+}
+.link-button:hover { 
+  text-decoration: underline; 
+}
+
+/* Container padding */
+.container { 
+  padding: var(--spacing-medium-600); 
+}
+
+@media (max-width: 1024px) {
+  .container { 
+    padding: var(--spacing-small-250); 
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Compact Navigation (Top) -->
+<div class="compact-nav">
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="header-top">
+        <h1>Users & Groups</h1>
+        <div class="header-icons">
+          <button class="icon-btn" onclick="openInviteDrawer()">
+            <i class="fa-solid fa-user-plus"></i>
+            <span class="tooltip">Invite User</span>
+          </button>
+          <button class="icon-btn">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span class="tooltip">History</span>
+          </button>
+          <button class="icon-btn">
+            <i class="fa-solid fa-user-headset"></i>
+            <span class="tooltip">Support User</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <button class="tab active" data-tab="users">
+        Organization Users
+        <span class="tab-count">47</span>
+      </button>
+      <button class="tab" data-tab="groups">
+        Groups
+        <span class="tab-count">3</span>
+      </button>
+    </div>
+
+    <!-- Users Tab Content -->
+    <div class="tab-content active" id="users-content">
+      
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <div class="action-bar-left">
+          <button class="btn-primary" id="manageSelectedBtn" disabled onclick="openManageUsersDrawer()">Manage Selected Users</button>
+          <select class="filter-dropdown">
+            <option>Show All Licenses</option>
+          </select>
+          <select class="filter-dropdown">
+            <option>Show All Roles</option>
+          </select>
+          <select class="filter-dropdown">
+            <option>Show All Groups</option>
+          </select>
+        </div>
+        <div class="action-bar-right">
+          <button class="search-icon-btn">
+            <i class="fa-regular fa-magnifying-glass"></i>
+          </button>
+          <button class="btn-default" onclick="openInviteDrawer()">Invite New User</button>
+        </div>
+      </div>
+
+      <!-- Users Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;"><input type="checkbox" id="selectAllUsers"></th>
+              <th style="width: 240px;">User Name</th>
+              <th>Project Intelligence</th>
+              <th>Bid Management</th>
+              <th>Takeoff & Estimating</th>
+              <th style="width: 120px;">Last Access Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" class="user-checkbox"></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Tony Smith</a>
+                    <span class="role-badge">ADMIN</span>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Project Manager</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">Full Access</span>
+              </td>
+              <td>
+                <span class="pill">BM - Team Member</span>
+              </td>
+              <td>
+                <span class="pill">Estimator<span class="pill-counter">123</span></span>
+              </td>
+              <td>March 12, 2025</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="user-checkbox"></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Sarah Johnson</a>
+                    <span class="role-badge">OWNER</span>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Executive Director</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">Modified</span>
+              </td>
+              <td>
+                <span class="pill">BM - Admin</span>
+              </td>
+              <td>
+                <span class="pill">Takeoff Admin</span>
+              </td>
+              <td>March 15, 2025</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="user-checkbox"></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Mike Chen</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Estimator</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>
+                <span class="pill">Estimator<span class="pill-counter">456</span></span>
+              </td>
+              <td>March 10, 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer -->
+      <div class="table-footer">
+        <div></div>
+        <div class="pagination-controls">
+          <div class="rows-per-page">
+            <span>Rows per page</span>
+            <select class="page-dropdown">
+              <option>50</option>
+              <option>100</option>
+              <option>200</option>
+            </select>
+          </div>
+          <span class="results-count">1-3 of 47</span>
+          <div class="pagination-arrows">
+            <button class="pagination-arrow" disabled>
+              <i class="fa-regular fa-chevron-left"></i>
+            </button>
+            <button class="pagination-arrow">
+              <i class="fa-regular fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Groups Tab Content -->
+    <div class="tab-content" id="groups-content">
+      
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <div class="action-bar-left">
+          <button class="btn-primary" onclick="openCreateGroupDrawer()">Create New Group</button>
+        </div>
+        <div class="action-bar-right">
+          <button class="search-icon-btn">
+            <i class="fa-regular fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Groups Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 200px;">Group Name and Description</th>
+              <th style="width: 120px;">Users</th>
+              <th style="width: 200px;">
+                Group Subscription(s)
+                <i class="fa-regular fa-circle-info" style="margin-left: 4px; font-size: var(--font-size-200);"></i>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="group-name-cell">
+                  <div class="group-name">Browncoats</div>
+                  <div class="group-description">Independent test team, currently working on some updated projects</div>
+                </div>
+              </td>
+              <td>
+                <div class="group-users">
+                  <div class="user-count-row">
+                    <i class="fa-regular fa-user"></i>
+                    <span>2 Admins</span>
+                  </div>
+                  <div class="user-count-row">
+                    <i class="fa-regular fa-users"></i>
+                    <span>5 Users</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="subscription-list">
+                  <div class="subscription-item">
+                    <i class="fa-regular fa-diamond"></i>
+                    <span>Project Intelligence</span>
+                  </div>
+                  <div class="subscription-item">
+                    <i class="fa-regular fa-diamond"></i>
+                    <span>Bid Management</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-default" onclick="openManageGroupDrawer()">Manage Group</button>
+                  <button class="btn-default">Duplicate</button>
+                  <button class="delete-icon-btn">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="group-name-cell">
+                  <div class="group-name">Alliance</div>
+                  <div class="group-description">Larger team working with more of our schools and civic projects</div>
+                </div>
+              </td>
+              <td>
+                <div class="group-users">
+                  <div class="user-count-row">
+                    <i class="fa-regular fa-user"></i>
+                    <span>2 Admins</span>
+                  </div>
+                  <div class="user-count-row">
+                    <i class="fa-regular fa-users"></i>
+                    <span>8 Users</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="no-subscription">
+                  <i class="fa-regular fa-xmark"></i>
+                  <span>None</span>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-default" onclick="openManageGroupDrawer()">Manage Group</button>
+                  <button class="btn-default">Duplicate</button>
+                  <button class="delete-icon-btn">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="group-name-cell">
+                  <div class="group-name">Serenity Group</div>
+                  <div class="group-description">The most chill of groups</div>
+                </div>
+              </td>
+              <td>
+                <div class="group-users">
+                  <div class="user-count-row">
+                    <i class="fa-regular fa-user"></i>
+                    <span>1 Admins</span>
+                  </div>
+                  <div class="user-count-row">
+                    <i class="fa-regular fa-users"></i>
+                    <span>2 Users</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="no-subscription">
+                  <i class="fa-regular fa-xmark"></i>
+                  <span>None</span>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-default" onclick="openManageGroupDrawer()">Manage Group</button>
+                  <button class="btn-default">Duplicate</button>
+                  <button class="delete-icon-btn">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer -->
+      <div class="table-footer">
+        <div></div>
+        <div class="pagination-controls">
+          <div class="rows-per-page">
+            <span>Rows per page</span>
+            <select class="page-dropdown">
+              <option>50</option>
+              <option>100</option>
+              <option>200</option>
+            </select>
+          </div>
+          <span class="results-count">1-3 of 3</span>
+          <div class="pagination-arrows">
+            <button class="pagination-arrow" disabled>
+              <i class="fa-regular fa-chevron-left"></i>
+            </button>
+            <button class="pagination-arrow" disabled>
+              <i class="fa-regular fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    const tabName = this.dataset.tab;
+    
+    // Update active tab
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    
+    // Update active content
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active');
+    });
+    document.getElementById(tabName + '-content').classList.add('active');
+  });
+});
+
+// Checkbox management
+const selectAllCheckbox = document.getElementById('selectAllUsers');
+const userCheckboxes = document.querySelectorAll('.user-checkbox');
+const manageSelectedBtn = document.getElementById('manageSelectedBtn');
+
+selectAllCheckbox.addEventListener('change', function() {
+  userCheckboxes.forEach(checkbox => {
+    checkbox.checked = this.checked;
+  });
+  updateManageButton();
+});
+
+userCheckboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', updateManageButton);
+});
+
+function updateManageButton() {
+  const anyChecked = Array.from(userCheckboxes).some(cb => cb.checked);
+  manageSelectedBtn.disabled = !anyChecked;
+}
+
+// Drawer functions
+function openInviteDrawer() {
+  document.getElementById('inviteDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+  loadIndividualMode();
+}
+
+function closeInviteDrawer() {
+  document.getElementById('inviteDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+function openCreateGroupDrawer() {
+  document.getElementById('createGroupDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+}
+
+function closeCreateGroupDrawer() {
+  document.getElementById('createGroupDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+function openManageGroupDrawer() {
+  document.getElementById('manageGroupDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+}
+
+function closeManageGroupDrawer() {
+  document.getElementById('manageGroupDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+// Tab switching functions
+function switchCreateGroupTab(tabIndex) {
+  const drawer = document.getElementById('createGroupDrawer');
+  const tabs = drawer.querySelectorAll('.drawer-tab');
+  const contents = drawer.querySelectorAll('[id^="createGroupTabContent"]');
+  
+  tabs.forEach((tab, index) => {
+    if (index === tabIndex) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+  
+  contents.forEach((content, index) => {
+    content.style.display = index === tabIndex ? 'block' : 'none';
+  });
+}
+
+function switchManageGroupTab(tabIndex) {
+  const drawer = document.getElementById('manageGroupDrawer');
+  const tabs = drawer.querySelectorAll('.drawer-tab');
+  const contents = drawer.querySelectorAll('[id^="manageGroupTabContent"]');
+  
+  tabs.forEach((tab, index) => {
+    if (index === tabIndex) {
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+  
+  contents.forEach((content, index) => {
+    content.style.display = index === tabIndex ? 'block' : 'none';
+  });
+}
+
+function openManageUsersDrawer() {
+  // Load Individual Mode first
+  loadManageUsersIndividualMode();
+  // Reset toggle to start position
+  const toggle = document.getElementById('manageUsersModeToggle');
+  toggle.classList.remove('bulk');
+  toggle.style.justifyContent = 'flex-start';
+  // Show drawer
+  document.getElementById('manageUsersDrawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+  // Initialize change tracking and button states
+  if (typeof window.initializeManageUsersDrawer === 'function') {
+    window.initializeManageUsersDrawer();
+  }
+}
+
+function closeManageUsersDrawer() {
+  document.getElementById('manageUsersDrawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+// Toggle modes
+function loadIndividualMode() {
+  const content = document.getElementById('drawerContent');
+  content.innerHTML = `
+    <!-- Column 1: User Information -->
+    <div style="width: 418px; display: flex; flex-direction: column;">
+      <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">User Information</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
+        <div style="display: flex; gap: var(--spacing-small-250);">
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">First Name <span style="color: #b70900;">*</span></label>
+            <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="First Name">
+          </div>
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Last Name <span style="color: #b70900;">*</span></label>
+            <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="Last Name">
+          </div>
+        </div>
+        <div style="display: flex; gap: var(--spacing-small-250);">
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Role</label>
+            <div style="position: relative;">
+              <select style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: 3px 7px 0; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-400); width: 100%; cursor: pointer; transition: all 200ms ease-out; appearance: none;">
+                <option>Team Member</option>
+              </select>
+              <i class="fa-regular fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: var(--font-size-300); color: var(--neutral-500); pointer-events: none;"></i>
+            </div>
+          </div>
+          <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Title</label>
+            <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="Title">
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+          <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Email Address <span style="color: #b70900;">*</span></label>
+          <input type="email" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="username@email.com">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+          <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Phone Number</label>
+          <input type="tel" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="(000) 000-0000">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Column 2: License(s) -->
+    <div style="width: 218px; display: flex; flex-direction: column;">
+      <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">License(s)</span>
+      </div>
+      <div style="margin-top: 13px;">
+        <div style="background: var(--neutral-200); border-radius: var(--radius-pill); padding: var(--spacing-micro-150) 8px; height: 26px; display: inline-flex; align-items: center; justify-content: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Bid Center</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Column 3: License Tables -->
+    <div style="width: 365px; display: flex; flex-direction: column; gap: var(--spacing-medium-600);">
+      ${getLicenseTablesHTML()}
+    </div>
+  `;
+}
+
+function loadBulkMode() {
+  const content = document.getElementById('drawerContent');
+  content.innerHTML = `
+    <!-- Column 1: Upload Instructions -->
+    <div style="width: 418px; display: flex; flex-direction: column; background: var(--neutral-0); padding: var(--spacing-small-250) 30px; gap: var(--spacing-small-250);">
+      <div style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600);">
+        To invite multiple users to this company's account:
+      </div>
+      
+      <ul style="margin: 0; padding-left: 20px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600);">
+        <li style="margin-bottom: 8px;">Download the template and complete the required fields: First Name, Last Name, and Email</li>
+        <li style="margin-bottom: 8px;">Save as .xls or .csv format</li>
+        <li>Upload your file to invite the users listed in your file</li>
+      </ul>
+      
+      <div style="display: flex; gap: var(--spacing-small-250); margin-top: 10px;">
+        <button class="btn-ghost" style="height: 32px; padding: var(--spacing-micro-200); border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); background: transparent; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out; display: flex; align-items: center;">
+          Download Template
+        </button>
+        <button class="btn-secondary" style="height: 32px; padding: var(--spacing-micro-200); border-radius: var(--radius-sm); background: var(--neutral-200); font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out; display: flex; align-items: center; border: none;">
+          Upload File
+        </button>
+      </div>
+    </div>
+    
+    <!-- Spacer to align license tables with Individual Mode -->
+    <div style="width: 233px;"></div>
+    
+    <!-- Column 2: License Tables (same width and position as Individual Mode) -->
+    <div style="width: 365px; display: flex; flex-direction: column; gap: var(--spacing-medium-600);">
+      ${getLicenseTablesHTML()}
+    </div>
+  `;
+}
+
+function getLicenseTablesHTML() {
+  return `
+    <!-- Project Intelligence Licenses Table -->
+    <div style="display: flex; flex-direction: column; width: 100%;">
+      <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+        <div style="display: flex; gap: 4px; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Project Intelligence Licenses</span>
+          <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">20</span>
+          </div>
+        </div>
+        <button onclick="window.location.href='v2-modify-users-workflow-multi.html'" style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+      </div>
+      <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Subscription</span>
+      </div>
+      <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Starter</span>
+        <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">7 Available</span>
+          <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+            <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+          </button>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Pro</span>
+        <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">13 Available</span>
+          <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+            <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Takeoff & Estimating Licenses Table -->
+    <div style="display: flex; flex-direction: column; width: 100%;">
+      <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+        <div style="display: flex; gap: 4px; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Takeoff & Estimating Licenses</span>
+          <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">31</span>
+          </div>
+        </div>
+        <button style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+      </div>
+      <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Feature</span>
+      </div>
+      <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff</span>
+        <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">3 Available</span>
+          <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+            <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+          </button>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff with AI</span>
+        <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">1 Available</span>
+          <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+            <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+          </button>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OST Planviewer</span>
+        <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+          <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+            <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+          </button>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">QuickBid</span>
+        <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+          <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+            <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleInviteMode() {
+  const toggle = document.getElementById('inviteModeToggle');
+  
+  toggle.classList.toggle('bulk');
+  if (toggle.classList.contains('bulk')) {
+    // Switch to Bulk Mode
+    toggle.style.justifyContent = 'flex-end';
+    loadBulkMode();
+  } else {
+    // Switch to Individual Mode
+    toggle.style.justifyContent = 'flex-start';
+    loadIndividualMode();
+  }
+}
+
+// Subscription toggles
+function toggleSubscription(subscriptionId) {
+  const toggle = document.getElementById('toggle-' + subscriptionId);
+  toggle.classList.toggle('on');
+}
+
+// License actions
+function assignLicense(licenseId) {
+  // Add license chip logic here
+  console.log('Assign license:', licenseId);
+  // Update button states after change
+  if (typeof updateButtonStates === 'function') {
+    // Give it a moment for DOM to update
+    setTimeout(() => {
+      const drawer = document.getElementById('manageUsersDrawer');
+      if (drawer) {
+        const script = drawer.nextElementSibling;
+        if (script && script.tagName === 'SCRIPT') {
+          // Re-check state
+          const event = new Event('change');
+          const select = drawer.querySelector('select');
+          if (select) select.dispatchEvent(event);
+        }
+      }
+    }, 10);
+  }
+}
+
+function unassignLicense(licenseId) {
+  // Remove license chip logic here
+  console.log('Unassign license:', licenseId);
+  // Update button states after change
+  if (typeof updateButtonStates === 'function') {
+    // Give it a moment for DOM to update
+    setTimeout(() => {
+      const drawer = document.getElementById('manageUsersDrawer');
+      if (drawer) {
+        const event = new Event('change');
+        const select = drawer.querySelector('select');
+        if (select) select.dispatchEvent(event);
+      }
+    }, 10);
+  }
+}
+
+function removeLicenseChip(chipId) {
+  const chip = document.getElementById(chipId);
+  if (chip) {
+    chip.remove();
+    // Update button states after removing chip
+    if (typeof updateButtonStates === 'function') {
+      setTimeout(() => {
+        const drawer = document.getElementById('manageUsersDrawer');
+        if (drawer) {
+          const event = new Event('change');
+          const select = drawer.querySelector('select');
+          if (select) select.dispatchEvent(event);
+        }
+      }, 10);
+    }
+  }
+}
+
+// Close drawer when clicking overlay
+document.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('drawerOverlay');
+  overlay.addEventListener('click', function() {
+    closeInviteDrawer();
+    closeCreateGroupDrawer();
+    closeManageGroupDrawer();
+    closeManageUsersDrawer();
+  });
+});
+</script>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Invite Users Drawer -->
+<div class="drawer" id="inviteDrawer">
+  <!-- Header -->
+  <div style="background: var(--neutral-100); border-bottom: 1px solid var(--neutral-200); height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-800); line-height: normal; color: var(--neutral-600); margin: 0; padding-left: 10px;">Invite User(s)</h2>
+    <button onclick="closeInviteDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-150); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: var(--font-size-500); line-height: 16px; color: var(--neutral-500);"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: var(--spacing-small-250) 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: var(--spacing-small-250); align-items: center; cursor: pointer; transition: all 200ms ease-out;" onclick="toggleInviteMode()">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Individual Mode</span>
+        <div id="inviteModeToggle" style="width: 54px; height: 26px; background: var(--neutral-400); border-radius: 20px; padding: var(--spacing-micro-100); display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: var(--radius-circle); transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Bulk Mode</span>
+      </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div id="drawerContent" style="padding: 15px 13px 20px 13px; display: flex; gap: 15px; width: 1004px;">
+      
+      <!-- Column 1: User Information -->
+      <div style="width: 418px; display: flex; flex-direction: column;">
+        <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">User Information</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
+          <div style="display: flex; gap: var(--spacing-small-250);">
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">First Name <span style="color: #b70900;">*</span></label>
+              <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="First Name">
+            </div>
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Last Name <span style="color: #b70900;">*</span></label>
+              <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="Last Name">
+            </div>
+          </div>
+          <div style="display: flex; gap: var(--spacing-small-250);">
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Role</label>
+              <div style="position: relative;">
+                <select style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: 3px 7px 0; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-400); width: 100%; cursor: pointer; transition: all 200ms ease-out; appearance: none;">
+                  <option>Team Member</option>
+                </select>
+                <i class="fa-regular fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: var(--font-size-300); color: var(--neutral-500); pointer-events: none;"></i>
+              </div>
+            </div>
+            <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
+              <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Title</label>
+              <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="Title">
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Email Address <span style="color: #b70900;">*</span></label>
+            <input type="email" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="username@email.com">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Phone Number</label>
+            <input type="tel" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="(000) 000-0000">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Column 2: License(s) with Bid Center ONLY -->
+      <div style="width: 218px; display: flex; flex-direction: column;">
+        <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">License(s)</span>
+        </div>
+        <div style="margin-top: 13px;">
+          <div style="background: var(--neutral-200); border-radius: var(--radius-pill); padding: var(--spacing-micro-150) 8px; height: 26px; display: inline-flex; align-items: center; justify-content: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Bid Center</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Column 3: License Tables -->
+      <div style="width: 365px; display: flex; flex-direction: column; gap: 15px;">
+        <!-- Project Intelligence Licenses Table -->
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <!-- Header -->
+          <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Project Intelligence Licenses</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">31</span>
+              </div>
+            </div>
+            <button style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+          </div>
+          <!-- Column Header -->
+          <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Feature</span>
+          </div>
+          <!-- Rows -->
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">NY - Nassau / Suffolk</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">2 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">NY - Long Island</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">3 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">PA - Philadelphia</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">PA - Keystone</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Takeoff & Estimating Licenses Table -->
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <!-- Header -->
+          <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Takeoff & Estimating Licenses</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">31</span>
+              </div>
+            </div>
+            <button style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+          </div>
+          <!-- Column Header -->
+          <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Feature</span>
+          </div>
+          <!-- Rows -->
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">3 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff with AI</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">1 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OST Planviewer</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">QuickBid</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+              <button style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: var(--neutral-0); border-top: 1px solid var(--neutral-300); padding: var(--spacing-medium-600); display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled) -->
+      <div>
+        <button class="btn-secondary" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Send Invitation Buttons -->
+      <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeInviteDrawer()">Cancel</button>
+        
+        <!-- Send Invitation Button (Primary Small - Disabled) -->
+        <button class="btn-primary" disabled>Send Invitation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Group Drawer -->
+<div class="drawer" id="createGroupDrawer" style="max-width: 624px;">
+  <div class="drawer-header">
+    <h2 class="drawer-title">Create Group</h2>
+    <button class="drawer-close" onclick="closeCreateGroupDrawer()">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-tabs">
+    <button class="drawer-tab active" onclick="switchCreateGroupTab(0)">Group Details</button>
+    <button class="drawer-tab" onclick="switchCreateGroupTab(1)">Add Existing Users</button>
+  </div>
+  
+  <div class="drawer-content" id="createGroupTabContent0">
+    <div class="form-group">
+      <label class="form-label">Group Name</label>
+      <input type="text" class="form-input" placeholder="Group Name">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Group Description</label>
+      <textarea class="form-textarea" placeholder="Group description that provides more information about this specific group."></textarea>
+    </div>
+    
+    <div class="helper-text">
+      Adding a subscription to this group automatically assigns a seat to any new user. To change this, visit the users view of the group to adjust individual users.
+    </div>
+    
+    <div class="subscription-table">
+      <div class="subscription-table-header">
+        <span>Subscription</span>
+        <span>Assign to Group</span>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Pro</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Starter</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Bid Management</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 16 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-bm" onclick="toggleSubscription('bm')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">OnScreen Takeoff</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 8 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-ost" onclick="toggleSubscription('ost')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">QuickBid - Shared</div>
+          <div class="subscription-availability low">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>You have 2 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-qb" onclick="toggleSubscription('qb')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-content" id="createGroupTabContent1" style="display: none;">
+    <div class="helper-text">
+      You can invite users to this new group! Note that admins will only manage subscriptions for this group. To grant full admin access, change their role in the organization. Owners and admins automatically have privileges for all groups.
+    </div>
+    
+    <div class="user-table">
+      <div class="user-table-header">
+        <div class="header-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
+            </div>
+          </div>
+          <span>User Name</span>
+        </div>
+        <span class="header-right">Group Admin</span>
+      </div>
+      
+      <div class="user-table-row owner-row">
+        <div class="row-left">
+          <div class="row-main">
+            <div class="checkbox-field">
+              <div class="checkbox">
+                <i class="fa-regular fa-square"></i>
+              </div>
+            </div>
+            <span class="user-name">Malcom Reynolds</span>
+            <div class="role-badge">OWNER</div>
+          </div>
+          <div class="row-warning">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch on">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row admin-row">
+        <div class="row-left">
+          <div class="row-main">
+            <div class="checkbox-field">
+              <div class="checkbox">
+                <i class="fa-regular fa-square"></i>
+              </div>
+            </div>
+            <span class="user-name">River Tam</span>
+            <div class="role-badge">ADMIN</div>
+          </div>
+          <div class="row-warning">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch on">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row admin-row">
+        <div class="row-left">
+          <div class="row-main">
+            <div class="checkbox-field">
+              <div class="checkbox">
+                <i class="fa-regular fa-square"></i>
+              </div>
+            </div>
+            <span class="user-name">Zoe Washburne</span>
+            <div class="role-badge">ADMIN</div>
+          </div>
+          <div class="row-warning">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch on">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
+            </div>
+          </div>
+          <span class="user-name">Kaylee Frye</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
+            </div>
+          </div>
+          <span class="user-name">Simon Tam</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
+            </div>
+          </div>
+          <span class="user-name">Jayne Cobb</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
+            </div>
+          </div>
+          <span class="user-name">Inara Serra</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="user-table-row user-row">
+        <div class="row-left">
+          <div class="checkbox-field">
+            <div class="checkbox">
+              <i class="fa-regular fa-square"></i>
+            </div>
+          </div>
+          <span class="user-name">Brandon Haystack</span>
+        </div>
+        <div class="row-right">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-footer">
+    <div class="drawer-footer-left">
+      <button class="btn-secondary">Reset</button>
+    </div>
+    <div class="drawer-footer-right">
+      <button class="link-button" onclick="closeCreateGroupDrawer()">Cancel</button>
+      <button class="btn-primary">Create New Group</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manage Group Drawer -->
+<div class="drawer" id="manageGroupDrawer" style="max-width: 624px;">
+  <div class="drawer-header">
+    <h2 class="drawer-title">Manage Group</h2>
+    <button class="drawer-close" onclick="closeManageGroupDrawer()">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="drawer-tabs">
+    <button class="drawer-tab active" onclick="switchManageGroupTab(0)">Group Details</button>
+    <button class="drawer-tab" onclick="switchManageGroupTab(1)">Manage Users</button>
+  </div>
+  
+  <div class="drawer-content" id="manageGroupTabContent0">
+    <div class="form-group">
+      <label class="form-label">Group Name</label>
+      <input type="text" class="form-input" value="Browncoats">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Group Description</label>
+      <textarea class="form-textarea">Independent test team, currently working on some updated projects</textarea>
+    </div>
+    
+    <div class="helper-text">
+      Adding a subscription to this group automatically assigns a seat to any new user. To change this, visit the users view of the group to adjust individual users.
+    </div>
+    
+    <div class="subscription-table">
+      <div class="subscription-table-header">
+        <span>Subscription</span>
+        <span>Assign to Group</span>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Pro</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch on" id="toggle-manage-pi-pro" onclick="toggleSubscription('manage-pi-pro')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Project Intelligence Starter</div>
+          <div class="subscription-availability unavailable">
+            <i class="fa-regular fa-circle-exclamation"></i>
+            <span>You have no seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">Bid Management</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 16 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch on" id="toggle-manage-bm" onclick="toggleSubscription('manage-bm')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">OnScreen Takeoff</div>
+          <div class="subscription-availability available">
+            <i class="fa-regular fa-check"></i>
+            <span>You have 8 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-manage-ost" onclick="toggleSubscription('manage-ost')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row">
+        <div class="subscription-info">
+          <div class="subscription-name">QuickBid - Shared</div>
+          <div class="subscription-availability low">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+            <span>You have 2 seats available</span>
+          </div>
+        </div>
+        <div class="toggle-container">
+          <div class="toggle-switch" id="toggle-manage-qb" onclick="toggleSubscription('manage-qb')">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-content" id="manageGroupTabContent1" style="display: none;">
+    <div class="helper-text">
+      Deselecting users from this group will remove their permissions from the group's subscriptions. To retain those permissions, add them separately or keep them in the group.
+    </div>
+    
+    <div class="subscription-table" style="width: 100%;">
+      <div class="subscription-table-header">
+        <div style="display: flex; align-items: center; gap: var(--spacing-micro-150);">
+          <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+            <div class="checkbox">
+              <i class="fa-solid fa-minus-square" style="font-size: var(--font-size-400); color: var(--primary-400);"></i>
+            </div>
+          </div>
+          <span>User Name</span>
+        </div>
+        <span style="text-align: right; width: 110px;">Group Admin</span>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300);">
+        <div class="subscription-info" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-150); width: 100%;">
+            <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+              <div class="checkbox">
+                <i class="fa-solid fa-check-square" style="font-size: var(--font-size-400); color: var(--primary-400);"></i>
+              </div>
+            </div>
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Malcom Reynolds</span>
+            <div class="role-badge">OWNER</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-150); padding-left: 42px;">
+            <i class="fa-regular fa-triangle-exclamation" style="font-size: var(--font-size-300); color: #bf8700;"></i>
+            <span style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #bf8700;">Automatically gets admin rights.</span>
+          </div>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch on disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300);">
+        <div class="subscription-info" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-150); width: 100%;">
+            <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+              <div class="checkbox">
+                <i class="fa-solid fa-check-square" style="font-size: var(--font-size-400); color: var(--primary-400);"></i>
+              </div>
+            </div>
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">River Tam</span>
+            <div class="role-badge">ADMIN</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-150); padding-left: 42px;">
+            <i class="fa-regular fa-triangle-exclamation" style="font-size: var(--font-size-300); color: #bf8700;"></i>
+            <span style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #bf8700;">Automatically gets admin rights.</span>
+          </div>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch on disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300);">
+        <div class="subscription-info" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-150); width: 100%;">
+            <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+              <div class="checkbox">
+                <i class="fa-regular fa-square" style="font-size: var(--font-size-400); color: var(--neutral-400);"></i>
+              </div>
+            </div>
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Zoe Washburne</span>
+            <div class="role-badge">ADMIN</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: var(--spacing-micro-150); padding-left: 42px;">
+            <i class="fa-regular fa-triangle-exclamation" style="font-size: var(--font-size-300); color: #bf8700;"></i>
+            <span style="font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300); color: #bf8700;">If added, automatically has admin rights.</span>
+          </div>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch on disabled">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300); height: 39px;">
+        <div class="subscription-info" style="gap: var(--spacing-micro-150);">
+          <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+            <div class="checkbox">
+              <i class="fa-regular fa-square" style="font-size: var(--font-size-400); color: var(--neutral-400);"></i>
+            </div>
+          </div>
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Kaylee Frye</span>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300); height: 39px;">
+        <div class="subscription-info" style="gap: var(--spacing-micro-150);">
+          <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+            <div class="checkbox">
+              <i class="fa-regular fa-square" style="font-size: var(--font-size-400); color: var(--neutral-400);"></i>
+            </div>
+          </div>
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Simon Tam</span>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300); height: 39px;">
+        <div class="subscription-info" style="gap: var(--spacing-micro-150);">
+          <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+            <div class="checkbox">
+              <i class="fa-regular fa-square" style="font-size: var(--font-size-400); color: var(--neutral-400);"></i>
+            </div>
+          </div>
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Jayne Cobb</span>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300); height: 39px;">
+        <div class="subscription-info" style="gap: var(--spacing-micro-150);">
+          <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+            <div class="checkbox">
+              <i class="fa-solid fa-check-square" style="font-size: var(--font-size-400); color: var(--primary-400);"></i>
+            </div>
+          </div>
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Inara Serra</span>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subscription-row" style="border-bottom: 1px solid var(--neutral-300); height: 39px;">
+        <div class="subscription-info" style="gap: var(--spacing-micro-150);">
+          <div class="checkbox-field" style="padding: var(--spacing-micro-200);">
+            <div class="checkbox">
+              <i class="fa-solid fa-check-square" style="font-size: var(--font-size-400); color: var(--primary-400);"></i>
+            </div>
+          </div>
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-300); color: var(--neutral-600);">Brandon Haystack</span>
+        </div>
+        <div class="toggle-container" style="width: 110px;">
+          <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-footer">
+    <div class="drawer-footer-left">
+      <button class="btn-secondary">Reset</button>
+    </div>
+    <div class="drawer-footer-right">
+      <button class="link-button" onclick="closeManageGroupDrawer()">Cancel</button>
+      <button class="btn-primary">Save Updates</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manage Users Drawer -->
+<div class="drawer" id="manageUsersDrawer">
+  <!-- Header -->
+  <div style="background: var(--neutral-100); border-bottom: 1px solid var(--neutral-200); height: 60px; padding: 14px 20px 14px 10px; display: flex; align-items: flex-end; justify-content: space-between;">
+    <h2 style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-800); line-height: normal; color: var(--neutral-600); margin: 0; padding-left: 10px;">Manage User(s)</h2>
+    <button onclick="closeManageUsersDrawer()" style="background: none; border: none; border-radius: 9999px; cursor: pointer; transition: all 200ms ease-out; padding: var(--spacing-micro-150); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-regular fa-xmark" style="font-size: var(--font-size-500); line-height: 16px; color: var(--neutral-500);"></i>
+    </button>
+  </div>
+  
+  <!-- Content Container -->
+  <div style="background: white; flex: 1; display: flex; flex-direction: column; position: relative; overflow-y: auto;">
+    <!-- Toggle Section - Individual Mode / Bulk Mode -->
+    <div style="background: #f2fafe; padding: var(--spacing-small-250) 0; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; gap: var(--spacing-small-250); align-items: center; cursor: pointer; transition: all 200ms ease-out;" onclick="toggleManageUsersMode()">
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Individual Mode</span>
+        <div id="manageUsersModeToggle" style="width: 54px; height: 26px; background: var(--neutral-400); border-radius: 20px; padding: var(--spacing-micro-100); display: flex; align-items: center; transition: all 0.3s ease;">
+          <div style="width: 20px; height: 20px; background: white; border-radius: var(--radius-circle); transition: all 0.3s ease;"></div>
+        </div>
+        <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500);">Bulk Mode</span>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="manageUsersDrawerContent">
+      <!-- Content will be loaded via loadManageUsersIndividualMode() or loadManageUsersBulkMode() -->
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div style="background: var(--neutral-0); border-top: 1px solid var(--neutral-300); padding: var(--spacing-medium-600); display: flex; align-items: center; flex-shrink: 0; min-height: 72px; width: 100%; position: relative; z-index: 10;">
+    <div style="position: relative; width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;">
+      <!-- Left Side - Reset Button (Secondary Small - Disabled by default) -->
+      <div>
+        <button class="btn-secondary" id="manageUsersResetBtn" onclick="resetManageUsersForm()" disabled>Reset</button>
+      </div>
+      
+      <!-- Right Side - Cancel + Update User Settings Buttons -->
+      <div style="display: flex; gap: var(--spacing-medium-600); align-items: center;">
+        <!-- Cancel Button (Link Small) -->
+        <button class="btn-link" onclick="closeManageUsersDrawer()">Cancel</button>
+        
+        <!-- Update User Settings Button (Primary Small - Disabled by default) -->
+        <button class="btn-primary" id="manageUsersUpdateBtn" disabled>Update User Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<script>
+// Manage Users Drawer - Load Individual Mode
+function loadManageUsersIndividualMode() {
+  document.getElementById('manageUsersDrawerContent').innerHTML = `
+    <div style="padding: 15px 13px 20px; display: flex; gap: 15px;">
+      <!-- Column 1: User Information -->
+      <div style="width: 418px; display: flex; flex-direction: column;">
+        <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">User Information</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 13px; margin-top: 13px;">
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">User Name</label>
+            <a href="#" style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--primary-500); text-decoration: none;">Kaylee Frye</a>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
+            <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Role</label>
+            <div style="position: relative;">
+              <select id="manageUsersRoleSelect" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: 3px 7px 0; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); width: 100%; cursor: pointer; transition: all 200ms ease-out; appearance: none;">
+                <option>Team Member</option>
+                <option>Admin</option>
+                <option>Owner</option>
+              </select>
+              <i class="fa-regular fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: var(--font-size-300); color: var(--neutral-500); pointer-events: none;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Column 2: License(s) -->
+      <div style="width: 218px; display: flex; flex-direction: column;">
+        <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">License(s)</span>
+        </div>
+        <div id="manageUsersLicenseChips" style="margin-top: 13px; display: flex; flex-direction: column; gap: var(--spacing-micro-200);">
+          <div style="background: var(--neutral-200); border-radius: var(--radius-pill); padding: var(--spacing-micro-150) 8px; height: 26px; display: inline-flex; align-items: center; justify-content: space-between; gap: var(--spacing-micro-150);">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Project Intelligence Starter</span>
+            <button onclick="removeLicenseChip('pi-starter')" style="background: transparent; border: none; cursor: pointer; transition: all 200ms ease-out; padding: 0; display: flex; align-items: center; justify-content: center; width: 14px; height: 14px;">
+              <i class="fa-regular fa-xmark" style="font-size: var(--font-size-200); color: var(--neutral-600);"></i>
+            </button>
+          </div>
+          <div style="background: var(--neutral-200); border-radius: var(--radius-pill); padding: var(--spacing-micro-150) 8px; height: 26px; display: inline-flex; align-items: center; justify-content: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Bid Center</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Column 3: License Tables -->
+      <div style="width: 365px; display: flex; flex-direction: column; gap: 15px;">
+        <!-- Project Intelligence Licenses Table -->
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Project Intelligence Licenses</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">20</span>
+              </div>
+            </div>
+            <button onclick="window.location.href='v2-modify-users-workflow-multi.html'" style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Subscription</span>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Starter</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Assigned</span>
+              <button onclick="unassignLicense('pi-starter')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-minus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Pro</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">13 Available</span>
+              <button onclick="assignLicense('pi-pro')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Takeoff & Estimating Licenses Table -->
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Takeoff & Estimating Licenses</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">31</span>
+              </div>
+            </div>
+            <button style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Feature</span>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">3 Available</span>
+              <button onclick="assignLicense('ost')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff with AI</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">1 Available</span>
+              <button onclick="assignLicense('ost-ai')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OST Planviewer</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+              <button onclick="assignLicense('ost-planviewer')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">QuickBid</span>
+            <div style="display: flex; gap: var(--spacing-small-250); align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">6 Available</span>
+              <button onclick="assignLicense('quickbid')" style="background: transparent; border: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 200ms ease-out;">
+                <i class="fa-regular fa-plus" style="font-size: var(--font-size-400); color: var(--neutral-500);"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Manage Users Drawer - Load Bulk Mode
+function loadManageUsersBulkMode() {
+  document.getElementById('manageUsersDrawerContent').innerHTML = `
+    <div style="padding: 15px 13px 20px; display: flex; gap: 15px;">
+      <!-- Column 1: User Information (wider in bulk mode) -->
+      <div style="width: 636px; display: flex; flex-direction: column;">
+        <div style="padding: var(--spacing-small-250) 5px; border-bottom: 2px solid var(--neutral-500); height: 38px; display: flex; align-items: center;">
+          <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">User Information</span>
+        </div>
+        <div style="margin-top: 13px;">
+          <p style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Bulk mode content - upload CSV or select multiple users</p>
+        </div>
+      </div>
+      
+      <!-- Column 2: License Tables (same position) -->
+      <div style="width: 365px; display: flex; flex-direction: column; gap: 15px;">
+        <!-- Project Intelligence Licenses Table -->
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Project Intelligence Licenses</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">20</span>
+              </div>
+            </div>
+            <button onclick="window.location.href='v2-modify-users-workflow-multi.html'" style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Subscription</span>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Starter</span>
+            <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Pro</span>
+            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+          </div>
+        </div>
+        
+        <!-- Takeoff & Estimating Licenses Table -->
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <div style="background: var(--neutral-100); border-bottom: 2px solid var(--neutral-400); padding: var(--spacing-micro-200) 10px; display: flex; justify-content: space-between; align-items: center; min-height: 44px;">
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Takeoff & Estimating Licenses</span>
+              <div style="background: #185a7d; border-radius: 20px; padding: var(--spacing-micro-050) 6px; height: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-semibold); font-size: var(--font-size-200); line-height: 14px; color: white;">31</span>
+              </div>
+            </div>
+            <button style="background: transparent; border: 1px solid var(--neutral-400); border-radius: var(--radius-sm); padding: var(--spacing-micro-200); height: 32px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-500); cursor: pointer; transition: all 200ms ease-out;">View Info</button>
+          </div>
+          <div style="background: white; border-bottom: 2px solid var(--neutral-500); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-500);">Feature</span>
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff</span>
+            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff with AI</span>
+            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OST Planviewer</span>
+            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+          </div>
+          <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">QuickBid</span>
+            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Manage Users Drawer - Toggle between modes
+function toggleManageUsersMode() {
+  const toggle = document.getElementById('manageUsersModeToggle');
+  
+  toggle.classList.toggle('bulk');
+  if (toggle.classList.contains('bulk')) {
+    // Switch to Bulk Mode
+    toggle.style.justifyContent = 'flex-end';
+    loadManageUsersBulkMode();
+  } else {
+    // Switch to Individual Mode
+    toggle.style.justifyContent = 'flex-start';
+    loadManageUsersIndividualMode();
+  }
+  
+  // Reinitialize change tracking after mode switch
+  initializeManageUsersDrawer();
+}
+
+// Manage Users Drawer - Track changes and enable/disable buttons
+(function() {
+  // Store initial form state
+  let initialState = {
+    role: '',
+    licenses: []
+  };
+  
+  // Function to capture initial state
+  function captureInitialState() {
+    const drawer = document.getElementById('manageUsersDrawer');
+    const roleSelect = drawer.querySelector('select');
+    initialState.role = roleSelect ? roleSelect.value : '';
+    // Store licenses (green pills) 
+    const licenseChips = drawer.querySelectorAll('[onclick^="removeLicenseChip"]');
+    initialState.licenses = Array.from(licenseChips).map(chip => {
+      return chip.closest('div').querySelector('span').textContent.trim();
+    });
+  }
+  
+  // Function to check if state has changed
+  function hasChanged() {
+    const drawer = document.getElementById('manageUsersDrawer');
+    const roleSelect = drawer.querySelector('select');
+    const currentRole = roleSelect ? roleSelect.value : '';
+    
+    // Check role change
+    if (currentRole !== initialState.role) {
+      return true;
+    }
+    
+    // Check licenses change
+    const currentLicenseChips = drawer.querySelectorAll('[onclick^="removeLicenseChip"]');
+    const currentLicenses = Array.from(currentLicenseChips).map(chip => {
+      return chip.closest('div').querySelector('span').textContent.trim();
+    });
+    
+    if (currentLicenses.length !== initialState.licenses.length) {
+      return true;
+    }
+    
+    for (let i = 0; i < currentLicenses.length; i++) {
+      if (currentLicenses[i] !== initialState.licenses[i]) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  // Function to update button states
+  function updateButtonStates() {
+    const resetBtn = document.getElementById('manageUsersResetBtn');
+    const updateBtn = document.getElementById('manageUsersUpdateBtn');
+    
+    if (hasChanged()) {
+      resetBtn.disabled = false;
+      updateBtn.disabled = false;
+    } else {
+      resetBtn.disabled = true;
+      updateBtn.disabled = true;
+    }
+  }
+  
+  // Attach change listeners
+  function attachChangeListeners() {
+    const drawer = document.getElementById('manageUsersDrawer');
+    const roleSelect = drawer.querySelector('select');
+    
+    if (roleSelect) {
+      roleSelect.addEventListener('change', updateButtonStates);
+    }
+    
+    // Note: license changes are handled via onclick functions
+    // Those functions should call updateButtonStates() after modifying licenses
+  }
+  
+  // Expose function to be called when drawer opens
+  window.initializeManageUsersDrawer = function() {
+    captureInitialState();
+    attachChangeListeners();
+    updateButtonStates();
+  };
+  
+  // Expose function for reset button
+  window.resetManageUsersForm = function() {
+    const drawer = document.getElementById('manageUsersDrawer');
+    const roleSelect = drawer.querySelector('select');
+    
+    if (roleSelect) {
+      roleSelect.value = initialState.role;
+    }
+    
+    // Note: Resetting licenses would require re-rendering the chip list
+    // For now, this resets the role and disables buttons
+    updateButtonStates();
+  };
+})();
+</script>
+</html>
