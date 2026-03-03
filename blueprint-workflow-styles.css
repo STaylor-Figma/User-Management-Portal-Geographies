@@ -924,19 +924,29 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   cursor: pointer;
   z-index: 1;
 }
-.bp-checkbox .bp-checkbox-icon {
+.bp-checkbox .bp-checkbox-icon,
+.bp-checkbox-icon {
   font-size: 16px;
   line-height: 14px;
   color: var(--neutral-400);
   pointer-events: none;
   transition: color 200ms ease-out;
 }
+.bp-checkbox:hover .bp-checkbox-icon {
+  color: var(--neutral-500);
+}
+.bp-checkbox input:checked ~ .bp-checkbox-icon,
 .bp-checkbox input:checked + .bp-checkbox-icon {
   color: var(--primary-400);
+}
+.bp-checkbox input:checked ~ .bp-checkbox-icon:hover,
+.bp-checkbox:hover input:checked ~ .bp-checkbox-icon {
+  color: var(--primary-600);
 }
 .bp-checkbox.bp-checkbox--indeterminate .bp-checkbox-icon {
   color: var(--primary-400);
 }
+.bp-checkbox input:disabled ~ .bp-checkbox-icon,
 .bp-checkbox input:disabled + .bp-checkbox-icon {
   color: var(--neutral-300);
   cursor: not-allowed;

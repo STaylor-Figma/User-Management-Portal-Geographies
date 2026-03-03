@@ -53,9 +53,38 @@
     document.body.appendChild(toggle);
   }
 
+  function syncCheckboxIcon(checkbox) {
+    var icon = checkbox.closest('.bp-checkbox');
+    icon = icon ? icon.querySelector('.bp-checkbox-icon') : null;
+    if (!icon) {
+      icon = checkbox.nextElementSibling;
+      if (!icon || !icon.classList.contains('bp-checkbox-icon')) return;
+    }
+    if (checkbox.indeterminate) {
+      icon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
+    } else if (checkbox.checked) {
+      icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+    } else {
+      icon.className = 'fa-regular fa-square bp-checkbox-icon';
+    }
+  }
+
+  function initCheckboxes() {
+    var checkboxes = document.querySelectorAll('.bp-checkbox input[type="checkbox"]');
+    checkboxes.forEach(function(cb) { syncCheckboxIcon(cb); });
+
+    document.addEventListener('change', function(e) {
+      if (!e.target.matches('.bp-checkbox input[type="checkbox"]')) return;
+      syncCheckboxIcon(e.target);
+    });
+  }
+
+  window.syncCheckboxIcon = syncCheckboxIcon;
+
   function init() {
     injectToggle();
     applyPersona(getStoredPersona());
+    initCheckboxes();
   }
 
   if (document.readyState === 'loading') {
