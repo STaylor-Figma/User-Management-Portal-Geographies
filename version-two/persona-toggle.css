@@ -99,9 +99,3 @@ body.is-owner .billing-nav-item {
   vertical-align: middle;
 }
 
-.role-badge::after {
-  content: 'ADMIN';
-}
-body.is-owner .role-badge::after {
-  content: 'OWNER';
-}
