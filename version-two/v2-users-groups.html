@@ -17,64 +17,66 @@
 /* Tabs */
 .tabs-container { 
   display: flex; 
-  gap: var(--spacing-large-1000); 
-  border-bottom: 2px solid var(--neutral-200); 
-  margin-bottom: 24px; 
+  gap: 20px; 
+  border-bottom: 2px solid var(--neutral-300); 
+  margin-bottom: 24px;
+  align-items: flex-start;
 }
 .tab { 
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-micro-150);
-  padding: var(--spacing-small-250) 2px; 
-  cursor: pointer; transition: all 200ms ease-out; 
+  gap: 6px;
+  padding: 10px 2px; 
+  cursor: pointer;
+  transition: color 200ms ease-out, border-color 200ms ease-out;
   font-family: var(--font-family-blueprintfont);
   font-size: var(--font-size-300);
   font-weight: var(--font-weight-text-medium);
   line-height: 16px;
-  color: var(--neutral-500);
+  color: var(--neutral-600);
   background: transparent;
   border: none;
   border-bottom: 4px solid transparent;
-  border-radius: var(--radius-sm);
 }
 .tab:hover { 
-  color: var(--primary-500); 
+  color: var(--primary-400); 
 }
 .tab:hover .tab-count {
   background: var(--neutral-300);
 }
 .tab.active { 
   font-weight: var(--font-weight-text-bold); 
-  border-bottom: 4px solid var(--neutral-500);
+  border-bottom: 4px solid var(--neutral-600);
+  color: var(--neutral-600);
 }
 .tab.active:hover { 
-  color: var(--primary-500); 
+  color: var(--primary-400); 
 }
 .tab:focus-visible {
-  outline: 2px solid #f2fafe;
-  box-shadow: 0 0 4px 2px #949494;
+  outline: 2px solid var(--primary-100);
+  box-shadow: 0 0 4px 2px var(--neutral-500);
 }
 .tab-count { 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-micro-050) 6px; 
-  border-radius: var(--radius-pill); 
+  padding: 2px 6px; 
+  border-radius: 30px; 
   font-family: var(--font-family-blueprintfont);
-  font-size: var(--font-size-200); 
-  font-weight: var(--font-weight-text-semibold); 
+  font-size: 12px; 
+  font-weight: 600; 
   line-height: 14px;
   background: var(--neutral-200);
-  color: var(--neutral-500);
+  color: var(--neutral-600);
   min-width: 20px;
-  height: 20px;
+  max-height: 20px;
 }
 .tab.active .tab-count {
   background: var(--primary-500);
   color: var(--neutral-0);
 }
 .tab.active:hover .tab-count {
-  background: var(--primary-500);
+  background: var(--primary-400);
 }
 
 /* Action Bar */
