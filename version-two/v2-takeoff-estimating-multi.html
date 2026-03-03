@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific styles */
 
@@ -142,6 +143,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -154,6 +160,10 @@
 
 <!-- Compact Navigation -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -174,7 +184,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -185,6 +195,10 @@
   
   <!-- Sidebar Navigation -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -205,7 +219,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -213,7 +227,6 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
       
       <!-- Header & Tabs -->
       <div class="header">
@@ -241,6 +254,7 @@
           <button class="tab active">Takeoff & Estimating</button>
         </div>
       </div>
+    <div class="container">
       <div class="content">
         <!-- SECTION 1: NAMED-USER LICENSES -->
         <div class="section-header">
@@ -267,7 +281,7 @@
         <table class="user-table">
           <thead>
             <tr>
-              <th class="checkbox-cell"><input type="checkbox" id="selectAll"></th>
+              <th class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" id="selectAll"><i class="fa-regular fa-square bp-checkbox-icon" id="selectAllIcon"></i></label></th>
               <th>User Name</th>
               <th>Desktop License</th>
               <th>Web License</th>
@@ -433,9 +447,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Select All checkbox
   document.getElementById('selectAll').addEventListener('change', function() {
+    const isChecked = this.checked;
+    const selectAllIcon = document.getElementById('selectAllIcon');
+    if (selectAllIcon) selectAllIcon.className = isChecked ? 'fa-solid fa-square-check bp-checkbox-icon' : 'fa-regular fa-square bp-checkbox-icon';
     const checkboxes = document.querySelectorAll('.user-checkbox');
     checkboxes.forEach(cb => {
-      cb.checked = this.checked;
+      cb.checked = isChecked;
+      const icon = cb.nextElementSibling;
+      if (icon) icon.className = isChecked ? 'fa-solid fa-square-check bp-checkbox-icon' : 'fa-regular fa-square bp-checkbox-icon';
     });
     updateSelectedUsers();
   });
@@ -503,7 +522,7 @@ function renderUserTable() {
   tbody.innerHTML = users.map(user => `
     <tr>
       <td class="checkbox-cell">
-        <input type="checkbox" class="user-checkbox checkbox" data-user-id="${user.id}" onchange="updateSelectedUsers()">
+        <label class="bp-checkbox"><input type="checkbox" class="user-checkbox checkbox" data-user-id="${user.id}" onchange="updateSelectedUsers()"><i class="fa-regular fa-square bp-checkbox-icon"></i></label>
       </td>
       <td>
         <div class="user-name-cell">
@@ -596,16 +615,25 @@ function updateSelectedUsers() {
   
   // Update Select All checkbox state
   const selectAllCheckbox = document.getElementById('selectAll');
+  const selectAllIcon = document.getElementById('selectAllIcon');
   if (checkboxes.length === 0) {
     selectAllCheckbox.checked = false;
     selectAllCheckbox.indeterminate = false;
+    if (selectAllIcon) selectAllIcon.className = 'fa-regular fa-square bp-checkbox-icon';
   } else if (checkboxes.length === allCheckboxes.length) {
     selectAllCheckbox.checked = true;
     selectAllCheckbox.indeterminate = false;
+    if (selectAllIcon) selectAllIcon.className = 'fa-solid fa-square-check bp-checkbox-icon';
   } else {
     selectAllCheckbox.checked = false;
     selectAllCheckbox.indeterminate = true;
+    if (selectAllIcon) selectAllIcon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
   }
+
+  allCheckboxes.forEach(cb => {
+    const icon = cb.nextElementSibling;
+    if (icon) icon.className = cb.checked ? 'fa-solid fa-square-check bp-checkbox-icon' : 'fa-regular fa-square bp-checkbox-icon';
+  });
   
   const addBtn = document.getElementById('addLicenseBtn');
   const removeBtn = document.getElementById('removeLicenseBtn');
@@ -794,6 +822,8 @@ function bulkRemoveLicenses() {
       renderUserTable();
       selectedUsers = [];
       document.getElementById('selectAll').checked = false;
+      const selectAllIcon = document.getElementById('selectAllIcon');
+      if (selectAllIcon) selectAllIcon.className = 'fa-regular fa-square bp-checkbox-icon';
     }
   }
 }
@@ -825,10 +855,13 @@ function confirmForceReturn() {
 
 // Mobile nav toggle
 function toggleMobileNav() {
-  const sidebar = document.querySelector('.sidebar-nav');
+  const nav = document.querySelector('.compact-nav');
   const overlay = document.querySelector('.compact-overlay');
-  sidebar.classList.toggle('mobile-open');
-  overlay.classList.toggle('show');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
 }
 </script>
 
@@ -887,5 +920,6 @@ function toggleMobileNav() {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

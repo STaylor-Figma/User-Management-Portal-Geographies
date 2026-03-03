@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific overrides for Blueprint Design System */
 
@@ -457,6 +458,31 @@
   flex-shrink: 0;
 }
 
+.bp-checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.bp-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.bp-checkbox-icon {
+  font-size: 20px;
+  color: var(--neutral-400, #9ca3af);
+  transition: color 0.15s ease;
+}
+
+.bp-checkbox input:checked + .bp-checkbox-icon {
+  color: var(--blue-500, #3b82f6);
+}
+
 .user-list-info {
   flex: 1;
 }
@@ -664,6 +690,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -676,6 +707,10 @@
 
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -696,7 +731,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -707,6 +742,10 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -727,7 +766,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -735,7 +774,6 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
       
       <!-- Header & Tabs -->
       <div class="header">
@@ -762,6 +800,8 @@
           <button class="tab" onclick="switchTab('takeoff')">Takeoff & Estimating</button>
         </div>
       </div>
+
+    <div class="container">
 
       <!-- Content Area -->
       <div class="content">
@@ -1609,14 +1649,9 @@
               <span class="results-info">1-5 of 5</span>
               <button class="pagination-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
               <button class="pagination-btn"><i class="fa-regular fa-chevron-right"></i></button>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                      </div>
-                    </td>
-                  </tr>\n                </tbody>\n              </table>\n            </div>\n\n            <!-- Table Footer -->
+            </div>
+
+            <!-- Table Footer -->
             <div class="table-footer">
               <div class="results-count">
                 <strong id="ostResultsCount">3</strong> Results Found
@@ -2116,21 +2151,30 @@ function assignRole(roleName) {
             <div class="modal-section-title">Available Users</div>
             <div class="user-list">
               <div class="user-list-item">
-                <input type="checkbox" class="user-list-checkbox checkbox">
+                <label class="bp-checkbox">
+                  <input type="checkbox" class="user-list-checkbox checkbox">
+                  <i class="fa-regular fa-square bp-checkbox-icon"></i>
+                </label>
                 <div class="user-list-info">
                   <div class="user-list-name">Hoban Washburne</div>
                   <div class="user-list-email">hoban@serenity.com • Current Role: None</div>
                 </div>
               </div>
               <div class="user-list-item">
-                <input type="checkbox" class="user-list-checkbox checkbox">
+                <label class="bp-checkbox">
+                  <input type="checkbox" class="user-list-checkbox checkbox">
+                  <i class="fa-regular fa-square bp-checkbox-icon"></i>
+                </label>
                 <div class="user-list-info">
                   <div class="user-list-name">Malcolm Reynolds</div>
                   <div class="user-list-email">mal@serenity.com • No BM License</div>
                 </div>
               </div>
               <div class="user-list-item">
-                <input type="checkbox" class="user-list-checkbox checkbox">
+                <label class="bp-checkbox">
+                  <input type="checkbox" class="user-list-checkbox checkbox">
+                  <i class="fa-regular fa-square bp-checkbox-icon"></i>
+                </label>
                 <div class="user-list-info">
                   <div class="user-list-name">Jayne Cobb</div>
                   <div class="user-list-email">jayne@serenity.com • No BM License (Requested)</div>
@@ -2188,6 +2232,17 @@ function confirmAssignRole(roleName) {
   alert(`Users would be assigned "${roleName}" role in production`);
   closeModal('assignRoleModal');
 }
+
+document.addEventListener('change', function (e) {
+  if (!e.target.matches('.bp-checkbox input[type="checkbox"]')) return;
+  const icon = e.target.nextElementSibling;
+  if (!icon || !icon.classList.contains('bp-checkbox-icon')) return;
+  if (e.target.checked) {
+    icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+  } else {
+    icon.className = 'fa-regular fa-square bp-checkbox-icon';
+  }
+});
 </script>
 
 <!-- Invite Drawer JavaScript -->
@@ -2245,5 +2300,6 @@ function confirmAssignRole(roleName) {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

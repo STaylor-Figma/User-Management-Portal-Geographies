@@ -1237,6 +1237,32 @@
   }
 }
 
+/* Blueprint Checkbox */
+.bp-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.bp-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.bp-checkbox-icon {
+  font-size: 16px;
+  color: var(--neutral-500, #6b7280);
+  transition: all 200ms ease-out;
+}
+.bp-checkbox:hover .bp-checkbox-icon {
+  color: var(--blue-500, #185a7d);
+}
+
 </style>
 </head>
 <body>
@@ -1254,6 +1280,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -1261,8 +1292,15 @@
   </div>
 </div>
 
-<!-- Compact Navigation (Top) -->
-<div class="compact-nav">
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -1287,13 +1325,17 @@
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
-</div>
+</nav>
 
 <!-- Layout -->
 <div class="layout">
   
   <!-- Sidebar Navigation -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -1322,7 +1364,6 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
     
     <!-- Header -->
     <div class="header">
@@ -1344,6 +1385,8 @@
         </div>
       </div>
     </div>
+
+    <div class="container">
 
     <!-- Tabs -->
     <div class="tabs-container">
@@ -1387,7 +1430,7 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width: 40px;"><input type="checkbox" id="selectAllUsers"></th>
+              <th style="width: 40px;"><label class="bp-checkbox"><input type="checkbox" id="selectAllUsers"><i class="fa-regular fa-square bp-checkbox-icon" id="selectAllUsersIcon"></i></label></th>
               <th style="width: 240px;">User Name</th>
               <th>Project Intelligence</th>
               <th>Bid Management</th>
@@ -1397,7 +1440,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><input type="checkbox" class="user-checkbox"></td>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
               <td>
                 <div class="user-name-cell">
                   <div class="user-name-row">
@@ -1422,7 +1465,7 @@
               <td>March 12, 2025</td>
             </tr>
             <tr>
-              <td><input type="checkbox" class="user-checkbox"></td>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
               <td>
                 <div class="user-name-cell">
                   <div class="user-name-row">
@@ -1447,7 +1490,7 @@
               <td>March 15, 2025</td>
             </tr>
             <tr>
-              <td><input type="checkbox" class="user-checkbox"></td>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
               <td>
                 <div class="user-name-cell">
                   <div class="user-name-row">
@@ -1674,6 +1717,17 @@
   </div>
 
 <script>
+// Mobile navigation toggle
+function toggleMobileNav() {
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+
 // Tab switching
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', function() {
@@ -1693,19 +1747,54 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 // Checkbox management
 const selectAllCheckbox = document.getElementById('selectAllUsers');
+const selectAllIcon = document.getElementById('selectAllUsersIcon');
 const userCheckboxes = document.querySelectorAll('.user-checkbox');
 const manageSelectedBtn = document.getElementById('manageSelectedBtn');
+
+function updateCheckboxIcon(checkbox) {
+  const icon = checkbox.closest('.bp-checkbox')?.querySelector('.bp-checkbox-icon');
+  if (!icon) return;
+  if (checkbox.indeterminate) {
+    icon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
+  } else if (checkbox.checked) {
+    icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+  } else {
+    icon.className = 'fa-regular fa-square bp-checkbox-icon';
+  }
+}
 
 selectAllCheckbox.addEventListener('change', function() {
   userCheckboxes.forEach(checkbox => {
     checkbox.checked = this.checked;
+    updateCheckboxIcon(checkbox);
   });
+  updateCheckboxIcon(this);
   updateManageButton();
 });
 
 userCheckboxes.forEach(checkbox => {
-  checkbox.addEventListener('change', updateManageButton);
+  checkbox.addEventListener('change', function() {
+    updateCheckboxIcon(this);
+    updateSelectAllState();
+    updateManageButton();
+  });
 });
+
+function updateSelectAllState() {
+  const total = userCheckboxes.length;
+  const checkedCount = Array.from(userCheckboxes).filter(cb => cb.checked).length;
+  if (checkedCount === 0) {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = false;
+  } else if (checkedCount === total) {
+    selectAllCheckbox.checked = true;
+    selectAllCheckbox.indeterminate = false;
+  } else {
+    selectAllCheckbox.checked = false;
+    selectAllCheckbox.indeterminate = true;
+  }
+  updateCheckboxIcon(selectAllCheckbox);
+}
 
 function updateManageButton() {
   const anyChecked = Array.from(userCheckboxes).some(cb => cb.checked);
@@ -3107,11 +3196,11 @@ function loadManageUsersBulkMode() {
           </div>
           <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Starter</span>
-            <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+            <label class="bp-checkbox"><input type="checkbox" checked><i class="fa-solid fa-square-check bp-checkbox-icon"></i></label>
           </div>
           <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">Project Intelligence Pro</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+            <label class="bp-checkbox"><input type="checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label>
           </div>
         </div>
         
@@ -3131,19 +3220,19 @@ function loadManageUsersBulkMode() {
           </div>
           <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+            <label class="bp-checkbox"><input type="checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label>
           </div>
           <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OnScreen Takeoff with AI</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+            <label class="bp-checkbox"><input type="checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label>
           </div>
           <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">OST Planviewer</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+            <label class="bp-checkbox"><input type="checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label>
           </div>
           <div style="border-bottom: 1px solid var(--neutral-300); padding: var(--spacing-micro-200) 10px; height: 38px; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 18px; color: var(--neutral-500);">QuickBid</span>
-            <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out;">
+            <label class="bp-checkbox"><input type="checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label>
           </div>
         </div>
       </div>

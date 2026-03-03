@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific overrides for Blueprint Design System */
 
@@ -54,7 +55,12 @@
 
 /* Checkbox Column */
 .checkbox-cell { width: 34px; padding: var(--spacing-small-250) !important; vertical-align: top; }
-.checkbox { width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out; margin: 0; }
+.checkbox { width: 16px; height: 16px; cursor: pointer; transition: all 200ms ease-out; margin: 0; position: absolute; opacity: 0; }
+.bp-checkbox { display: inline-flex; align-items: center; cursor: pointer; position: relative; }
+.bp-checkbox-icon { font-size: 18px; color: var(--neutral-400); transition: all 200ms ease-out; line-height: 1; }
+.bp-checkbox input:checked ~ .bp-checkbox-icon { color: var(--primary-400); }
+.bp-checkbox:hover .bp-checkbox-icon { color: var(--neutral-500); }
+.bp-checkbox input:checked ~ .bp-checkbox-icon:hover { color: var(--primary-600); }
 
 /* User Name Column */
 .user-name-cell { width: 192px; }
@@ -153,6 +159,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -165,6 +176,10 @@
 
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -185,7 +200,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -196,6 +211,10 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -216,7 +235,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -224,37 +243,36 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
-      
-      <!-- Header & Tabs -->
-      <div class="header">
-        <div class="header-top">
-          <h1>Subscriptions & Licenses</h1>
-          <div class="header-icons">
-            <button class="icon-btn" onclick="openInviteDrawer()">
-              <i class="fa-solid fa-user-plus"></i>
-              <span class="tooltip">Invite User</span>
-            </button>
-            <button class="icon-btn">
-              <i class="fa-solid fa-clock-rotate-left"></i>
-              <span class="tooltip">History</span>
-            </button>
-            <button class="icon-btn">
-              <i class="fa-solid fa-ellipsis"></i>
-              <span class="tooltip">More</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-          <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
-          <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
-          <button class="tab active">Bid Management</button>
-          <button class="tab" onclick="window.location.href='v2-takeoff-estimating.html'">Takeoff & Estimating</button>
+    <!-- Header & Tabs -->
+    <div class="header">
+      <div class="header-top">
+        <h1>Subscriptions & Licenses</h1>
+        <div class="header-icons">
+          <button class="icon-btn" onclick="openInviteDrawer()">
+            <i class="fa-solid fa-user-plus"></i>
+            <span class="tooltip">Invite User</span>
+          </button>
+          <button class="icon-btn">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span class="tooltip">History</span>
+          </button>
+          <button class="icon-btn">
+            <i class="fa-solid fa-ellipsis"></i>
+            <span class="tooltip">More</span>
+          </button>
         </div>
       </div>
 
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab" onclick="window.location.href='v2-subscription-overview.html'">Organization Overview</button>
+        <button class="tab" onclick="window.location.href='v2-modify-users-workflow.html'">Project Intelligence</button>
+        <button class="tab active">Bid Management</button>
+        <button class="tab" onclick="window.location.href='v2-takeoff-estimating.html'">Takeoff & Estimating</button>
+      </div>
+    </div>
+
+    <div class="container">
       <div class="content">
         <!-- Page Content -->
         <div class="page-content">
@@ -308,7 +326,7 @@
           <table class="bm-table">
             <thead>
               <tr>
-                <th class="checkbox-cell"><input type="checkbox" class="checkbox" id="selectAll"></th>
+                <th class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox" id="selectAll"><i class="fa-regular fa-square bp-checkbox-icon" id="selectAllIcon"></i></label></th>
                 <th class="user-name-cell">User Name</th>
                 <th>Bid Management Role</th>
                 <th>Access</th>
@@ -319,7 +337,7 @@
             <tbody>
               <!-- Row 1: Malcom Reynolds - OWNER, No BM Access -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Malcom Reynolds</a>
@@ -339,7 +357,7 @@
 
               <!-- Row 2: River Tam - OWNER, Bid Coordinator, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">River Tam</a>
@@ -359,7 +377,7 @@
 
               <!-- Row 3: Zoe Washburne - ADMIN, Estimator, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Zoe Washburne</a>
@@ -379,7 +397,7 @@
 
               <!-- Row 4: Kaylee Frye - Estimator, Inactive -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Kaylee Frye</a>
@@ -398,7 +416,7 @@
 
               <!-- Row 5: Simon Tam - Team Member, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Simon Tam</a>
@@ -417,7 +435,7 @@
 
               <!-- Row 6: Hoban Washburne - Project Manager, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Hoban Washburne</a>
@@ -436,7 +454,7 @@
 
               <!-- Row 7: Inara Serra - PQ Analyst, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Inara Serra</a>
@@ -455,7 +473,7 @@
 
               <!-- Row 8: Shepherd Book - Intern, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Shepherd Book</a>
@@ -474,7 +492,7 @@
 
               <!-- Row 9: Derrial Book - Senior Estimator (Custom), Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Derrial Book</a>
@@ -493,7 +511,7 @@
 
               <!-- Row 10: Saffron - Company Admin, Active -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Saffron</a>
@@ -512,7 +530,7 @@
 
               <!-- Row 11: Jayne Cobb - Requested Access -->
               <tr>
-                <td class="checkbox-cell"><input type="checkbox" class="checkbox row-checkbox"></td>
+                <td class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox row-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
                 <td class="user-name-cell">
                   <div class="user-name">
                     <a href="#" class="user-link">Jayne Cobb</a>
@@ -571,16 +589,55 @@ function toggleMobileNav() {
   overlay.classList.toggle('show');
 }
 
+// Checkbox icon helper
+function updateCheckboxIcon(checkbox) {
+  const icon = checkbox.parentElement.querySelector('.bp-checkbox-icon');
+  if (!icon) return;
+  if (checkbox.indeterminate) {
+    icon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
+  } else if (checkbox.checked) {
+    icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+  } else {
+    icon.className = 'fa-regular fa-square bp-checkbox-icon';
+  }
+}
+
+function updateSelectAllState() {
+  const selectAll = document.getElementById('selectAll');
+  const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+  const checkedCount = document.querySelectorAll('.row-checkbox:checked').length;
+  if (checkedCount === 0) {
+    selectAll.checked = false;
+    selectAll.indeterminate = false;
+  } else if (checkedCount === rowCheckboxes.length) {
+    selectAll.checked = true;
+    selectAll.indeterminate = false;
+  } else {
+    selectAll.checked = false;
+    selectAll.indeterminate = true;
+  }
+  updateCheckboxIcon(selectAll);
+}
+
 // Select All Checkbox
 document.getElementById('selectAll').addEventListener('change', function(e) {
   const checkboxes = document.querySelectorAll('.row-checkbox');
-  checkboxes.forEach(cb => cb.checked = e.target.checked);
+  checkboxes.forEach(cb => {
+    cb.checked = e.target.checked;
+    updateCheckboxIcon(cb);
+  });
+  this.indeterminate = false;
+  updateCheckboxIcon(this);
   updateActionButtons();
 });
 
 // Row Checkboxes
 document.querySelectorAll('.row-checkbox').forEach(cb => {
-  cb.addEventListener('change', updateActionButtons);
+  cb.addEventListener('change', function() {
+    updateCheckboxIcon(this);
+    updateSelectAllState();
+    updateActionButtons();
+  });
 });
 
 // Update Authorize/Deauthorize button states
@@ -1188,5 +1245,6 @@ function closeModal(modalId) {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>
