@@ -264,6 +264,8 @@
     align-items: flex-start; 
   }
 }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; background: var(--neutral-200); border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--neutral-600); line-height: 14px; font-family: var(--font-family-blueprintfont); }
 </style>
 </head>
 <body>
@@ -370,7 +372,7 @@
       <div class="header-top">
         <div style="display: flex; align-items: center; gap: var(--spacing-small-400);">
           <h1>Company Overview</h1>
-          <span class="status-badge">ORG-45829</span>
+          <span class="pill">ORG-45829</span>
         </div>
         <div class="header-icons">
           <button class="icon-btn" onclick="openInviteDrawer()">

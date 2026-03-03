@@ -71,17 +71,12 @@
 .role-badge.owner { background: var(--neutral-400); }
 .role-badge.admin { background: var(--neutral-400); }
 
-/* Access Badge */
-.access-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-bold); font-family: var(--font-family-blueprintfont); line-height: 14px; }
-.access-badge.bm { background: #00a651; color: white; }
-.access-badge.requested { background: var(--neutral-500); color: white; }
-.access-badge.na { background: var(--neutral-200); color: var(--neutral-500); font-weight: var(--font-weight-text-medium); }
-
-/* Status Badge */
-.status-badge { display: inline-flex; padding: var(--spacing-micro-100) 8px; border-radius: var(--radius-sm); font-size: var(--font-size-200); font-weight: var(--font-weight-text-bold); font-family: var(--font-family-blueprintfont); line-height: 14px; border: none; }
-.status-badge.active { background: #d4edda; color: #155724; }
-.status-badge.inactive { background: #f5a623; color: var(--neutral-600); }
-.status-badge.na { background: transparent; color: var(--neutral-500); font-weight: var(--font-weight-text-medium); }
+/* Pill Badges */
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; background: var(--neutral-200); border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--neutral-600); line-height: 14px; font-family: var(--font-family-blueprintfont); }
+.pill-counter { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; background: var(--primary-10); border-radius: 30px; font-size: 12px; font-weight: 600; color: var(--neutral-600); min-width: 20px; height: 20px; line-height: 14px; }
+.pill-success { background: #d4edda; color: #155724; }
+.pill-warning { background: #fff3cd; color: #856404; }
+.pill-muted { background: transparent; color: var(--neutral-400); font-weight: 500; }
 
 /* Toggle Switch - Blueprint Design System */
 .toggle-switch { position: relative; display: inline-block; width: 54px; height: 26px; }
@@ -302,8 +297,8 @@
                   </div>
                 </td>
                 <td>-</td>
-                <td><span class="access-badge na">N/A</span></td>
-                <td><span class="status-badge na">N/A</span></td>
+                <td><span class="pill pill-muted" data-type="access">Not Authorized</span></td>
+                <td><span class="pill pill-muted" data-type="status">N/A</span></td>
                 <td>
                   <label class="toggle-switch">
                     <input type="checkbox" class="toggle-input">
@@ -322,8 +317,8 @@
                   </div>
                 </td>
                 <td>Bid Coordinator</td>
-                <td><span class="access-badge bm">YES</span></td>
-                <td><span class="status-badge active">Active</span></td>
+                <td><span class="pill" data-type="access">Authorized</span></td>
+                <td><span class="pill pill-success" data-type="status">Active</span></td>
                 <td>
                   <label class="toggle-switch">
                     <input type="checkbox" class="toggle-input" checked>
@@ -342,8 +337,8 @@
                   </div>
                 </td>
                 <td>Estimator</td>
-                <td><span class="access-badge bm">YES</span></td>
-                <td><span class="status-badge active">Active</span></td>
+                <td><span class="pill" data-type="access">Authorized</span></td>
+                <td><span class="pill pill-success" data-type="status">Active</span></td>
                 <td>
                   <label class="toggle-switch">
                     <input type="checkbox" class="toggle-input" checked>
@@ -361,8 +356,8 @@
                   </div>
                 </td>
                 <td>Estimator</td>
-                <td><span class="access-badge bm">YES</span></td>
-                <td><span class="status-badge inactive">Inactive</span></td>
+                <td><span class="pill" data-type="access">Authorized</span></td>
+                <td><span class="pill pill-warning" data-type="status">Inactive</span></td>
                 <td>
                   <label class="toggle-switch">
                     <input type="checkbox" class="toggle-input" checked>
@@ -380,8 +375,8 @@
                   </div>
                 </td>
                 <td>Team Member</td>
-                <td><span class="access-badge bm">YES</span></td>
-                <td><span class="status-badge active">Active</span></td>
+                <td><span class="pill" data-type="access">Authorized</span></td>
+                <td><span class="pill pill-success" data-type="status">Active</span></td>
                 <td>
                   <label class="toggle-switch">
                     <input type="checkbox" class="toggle-input" checked>
@@ -399,8 +394,8 @@
                   </div>
                 </td>
                 <td>-</td>
-                <td><span class="access-badge requested">Requested</span></td>
-                <td><span class="status-badge na">N/A</span></td>
+                <td><span class="pill" data-type="access">Requested</span></td>
+                <td><span class="pill pill-muted" data-type="status">N/A</span></td>
                 <td>
                   <label class="toggle-switch">
                     <input type="checkbox" class="toggle-input">
@@ -538,20 +533,18 @@ document.querySelectorAll('.toggle-input').forEach(toggle => {
     
     // Update access and status badges
     const row = this.closest('tr');
-    const accessBadge = row.querySelector('.access-badge');
-    const statusBadge = row.querySelector('.status-badge');
+    const accessBadge = row.querySelector('[data-type="access"]');
+    const statusBadge = row.querySelector('[data-type="status"]');
     
     if (this.checked) {
-      // Authorized
-      accessBadge.className = 'access-badge bm';
-      accessBadge.textContent = 'BM';
-      statusBadge.className = 'status-badge active';
+      accessBadge.className = 'pill';
+      accessBadge.textContent = 'Authorized';
+      statusBadge.className = 'pill pill-success';
       statusBadge.textContent = 'Active';
     } else {
-      // Deauthorized
-      accessBadge.className = 'access-badge na';
-      accessBadge.textContent = 'N/A';
-      statusBadge.className = 'status-badge na';
+      accessBadge.className = 'pill pill-muted';
+      accessBadge.textContent = 'Not Authorized';
+      statusBadge.className = 'pill pill-muted';
       statusBadge.textContent = 'N/A';
     }
   });
