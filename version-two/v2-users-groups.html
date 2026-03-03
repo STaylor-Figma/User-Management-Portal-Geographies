@@ -95,20 +95,74 @@
   align-items: center; 
 }
 
-/* Filter Dropdowns */
-.filter-dropdown { 
-  padding: var(--spacing-micro-200) 12px; 
-  border: 1px solid var(--neutral-500); 
-  border-radius: var(--radius-sm); 
-  background: white; 
-  color: var(--neutral-500); 
-  font-family: var(--font-family-blueprintfont);
-  font-size: var(--font-size-300); 
-  font-weight: var(--font-weight-text-medium); 
-  cursor: pointer; transition: all 200ms ease-out; 
-  display: flex;
+/* Blueprint Dropdown Button */
+.bp-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.bp-dropdown-btn {
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-micro-200);
+  gap: var(--spacing-micro-150);
+  padding: var(--spacing-micro-200) 12px;
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--radius-sm);
+  background: var(--neutral-0);
+  color: var(--neutral-500);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  line-height: var(--line-height-medium);
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  white-space: nowrap;
+}
+.bp-dropdown-btn:hover {
+  background: var(--neutral-100);
+}
+.bp-dropdown-caret {
+  font-size: var(--font-size-300);
+  transition: transform 200ms ease-out;
+}
+.bp-dropdown.open .bp-dropdown-caret {
+  transform: rotate(180deg);
+}
+.bp-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+}
+.bp-dropdown.open .bp-dropdown-menu {
+  display: block;
+  animation: dropdownOpen 200ms ease-out;
+}
+@keyframes dropdownOpen {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.bp-dropdown-item {
+  padding: 8px 16px;
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  color: var(--neutral-500);
+  cursor: pointer;
+  transition: background 200ms ease-out;
+  white-space: nowrap;
+}
+.bp-dropdown-item:hover {
+  background: var(--neutral-100);
+}
+.bp-dropdown-item.active {
+  color: var(--primary-500);
+  font-weight: var(--font-weight-text-bold);
 }
 
 /* Search Icon Button */
@@ -1392,7 +1446,7 @@
     <div class="tabs-container">
       <button class="tab active" data-tab="users">
         Organization Users
-        <span class="tab-count">47</span>
+        <span class="tab-count">10</span>
       </button>
       <button class="tab" data-tab="groups">
         Groups
@@ -1407,15 +1461,42 @@
       <div class="action-bar">
         <div class="action-bar-left">
           <button class="btn-primary" id="manageSelectedBtn" disabled onclick="openManageUsersDrawer()">Manage Selected Users</button>
-          <select class="filter-dropdown">
-            <option>Show All Licenses</option>
-          </select>
-          <select class="filter-dropdown">
-            <option>Show All Roles</option>
-          </select>
-          <select class="filter-dropdown">
-            <option>Show All Groups</option>
-          </select>
+          <div class="bp-dropdown">
+            <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+              <span>Show All Licenses</span>
+              <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+            </button>
+            <div class="bp-dropdown-menu">
+              <div class="bp-dropdown-item active">Show All Licenses</div>
+              <div class="bp-dropdown-item">Project Intelligence</div>
+              <div class="bp-dropdown-item">Bid Management</div>
+              <div class="bp-dropdown-item">Takeoff &amp; Estimating</div>
+            </div>
+          </div>
+          <div class="bp-dropdown">
+            <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+              <span>Show All Roles</span>
+              <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+            </button>
+            <div class="bp-dropdown-menu">
+              <div class="bp-dropdown-item active">Show All Roles</div>
+              <div class="bp-dropdown-item">Owner</div>
+              <div class="bp-dropdown-item">Admin</div>
+              <div class="bp-dropdown-item">Team Member</div>
+            </div>
+          </div>
+          <div class="bp-dropdown">
+            <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+              <span>Show All Groups</span>
+              <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+            </button>
+            <div class="bp-dropdown-menu">
+              <div class="bp-dropdown-item active">Show All Groups</div>
+              <div class="bp-dropdown-item">Southeast Team</div>
+              <div class="bp-dropdown-item">Estimators</div>
+              <div class="bp-dropdown-item">Project Managers</div>
+            </div>
+          </div>
         </div>
         <div class="action-bar-right">
           <button class="search-icon-btn">
@@ -1513,6 +1594,175 @@
               </td>
               <td>March 10, 2025</td>
             </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">River Tam</a>
+                    <span class="role-badge">ADMIN</span>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Analyst</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">Full Access</span>
+              </td>
+              <td>
+                <span class="pill">Bid Coordinator</span>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>March 14, 2025</td>
+            </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Hoban Washburne</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Estimator</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">Full Access</span>
+              </td>
+              <td>
+                <span class="pill">Project Manager</span>
+              </td>
+              <td>
+                <span class="pill">OST Plus</span>
+              </td>
+              <td>March 13, 2025</td>
+            </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Simon Tam</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Cost Engineer</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">Full Access</span>
+              </td>
+              <td>
+                <span class="pill">Team Member</span>
+              </td>
+              <td>
+                <span class="pill">OST Professional</span>
+              </td>
+              <td>March 11, 2025</td>
+            </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Jayne Cobb</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Estimator</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>
+                <span class="pill">Requested</span>
+              </td>
+              <td>
+                <span class="pill">PlanViewer</span>
+              </td>
+              <td>January 30, 2025</td>
+            </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Inara Serra</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Project Coordinator</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>
+                <span class="pill">PQ Analyst</span>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>March 8, 2025</td>
+            </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Shepherd Book</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Senior Estimator</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>
+                <span class="pill">Intern</span>
+              </td>
+              <td>
+                <span class="pill">OST Plus</span>
+              </td>
+              <td>March 6, 2025</td>
+            </tr>
+            <tr>
+              <td><label class="bp-checkbox"><input type="checkbox" class="user-checkbox"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></td>
+              <td>
+                <div class="user-name-cell">
+                  <div class="user-name-row">
+                    <a href="#" class="user-name-link">Saffron</a>
+                  </div>
+                  <div class="job-function">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Business Analyst</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>
+                <span class="pill">Company Admin</span>
+              </td>
+              <td>
+                <span class="pill">No Access</span>
+              </td>
+              <td>March 1, 2025</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -1529,7 +1779,7 @@
               <option>200</option>
             </select>
           </div>
-          <span class="results-count">1-3 of 47</span>
+          <span class="results-count">1-10 of 10</span>
           <div class="pagination-arrows">
             <button class="pagination-arrow" disabled>
               <i class="fa-regular fa-chevron-left"></i>
@@ -3357,5 +3607,31 @@ function toggleManageUsersMode() {
     updateButtonStates();
   };
 })();
+</script>
+<script>
+document.querySelectorAll('.bp-dropdown-btn').forEach(function(btn) {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var dropdown = this.closest('.bp-dropdown');
+    var isOpen = dropdown.classList.contains('open');
+    document.querySelectorAll('.bp-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+    if (!isOpen) dropdown.classList.add('open');
+    this.setAttribute('aria-expanded', !isOpen);
+  });
+});
+document.querySelectorAll('.bp-dropdown-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var dropdown = this.closest('.bp-dropdown');
+    var btn = dropdown.querySelector('.bp-dropdown-btn span');
+    dropdown.querySelectorAll('.bp-dropdown-item').forEach(function(i) { i.classList.remove('active'); });
+    this.classList.add('active');
+    btn.textContent = this.textContent;
+    dropdown.classList.remove('open');
+    dropdown.querySelector('.bp-dropdown-btn').setAttribute('aria-expanded', 'false');
+  });
+});
+document.addEventListener('click', function() {
+  document.querySelectorAll('.bp-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+});
 </script>
 </html>
