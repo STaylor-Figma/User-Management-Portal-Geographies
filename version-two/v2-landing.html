@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - User Management Portal</title>
+<script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../blueprint-workflow-styles.css">
+<link rel="stylesheet" href="../blueprint-navigation.css">
+<link rel="stylesheet" href="../blueprint-button-styles.css">
+<style>
+/* ============================================================================
+   LANDING PAGE — ES AGENT PROTOTYPE
+   Blueprint Design Tokens used throughout. No hardcoded values.
+   ============================================================================ */
+
+/* Persona Toggle (prototype-only affordance) */
+.persona-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  gap: var(--spacing-micro-200);
+  background: var(--neutral-600);
+  padding: var(--spacing-micro-200) var(--spacing-small-300);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.persona-toggle__label {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-semibold);
+  color: var(--neutral-300);
+  display: flex;
+  align-items: center;
+  margin-right: var(--spacing-micro-100);
+}
+
+.persona-toggle__btn {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-semibold);
+  padding: var(--spacing-micro-150) var(--spacing-small-300);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: transparent;
+  color: var(--neutral-300);
+  transition: all 200ms ease-out;
+}
+
+.persona-toggle__btn:hover { background: var(--neutral-500); }
+
+.persona-toggle__btn.active {
+  background: var(--primary-500);
+  border-color: var(--primary-400);
+  color: var(--neutral-0);
+}
+
+/* Billing nav: hidden for Admin & Team Member, visible for Owner only */
+.billing-nav-item {
+  display: none !important;
+}
+body.is-owner .billing-nav-item {
+  display: flex !important;
+}
+
+/* ============================================================================
+   LANDING LAYOUT
+   ============================================================================ */
+
+.landing-layout {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 60px);
+  background: var(--neutral-100);
+}
+
+.landing-main {
+  flex: 1;
+  padding: var(--spacing-medium-600);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-title {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-800);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-600);
+  margin: 0 0 var(--spacing-medium-600) 0;
+  text-align: center;
+}
+
+/* ============================================================================
+   AGENT PANEL — Conversational ES Agent Interface
+   ============================================================================ */
+
+.agent-panel {
+  background: var(--primary-10);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.05);
+  margin: 0 auto var(--spacing-medium-600) auto;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-height: 640px;
+  overflow: hidden;
+}
+
+.agent-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-micro-200);
+  padding: var(--spacing-small-300) var(--spacing-medium-600);
+  border-bottom: 1px solid var(--neutral-300);
+  background: var(--neutral-0);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.agent-panel__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-circle);
+  background: var(--primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-0);
+  font-size: var(--font-size-300);
+  flex-shrink: 0;
+}
+
+.agent-panel__name {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-semibold);
+  color: var(--neutral-600);
+}
+
+.agent-panel__status {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  color: var(--status-success);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-micro-100);
+}
+
+.agent-panel__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--status-success);
+}
+
+/* Chat Messages */
+.agent-panel__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-medium-600);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small-400);
+}
+
+.chat-msg {
+  display: flex;
+  gap: var(--spacing-micro-200);
+  max-width: 85%;
+}
+
+.chat-msg--agent { align-self: flex-start; }
+.chat-msg--user { align-self: flex-end; flex-direction: row-reverse; }
+
+.chat-msg__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-bold);
+  flex-shrink: 0;
+}
+
+.chat-msg--agent .chat-msg__avatar {
+  background: var(--primary-500);
+  color: var(--neutral-0);
+}
+
+.chat-msg--user .chat-msg__avatar {
+  background: var(--neutral-200);
+  color: var(--neutral-500);
+}
+
+.chat-msg__bubble {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  line-height: var(--line-height-large);
+  padding: var(--spacing-small-300) var(--spacing-small-400);
+  border-radius: var(--radius-md);
+}
+
+.chat-msg--agent .chat-msg__bubble {
+  background: var(--neutral-0);
+  color: var(--neutral-600);
+  border: 1px solid var(--neutral-300);
+}
+
+.chat-msg--user .chat-msg__bubble {
+  background: var(--primary-600);
+  color: var(--neutral-0);
+}
+
+/* Inline action buttons inside agent messages */
+.chat-action-btn {
+  display: inline-block;
+  margin: var(--spacing-micro-100) var(--spacing-micro-100) 0 0;
+  padding: var(--spacing-micro-100) var(--spacing-small-250);
+  background: transparent;
+  border: 1px solid var(--primary-500);
+  border-radius: var(--radius-sm);
+  color: var(--primary-500);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-semibold);
+  cursor: pointer;
+  transition: all 200ms ease-out;
+}
+
+.chat-action-btn:hover {
+  background: var(--primary-100);
+}
+
+.chat-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-100);
+}
+
+/* Task cards in agent messages */
+.task-card {
+  background: var(--neutral-100);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-small-300);
+  margin-top: var(--spacing-micro-200);
+  border-left: 3px solid var(--status-warning);
+}
+
+.task-card--info { border-left-color: var(--primary-400); }
+.task-card--success { border-left-color: var(--status-success); }
+
+.task-card__title {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-bold);
+  color: var(--neutral-600);
+  margin: 0 0 var(--spacing-micro-100) 0;
+}
+
+.task-card__value {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-500);
+  margin: 0;
+}
+
+/* Input Area */
+.agent-panel__input {
+  display: flex;
+  gap: var(--spacing-micro-200);
+  padding: var(--spacing-small-300) var(--spacing-medium-600);
+  border-top: 1px solid var(--neutral-300);
+  background: var(--neutral-0);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+.agent-input {
+  flex: 1;
+  height: 40px;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-micro-200) var(--spacing-small-300);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-600);
+  background: var(--primary-10);
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.agent-input::placeholder {
+  font-style: italic;
+  color: var(--neutral-400);
+  font-weight: var(--font-weight-text-light);
+}
+
+.agent-input:hover { border-color: var(--primary-500); }
+
+.agent-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  border-width: 2px;
+  box-shadow: 0 0 4px 2px var(--neutral-500);
+}
+
+.agent-send-btn {
+  height: 40px;
+  width: 40px;
+  background: var(--primary-500);
+  color: var(--neutral-0);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-300);
+  transition: background 200ms ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agent-send-btn:hover { background: var(--primary-600); }
+
+.agent-send-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 161, 224, 0.3);
+}
+
+/* ============================================================================
+   QUICK ACTIONS
+   ============================================================================ */
+
+.quick-actions {
+  display: flex;
+  gap: var(--spacing-small-400);
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.quick-action-btn {
+  flex: 1;
+  height: 32px;
+  padding: 0 var(--spacing-small-300);
+  background: transparent;
+  color: var(--primary-500);
+  border: 1px solid var(--primary-500);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  cursor: pointer;
+  transition: background 200ms ease-out, color 200ms ease-out;
+  white-space: nowrap;
+}
+
+.quick-action-btn:hover {
+  background: var(--primary-100);
+  color: var(--primary-400);
+}
+
+.quick-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 161, 224, 0.2);
+}
+
+/* ============================================================================
+   RIGHT RAIL — Side Container (Blueprint: 320px, white, 1px border)
+   ============================================================================ */
+
+.right-rail {
+  width: 320px;
+  min-width: 320px;
+  background: var(--neutral-0);
+  border-left: 1px solid var(--neutral-300);
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.05);
+  padding: var(--spacing-medium-600);
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .right-rail { display: none; }
+}
+
+.rail-section {
+  padding-bottom: var(--spacing-small-250);
+  margin-bottom: var(--spacing-small-250);
+  border-bottom: 1px solid var(--neutral-400);
+}
+
+.rail-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.rail-user-name {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-400);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-500);
+}
+
+.rail-section-label {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-bold);
+  color: var(--neutral-500);
+  margin: 0 0 var(--spacing-small-250) 0;
+  line-height: var(--line-height-large);
+}
+
+.rail-link {
+  color: var(--primary-400);
+  text-decoration: underline;
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  display: block;
+  margin-bottom: var(--spacing-micro-200);
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  border-radius: var(--radius-xs);
+  line-height: var(--line-height-medium);
+}
+
+.rail-link:hover { color: var(--primary-500); }
+
+.rail-link:focus {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+.rail-link:last-child { margin-bottom: 0; }
+
+/* License items with status dots */
+.license-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small-250);
+}
+
+.license-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-micro-200);
+}
+
+.license-dot {
+  width: var(--spacing-micro-200);
+  height: var(--spacing-micro-200);
+  border-radius: var(--radius-circle);
+  flex-shrink: 0;
+}
+
+.license-dot.active { background: var(--status-success); }
+
+/* Pills (Blueprint: 12px semibold, neutral-200 bg, pill radius) */
+.rail-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-micro-100) var(--spacing-small-250);
+  background: var(--neutral-200);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-semibold);
+  color: var(--neutral-600);
+  margin-right: var(--spacing-micro-200);
+  margin-bottom: var(--spacing-micro-200);
+}
+
+.rail-pills {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-micro-200);
+}
+
+/* Buttons — Default variant (Blueprint: 32px, neutral-200, bold) */
+.rail-btn-default {
+  height: 32px;
+  padding: 0 var(--spacing-small-300);
+  background: var(--neutral-200);
+  color: var(--neutral-500);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-bold);
+  cursor: pointer;
+  transition: background 200ms ease-out;
+}
+
+.rail-btn-default:hover { background: var(--neutral-300); }
+
+.rail-btn-default:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 79, 85, 0.2);
+}
+
+.rail-admin-buttons {
+  display: flex;
+  gap: var(--spacing-small-250);
+}
+
+.rail-admin-btn {
+  flex: 1;
+  height: 32px;
+  padding: 0 var(--spacing-small-300);
+  background: var(--neutral-200);
+  color: var(--neutral-500);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-bold);
+  cursor: pointer;
+  transition: background 200ms ease-out;
+}
+
+.rail-admin-btn:hover { background: var(--neutral-300); }
+
+.rail-admin-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 79, 85, 0.2);
+}
+
+.rail-body-text {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-500);
+  margin: 0 0 var(--spacing-small-250) 0;
+  line-height: var(--line-height-medium);
+}
+
+.rail-meta {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-400);
+  margin: var(--spacing-micro-100) 0 0 0;
+  line-height: var(--line-height-small);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-micro-100);
+}
+
+.rail-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--status-success);
+  flex-shrink: 0;
+}
+
+.rail-helper-text {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  color: var(--neutral-400);
+  margin: 0 0 var(--spacing-small-250) 0;
+}
+
+/* ============================================================================
+   PERSONA VISIBILITY
+   ============================================================================ */
+
+.admin-only { display: none; }
+body.is-admin .admin-only { display: block; }
+body.is-admin .admin-only-flex { display: flex; }
+body.is-admin .team-member-only { display: none; }
+
+body:not(.is-admin) .sidebar-nav { display: none; }
+
+.hidden { display: none; }
+
+@media (max-width: 768px) {
+  .quick-actions { flex-direction: column; }
+  .landing-title { font-size: var(--font-size-600); }
+}
+</style>
+</head>
+<body class="is-admin">
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="hamburger-menu" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div class="logo">ConstructConnect</div>
+  </div>
+  <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
+    <div class="user-menu">
+      <div class="avatar">CD</div>
+      <span>Christopher Donaldson</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
+<!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button selected">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
+    <i class="compact-button__icon fa-light fa-user"></i>
+    <span class="compact-button__label">My Profile</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-company-overview.html'">
+    <i class="compact-button__icon fa-light fa-building"></i>
+    <span class="compact-button__label">Company</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-users-groups.html'">
+    <i class="compact-button__icon fa-light fa-users"></i>
+    <span class="compact-button__label">Users & Groups</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-user-roles.html'">
+    <i class="compact-button__icon fa-light fa-users-gear"></i>
+    <span class="compact-button__label">User Roles</span>
+  </button>
+  <button class="compact-button" onclick="window.location.href='v2-subscription-overview.html'">
+    <i class="compact-button__icon fa-light fa-file-invoice"></i>
+    <span class="compact-button__label">Subs & Licenses</span>
+  </button>
+  <button class="compact-button billing-nav-item">
+    <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
+    <span class="compact-button__label">Billing</span>
+  </button>
+</nav>
+
+<!-- Layout -->
+<div class="layout">
+  
+  <!-- Sidebar Navigation (Admin/Owner only — hidden for Team Member via CSS) -->
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button selected">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
+      <i class="sidebar-button__icon fa-light fa-user"></i>
+      <span class="sidebar-button__label">My<br>Profile</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-company-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-building"></i>
+      <span class="sidebar-button__label">Company</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-users-groups.html'">
+      <i class="sidebar-button__icon fa-light fa-users"></i>
+      <span class="sidebar-button__label">Users &<br>Groups</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-user-roles.html'">
+      <i class="sidebar-button__icon fa-light fa-users-gear"></i>
+      <span class="sidebar-button__label">User<br>Roles</span>
+    </button>
+    <button class="sidebar-button" onclick="window.location.href='v2-subscription-overview.html'">
+      <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
+      <span class="sidebar-button__label">Subs &<br>Licenses</span>
+    </button>
+    <button class="sidebar-button billing-nav-item">
+      <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
+      <span class="sidebar-button__label">Billing</span>
+    </button>
+  </nav>
+
+  <!-- Landing Content -->
+  <div class="landing-layout">
+    
+    <!-- Main Content -->
+    <div class="landing-main">
+      <h1 class="landing-title">What can we help you with today?</h1>
+      
+      <!-- ES Agent Conversational Panel -->
+      <div class="agent-panel">
+        
+        <!-- Agent Header -->
+        <div class="agent-panel__header">
+          <div class="agent-panel__icon">
+            <i class="fa-light fa-robot" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="agent-panel__name" id="agent-name">Owner Assistant</div>
+            <div class="agent-panel__status">
+              <span class="agent-panel__status-dot"></span>
+              <span>Online</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chat Messages (Layer 3: Conversational Agent) -->
+        <div class="agent-panel__messages" id="chat-messages">
+          <!-- Messages populated by JS based on persona -->
+        </div>
+        
+        <!-- Input -->
+        <div class="agent-panel__input">
+          <input type="text" class="agent-input" id="agent-input" placeholder="Ask me anything about your account..." aria-label="Message the agent" autocomplete="off">
+          <button class="agent-send-btn" onclick="sendMessage()" aria-label="Send message">
+            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Right Rail (Blueprint Side Container: 320px) -->
+    <div class="right-rail">
+      
+      <!-- User Name + Status -->
+      <div class="rail-section">
+        <div class="rail-user-name">Christopher Donaldson</div>
+        <p class="rail-meta">christopher.donaldson@acmebpm.com</p>
+        <p class="rail-meta"><span class="rail-status-dot"></span> Active &middot; Last login Feb 4, 2025</p>
+        <a href="v2-my-profile.html" class="rail-link" style="margin-top: var(--spacing-micro-250); font-size: var(--font-size-200);">View Full Profile</a>
+      </div>
+      
+      <!-- Admin + Owner: Company Info -->
+      <div class="rail-section admin-only admin-only-flex rail-admin-buttons" id="admin-buttons">
+        <button class="rail-admin-btn" onclick="window.location.href='v2-company-overview.html'">Company Info</button>
+        <button class="rail-admin-btn owner-only-billing" style="display:none">Billing Info</button>
+      </div>
+      
+      <!-- Role -->
+      <div class="rail-section">
+        <div class="rail-section-label">Role</div>
+        <span class="rail-pill" id="role-pill">Owner</span>
+      </div>
+      
+      <!-- Licenses -->
+      <div class="rail-section">
+        <div class="rail-section-label">License(s)</div>
+        <div class="license-list">
+          <div class="license-item">
+            <span class="license-dot active"></span>
+            <a href="v2-subscription-overview.html" class="rail-link" style="margin-bottom:0">Project Intelligence</a>
+          </div>
+          <div class="license-item">
+            <span class="license-dot active"></span>
+            <a href="v2-bid-management-subscriptions.html" class="rail-link" style="margin-bottom:0">Bid Management</a>
+          </div>
+          <div class="license-item">
+            <span class="license-dot active"></span>
+            <a href="v2-takeoff-estimating.html" class="rail-link" style="margin-bottom:0">On Screen Takeoff</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Groups -->
+      <div class="rail-section">
+        <div class="rail-section-label">Group(s)</div>
+        <div class="rail-pills">
+          <span class="rail-pill">Southeast Region</span>
+          <span class="rail-pill">Architectural Sales</span>
+        </div>
+        <a href="v2-users-groups.html" class="rail-link">View groups</a>
+      </div>
+      
+      <!-- Geographic Access (CCPI) -->
+      <div class="rail-section">
+        <div class="rail-section-label">Geographic Access</div>
+        <p class="rail-body-text" style="margin-bottom:0">Southeast Region: FL, GA, SC, NC, TN, AL</p>
+      </div>
+      
+      <!-- Project Categories (CCPI) -->
+      <div class="rail-section">
+        <div class="rail-section-label">Project Categories</div>
+        <div class="rail-pills">
+          <span class="rail-pill">Commercial</span>
+          <span class="rail-pill">Industrial</span>
+          <span class="rail-pill">Institutional</span>
+        </div>
+      </div>
+      
+      <!-- Admins -->
+      <div class="rail-section">
+        <div class="rail-section-label">Your Admins</div>
+        <p class="rail-helper-text">Contact for access changes:</p>
+        <a href="mailto:dana.martinez@acmebpm.com" class="rail-link">Dana Martinez</a>
+        <a href="mailto:eric.thompson@acmebpm.com" class="rail-link">Eric Thompson</a>
+      </div>
+      
+      <!-- Customer Support -->
+      <div class="rail-section">
+        <div class="rail-section-label">Customer Support</div>
+        <a href="mailto:support@constructconnect.com" class="rail-link">Email Customer Success</a>
+        <a href="https://help.constructconnect.com" class="rail-link" target="_blank">Visit Help Center</a>
+      </div>
+      
+      <!-- Resources -->
+      <div class="rail-section">
+        <div class="rail-section-label">Resources</div>
+        <a href="#" class="rail-link">Training Video Library</a>
+        <a href="#" class="rail-link">Bid Like a Boss Webinars</a>
+        <a href="#" class="rail-link">Keyboard Shortcuts</a>
+      </div>
+      
+      <!-- Security -->
+      <div class="rail-section">
+        <p class="rail-body-text">Your password was last changed <strong>45 days ago</strong></p>
+        <button class="rail-btn-default">Change Password</button>
+      </div>
+      
+      <!-- Log Out -->
+      <div class="rail-section">
+        <button class="rail-btn-default">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Persona Toggle -->
+<div class="persona-toggle">
+  <span class="persona-toggle__label">View as:</span>
+  <button class="persona-toggle__btn" onclick="setPersona('team-member')" id="btn-team-member">Team Member</button>
+  <button class="persona-toggle__btn" onclick="setPersona('admin')" id="btn-admin">Admin</button>
+  <button class="persona-toggle__btn active" onclick="setPersona('owner')" id="btn-owner">Owner</button>
+</div>
+
+<script>
+/* ============================================================================
+   ELASTICSEARCH AGENT SIMULATION
+   
+   Demonstrates the three-layer architecture:
+   Layer 1 — Proactive Task Surfacing (Watcher-driven alerts)
+   Layer 2 — Intelligent Search + Action Routing (quick actions, command palette)
+   Layer 3 — Conversational Agent (chat panel with tool-aware responses)
+   
+   Agent behavior changes based on persona:
+   - Owner: full tools including billing, cost visibility, guided wizards
+   - Admin: user/license management, NO billing tools loaded
+   - Team Member: self-service only, own data, access requests
+   ============================================================================ */
+
+const PERSONAS = {
+  owner: {
+    agentName: 'Owner Assistant',
+    rolePill: 'Owner',
+    messages: [
+      {
+        role: 'agent',
+        text: 'Good morning, Christopher. I\'m your <strong>Owner Assistant</strong>. I know your role, your subscriptions, and your team — so I can help with anything from adding users to reviewing billing.',
+      },
+      {
+        role: 'agent',
+        text: 'Here are a few things I noticed that need your attention:',
+        tasks: [
+          { type: 'warning', title: 'Pending Invitations', value: '3 invitations pending for 7+ days — Resend or cancel?' },
+          { type: 'info', title: 'License Utilization', value: 'CCPI: 8 of 10 seats (80%) · Bid Mgmt: 4 of 5 seats · OST: 3 of 5 seats' },
+          { type: 'info', title: 'Renewal Approaching', value: 'Your CCPI subscription renews March 15 — 13 days away' },
+        ]
+      },
+      {
+        role: 'agent',
+        text: 'You can ask me things like <em>"Add a new estimator"</em>, <em>"What am I paying for?"</em>, or <em>"Who hasn\'t logged in lately?"</em> — I\'ll guide you through it.',
+        actions: ['Add a new user', 'Show license usage', 'Review billing']
+      },
+    ]
+  },
+  admin: {
+    agentName: 'Admin Assistant',
+    rolePill: 'Admin',
+    messages: [
+      {
+        role: 'agent',
+        text: 'Good morning, Christopher. I\'m your <strong>Admin Assistant</strong>. I know your role, your subscriptions, and your team — so I can help with user management, license assignments, and more.',
+      },
+      {
+        role: 'agent',
+        text: 'Here are a few things I noticed that need your attention:',
+        tasks: [
+          { type: 'warning', title: 'Pending Invitations', value: '3 invitations pending for 7+ days — Resend or cancel?' },
+          { type: 'info', title: 'License Utilization', value: 'CCPI: 8 of 10 seats (80%) · Bid Mgmt: 4 of 5 seats · OST: 3 of 5 seats' },
+          { type: 'info', title: 'User Activity', value: '2 users inactive for 30+ days — consider reassigning their licenses' },
+        ]
+      },
+      {
+        role: 'agent',
+        text: 'You can ask me things like <em>"Add a new estimator"</em>, <em>"Show license usage"</em>, or <em>"Who hasn\'t logged in lately?"</em> — I\'ll guide you through it.',
+        actions: ['Add a new user', 'Show license usage', 'Show inactive users']
+      },
+    ]
+  },
+  'team-member': {
+    agentName: 'My Account Assistant',
+    rolePill: 'Team Member',
+    messages: [
+      {
+        role: 'agent',
+        text: 'Hi Christopher! I\'m your <strong>Account Assistant</strong>. I can help you manage your profile, understand your access, find training resources, or get support.',
+      },
+      {
+        role: 'agent',
+        text: 'Here\'s a quick summary of your access:',
+        tasks: [
+          { type: 'success', title: 'Active Licenses', value: 'Project Intelligence, Bid Management, and On Screen Takeoff — all active' },
+          { type: 'info', title: 'Geographic Coverage', value: 'Southeast Region: FL, GA, SC, NC, TN, AL' },
+          { type: 'info', title: 'Project Categories', value: 'Commercial, Industrial, Institutional' },
+        ]
+      },
+      {
+        role: 'agent',
+        text: 'Try asking me <em>"What do I have access to?"</em>, <em>"Update my phone number"</em>, or <em>"I need access to the Analytics module"</em>.',
+        actions: ['View my access', 'Update my profile', 'Request new access']
+      },
+    ]
+  }
+};
+
+const DEMO_RESPONSES = {
+  owner: {
+    'Add a new user': 'I\'ll help you add a new team member. I need their email address to send an invitation. You currently have <strong>2 available CCPI seats</strong>, <strong>1 available CCBM seat</strong>, and <strong>2 available OST seats</strong>. What\'s the new user\'s email?',
+    'Show license usage': 'Here\'s your license utilization:\n\n<div class="task-card task-card--info"><p class="task-card__title">Project Intelligence</p><p class="task-card__value">8 of 10 seats assigned (80%) — 2 available</p></div><div class="task-card task-card--info"><p class="task-card__title">Bid Management</p><p class="task-card__value">4 of 5 seats assigned (80%) — 1 available</p></div><div class="task-card task-card--info"><p class="task-card__title">On Screen Takeoff</p><p class="task-card__value">3 of 5 seats assigned (60%) — 2 available</p></div><div class="task-card"><p class="task-card__title">Inactive Users</p><p class="task-card__value">2 users haven\'t logged in for 30+ days, holding 2 CCPI licenses</p></div>\n\nWant me to show the inactive users, or help reassign their licenses?',
+    'Review billing': 'Here\'s your subscription summary:\n\n<div class="task-card task-card--info"><p class="task-card__title">Project Intelligence</p><p class="task-card__value">10 seats × $1,200/seat/year = $12,000 — Renews Mar 15</p></div><div class="task-card task-card--info"><p class="task-card__title">Bid Management</p><p class="task-card__value">5 seats × $500/seat/year = $2,500 — Renews Jun 1</p></div><div class="task-card task-card--info"><p class="task-card__title">On Screen Takeoff</p><p class="task-card__value">5 seats × $800/seat/year = $4,000 — Renews Jun 1</p></div>\n\nYou\'re using 73% of your seats across all products. Want to see invoice history or adjust your seats before renewal?',
+  },
+  admin: {
+    'Add a new user': 'I\'ll help you add a new team member. I need their email address to send an invitation. You currently have <strong>2 available CCPI seats</strong>, <strong>1 available CCBM seat</strong>, and <strong>2 available OST seats</strong>. What\'s the new user\'s email?',
+    'Show license usage': 'Here\'s your license utilization:\n\n<div class="task-card task-card--info"><p class="task-card__title">Project Intelligence</p><p class="task-card__value">8 of 10 seats assigned (80%) — 2 available</p></div><div class="task-card task-card--info"><p class="task-card__title">Bid Management</p><p class="task-card__value">4 of 5 seats assigned (80%) — 1 available</p></div><div class="task-card task-card--info"><p class="task-card__title">On Screen Takeoff</p><p class="task-card__value">3 of 5 seats assigned (60%) — 2 available</p></div><div class="task-card"><p class="task-card__title">Inactive Users</p><p class="task-card__value">2 users haven\'t logged in for 30+ days, holding 2 CCPI licenses</p></div>\n\nWant me to show the inactive users, or help reassign their licenses?',
+    'Show inactive users': 'I found <strong>2 users</strong> inactive for 30+ days:\n\n<div class="task-card"><p class="task-card__title">Jake Morrison</p><p class="task-card__value">Last login: 47 days ago — Holds 1 CCPI Pro license</p></div><div class="task-card"><p class="task-card__title">Sarah Chen</p><p class="task-card__value">Last login: 62 days ago — Holds 1 CCPI Pro license</p></div>\n\nDeactivating them would free up 2 CCPI Pro licenses. Want to proceed, or reassign their licenses to other users?',
+  },
+  'team-member': {
+    'View my access': 'Here\'s your complete access summary:\n\n<div class="task-card task-card--success"><p class="task-card__title">Project Intelligence</p><p class="task-card__value">Active — Southeast Region (FL, GA, SC, NC, TN, AL)<br>Categories: Commercial, Industrial, Institutional</p></div><div class="task-card task-card--success"><p class="task-card__title">Bid Management</p><p class="task-card__value">Active — Standard User role</p></div><div class="task-card task-card--success"><p class="task-card__title">On Screen Takeoff</p><p class="task-card__value">Active — Standard User role</p></div>\n\nYour organizational role is <strong>Team Member</strong>. Want to launch any of these products?',
+    'Update my profile': 'I can update your profile right now. What would you like to change?\n\n<button class="chat-action-btn" onclick="quickAction(\'Change my phone number\')">Phone number</button><button class="chat-action-btn" onclick="quickAction(\'Change my job title\')">Job title</button><button class="chat-action-btn" onclick="quickAction(\'Change my department\')">Department</button><button class="chat-action-btn" onclick="quickAction(\'Change my notifications\')">Notification preferences</button>',
+    'Request new access': 'I can submit an access request to your administrator (<strong>Dana Martinez</strong>). What do you need?\n\n<button class="chat-action-btn" onclick="quickAction(\'I need the Analytics module\')">Analytics module</button><button class="chat-action-btn" onclick="quickAction(\'I need access to Oklahoma\')">Additional geographic access</button><button class="chat-action-btn" onclick="quickAction(\'I need additional project categories\')">More project categories</button>\n\nOr just tell me what you need in your own words.',
+  }
+};
+
+let currentPersona = 'admin';
+
+function setPersona(persona) {
+  currentPersona = persona;
+  var body = document.body;
+  
+  document.getElementById('btn-admin').classList.toggle('active', persona === 'admin');
+  document.getElementById('btn-owner').classList.toggle('active', persona === 'owner');
+  document.getElementById('btn-team-member').classList.toggle('active', persona === 'team-member');
+  
+  body.classList.remove('is-admin', 'is-owner');
+  if (persona === 'admin') {
+    body.classList.add('is-admin');
+  } else if (persona === 'owner') {
+    body.classList.add('is-admin', 'is-owner');
+  }
+  
+  var billingBtn = document.querySelector('.owner-only-billing');
+  if (billingBtn) {
+    billingBtn.style.display = (persona === 'owner') ? '' : 'none';
+  }
+  
+  var config = PERSONAS[persona];
+  document.getElementById('agent-name').textContent = config.agentName;
+  document.getElementById('role-pill').textContent = config.rolePill;
+  
+  renderMessages(config.messages);
+}
+
+function renderMessages(messages) {
+  const container = document.getElementById('chat-messages');
+  container.innerHTML = '';
+  
+  messages.forEach(function(msg) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg chat-msg--' + msg.role;
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-msg__avatar';
+    avatar.textContent = msg.role === 'agent' ? 'CC' : 'CD';
+    avatar.setAttribute('aria-hidden', 'true');
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-msg__bubble';
+    
+    let html = '<p style="margin:0">' + msg.text + '</p>';
+    
+    if (msg.tasks) {
+      msg.tasks.forEach(function(task) {
+        var typeClass = task.type === 'warning' ? '' : task.type === 'info' ? ' task-card--info' : ' task-card--success';
+        html += '<div class="task-card' + typeClass + '"><p class="task-card__title">' + task.title + '</p><p class="task-card__value">' + task.value + '</p></div>';
+      });
+    }
+    
+    if (msg.actions) {
+      html += '<div style="margin-top:8px">';
+      msg.actions.forEach(function(action) {
+        html += '<button class="chat-action-btn" onclick="quickAction(\'' + action.replace(/'/g, "\\'") + '\')">' + action + '</button>';
+      });
+      html += '</div>';
+    }
+    
+    bubble.innerHTML = html;
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    container.appendChild(div);
+  });
+  
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendMessage() {
+  var input = document.getElementById('agent-input');
+  var text = input.value.trim();
+  if (!text) return;
+  
+  input.value = '';
+  appendMessage('user', text);
+  
+  setTimeout(function() {
+    var response = getAgentResponse(text);
+    appendMessage('agent', response);
+  }, 600);
+}
+
+function quickAction(text) {
+  appendMessage('user', text);
+  
+  setTimeout(function() {
+    var response = getAgentResponse(text);
+    appendMessage('agent', response);
+  }, 600);
+}
+
+function getAgentResponse(query) {
+  var responses = DEMO_RESPONSES[currentPersona];
+  if (responses && responses[query]) {
+    return responses[query];
+  }
+  
+  var q = query.toLowerCase();
+  
+  if (currentPersona === 'owner') {
+    if (q.includes('billing') || q.includes('paying') || q.includes('cost') || q.includes('invoice')) {
+      return DEMO_RESPONSES.owner['Review billing'];
+    }
+    if (q.includes('add') || q.includes('invite') || q.includes('new user')) {
+      return DEMO_RESPONSES.owner['Add a new user'];
+    }
+    if (q.includes('license') || q.includes('usage') || q.includes('utilization') || q.includes('seat')) {
+      return DEMO_RESPONSES.owner['Show license usage'];
+    }
+    if (q.includes('inactive') || q.includes('hasn\'t logged')) {
+      return 'I found <strong>2 users</strong> inactive for 30+ days:\n\n<div class="task-card"><p class="task-card__title">Jake Morrison</p><p class="task-card__value">Last login: 47 days ago — Holds 1 CCPI Pro license</p></div><div class="task-card"><p class="task-card__title">Sarah Chen</p><p class="task-card__value">Last login: 62 days ago — Holds 1 CCPI Pro license</p></div>\n\nDeactivating them would free up 2 CCPI Pro licenses. Want to proceed, or reassign their licenses to other users?';
+    }
+    if (q.includes('categor')) {
+      return 'Your organization\'s Project Intelligence subscription includes <strong>19 main categories</strong> with ~52 subcategories. Users currently have access to:\n\n<div class="task-card task-card--info"><p class="task-card__title">Most Used Categories</p><p class="task-card__value">Commercial (8 users) · Industrial (6 users) · Institutional (5 users)</p></div>\n\nCategories are individually selectable per user — not tier-gated. Want to modify category assignments for a specific user or group?';
+    }
+  }
+  
+  if (currentPersona === 'admin') {
+    if (q.includes('billing') || q.includes('paying') || q.includes('cost') || q.includes('invoice')) {
+      return 'Billing and payment information is managed by your Organization Owner. I can help you with license assignments, user management, and subscription details instead.\n\n<button class="chat-action-btn" onclick="quickAction(\'Show license usage\')">Show license usage</button>';
+    }
+    if (q.includes('add') || q.includes('invite') || q.includes('new user')) {
+      return DEMO_RESPONSES.admin['Add a new user'];
+    }
+    if (q.includes('license') || q.includes('usage') || q.includes('utilization') || q.includes('seat')) {
+      return DEMO_RESPONSES.admin['Show license usage'];
+    }
+    if (q.includes('inactive') || q.includes('hasn\'t logged')) {
+      return DEMO_RESPONSES.admin['Show inactive users'];
+    }
+    if (q.includes('categor')) {
+      return 'Your organization\'s Project Intelligence subscription includes <strong>19 main categories</strong> with ~52 subcategories. Users currently have access to:\n\n<div class="task-card task-card--info"><p class="task-card__title">Most Used Categories</p><p class="task-card__value">Commercial (8 users) · Industrial (6 users) · Institutional (5 users)</p></div>\n\nCategories are individually selectable per user — not tier-gated. Want to modify category assignments for a specific user or group?';
+    }
+  }
+  
+  if (currentPersona === 'team-member') {
+    if (q.includes('billing') || q.includes('cost') || q.includes('paying')) {
+      return 'I can show you your license information, but billing details are only available to your Organization Owner. Your admin <strong>Dana Martinez</strong> can help with billing questions.\n\n<button class="chat-action-btn" onclick="quickAction(\'View my access\')">View my licenses instead</button>';
+    }
+    if (q.includes('access') || q.includes('what do i have')) {
+      return DEMO_RESPONSES['team-member']['View my access'];
+    }
+    if (q.includes('add user') || q.includes('manage users')) {
+      return 'User management is handled by your organization\'s administrators. Your admin <strong>Dana Martinez</strong> (dana.martinez@acmebpm.com) can help add or manage users.\n\nIs there something else I can help with?';
+    }
+    if (q.includes('analytics') || q.includes('module')) {
+      return 'The Analytics module requires a <strong>CCPI Premium</strong> license. You currently have CCPI Pro. I can submit a request to your administrator (<strong>Dana Martinez</strong>) to upgrade your access. Should I send that request? I\'ll include a note about why you need it if you\'d like.';
+    }
+    if (q.includes('territory') || q.includes('geographic') || q.includes('oklahoma') || q.includes('region')) {
+      return 'Your geographic access covers the <strong>Southeast Region</strong>: FL, GA, SC, NC, TN, AL.\n\nIf you need access to additional states, I can submit a request to your administrator. Which states do you need?';
+    }
+    if (q.includes('categor')) {
+      return 'Your Project Intelligence access includes these project categories: <strong>Commercial, Industrial, Institutional</strong>.\n\nThere are additional categories available (Educational, Healthcare, Government, Residential, etc.). I can submit a request to your admin <strong>Dana Martinez</strong> to expand your categories. Which ones do you need?';
+    }
+    if (q.includes('profile') || q.includes('phone') || q.includes('update')) {
+      return DEMO_RESPONSES['team-member']['Update my profile'];
+    }
+  }
+  
+  if (q.includes('download') || q.includes('onscreen') || q.includes('ost')) {
+    return 'I can help with OnScreen Takeoff. Here\'s what you need:\n\n<div class="task-card task-card--info"><p class="task-card__title">Download OST</p><p class="task-card__value">Latest version: 3.98.6.59 — <a href="#" style="color:var(--primary-400)">Download installer</a></p></div>\n\nSystem requirements: Windows 10/11, 8GB RAM minimum. Need installation help?';
+  }
+  
+  if (q.includes('training') || q.includes('video')) {
+    return 'Here are the most popular training resources:\n\n<div class="task-card task-card--info"><p class="task-card__title">Getting Started with OST</p><p class="task-card__value">15 min — Covers basic takeoff workflow</p></div><div class="task-card task-card--info"><p class="task-card__title">Advanced Measurement Tools</p><p class="task-card__value">22 min — Linear, area, and count takeoffs</p></div><div class="task-card task-card--info"><p class="task-card__title">Bid Like a Boss: Webinar Series</p><p class="task-card__value">Monthly live sessions — <a href="#" style="color:var(--primary-400)">Register for next session</a></p></div>\n\nWant me to find training for a specific topic?';
+  }
+  
+  if (q.includes('bid center') || q.includes('bid management')) {
+    return 'Bid Management gives your team tools to find, track, and win more bids.\n\n<div class="task-card task-card--info"><p class="task-card__title">Your CCBM Access</p><p class="task-card__value">' + (currentPersona === 'admin' ? '4 of 5 seats assigned' : 'Standard User — Active') + '</p></div>\n\nKey features: project discovery, bid invitations, document management, and team collaboration. Want to launch Bid Management or learn about a specific feature?';
+  }
+  
+  return 'I understand you\'re asking about "' + query + '". Let me look into that for you. In the full implementation, I\'d search across your organization\'s data to find the most relevant answer.\n\nIs there anything specific I can help clarify?';
+}
+
+function appendMessage(role, text) {
+  var container = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'chat-msg chat-msg--' + role;
+  
+  var avatar = document.createElement('div');
+  avatar.className = 'chat-msg__avatar';
+  avatar.textContent = role === 'agent' ? 'CC' : 'CD';
+  avatar.setAttribute('aria-hidden', 'true');
+  
+  var bubble = document.createElement('div');
+  bubble.className = 'chat-msg__bubble';
+  bubble.innerHTML = '<p style="margin:0">' + text + '</p>';
+  
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function toggleMobileNav() {
+  var nav = document.querySelector('.compact-nav');
+  var overlay = document.querySelector('.compact-overlay');
+  var hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+
+document.getElementById('agent-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+setPersona('owner');
+</script>
+
+</body>
+</html>
