@@ -30,14 +30,14 @@ export default defineConfig({
     /* Base URL for your tests */
     baseURL: 'http://localhost:3000',
     
-    /* Collect trace when retrying the failed test */
-    trace: 'on-first-retry',
+    /* Collect trace for all tests */
+    trace: 'on',
     
-    /* Screenshot on failure */
-    screenshot: 'only-on-failure',
+    /* Screenshot for every test */
+    screenshot: 'on',
     
-    /* Video on failure */
-    video: 'retain-on-failure',
+    /* Video for every test */
+    video: 'on',
   },
 
   /* Configure projects for major browsers */
@@ -70,8 +70,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'python3 -m http.server 8080',
-    url: 'http://localhost:8080',
+    command: 'npx serve . -l 3000',
+    url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
   },
 });

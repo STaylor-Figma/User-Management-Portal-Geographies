@@ -215,8 +215,38 @@
   h1 { font-size: var(--font-size-400); }
   .tabs { gap: 4px; }
   .tab { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
-  .filter-btn { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
+  .bp-dropdown-btn { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
 }
+
+/* Blueprint Dropdown Buttons */
+.bp-dropdown { position: relative; display: inline-block; }
+.bp-dropdown-btn {
+  display: inline-flex; align-items: center; gap: var(--spacing-micro-150);
+  padding: var(--spacing-micro-200) 12px;
+  border: 1px solid var(--neutral-400); border-radius: var(--radius-sm);
+  background: var(--neutral-0); color: var(--neutral-500);
+  font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium); line-height: var(--line-height-medium);
+  cursor: pointer; transition: all 200ms ease-out; white-space: nowrap;
+}
+.bp-dropdown-btn:hover { background: var(--neutral-100); }
+.bp-dropdown-caret { font-size: var(--font-size-300); transition: transform 200ms ease-out; }
+.bp-dropdown.open .bp-dropdown-caret { transform: rotate(180deg); }
+.bp-dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0;
+  min-width: 100%; background: var(--neutral-0);
+  border: 1px solid var(--neutral-300); border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000; overflow: hidden;
+}
+.bp-dropdown.open .bp-dropdown-menu { display: block; animation: dropdownOpen 200ms ease-out; }
+@keyframes dropdownOpen { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.bp-dropdown-item {
+  padding: 8px 16px; font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); color: var(--neutral-500);
+  cursor: pointer; transition: background 200ms ease-out; white-space: nowrap;
+}
+.bp-dropdown-item:hover { background: var(--neutral-100); }
+.bp-dropdown-item.active { color: var(--primary-500); font-weight: var(--font-weight-text-bold); }
 </style>
 </head>
 <body>
@@ -420,24 +450,42 @@
           <!-- Table Controls -->
           <div class="table-controls">
             <div class="filters">
-              <select class="filter-btn" id="subscriptionFilter" onchange="filterTable()">
-                <option value="">Show All Subscriptions</option>
-                <option value="Project Intelligence">Project Intelligence</option>
-                <option value="Bid Management">Bid Management</option>
-                <option value="Takeoff">Takeoff & Estimating</option>
-                <option value="Not Assigned">Not Assigned</option>
-              </select>
-              <select class="filter-btn" id="roleFilter" onchange="filterTable()">
-                <option value="">Show All Roles</option>
-                <option value="BM - Admin">BM - Admin</option>
-                <option value="BM - Team Member">BM - Team Member</option>
-                <option value="Not Assigned">Not Assigned</option>
-              </select>
-              <select class="filter-btn" id="groupFilter" onchange="filterTable()">
-                <option value="">Show All Groups</option>
-                <option value="Estimator">Estimator</option>
-                <option value="Not Assigned">Not Assigned</option>
-              </select>
+              <div class="bp-dropdown">
+                <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false" data-filter-id="subscriptionFilter">
+                  <span>Show All Subscriptions</span>
+                  <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+                </button>
+                <div class="bp-dropdown-menu">
+                  <div class="bp-dropdown-item active" data-value="">Show All Subscriptions</div>
+                  <div class="bp-dropdown-item" data-value="Project Intelligence">Project Intelligence</div>
+                  <div class="bp-dropdown-item" data-value="Bid Management">Bid Management</div>
+                  <div class="bp-dropdown-item" data-value="Takeoff">Takeoff &amp; Estimating</div>
+                  <div class="bp-dropdown-item" data-value="Not Assigned">Not Assigned</div>
+                </div>
+              </div>
+              <div class="bp-dropdown">
+                <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false" data-filter-id="roleFilter">
+                  <span>Show All Roles</span>
+                  <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+                </button>
+                <div class="bp-dropdown-menu">
+                  <div class="bp-dropdown-item active" data-value="">Show All Roles</div>
+                  <div class="bp-dropdown-item" data-value="BM - Admin">BM - Admin</div>
+                  <div class="bp-dropdown-item" data-value="BM - Team Member">BM - Team Member</div>
+                  <div class="bp-dropdown-item" data-value="Not Assigned">Not Assigned</div>
+                </div>
+              </div>
+              <div class="bp-dropdown">
+                <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false" data-filter-id="groupFilter">
+                  <span>Show All Groups</span>
+                  <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+                </button>
+                <div class="bp-dropdown-menu">
+                  <div class="bp-dropdown-item active" data-value="">Show All Groups</div>
+                  <div class="bp-dropdown-item" data-value="Estimator">Estimator</div>
+                  <div class="bp-dropdown-item" data-value="Not Assigned">Not Assigned</div>
+                </div>
+              </div>
             </div>
             <button class="search-btn">🔍</button>
           </div>
@@ -650,11 +698,56 @@ function closeUserProfileDrawer() {
   document.body.style.overflow = 'auto';
 }
 
+// Blueprint dropdown behavior
+function getFilterValue(filterId) {
+  const btn = document.querySelector('[data-filter-id="' + filterId + '"]');
+  if (!btn) return '';
+  const dropdown = btn.closest('.bp-dropdown');
+  const activeItem = dropdown.querySelector('.bp-dropdown-item.active');
+  return activeItem ? activeItem.getAttribute('data-value') : '';
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.bp-dropdown-btn');
+  if (btn) {
+    e.stopPropagation();
+    const dropdown = btn.closest('.bp-dropdown');
+    const wasOpen = dropdown.classList.contains('open');
+    document.querySelectorAll('.bp-dropdown.open').forEach(function(d) {
+      d.classList.remove('open');
+      d.querySelector('.bp-dropdown-btn').setAttribute('aria-expanded', 'false');
+    });
+    if (!wasOpen) {
+      dropdown.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+    return;
+  }
+
+  const item = e.target.closest('.bp-dropdown-item');
+  if (item) {
+    const dropdown = item.closest('.bp-dropdown');
+    const btn = dropdown.querySelector('.bp-dropdown-btn');
+    dropdown.querySelectorAll('.bp-dropdown-item').forEach(function(i) { i.classList.remove('active'); });
+    item.classList.add('active');
+    btn.querySelector('span').textContent = item.textContent;
+    dropdown.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    filterTable();
+    return;
+  }
+
+  document.querySelectorAll('.bp-dropdown.open').forEach(function(d) {
+    d.classList.remove('open');
+    d.querySelector('.bp-dropdown-btn').setAttribute('aria-expanded', 'false');
+  });
+});
+
 // Table filtering
 function filterTable() {
-  const subscriptionFilter = document.getElementById('subscriptionFilter').value;
-  const roleFilter = document.getElementById('roleFilter').value;
-  const groupFilter = document.getElementById('groupFilter').value;
+  const subscriptionFilter = getFilterValue('subscriptionFilter');
+  const roleFilter = getFilterValue('roleFilter');
+  const groupFilter = getFilterValue('groupFilter');
   
   const rows = document.querySelectorAll('.user-table tbody tr');
   
@@ -664,7 +757,6 @@ function filterTable() {
     const bidMgmtText = cells[2]?.textContent.trim() || '';
     const takeoffText = cells[3]?.textContent.trim() || '';
     
-    // Check if subscription is assigned
     let subscriptionMatch = !subscriptionFilter;
     if (subscriptionFilter) {
       if (subscriptionFilter === 'Not Assigned') {

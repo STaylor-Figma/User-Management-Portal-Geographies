@@ -20,6 +20,26 @@
   "license": "ISC",
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
-    "@playwright/test": "^1.48.0"
-  }
+    "@playwright/test": "^1.58.2",
+    "serve": "^14.2.5"
+  },
+  "main": "complete-zone-data-generator.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "dependencies": {
+    "axe-core": "^4.11.1",
+    "fsevents": "^2.3.2",
+    "playwright": "^1.58.1",
+    "playwright-core": "^1.58.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STaylor-Figma/User-Management-Portal-Geographies.git"
+  },
+  "bugs": {
+    "url": "https://github.com/STaylor-Figma/User-Management-Portal-Geographies/issues"
+  },
+  "homepage": "https://github.com/STaylor-Figma/User-Management-Portal-Geographies#readme"
 }

@@ -155,6 +155,36 @@
   .tab { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
   .filter-btn { font-size: var(--font-size-200); padding: var(--spacing-micro-150) 10px; }
 }
+
+.bp-dropdown { position: relative; display: inline-block; }
+.bp-dropdown-btn {
+  display: inline-flex; align-items: center; gap: var(--spacing-micro-150);
+  padding: var(--spacing-micro-200) 12px;
+  border: 1px solid var(--neutral-400); border-radius: var(--radius-sm);
+  background: var(--neutral-0); color: var(--neutral-500);
+  font-family: var(--font-family-blueprintfont); font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium); line-height: var(--line-height-medium);
+  cursor: pointer; transition: all 200ms ease-out; white-space: nowrap;
+}
+.bp-dropdown-btn:hover { background: var(--neutral-100); }
+.bp-dropdown-caret { font-size: var(--font-size-300); transition: transform 200ms ease-out; }
+.bp-dropdown.open .bp-dropdown-caret { transform: rotate(180deg); }
+.bp-dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0;
+  min-width: 100%; background: var(--neutral-0);
+  border: 1px solid var(--neutral-300); border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000; overflow: hidden;
+}
+.bp-dropdown.open .bp-dropdown-menu { display: block; animation: dropdownOpen 200ms ease-out; }
+@keyframes dropdownOpen { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.bp-dropdown-item {
+  padding: 8px 16px; font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); color: var(--neutral-500);
+  cursor: pointer; transition: background 200ms ease-out; white-space: nowrap;
+}
+.bp-dropdown-item:hover { background: var(--neutral-100); }
+.bp-dropdown-item.active { color: var(--primary-500); font-weight: var(--font-weight-text-bold); }
+.bp-dropdown-divider { height: 1px; background: var(--neutral-200); margin: 4px 0; }
 </style>
 </head>
 <body>
@@ -599,18 +629,24 @@
           <div class="table-controls">
             <div class="table-controls-left">
               <div class="filters">
-                <select class="filter-btn" id="bmRoleFilter" onchange="filterBMTable()">
-                  <option value="">Show All Roles</option>
-                  <option value="Company Admin">Company Admin</option>
-                  <option value="Project Manager">Project Manager</option>
-                  <option value="Bid Coordinator">Bid Coordinator</option>
-                  <option value="Estimator">Estimator</option>
-                  <option value="PQ Analyst">PQ Analyst</option>
-                  <option value="Team Member">Team Member</option>
-                  <option value="Intern">Intern</option>
-                  <option value="" disabled>──────────</option>
-                  <option value="Senior Estimator">Senior Estimator (Custom)</option>
-                </select>
+                <div class="bp-dropdown">
+                  <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false" data-filter-id="bmRoleFilter">
+                    <span>Show All Roles</span>
+                    <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+                  </button>
+                  <div class="bp-dropdown-menu">
+                    <div class="bp-dropdown-item active" data-value="">Show All Roles</div>
+                    <div class="bp-dropdown-item" data-value="Company Admin">Company Admin</div>
+                    <div class="bp-dropdown-item" data-value="Project Manager">Project Manager</div>
+                    <div class="bp-dropdown-item" data-value="Bid Coordinator">Bid Coordinator</div>
+                    <div class="bp-dropdown-item" data-value="Estimator">Estimator</div>
+                    <div class="bp-dropdown-item" data-value="PQ Analyst">PQ Analyst</div>
+                    <div class="bp-dropdown-item" data-value="Team Member">Team Member</div>
+                    <div class="bp-dropdown-item" data-value="Intern">Intern</div>
+                    <div class="bp-dropdown-divider"></div>
+                    <div class="bp-dropdown-item" data-value="Senior Estimator">Senior Estimator (Custom)</div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="table-controls-right">
@@ -1028,12 +1064,18 @@
           <div class="table-controls">
             <div class="table-controls-left">
               <div class="filters">
-                <select class="filter-btn" id="ostGroupFilter" onchange="filterOSTTable()">
-                  <option value="">Show All Groups</option>
-                  <option value="Admin">OST - Admin</option>
-                  <option value="Estimator">OST - Estimator</option>
-                  <option value="Custom">Custom Roles</option>
-                </select>
+                <div class="bp-dropdown">
+                  <button class="bp-dropdown-btn" aria-haspopup="true" aria-expanded="false" data-filter-id="ostGroupFilter">
+                    <span>Show All Groups</span>
+                    <i class="fa-solid fa-caret-down bp-dropdown-caret"></i>
+                  </button>
+                  <div class="bp-dropdown-menu">
+                    <div class="bp-dropdown-item active" data-value="">Show All Groups</div>
+                    <div class="bp-dropdown-item" data-value="Admin">OST - Admin</div>
+                    <div class="bp-dropdown-item" data-value="Estimator">OST - Estimator</div>
+                    <div class="bp-dropdown-item" data-value="Custom">Custom Roles</div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="table-controls-right">
@@ -1186,8 +1228,16 @@ function switchTab(tabId) {
 }
 
 // Filter Bid Management table
+function getFilterValue(filterId) {
+  const btn = document.querySelector(`.bp-dropdown-btn[data-filter-id="${filterId}"]`);
+  if (!btn) return '';
+  const menu = btn.nextElementSibling;
+  const active = menu ? menu.querySelector('.bp-dropdown-item.active') : null;
+  return active ? active.getAttribute('data-value') : '';
+}
+
 function filterBMTable() {
-  const filter = document.getElementById('bmRoleFilter').value;
+  const filter = getFilterValue('bmRoleFilter');
   const rows = document.querySelectorAll('#bmTableBody tr');
   let visibleCount = 0;
   
@@ -1206,7 +1256,7 @@ function filterBMTable() {
 
 // Filter OST table
 function filterOSTTable() {
-  const filter = document.getElementById('ostGroupFilter').value;
+  const filter = getFilterValue('ostGroupFilter');
   const rows = document.querySelectorAll('#ostTableBody tr');
   let visibleCount = 0;
   
@@ -1233,6 +1283,37 @@ function toggleMobileNav() {
   overlay.classList.toggle('open');
   hamburger.classList.toggle('active');
 }
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.bp-dropdown-btn');
+  const item = e.target.closest('.bp-dropdown-item');
+
+  if (btn) {
+    e.preventDefault();
+    const dropdown = btn.closest('.bp-dropdown');
+    document.querySelectorAll('.bp-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+    dropdown.classList.toggle('open');
+    btn.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+    return;
+  }
+
+  if (item) {
+    const menu = item.closest('.bp-dropdown-menu');
+    const dropdown = item.closest('.bp-dropdown');
+    const btnEl = dropdown.querySelector('.bp-dropdown-btn');
+    menu.querySelectorAll('.bp-dropdown-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    btnEl.querySelector('span').textContent = item.textContent;
+    dropdown.classList.remove('open');
+    btnEl.setAttribute('aria-expanded', 'false');
+    const filterId = btnEl.getAttribute('data-filter-id');
+    if (filterId === 'bmRoleFilter') filterBMTable();
+    else if (filterId === 'ostGroupFilter') filterOSTTable();
+    return;
+  }
+
+  document.querySelectorAll('.bp-dropdown.open').forEach(d => d.classList.remove('open'));
+});
 </script>
 
 <!-- Invite Drawer JavaScript -->
