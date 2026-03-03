@@ -423,24 +423,24 @@ h1 {
   align-items: center; 
 }
 
-/* Icon Button - Small with Circle shape (Blueprint Component) */
+/* Icon Button - Medium with Circle shape (Blueprint Component) */
 .icon-btn {
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   padding: 2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: transparent;
   border: none;
-  border-radius: var(--radius-circle);
+  border-radius: 50%;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 200ms ease-out;
   position: relative;
 }
 
 .icon-btn:hover {
-  background: var(--neutral-200);
+  background: #e7e6e5;
 }
 
 .icon-btn:focus {
@@ -448,10 +448,13 @@ h1 {
   box-shadow: 0 0 4px var(--neutral-500);
 }
 
-.icon-btn i {
-  font-size: var(--font-size-500);
-  color: var(--neutral-500);
-  line-height: var(--line-height-medium);
+.icon-btn i,
+.icon-btn svg {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: #4a4f55;
+  line-height: 18px;
 }
 
 /* Tooltip (Blueprint Component) */
