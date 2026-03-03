@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific overrides for Blueprint Design System */
 
@@ -171,6 +172,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -183,6 +189,10 @@
 
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -203,7 +213,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -214,6 +224,10 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -234,7 +248,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -242,7 +256,6 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
       
       <!-- Header & Tabs -->
       <div class="header">
@@ -270,6 +283,7 @@
         </div>
       </div>
 
+    <div class="container">
       <!-- Content Area -->
       <div class="content">
         
@@ -1116,14 +1130,9 @@
               <span class="results-info">1-5 of 5</span>
               <button class="pagination-btn" disabled><i class="fa-regular fa-chevron-left"></i></button>
               <button class="pagination-btn"><i class="fa-regular fa-chevron-right"></i></button>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Copy</button>
-                        <button class="action-btn">Assign</button>
-                      </div>
-                    </td>
-                  </tr>\n                </tbody>\n              </table>\n            </div>\n\n            <!-- Table Footer -->
+            </div>
+
+            <!-- Table Footer -->
             <div class="table-footer">
               <div class="results-count">
                 <strong id="ostResultsCount">3</strong> Results Found
@@ -1281,5 +1290,6 @@ function toggleMobileNav() {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific styles for Company Overview */
 
@@ -24,7 +25,7 @@
 /* Info Card */
 .info-card { 
   background: #fff; 
-  border: 2px solid #424242; 
+  border: 1px solid var(--neutral-300); 
   border-radius: var(--radius-md); 
   padding: var(--spacing-medium-600); 
 }
@@ -97,7 +98,7 @@
 }
 .subscription-card { 
   background: #fff; 
-  border: 2px solid #424242; 
+  border: 1px solid var(--neutral-300); 
   border-radius: var(--radius-md); 
   padding: var(--spacing-medium-600); 
 }
@@ -178,7 +179,7 @@
 /* Activity Feed */
 .activity-section { 
   background: #fff; 
-  border: 2px solid #424242; 
+  border: 1px solid var(--neutral-300); 
   border-radius: var(--radius-md); 
   padding: var(--spacing-medium-600); 
   margin-bottom: 24px; 
@@ -205,7 +206,7 @@
 /* Billing Card - Owner Only */
 .billing-section { 
   background: #fff; 
-  border: 2px solid #424242; 
+  border: 1px solid var(--neutral-300); 
   border-radius: var(--radius-md); 
   padding: var(--spacing-medium-600); 
   margin-bottom: 24px; 
@@ -280,6 +281,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -287,8 +293,15 @@
   </div>
 </div>
 
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -309,7 +322,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -320,6 +333,10 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -340,7 +357,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -348,32 +365,31 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
-      
-      <!-- Header & Tabs -->
-      <div class="header">
-        <div class="header-top">
-          <div style="display: flex; align-items: center; gap: var(--spacing-small-400);">
-            <h1>Serenity Construction</h1>
-            <span class="status-badge">ORG-45829</span>
-          </div>
-          <div class="header-icons">
-            <button class="icon-btn" onclick="openInviteDrawer()">
-              <i class="fa-solid fa-user-plus"></i>
-              <span class="tooltip">Invite User</span>
-            </button>
-            <button class="icon-btn">
-              <i class="fa-solid fa-clock-rotate-left"></i>
-              <span class="tooltip">History</span>
-            </button>
-            <button class="icon-btn">
-              <i class="fa-solid fa-user-headset"></i>
-              <span class="tooltip">Support User</span>
-            </button>
-          </div>
+    <!-- Header & Tabs -->
+    <div class="header">
+      <div class="header-top">
+        <div style="display: flex; align-items: center; gap: var(--spacing-small-400);">
+          <h1>Company Overview</h1>
+          <span class="status-badge">ORG-45829</span>
+        </div>
+        <div class="header-icons">
+          <button class="icon-btn" onclick="openInviteDrawer()">
+            <i class="fa-solid fa-user-plus"></i>
+            <span class="tooltip">Invite User</span>
+          </button>
+          <button class="icon-btn">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span class="tooltip">History</span>
+          </button>
+          <button class="icon-btn">
+            <i class="fa-solid fa-user-headset"></i>
+            <span class="tooltip">Support User</span>
+          </button>
         </div>
       </div>
+    </div>
 
+    <div class="container">
       <div class="content">
 
         <!-- Company Info & Users Summary Cards -->
@@ -529,28 +545,28 @@
           <h2 class="card-title">Recent Activity</h2>
           <div class="activity-item">
             <span class="activity-date">Feb 3, 2026</span>
-            <span class="activity-text">Added user <strong>Sarah Martinez</strong> to Project Intelligence</span>
+            <span class="activity-text">Added user <strong>Kaylee Frye</strong> to Project Intelligence</span>
           </div>
           <div class="activity-item">
             <span class="activity-date">Feb 2, 2026</span>
-            <span class="activity-text">Assigned Bid Management license to <strong>James Cooper</strong></span>
+            <span class="activity-text">Assigned Bid Management license to <strong>Simon Tam</strong></span>
           </div>
           <div class="activity-item">
             <span class="activity-date">Jan 31, 2026</span>
-            <span class="activity-text">Updated role for <strong>Michael Chen</strong> to Organization Admin</span>
+            <span class="activity-text">Updated role for <strong>Jayne Cobb</strong> to Organization Admin</span>
           </div>
           <div class="activity-item">
             <span class="activity-date">Jan 30, 2026</span>
-            <span class="activity-text">Removed user <strong>David Thompson</strong> from organization</span>
+            <span class="activity-text">Removed user <strong>Shepherd Book</strong> from organization</span>
           </div>
           <div class="activity-item">
             <span class="activity-date">Jan 29, 2026</span>
-            <span class="activity-text">Reassigned Project Intelligence license from <strong>Lisa Park</strong> to <strong>Robert Wilson</strong></span>
+            <span class="activity-text">Reassigned Project Intelligence license from <strong>Inara Serra</strong> to <strong>Hoban Washburne</strong></span>
           </div>
         </div>
 
         <!-- Billing Summary - Owner Only -->
-        <div class="billing-section">
+        <div class="billing-section owner-only">
           <span class="owner-badge">Owner Only</span>
           <h2 class="card-title">Billing Summary</h2>
           <div class="billing-grid">
@@ -588,8 +604,8 @@ function toggleMobileNav() {
   const overlay = document.querySelector('.compact-overlay');
   const hamburger = document.querySelector('.hamburger-menu');
   
-  nav.classList.toggle('show');
-  overlay.classList.toggle('show');
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
   hamburger.classList.toggle('active');
 }
 
@@ -847,5 +863,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

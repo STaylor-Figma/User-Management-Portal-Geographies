@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific styles for My Profile */
 
@@ -367,6 +368,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -374,8 +380,15 @@
   </div>
 </div>
 
+<!-- Mobile Navigation Overlay -->
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+
 <!-- Compact Navigation (Top) -->
-<div class="compact-nav">
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button selected" onclick="window.location.href='v2-my-profile-multi.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -396,17 +409,21 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
-</div>
+</nav>
 
 <!-- Layout -->
 <div class="layout">
   
   <!-- Sidebar Navigation -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button selected" onclick="window.location.href='v2-my-profile-multi.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -427,7 +444,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -435,12 +452,10 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
-    
-    <!-- Header -->
     <div class="header">
       <h1>My Profile</h1>
     </div>
+    <div class="container">
   
     <div class="profile-grid">
       <!-- LEFT COLUMN -->
@@ -522,7 +537,7 @@
           
           <div class="field-row">
             <div class="field-label">Email</div>
-            <div class="read-only-field">christopher.donaldson@acmebpm.com</div>
+            <div class="read-only-field">christopher.donaldson@serenity.com</div>
           </div>
           <div class="field-row">
             <div class="field-label">User ID</div>
@@ -574,7 +589,7 @@
               <span class="pill">Southeast Region</span>
               <span class="pill">Architectural Sales</span>
             </div>
-            <a href="#" class="profile-link">View my groups</a>
+            <a href="v2-users-groups.html" class="profile-link">View my groups</a>
           </div>
           
           <!-- Licenses -->
@@ -583,11 +598,15 @@
             <div class="license-list">
               <div class="license-item">
                 <span class="license-dot active"></span>
-                <a href="#" class="license-name">Project Intelligence</a>
+                <a href="v2-subscription-overview-multi.html" class="license-name">Project Intelligence</a>
               </div>
               <div class="license-item">
                 <span class="license-dot active"></span>
-                <a href="#" class="license-name">Bid Management</a>
+                <a href="v2-bid-management-subscriptions-multi.html" class="license-name">Bid Management</a>
+              </div>
+              <div class="license-item">
+                <span class="license-dot active"></span>
+                <a href="v2-takeoff-estimating-multi.html" class="license-name">On Screen Takeoff</a>
               </div>
             </div>
           </div>
@@ -622,8 +641,8 @@
             <div class="section-label">Your Admins</div>
             <p class="card-helper-text" style="margin-bottom: 10px;">Contact for access changes:</p>
             <div class="admin-list">
-              <a href="mailto:dana.martinez@acmebpm.com" class="admin-link">Dana Martinez</a>
-              <a href="mailto:eric.thompson@acmebpm.com" class="admin-link">Eric Thompson</a>
+              <a href="mailto:zoe.washburne@serenity.com" class="admin-link">Zoe Washburne</a>
+              <a href="mailto:river.tam@serenity.com" class="admin-link">River Tam</a>
             </div>
           </div>
           
@@ -684,11 +703,16 @@ function toggleEditMode() {
 }
 
 function toggleMobileNav() {
-  // Mobile nav toggle functionality
-  const sidebar = document.querySelector('.sidebar-nav');
-  sidebar.classList.toggle('mobile-open');
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
 }
 </script>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

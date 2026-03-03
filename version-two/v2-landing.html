@@ -732,7 +732,7 @@ body:not(.is-admin) .sidebar-nav { display: none; }
       <!-- User Name + Status -->
       <div class="rail-section">
         <div class="rail-user-name">Christopher Donaldson</div>
-        <p class="rail-meta">christopher.donaldson@acmebpm.com</p>
+        <p class="rail-meta">christopher.donaldson@serenity.com</p>
         <p class="rail-meta"><span class="rail-status-dot"></span> Active &middot; Last login Feb 4, 2025</p>
         <a href="v2-my-profile.html" class="rail-link" style="margin-top: var(--spacing-micro-250); font-size: var(--font-size-200);">View Full Profile</a>
       </div>
@@ -798,8 +798,8 @@ body:not(.is-admin) .sidebar-nav { display: none; }
       <div class="rail-section">
         <div class="rail-section-label">Your Admins</div>
         <p class="rail-helper-text">Contact for access changes:</p>
-        <a href="mailto:dana.martinez@acmebpm.com" class="rail-link">Dana Martinez</a>
-        <a href="mailto:eric.thompson@acmebpm.com" class="rail-link">Eric Thompson</a>
+        <a href="mailto:zoe.washburne@serenity.com" class="rail-link">Zoe Washburne</a>
+        <a href="mailto:river.tam@serenity.com" class="rail-link">River Tam</a>
       </div>
       
       <!-- Customer Support -->
@@ -943,7 +943,7 @@ const DEMO_RESPONSES = {
   'team-member': {
     'View my access': 'Here\'s your complete access summary:\n\n<div class="task-card task-card--success"><p class="task-card__title">Project Intelligence</p><p class="task-card__value">Active — Southeast Region (FL, GA, SC, NC, TN, AL)<br>Categories: Commercial, Industrial, Institutional</p></div><div class="task-card task-card--success"><p class="task-card__title">Bid Management</p><p class="task-card__value">Active — Standard User role</p></div><div class="task-card task-card--success"><p class="task-card__title">On Screen Takeoff</p><p class="task-card__value">Active — Standard User role</p></div>\n\nYour organizational role is <strong>Team Member</strong>. Want to launch any of these products?',
     'Update my profile': 'I can update your profile right now. What would you like to change?\n\n<button class="chat-action-btn" onclick="quickAction(\'Change my phone number\')">Phone number</button><button class="chat-action-btn" onclick="quickAction(\'Change my job title\')">Job title</button><button class="chat-action-btn" onclick="quickAction(\'Change my department\')">Department</button><button class="chat-action-btn" onclick="quickAction(\'Change my notifications\')">Notification preferences</button>',
-    'Request new access': 'I can submit an access request to your administrator (<strong>Dana Martinez</strong>). What do you need?\n\n<button class="chat-action-btn" onclick="quickAction(\'I need the Analytics module\')">Analytics module</button><button class="chat-action-btn" onclick="quickAction(\'I need access to Oklahoma\')">Additional geographic access</button><button class="chat-action-btn" onclick="quickAction(\'I need additional project categories\')">More project categories</button>\n\nOr just tell me what you need in your own words.',
+    'Request new access': 'I can submit an access request to your administrator (<strong>Zoe Washburne</strong>). What do you need?\n\n<button class="chat-action-btn" onclick="quickAction(\'I need the Analytics module\')">Analytics module</button><button class="chat-action-btn" onclick="quickAction(\'I need access to Oklahoma\')">Additional geographic access</button><button class="chat-action-btn" onclick="quickAction(\'I need additional project categories\')">More project categories</button>\n\nOr just tell me what you need in your own words.',
   }
 };
 
@@ -1087,22 +1087,22 @@ function getAgentResponse(query) {
   
   if (currentPersona === 'team-member') {
     if (q.includes('billing') || q.includes('cost') || q.includes('paying')) {
-      return 'I can show you your license information, but billing details are only available to your Organization Owner. Your admin <strong>Dana Martinez</strong> can help with billing questions.\n\n<button class="chat-action-btn" onclick="quickAction(\'View my access\')">View my licenses instead</button>';
+      return 'I can show you your license information, but billing details are only available to your Organization Owner. Your admin <strong>Zoe Washburne</strong> can help with billing questions.\n\n<button class="chat-action-btn" onclick="quickAction(\'View my access\')">View my licenses instead</button>';
     }
     if (q.includes('access') || q.includes('what do i have')) {
       return DEMO_RESPONSES['team-member']['View my access'];
     }
     if (q.includes('add user') || q.includes('manage users')) {
-      return 'User management is handled by your organization\'s administrators. Your admin <strong>Dana Martinez</strong> (dana.martinez@acmebpm.com) can help add or manage users.\n\nIs there something else I can help with?';
+      return 'User management is handled by your organization\'s administrators. Your admin <strong>Zoe Washburne</strong> (zoe.washburne@serenity.com) can help add or manage users.\n\nIs there something else I can help with?';
     }
     if (q.includes('analytics') || q.includes('module')) {
-      return 'The Analytics module requires a <strong>CCPI Premium</strong> license. You currently have CCPI Pro. I can submit a request to your administrator (<strong>Dana Martinez</strong>) to upgrade your access. Should I send that request? I\'ll include a note about why you need it if you\'d like.';
+      return 'The Analytics module requires a <strong>CCPI Premium</strong> license. You currently have CCPI Pro. I can submit a request to your administrator (<strong>Zoe Washburne</strong>) to upgrade your access. Should I send that request? I\'ll include a note about why you need it if you\'d like.';
     }
     if (q.includes('territory') || q.includes('geographic') || q.includes('oklahoma') || q.includes('region')) {
       return 'Your geographic access covers the <strong>Southeast Region</strong>: FL, GA, SC, NC, TN, AL.\n\nIf you need access to additional states, I can submit a request to your administrator. Which states do you need?';
     }
     if (q.includes('categor')) {
-      return 'Your Project Intelligence access includes these project categories: <strong>Commercial, Industrial, Institutional</strong>.\n\nThere are additional categories available (Educational, Healthcare, Government, Residential, etc.). I can submit a request to your admin <strong>Dana Martinez</strong> to expand your categories. Which ones do you need?';
+      return 'Your Project Intelligence access includes these project categories: <strong>Commercial, Industrial, Institutional</strong>.\n\nThere are additional categories available (Educational, Healthcare, Government, Residential, etc.). I can submit a request to your admin <strong>Zoe Washburne</strong> to expand your categories. Which ones do you need?';
     }
     if (q.includes('profile') || q.includes('phone') || q.includes('update')) {
       return DEMO_RESPONSES['team-member']['Update my profile'];

@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Profile - User Management Portal</title>
+<title>My Profile - Version Two</title>
 <script src="https://kit.fontawesome.com/3d14c46c3e.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Page-specific styles for My Profile */
 
@@ -24,17 +25,17 @@
   margin: 0 0 var(--spacing-medium-600) 0;
 }
 
-/* Two Column Layout */
+/* Card Layout */
 .profile-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-small-400);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   font-family: var(--font-family-blueprintfont);
 }
 
 @media (max-width: 768px) {
   .profile-grid {
-    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 
@@ -402,6 +403,74 @@
   font-weight: var(--font-weight-text-semibold);
 }
 
+/* Agent Quick Bar */
+.agent-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small-250);
+  background: var(--primary-10);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-small-250) var(--spacing-small-400);
+  margin-top: -10px;
+  margin-bottom: var(--spacing-small-400);
+}
+
+.agent-bar-icon {
+  font-size: var(--font-size-500);
+  color: var(--primary-400);
+  flex-shrink: 0;
+}
+
+.agent-bar-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  color: var(--neutral-500);
+  outline: none;
+}
+
+.agent-bar-input::placeholder {
+  color: var(--neutral-400);
+}
+
+.agent-bar-send {
+  background: var(--primary-400);
+  color: var(--neutral-0);
+  border: none;
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 200ms ease-out;
+  flex-shrink: 0;
+}
+
+.agent-bar-send:hover {
+  background: var(--primary-500);
+}
+
+.agent-bar-response {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-small-400);
+  margin-bottom: var(--spacing-small-400);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  color: var(--neutral-500);
+  line-height: var(--line-height-medium);
+}
+
+.agent-bar-response strong {
+  font-weight: var(--font-weight-text-semibold);
+}
+
 /* Hidden by default */
 .hidden {
   display: none;
@@ -423,6 +492,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-regular fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-regular fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-regular fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -431,7 +505,12 @@
 </div>
 
 <!-- Compact Navigation (Top) -->
-<div class="compact-nav">
+<div class="compact-overlay" onclick="toggleMobileNav()"></div>
+<nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button selected" onclick="window.location.href='v2-my-profile.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -452,17 +531,21 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
-</div>
+</nav>
 
 <!-- Layout -->
 <div class="layout">
   
   <!-- Sidebar Navigation -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button selected" onclick="window.location.href='v2-my-profile.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -483,7 +566,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -491,16 +574,25 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
     
     <!-- Header -->
     <div class="header">
       <h1>My Profile</h1>
     </div>
+
+    <!-- Agent Quick Bar -->
+    <div class="agent-bar">
+      <i class="fa-light fa-robot agent-bar-icon"></i>
+      <input type="text" class="agent-bar-input" placeholder="Ask me anything — update your name, find training, check your access..." id="agent-bar-input" onkeydown="if(event.key==='Enter')handleAgentBar()">
+      <button class="agent-bar-send" onclick="handleAgentBar()" aria-label="Send">
+        <i class="fa-light fa-paper-plane"></i>
+      </button>
+    </div>
+    <div class="agent-bar-response hidden" id="agent-bar-response"></div>
+
+    <div class="container">
   
     <div class="profile-grid">
-      <!-- LEFT COLUMN -->
-      <div class="left-column">
         
         <!-- Card 1: Personal Information -->
         <div class="profile-card">
@@ -578,7 +670,7 @@
           
           <div class="field-row">
             <div class="field-label">Email</div>
-            <div class="read-only-field" role="textbox" aria-readonly="true">christopher.donaldson@acmebpm.com</div>
+            <div class="read-only-field" role="textbox" aria-readonly="true">christopher.donaldson@serenity.com</div>
           </div>
           <div class="field-row">
             <div class="field-label">User ID</div>
@@ -602,122 +694,7 @@
             <div class="read-only-field" role="textbox" aria-readonly="true">February 4, 2025 at 2:34 PM</div>
           </div>
         </div>
-        
-      </div>
-      
-      <!-- RIGHT COLUMN -->
-      <div class="right-column">
-        
-        <!-- Card 3: My Access -->
-        <div class="profile-card">
-          <div class="card-header">
-            <div class="card-title-wrapper">
-              <h2 class="card-title">My Access</h2>
-              <p class="card-helper-text">Contact your admin to request changes</p>
-            </div>
-          </div>
-          
-          <!-- Role -->
-          <div class="profile-section">
-            <div class="section-label">Role</div>
-            <div class="pill">Team Member</div>
-          </div>
-          
-          <!-- Groups -->
-          <div class="profile-section">
-            <div class="section-label">Group(s)</div>
-            <div class="pill-container">
-              <span class="pill">Southeast Region</span>
-              <span class="pill">Architectural Sales</span>
-            </div>
-            <a href="#" class="profile-link">View my groups</a>
-          </div>
-          
-          <!-- Licenses -->
-          <div class="profile-section">
-            <div class="section-label">License(s)</div>
-            <div class="license-list">
-              <div class="license-item">
-                <span class="license-dot active"></span>
-                <a href="#" class="license-name">Project Intelligence</a>
-              </div>
-              <div class="license-item">
-                <span class="license-dot active"></span>
-                <a href="#" class="license-name">Bid Management</a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Geographic Access (CCPI only) -->
-          <div class="profile-section">
-            <div class="section-label">Geographic Access</div>
-            <div class="field-value">Southeast Region: FL, GA, SC, NC, TN, AL</div>
-          </div>
-          
-          <!-- Category Access (CCPI only) -->
-          <div class="profile-section">
-            <div class="section-label">Project Categories</div>
-            <div class="pill-container">
-              <span class="pill">Commercial</span>
-              <span class="pill">Industrial</span>
-              <span class="pill">Institutional</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Card 4: Resources & Support -->
-        <div class="profile-card">
-          <div class="card-header">
-            <div class="card-title-wrapper">
-              <h2 class="card-title">Resources & Support</h2>
-            </div>
-          </div>
-          
-          <!-- Your Admins -->
-          <div class="profile-section">
-            <div class="section-label">Your Admins</div>
-            <p class="card-helper-text card-helper-text--spaced">Contact for access changes:</p>
-            <div class="admin-list">
-              <a href="mailto:dana.martinez@acmebpm.com" class="admin-link">Dana Martinez</a>
-              <a href="mailto:eric.thompson@acmebpm.com" class="admin-link">Eric Thompson</a>
-            </div>
-          </div>
-          
-          <!-- Customer Support -->
-          <div class="profile-section">
-            <div class="section-label">Customer Support</div>
-            <a href="mailto:support@constructconnect.com" class="profile-link">Email Customer Success</a>
-            <a href="https://help.constructconnect.com" class="profile-link" target="_blank">Visit Help Center</a>
-          </div>
-          
-          <!-- Training Resources -->
-          <div class="profile-section">
-            <div class="section-label">Resources</div>
-            <a href="#" class="profile-link">Training Video Library</a>
-            <a href="#" class="profile-link">Bid Like a Boss Webinars</a>
-            <a href="#" class="profile-link">Keyboard Shortcuts</a>
-          </div>
-        </div>
-        
-        <!-- Card 5: Security -->
-        <div class="profile-card">
-          <div class="card-header">
-            <div class="card-title-wrapper">
-              <h2 class="card-title">Security</h2>
-            </div>
-          </div>
-          
-          <!-- Password Section -->
-          <div class="password-notice">
-            <p>Your password was last changed <strong>45 days ago</strong></p>
-          </div>
-          <button class="btn-outline btn-outline--spaced">Change Password</button>
-          
-          <!-- Logout -->
-          <button class="btn-default btn-full-width">Logout</button>
-        </div>
-        
-      </div>
+
     </div>
     
     </div>
@@ -740,11 +717,46 @@ function toggleEditMode() {
 }
 
 function toggleMobileNav() {
-  // Mobile nav toggle functionality
-  const sidebar = document.querySelector('.sidebar-nav');
-  sidebar.classList.toggle('mobile-open');
+  const nav = document.querySelector('.compact-nav');
+  const overlay = document.querySelector('.compact-overlay');
+  const hamburger = document.querySelector('.hamburger-menu');
+  
+  nav.classList.toggle('open');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+
+function handleAgentBar() {
+  const input = document.getElementById('agent-bar-input');
+  const responseEl = document.getElementById('agent-bar-response');
+  const query = input.value.trim().toLowerCase();
+  if (!query) return;
+
+  let response = '';
+  if (query.includes('name') || query.includes('update') || query.includes('edit')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> <strong>I can help with that.</strong> Click the <strong>edit icon</strong> (pencil) on the Personal Information card to update your name, phone, job title, or department. Email and User ID can only be changed by your admin.';
+  } else if (query.includes('password') || query.includes('security')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> <strong>Password management.</strong> Scroll to the Security card below, or click <a href="#" style="color:var(--primary-400)">Change Password</a> directly. Your password was last changed 45 days ago.';
+  } else if (query.includes('license') || query.includes('subscription') || query.includes('access')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> You currently have <strong>3 active licenses</strong>: Project Intelligence, Bid Management, and On Screen Takeoff. To request changes, contact your admins: <strong>Zoe Washburne</strong> or <strong>River Tam</strong>.';
+  } else if (query.includes('group') || query.includes('team')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> You\'re in <strong>2 groups</strong>: Southeast Region and Architectural Sales. <a href="v2-users-groups.html" style="color:var(--primary-400)">View all groups</a> to see members and details.';
+  } else if (query.includes('training') || query.includes('video') || query.includes('learn')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> <strong>Training resources:</strong> Check the Resources & Support card for links to the Training Video Library, Bid Like a Boss Webinars, and Keyboard Shortcuts.';
+  } else if (query.includes('admin') || query.includes('contact') || query.includes('help')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> Your admins are <strong>Zoe Washburne</strong> (<a href="mailto:zoe.washburne@serenity.com" style="color:var(--primary-400)">email</a>) and <strong>River Tam</strong> (<a href="mailto:river.tam@serenity.com" style="color:var(--primary-400)">email</a>). You can also reach <a href="mailto:support@constructconnect.com" style="color:var(--primary-400)">Customer Success</a>.';
+  } else if (query.includes('category') || query.includes('categories') || query.includes('geographic')) {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> Your Project Intelligence access covers the <strong>Southeast Region</strong> (FL, GA, SC, NC, TN, AL) with categories: <strong>Commercial, Industrial, Institutional</strong>. Contact your admin to request changes.';
+  } else {
+    response = '<i class="fa-light fa-robot" style="color:var(--primary-400);margin-right:8px"></i> I can help you with your profile information, licenses, groups, geographic access, security settings, training resources, or contacting your admin. What would you like to know?';
+  }
+
+  responseEl.innerHTML = response;
+  responseEl.classList.remove('hidden');
+  input.value = '';
 }
 </script>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

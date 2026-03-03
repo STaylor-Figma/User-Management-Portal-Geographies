@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <style>
 /* Zone Counties Container */
 .zone-counties {
@@ -47,10 +48,8 @@
   color: var(--neutral-500);
 }
 
-.county-item input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer; transition: all 200ms ease-out;
+.county-item .bp-checkbox {
+  margin: 0;
 }
 
 .county-item span {
@@ -98,6 +97,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-regular fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-regular fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-regular fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -110,6 +114,10 @@
 
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -130,7 +138,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -141,6 +149,10 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -161,7 +173,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -169,7 +181,6 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
       
       <!-- Header & Tabs -->
       <div class="header">
@@ -198,6 +209,7 @@
         </div>
       </div>
 
+    <div class="container">
       <!-- Split View -->
       <div class="split-view">
         
@@ -211,7 +223,7 @@
             <thead>
               <tr>
                 <th style="width:40px">
-                  <input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()">
+                  <label class="bp-checkbox"><input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()"><i class="bp-checkbox-icon fa-regular fa-square" id="selectAllUsersIcon"></i></label>
                 </th>
                 <th>User Name</th>
                 <th>Assigned Geography</th>
@@ -326,8 +338,8 @@
 
             <!-- Zone Controls -->
             <div class="zone-controls" style="margin-bottom: 16px;">
-              <label id="selectAllLabel" class="disabled-checkbox-label" style="font-weight:600;" data-disabled="false">
-                <input type="checkbox" id="selectAll" onclick="toggleSelectAll()">
+              <label id="selectAllLabel" style="display:inline-flex;align-items:center;gap:8px;font-weight:600;cursor:pointer;" data-disabled="false">
+                <span class="bp-checkbox"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"><i class="bp-checkbox-icon fa-regular fa-square" id="selectAllIcon"></i></span>
                 <span>Select All Zones</span>
               </label>
               <input type="text" placeholder="🔍 Search zones..." style="padding: var(--spacing-micro-200) 12px; border: 1px solid #ccc; border-radius: var(--radius-sm); width: 250px;">
@@ -427,10 +439,10 @@
 // Initialize data
 var data = {
   users: [
-    {id:1, name:'Malcom Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Pro', disabled:false},
+    {id:1, name:'Malcolm Reynolds', role:'Chief Estimator', zones:'Full Access', zoneCount:null, accessType:'full', assignedCounties:{}, login:'Nov 5, 2025', subscription:'Pro', disabled:false},
     {id:2, name:'River Tam', role:'Chief Estimator', zones:'Modified', zoneCount:3, accessType:'modified', assignedCounties:{'1-1':true,'1-2':true,'2-1':true}, login:'Nov 5, 2025', subscription:'Starter', disabled:false},
     {id:3, name:'Zoe Washburne', role:'Estimator', zones:'Modified', zoneCount:2, accessType:'modified', assignedCounties:{'3-1':true,'4-1':true}, login:'Nov 5, 2025', subscription:'Pro', disabled:false},
-    {id:4, name:'Kylee Frye', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
+    {id:4, name:'Kaylee Frye', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
     {id:5, name:'Simon Tam', role:'Estimator', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
     {id:6, name:'Jayne Cobb', role:'Project Manager', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
     {id:7, name:'Inara Serra', role:'Business Analyst', zones:'No Access', zoneCount:0, accessType:'none', assignedCounties:{}, login:'Nov 5, 2025', subscription:null, disabled:false},
@@ -454,9 +466,9 @@ function render() {
     
     h += '<tr class="' + rowClass + '">';
     
-    // Checkbox
-    h += '<td><input type="checkbox" ' + (sel.users[u.id] ? 'checked' : '') + 
-         ' onclick="toggleUser(' + u.id + ')"></td>';
+    // Checkbox (Blueprint styled)
+    h += '<td><label class="bp-checkbox"><input type="checkbox" ' + (sel.users[u.id] ? 'checked' : '') + 
+         ' onclick="toggleUser(' + u.id + ')"><i class="bp-checkbox-icon ' + (sel.users[u.id] ? 'fa-solid fa-square-check' : 'fa-regular fa-square') + '"></i></label></td>';
     
     // User name
     h += '<td><div><a onclick="openUserProfileDrawer(\'' + u.name + '\')" class="user-link">' + u.name + '</a></div>' +
@@ -520,10 +532,15 @@ function renderZones() {
     h += '<div class="zone-card' + (isExpanded ? ' expanded' : '') + '">';
     h += '<div class="zone-header" onclick="toggleExpand(' + z.id + ')">';
     
-    // Zone checkbox with data-zone-id for later indeterminate setting
+    // Zone checkbox (Blueprint styled)
+    var zoneCheckedIcon = zoneState.checked ? 'fa-solid fa-square-check' : 'fa-regular fa-square';
+    if(zoneState.indeterminate) zoneCheckedIcon = 'fa-solid fa-square-minus';
+    h += '<label class="bp-checkbox' + (zoneState.indeterminate ? ' bp-checkbox--indeterminate' : '') + '" onclick="event.stopPropagation()">';
     h += '<input type="checkbox" data-zone-id="' + z.id + '" ' +
          (zoneState.checked ? 'checked' : '') +
          ' onclick="event.stopPropagation(); toggleZone(' + z.id + ')">';
+    h += '<i class="bp-checkbox-icon ' + zoneCheckedIcon + '" data-zone-icon="' + z.id + '"></i>';
+    h += '</label>';
     
     // Track indeterminate zones
     if(zoneState.indeterminate) {
@@ -537,14 +554,15 @@ function renderZones() {
     h += '</div>';
     
     // User count badge
-    h += '<div class="zone-users">👥 5</div>';
+    h += '<div class="zone-users"><i class="fa-light fa-users" style="font-size:12px"></i> 5</div>';
     
-    // Expand arrow
-    h += '<div class="expand-arrow">▼</div>';
+    // Chevron (Blueprint accordion style)
+    h += '<span class="zone-chevron"><i class="fa-light fa-angle-down"></i></span>';
     h += '</div>';
     
     // Counties (expandable)
     if(isExpanded) {
+      h += '<div class="zone-counties-divider"></div>';
       h += '<div class="zone-counties">';
       h += '<div class="county-grid">';
       
@@ -552,9 +570,10 @@ function renderZones() {
       for(var j = 0; j < countiesToShow; j++) {
         var county = z.counties[j];
         var countyKey = z.id + '-' + j;
+        var countyChecked = sel.counties[countyKey];
         h += '<div class="county-item">';
-        h += '<input type="checkbox" ' + (sel.counties[countyKey] ? 'checked' : '') +
-             ' onclick="toggleCounty(' + z.id + ', ' + j + ')">';
+        h += '<label class="bp-checkbox"><input type="checkbox" ' + (countyChecked ? 'checked' : '') +
+             ' onclick="toggleCounty(' + z.id + ', ' + j + ')"><i class="bp-checkbox-icon ' + (countyChecked ? 'fa-solid fa-square-check' : 'fa-regular fa-square') + '"></i></label>';
         h += '<span>' + county.name + ' (' + county.state + ')</span>';
         h += '</div>';
       }
@@ -604,15 +623,19 @@ function updateSelectAllZonesState() {
     }
   }
   
+  var selectAllIcon = document.getElementById('selectAllIcon');
   if(selectedCounties === 0) {
     selectAllCheckbox.checked = false;
     selectAllCheckbox.indeterminate = false;
+    if(selectAllIcon) { selectAllIcon.className = 'bp-checkbox-icon fa-regular fa-square'; selectAllIcon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate'); }
   } else if(selectedCounties === totalCounties) {
     selectAllCheckbox.checked = true;
     selectAllCheckbox.indeterminate = false;
+    if(selectAllIcon) { selectAllIcon.className = 'bp-checkbox-icon fa-solid fa-square-check'; selectAllIcon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate'); }
   } else {
     selectAllCheckbox.checked = false;
     selectAllCheckbox.indeterminate = true;
+    if(selectAllIcon) { selectAllIcon.className = 'bp-checkbox-icon fa-solid fa-square-minus'; selectAllIcon.closest('.bp-checkbox').classList.add('bp-checkbox--indeterminate'); }
   }
 }
 
@@ -708,8 +731,22 @@ function updateUserHeaderState() {
   }
   
   var checkbox = document.getElementById('selectAllUsers');
+  var icon = document.getElementById('selectAllUsersIcon');
   checkbox.checked = selectedCount === data.users.length && data.users.length > 0;
   checkbox.indeterminate = selectedCount > 0 && selectedCount < data.users.length;
+  
+  if(icon) {
+    if(checkbox.indeterminate) {
+      icon.className = 'bp-checkbox-icon fa-solid fa-square-minus';
+      icon.closest('.bp-checkbox').classList.add('bp-checkbox--indeterminate');
+    } else if(checkbox.checked) {
+      icon.className = 'bp-checkbox-icon fa-solid fa-square-check';
+      icon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate');
+    } else {
+      icon.className = 'bp-checkbox-icon fa-regular fa-square';
+      icon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate');
+    }
+  }
 }
 
 // Zone checkbox state
@@ -1044,5 +1081,6 @@ function toggleMobileNav() {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

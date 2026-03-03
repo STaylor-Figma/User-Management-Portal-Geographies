@@ -8,12 +8,13 @@
 <link rel="stylesheet" href="../blueprint-workflow-styles.css">
 <link rel="stylesheet" href="../blueprint-navigation.css">
 <link rel="stylesheet" href="../blueprint-button-styles.css">
+<link rel="stylesheet" href="persona-toggle.css">
 <link rel="stylesheet" href="../blueprint-table-styles.css">
 <style>
 /* Page-specific subscription card grid styles */
 .content { padding: 0 20px; }
 .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-medium-700); margin-bottom: 32px; box-sizing: border-box; }
-.subscription-card { background: #fff; border: 2px solid #424242; border-radius: var(--radius-md); padding: var(--spacing-medium-600); transition: all 0.2s; }
+.subscription-card { background: #fff; border: 1px solid var(--neutral-300); border-radius: var(--radius-md); padding: var(--spacing-medium-600); transition: all 0.2s; }
 .subscription-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); transform: translateY(-2px); cursor: pointer; transition: all 200ms ease-out; }
 .card-header { font-size: var(--font-size-400); font-weight: var(--font-weight-text-semibold); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
 .alert { padding: var(--spacing-small-250) 12px; border-radius: var(--radius-sm); font-size: var(--font-size-300); margin-bottom: 16px; display: flex; align-items: center; gap: var(--spacing-micro-200); }
@@ -96,6 +97,11 @@
     <div class="logo">ConstructConnect</div>
   </div>
   <div class="top-bar-user-section">
+    <div class="top-bar-tools">
+      <button class="top-bar-tool-btn" aria-label="History"><span class="icon-container"><i class="fa-light fa-clock-rotate-left"></i></span></button>
+      <button class="top-bar-tool-btn" aria-label="Notifications"><span class="icon-container"><i class="fa-light fa-bell"></i></span><span class="notification-dot"></span></button>
+      <button class="top-bar-tool-btn" aria-label="Chat"><span class="icon-container"><i class="fa-light fa-comment"></i></span></button>
+    </div>
     <div class="user-menu">
       <div class="avatar">CD</div>
       <span>Christopher Donaldson</span>
@@ -108,6 +114,10 @@
 
 <!-- Compact Navigation (Tablet/Mobile ≤1024px) -->
 <nav class="compact-nav" aria-label="Main navigation">
+  <button class="compact-button" onclick="window.location.href='v2-landing.html'">
+    <i class="compact-button__icon fa-light fa-house"></i>
+    <span class="compact-button__label">Home</span>
+  </button>
   <button class="compact-button" onclick="window.location.href='v2-my-profile-multi.html'">
     <i class="compact-button__icon fa-light fa-user"></i>
     <span class="compact-button__label">My Profile</span>
@@ -128,7 +138,7 @@
     <i class="compact-button__icon fa-light fa-file-invoice"></i>
     <span class="compact-button__label">Subs & Licenses</span>
   </button>
-  <button class="compact-button">
+  <button class="compact-button billing-nav-item">
     <i class="compact-button__icon fa-light fa-money-check-edit-alt"></i>
     <span class="compact-button__label">Billing</span>
   </button>
@@ -139,6 +149,10 @@
   
   <!-- Sidebar Navigation (Desktop >1024px) -->
   <nav class="sidebar-nav" aria-label="Main navigation">
+    <button class="sidebar-button" onclick="window.location.href='v2-landing.html'">
+      <i class="sidebar-button__icon fa-light fa-house"></i>
+      <span class="sidebar-button__label">Home</span>
+    </button>
     <button class="sidebar-button" onclick="window.location.href='v2-my-profile-multi.html'">
       <i class="sidebar-button__icon fa-light fa-user"></i>
       <span class="sidebar-button__label">My<br>Profile</span>
@@ -159,7 +173,7 @@
       <i class="sidebar-button__icon fa-light fa-file-invoice"></i>
       <span class="sidebar-button__label">Subs &<br>Licenses</span>
     </button>
-    <button class="sidebar-button">
+    <button class="sidebar-button billing-nav-item">
       <i class="sidebar-button__icon fa-light fa-money-check-edit-alt"></i>
       <span class="sidebar-button__label">Billing</span>
     </button>
@@ -167,7 +181,6 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <div class="container">
       
       <!-- Header & Tabs -->
       <div class="header">
@@ -196,6 +209,7 @@
         </div>
       </div>
 
+    <div class="container">
       <!-- Content Area -->
       <div class="content">
         
@@ -345,7 +359,7 @@
                 <td>
                   <div class="user-name">
                     <div>
-                      <a onclick="openUserProfileDrawer('Malcom Reynolds')" class="user-link">Malcom Reynolds</a>
+                      <a onclick="openUserProfileDrawer('Malcolm Reynolds')" class="user-link">Malcolm Reynolds</a>
                       <span class="user-badge">OWNER</span>
                     </div>
                     <div class="user-role">
@@ -375,7 +389,7 @@
                     </div>
                     <div class="user-role">
                       <span>👤</span>
-                      <span>Chief Estimator</span>
+                      <span>Analyst</span>
                     </div>
                   </div>
                 </td>
@@ -400,7 +414,7 @@
                     </div>
                     <div class="user-role">
                       <span>👤</span>
-                      <span>Estimator</span>
+                      <span>Senior Estimator</span>
                     </div>
                   </div>
                 </td>
@@ -420,11 +434,12 @@
                 <td>
                   <div class="user-name">
                     <div>
-                      <a onclick="openUserProfileDrawer('Kaylee Fry')" class="user-link">Kaylee Fry</a>
+                      <a onclick="openUserProfileDrawer('Kaylee Frye')" class="user-link">Kaylee Frye</a>
+                      <span class="user-badge">TEAM MEMBER</span>
                     </div>
                     <div class="user-role">
                       <span>👤</span>
-                      <span>Estimator</span>
+                      <span>Junior Estimator</span>
                     </div>
                   </div>
                 </td>
@@ -445,10 +460,11 @@
                   <div class="user-name">
                     <div>
                       <a onclick="openUserProfileDrawer('Simon Tam')" class="user-link">Simon Tam</a>
+                      <span class="user-badge">TEAM MEMBER</span>
                     </div>
                     <div class="user-role">
                       <span>👤</span>
-                      <span>Estimator</span>
+                      <span>Cost Engineer</span>
                     </div>
                   </div>
                 </td>
@@ -644,5 +660,6 @@ function toggleMobileNav() {
   </div>
 </div>
 
+<script src="persona-toggle.js"></script>
 </body>
 </html>

@@ -3,171 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Version Two - Prototype Variants</title>
+  <title>Version Two - UMP Prototype</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
- 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      background: #01304a;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 40px 20px;
     }
-
     .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      padding: 48px;
+      max-width: 720px;
+      width: 100%;
     }
-
-    .back-link {
-      display: inline-block;
-      color: #666;
-      text-decoration: none;
-      margin-bottom: 24px;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-
-    .back-link:hover {
-      color: #1a3a52;
-    }
-
     h1 {
-      color: #1a3a52;
-      font-size: 32px;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .subtitle {
-      color: #666;
-      font-size: 16px;
-      margin-bottom: 48px;
-      line-height: 1.5;
-    }
-
-    .section {
-      margin-bottom: 48px;
-    }
-
-    .section:last-child {
-      margin-bottom: 0;
-    }
-
-    h2 {
-      color: #1a3a52;
-      font-size: 20px;
-      margin-bottom: 20px;
-      font-weight: 600;
-      padding-bottom: 12px;
-      border-bottom: 2px solid #e0e0e0;
-    }
-
-    .variants-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .variant-card {
-      background: #f8f9fa;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 24px;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.3s ease;
-      display: block;
-    }
-
-    .variant-card:hover {
-      border-color: #667eea;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .variant-card.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    .variant-title {
-      color: #1a3a52;
-      font-size: 18px;
+      color: #fff;
+      font-size: 28px;
       font-weight: 600;
       margin-bottom: 8px;
     }
-
-    .variant-description {
-      color: #666;
+    .subtitle {
+      color: rgba(255,255,255,0.6);
       font-size: 14px;
+      margin-bottom: 40px;
       line-height: 1.5;
     }
-
-    .badge {
-      display: inline-block;
-      background: #667eea;
-      color: white;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 12px;
-      margin-top: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-
-    .badge.coming-soon {
-      background: #999;
-    }
-
-    .placeholder-text {
-      text-align: center;
-      color: #999;
-      font-style: italic;
-      padding: 40px 20px;
-      background: #f8f9fa;
+    .card {
+      background: #fff;
       border-radius: 8px;
-      border: 2px dashed #e0e0e0;
+      padding: 28px 32px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .card-icon.single { background: #0c79a8; }
+    .card-icon.multi { background: #185a7d; }
+    .card-icon.member { background: #4a4f55; }
+    .card-content { flex: 1; }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #01304a;
+      margin-bottom: 4px;
+    }
+    .card-desc {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.4;
+    }
+    .card-arrow {
+      color: #ccc;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .card:hover .card-arrow { color: #0c79a8; }
+    .note {
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      margin-top: 32px;
+      line-height: 1.5;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="index.html" class="back-link">← Back to Index</a>
-    
-    <h1>Version Two</h1>
-    <p class="subtitle">
-      Revised prototype variants for the geographic entitlements and zone assignment system.
-    </p>
+    <h1>User Management Portal</h1>
+    <p class="subtitle">External UMP prototype — select a scenario to view.</p>
 
-    <div class="section">
-      <div class="variants-grid">
-        
-        <a href="v2-subscription-overview.html" class="variant-card">
-          <div class="variant-title">Project Intelligence Subscription Management</div>
-          <div class="variant-description">Manage subscriptions, user access, and geographic assignments across all products</div>
-          <span class="badge">Single Subscription</span>
-        </a>
+    <div class="cards">
 
-        <a href="v2-subscription-overview-multi.html" class="variant-card">
-          <div class="variant-title">Multiple Subscriptions Flow</div>
-          <div class="variant-description">Manage both Project Intelligence Starter and Pro subscriptions with context-aware assignment</div>
-          <span class="badge">Multiple Subscriptions</span>
-        </a>
+      <a href="v2-landing.html" class="card">
+        <div class="card-icon single">
+          <span>1</span>
+        </div>
+        <div class="card-content">
+          <div class="card-title">Single Subscription</div>
+          <div class="card-desc">Organization with one CCPI subscription. Toggle between Admin and Owner personas using the control in the bottom-right corner.</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
 
-      </div>
+      <a href="v2-subscription-overview-multi.html" class="card">
+        <div class="card-icon multi">
+          <span>2+</span>
+        </div>
+        <div class="card-content">
+          <div class="card-title">Multiple Subscriptions</div>
+          <div class="card-desc">Organization with multiple CCPI subscriptions (e.g., Starter + Pro covering different geographies). Admin/Owner toggle available.</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="v2-team-member.html" class="card">
+        <div class="card-icon member">
+          <span>👤</span>
+        </div>
+        <div class="card-content">
+          <div class="card-title">Team Member</div>
+          <div class="card-desc">Self-service experience — no admin navigation. Profile, access summary, and agent assistant only.</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
     </div>
 
+    <p class="note">All scenarios represent a single organization. The multi-subscription variant shows one org with multiple product subscriptions, not multiple orgs.</p>
   </div>
 </body>
 </html>
