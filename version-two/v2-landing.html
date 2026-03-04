@@ -59,6 +59,125 @@
   color: var(--neutral-0);
 }
 
+.persona-toggle__info-btn {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-semibold);
+  padding: var(--spacing-micro-150) var(--spacing-small-300);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: transparent;
+  color: var(--neutral-300);
+  transition: all 200ms ease-out;
+  margin-left: var(--spacing-micro-200);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.persona-toggle__info-btn:hover { background: var(--neutral-500); }
+.persona-toggle__info-btn i { font-size: 12px; }
+
+.info-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+.info-modal-overlay.active { display: flex; }
+.info-modal {
+  background: var(--neutral-0);
+  border-radius: var(--radius-md);
+  max-width: 720px;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  padding: 32px;
+  position: relative;
+}
+.info-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--neutral-500);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+}
+.info-modal__close:hover { background: var(--neutral-200); color: var(--neutral-600); }
+.info-modal h2 {
+  font-family: var(--font-family-blueprintfont);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--neutral-600);
+  margin: 0 0 8px 0;
+}
+.info-modal h3 {
+  font-family: var(--font-family-blueprintfont);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--neutral-600);
+  margin: 24px 0 8px 0;
+}
+.info-modal p, .info-modal li {
+  font-family: var(--font-family-blueprintfont);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--neutral-500);
+  margin: 0 0 8px 0;
+}
+.info-modal ul { padding-left: 20px; margin: 0 0 12px 0; }
+.info-modal .info-section {
+  padding: 16px;
+  background: var(--neutral-100);
+  border-radius: var(--radius-sm);
+  margin: 12px 0;
+}
+.info-modal .info-section h4 {
+  font-family: var(--font-family-blueprintfont);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--neutral-600);
+  margin: 0 0 6px 0;
+}
+.info-modal .info-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0;
+}
+.info-modal .info-col {
+  padding: 12px;
+  background: var(--neutral-100);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary-400);
+}
+.info-modal .info-col h4 {
+  font-family: var(--font-family-blueprintfont);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-600);
+  margin: 0 0 4px 0;
+}
+.info-modal .info-col p {
+  font-size: 12px;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .info-modal .info-cols { grid-template-columns: 1fr; }
+}
+
 /* Billing nav: hidden for Admin & Team Member, visible for Owner only */
 .billing-nav-item {
   display: none !important;
@@ -837,6 +956,84 @@ body:not(.is-admin) .sidebar-nav { display: none; }
   <button class="persona-toggle__btn" onclick="setPersona('team-member')" id="btn-team-member">Team Member</button>
   <button class="persona-toggle__btn" onclick="setPersona('admin')" id="btn-admin">Admin</button>
   <button class="persona-toggle__btn active" onclick="setPersona('owner')" id="btn-owner">Owner</button>
+  <button class="persona-toggle__info-btn" onclick="document.getElementById('infoModal').classList.add('active')"><i class="fa-light fa-circle-info"></i> How we built this</button>
+</div>
+
+<!-- Info Modal -->
+<div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="info-modal">
+    <button class="info-modal__close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+
+    <h2>How We Built the Task Assistant</h2>
+    <p>This isn't a generic chatbot. It was built from layered research and existing ConstructConnect data to demonstrate how Elasticsearch's AI Agent Builder can create persona-aware task assistants with minimal custom code.</p>
+
+    <h3>What We Started With</h3>
+    <div class="info-section">
+      <ul>
+        <li><strong>ORCA tables</strong> (OOUX methodology) &mdash; defined every object, relationship, CTA, and attribute across the portal</li>
+        <li><strong>Mock data specs</strong> &mdash; realistic users, roles, licenses, and access levels</li>
+        <li><strong>Elasticsearch agent architecture</strong> &mdash; how ES agents work, tool definitions, persona-based tool loading</li>
+        <li><strong>Platform API research</strong> &mdash; mapped agent tools to existing REST endpoints (ccs.entitlements, ccs.accessmanagement, ccs.gcipauthorization)</li>
+        <li><strong>KB / knowledge base research</strong> &mdash; support articles and training content the agent can surface contextually</li>
+        <li><strong>Blueprint design system</strong> &mdash; component specs so the UI matches our standards</li>
+      </ul>
+    </div>
+
+    <h3>The Three-Layer Agent Pattern</h3>
+    <div class="info-cols">
+      <div class="info-col">
+        <h4>1. Watcher</h4>
+        <p>Proactive alerts &mdash; the agent notices pending invitations, unused licenses, and upcoming renewals before the user asks.</p>
+      </div>
+      <div class="info-col">
+        <h4>2. Intelligent Search (ESRE)</h4>
+        <p>The input bar is a command palette. Users type what they want to do in plain language, filtered by DLS security.</p>
+      </div>
+      <div class="info-col">
+        <h4>3. Conversational Agent</h4>
+        <p>For multi-step tasks, the agent walks users through the workflow with contextual suggestions and inline actions.</p>
+      </div>
+    </div>
+
+    <h3>How Personas Change the Agent</h3>
+    <p>The same agent framework, loaded with different tools, creates completely different experiences. We don't build three separate UIs &mdash; we define three tool sets.</p>
+    <div class="info-cols">
+      <div class="info-col">
+        <h4>Owner</h4>
+        <p>User management, licenses, billing, geographic entitlements, subscriptions, reporting</p>
+      </div>
+      <div class="info-col">
+        <h4>Admin</h4>
+        <p>User management, licenses, geographic entitlements, reporting. No billing &mdash; the tool isn't loaded, so it redirects naturally.</p>
+      </div>
+      <div class="info-col">
+        <h4>Team Member</h4>
+        <p>Profile, access viewing, support lookup. No user management or billing &mdash; redirects to named admins.</p>
+      </div>
+    </div>
+
+    <h3>Why Minimal Custom Code</h3>
+    <div class="info-section">
+      <h4>What developers define:</h4>
+      <ul>
+        <li><strong>Tool definitions</strong> &mdash; YAML/JSON files describing each API call (the agent framework handles orchestration)</li>
+        <li><strong>Persona tool sets</strong> &mdash; which tools load for which role (configuration, not code)</li>
+        <li><strong>Agent UI component</strong> &mdash; one chat panel, reused everywhere</li>
+        <li><strong>Watcher rules</strong> &mdash; conditions that trigger proactive alerts</li>
+      </ul>
+      <h4>What developers do NOT build:</h4>
+      <ul>
+        <li>Separate dashboards per role</li>
+        <li>Custom conditional UI logic for every permission</li>
+        <li>Natural language processing (Elasticsearch handles this)</li>
+        <li>Role-based data filtering (DLS handles this at the Lucene level)</li>
+      </ul>
+    </div>
+
+    <h3>The Key Takeaway</h3>
+    <p>Tools that are not loaded cannot be called. If the billing tool isn't in the Admin's tool set, the agent has no way to access billing data. There's nothing to hide because there's nothing to call. This is security by design, not by UI.</p>
+
+  </div>
 </div>
 
 <script>
