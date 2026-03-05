@@ -266,8 +266,8 @@
           <table>
             <thead>
               <tr>
-                <th style="width:40px">
-                  <label class="bp-checkbox"><input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()"><i class="bp-checkbox-icon fa-regular fa-square" id="selectAllUsersIcon"></i></label>
+                <th style="width:40px" id="selectAllUsersTh">
+                  <label class="bp-checkbox"><input type="checkbox" id="selectAllUsers" onclick="toggleAllUsers()"><i class="bp-checkbox-icon fa-regular fa-square"></i></label>
                 </th>
                 <th>User Name</th>
                 <th>Assigned Geography</th>
@@ -383,7 +383,7 @@
             <!-- Zone Controls -->
             <div class="zone-controls" style="margin-bottom: 16px;">
               <label id="selectAllLabel" style="display:inline-flex;align-items:center;gap:8px;font-weight:600;cursor:pointer;" data-disabled="false">
-                <span class="bp-checkbox"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"><i class="bp-checkbox-icon fa-regular fa-square" id="selectAllIcon"></i></span>
+                <span class="bp-checkbox" id="selectAllZoneWrap"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"><i class="bp-checkbox-icon fa-regular fa-square"></i></span>
                 <span>Select All Zones</span>
               </label>
               <input type="text" placeholder="🔍 Search zones..." style="padding: var(--spacing-micro-200) 12px; border: 1px solid #ccc; border-radius: var(--radius-sm); width: 250px;">
@@ -652,10 +652,10 @@ function renderZones() {
   updateSelectAllZonesState();
 }
 
-// Update "Select All Zones" checkbox state
+// Update "Select All Zones" checkbox state — rebuilds HTML so FA Kit re-renders
 function updateSelectAllZonesState() {
-  var selectAllCheckbox = document.getElementById('selectAll');
-  if(!selectAllCheckbox) return;
+  var wrap = document.getElementById('selectAllZoneWrap');
+  if(!wrap) return;
   
   var totalCounties = 0;
   var selectedCounties = 0;
@@ -670,19 +670,27 @@ function updateSelectAllZonesState() {
     }
   }
   
-  var selectAllIcon = document.getElementById('selectAllIcon');
+  var iconClass = 'fa-regular fa-square';
+  var wrapExtra = '';
+  var isChecked = false;
+  var isIndeterminate = false;
+  
   if(selectedCounties === 0) {
-    selectAllCheckbox.checked = false;
-    selectAllCheckbox.indeterminate = false;
-    if(selectAllIcon) { selectAllIcon.className = 'bp-checkbox-icon fa-regular fa-square'; selectAllIcon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate'); }
+    iconClass = 'fa-regular fa-square';
   } else if(selectedCounties === totalCounties) {
-    selectAllCheckbox.checked = true;
-    selectAllCheckbox.indeterminate = false;
-    if(selectAllIcon) { selectAllIcon.className = 'bp-checkbox-icon fa-solid fa-square-check'; selectAllIcon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate'); }
+    iconClass = 'fa-solid fa-square-check';
+    isChecked = true;
   } else {
-    selectAllCheckbox.checked = false;
-    selectAllCheckbox.indeterminate = true;
-    if(selectAllIcon) { selectAllIcon.className = 'bp-checkbox-icon fa-solid fa-square-minus'; selectAllIcon.closest('.bp-checkbox').classList.add('bp-checkbox--indeterminate'); }
+    iconClass = 'fa-solid fa-square-minus';
+    wrapExtra = ' bp-checkbox--indeterminate';
+    isIndeterminate = true;
+  }
+  
+  wrap.className = 'bp-checkbox' + wrapExtra;
+  wrap.innerHTML = '<input type="checkbox" id="selectAll"' + (isChecked ? ' checked' : '') +
+    ' onclick="toggleSelectAll()"><i class="bp-checkbox-icon ' + iconClass + '"></i>';
+  if(isIndeterminate) {
+    document.getElementById('selectAll').indeterminate = true;
   }
 }
 
@@ -769,29 +777,32 @@ function toggleAllUsers() {
   render();
 }
 
-// Update header checkbox state
+// Update header checkbox state — rebuilds the label HTML so FA Kit re-renders the icon
 function updateUserHeaderState() {
   var selectedCount = 0;
-  
   for(var i = 0; i < data.users.length; i++) {
     if(sel.users[data.users[i].id]) selectedCount++;
   }
   
-  var checkbox = document.getElementById('selectAllUsers');
-  var icon = document.getElementById('selectAllUsersIcon');
-  checkbox.checked = selectedCount === data.users.length && data.users.length > 0;
-  checkbox.indeterminate = selectedCount > 0 && selectedCount < data.users.length;
+  var isAll = selectedCount === data.users.length && data.users.length > 0;
+  var isIndeterminate = selectedCount > 0 && selectedCount < data.users.length;
   
-  if(icon) {
-    if(checkbox.indeterminate) {
-      icon.className = 'bp-checkbox-icon fa-solid fa-square-minus';
-      icon.closest('.bp-checkbox').classList.add('bp-checkbox--indeterminate');
-    } else if(checkbox.checked) {
-      icon.className = 'bp-checkbox-icon fa-solid fa-square-check';
-      icon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate');
-    } else {
-      icon.className = 'bp-checkbox-icon fa-regular fa-square';
-      icon.closest('.bp-checkbox').classList.remove('bp-checkbox--indeterminate');
+  var iconClass = 'fa-regular fa-square';
+  var labelExtra = '';
+  if(isIndeterminate) {
+    iconClass = 'fa-solid fa-square-minus';
+    labelExtra = ' bp-checkbox--indeterminate';
+  } else if(isAll) {
+    iconClass = 'fa-solid fa-square-check';
+  }
+  
+  var th = document.getElementById('selectAllUsersTh');
+  if(th) {
+    th.innerHTML = '<label class="bp-checkbox' + labelExtra + '">' +
+      '<input type="checkbox" id="selectAllUsers"' + (isAll ? ' checked' : '') + ' onclick="toggleAllUsers()">' +
+      '<i class="bp-checkbox-icon ' + iconClass + '"></i></label>';
+    if(isIndeterminate) {
+      document.getElementById('selectAllUsers').indeterminate = true;
     }
   }
 }

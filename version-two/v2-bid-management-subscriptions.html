@@ -358,7 +358,7 @@
           <table class="bm-table">
             <thead>
               <tr>
-                <th class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" class="checkbox" id="selectAll"><i class="fa-regular fa-square bp-checkbox-icon" id="selectAllIcon"></i></label></th>
+                <th class="checkbox-cell" id="selectAllTh"><label class="bp-checkbox"><input type="checkbox" class="checkbox" id="selectAll"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></th>
                 <th class="user-name-cell">User Name</th>
                 <th>Bid Management Role</th>
                 <th>Access</th>
@@ -621,53 +621,68 @@ function toggleMobileNav() {
   overlay.classList.toggle('show');
 }
 
-// Checkbox icon helper
-function updateCheckboxIcon(checkbox) {
-  const icon = checkbox.parentElement.querySelector('.bp-checkbox-icon');
-  if (!icon) return;
+// Checkbox icon helper — rebuild the <i> so FA Kit re-renders it
+function rebuildCheckboxIcon(checkbox) {
+  const label = checkbox.closest('.bp-checkbox');
+  if (!label) return;
+  const existing = label.querySelector('.bp-checkbox-icon') || label.querySelector('svg[data-icon]');
+  if (existing) existing.remove();
+  
+  let iconClass = 'fa-regular fa-square';
   if (checkbox.indeterminate) {
-    icon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
-  } else if (checkbox.checked) {
-    icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+    iconClass = 'fa-solid fa-square-minus';
+    label.classList.add('bp-checkbox--indeterminate');
   } else {
-    icon.className = 'fa-regular fa-square bp-checkbox-icon';
+    label.classList.remove('bp-checkbox--indeterminate');
+    if (checkbox.checked) iconClass = 'fa-solid fa-square-check';
   }
+  const icon = document.createElement('i');
+  icon.className = 'bp-checkbox-icon ' + iconClass;
+  label.appendChild(icon);
 }
 
-function updateSelectAllState() {
-  const selectAll = document.getElementById('selectAll');
+function rebuildSelectAllHeader() {
+  const th = document.getElementById('selectAllTh');
+  if (!th) return;
   const rowCheckboxes = document.querySelectorAll('.row-checkbox');
   const checkedCount = document.querySelectorAll('.row-checkbox:checked').length;
-  if (checkedCount === 0) {
-    selectAll.checked = false;
-    selectAll.indeterminate = false;
-  } else if (checkedCount === rowCheckboxes.length) {
-    selectAll.checked = true;
-    selectAll.indeterminate = false;
-  } else {
-    selectAll.checked = false;
-    selectAll.indeterminate = true;
-  }
-  updateCheckboxIcon(selectAll);
+  
+  let isAll = checkedCount === rowCheckboxes.length && rowCheckboxes.length > 0;
+  let isIndet = checkedCount > 0 && checkedCount < rowCheckboxes.length;
+  let iconClass = 'fa-regular fa-square';
+  let labelExtra = '';
+  if (isIndet) { iconClass = 'fa-solid fa-square-minus'; labelExtra = ' bp-checkbox--indeterminate'; }
+  else if (isAll) { iconClass = 'fa-solid fa-square-check'; }
+  
+  th.innerHTML = '<label class="bp-checkbox' + labelExtra + '"><input type="checkbox" class="checkbox" id="selectAll"' +
+    (isAll ? ' checked' : '') + '><i class="bp-checkbox-icon ' + iconClass + '"></i></label>';
+  if (isIndet) document.getElementById('selectAll').indeterminate = true;
+  
+  document.getElementById('selectAll').addEventListener('change', function(e) {
+    document.querySelectorAll('.row-checkbox').forEach(cb => {
+      cb.checked = e.target.checked;
+      rebuildCheckboxIcon(cb);
+    });
+    rebuildSelectAllHeader();
+    updateActionButtons();
+  });
 }
 
 // Select All Checkbox
 document.getElementById('selectAll').addEventListener('change', function(e) {
-  const checkboxes = document.querySelectorAll('.row-checkbox');
-  checkboxes.forEach(cb => {
+  document.querySelectorAll('.row-checkbox').forEach(cb => {
     cb.checked = e.target.checked;
-    updateCheckboxIcon(cb);
+    rebuildCheckboxIcon(cb);
   });
-  this.indeterminate = false;
-  updateCheckboxIcon(this);
+  rebuildSelectAllHeader();
   updateActionButtons();
 });
 
 // Row Checkboxes
 document.querySelectorAll('.row-checkbox').forEach(cb => {
   cb.addEventListener('change', function() {
-    updateCheckboxIcon(this);
-    updateSelectAllState();
+    rebuildCheckboxIcon(this);
+    rebuildSelectAllHeader();
     updateActionButtons();
   });
 });

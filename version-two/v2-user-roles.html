@@ -2307,13 +2307,14 @@ function confirmAssignRole(roleName) {
 
 document.addEventListener('change', function (e) {
   if (!e.target.matches('.bp-checkbox input[type="checkbox"]')) return;
-  const icon = e.target.nextElementSibling;
-  if (!icon || !icon.classList.contains('bp-checkbox-icon')) return;
-  if (e.target.checked) {
-    icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
-  } else {
-    icon.className = 'fa-regular fa-square bp-checkbox-icon';
-  }
+  const label = e.target.closest('.bp-checkbox');
+  if (!label) return;
+  const existing = label.querySelector('.bp-checkbox-icon') || label.querySelector('svg[data-icon]');
+  if (existing) existing.remove();
+  const iconClass = e.target.checked ? 'fa-solid fa-square-check' : 'fa-regular fa-square';
+  const icon = document.createElement('i');
+  icon.className = 'bp-checkbox-icon ' + iconClass;
+  label.appendChild(icon);
 });
 </script>
 

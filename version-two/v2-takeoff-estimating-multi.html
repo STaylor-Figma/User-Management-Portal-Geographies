@@ -287,7 +287,7 @@
         <table class="user-table">
           <thead>
             <tr>
-              <th class="checkbox-cell"><label class="bp-checkbox"><input type="checkbox" id="selectAll"><i class="fa-regular fa-square bp-checkbox-icon" id="selectAllIcon"></i></label></th>
+              <th class="checkbox-cell" id="selectAllTh"><label class="bp-checkbox"><input type="checkbox" id="selectAll"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></th>
               <th>User Name</th>
               <th>Desktop License</th>
               <th>Web License</th>
@@ -451,19 +451,8 @@ document.addEventListener('DOMContentLoaded', function() {
   renderCheckoutTable();
   updateFloatingStatus();
   
-  // Select All checkbox
-  document.getElementById('selectAll').addEventListener('change', function() {
-    const isChecked = this.checked;
-    const selectAllIcon = document.getElementById('selectAllIcon');
-    if (selectAllIcon) selectAllIcon.className = isChecked ? 'fa-solid fa-square-check bp-checkbox-icon' : 'fa-regular fa-square bp-checkbox-icon';
-    const checkboxes = document.querySelectorAll('.user-checkbox');
-    checkboxes.forEach(cb => {
-      cb.checked = isChecked;
-      const icon = cb.nextElementSibling;
-      if (icon) icon.className = isChecked ? 'fa-solid fa-square-check bp-checkbox-icon' : 'fa-regular fa-square bp-checkbox-icon';
-    });
-    updateSelectedUsers();
-  });
+  // Select All checkbox — attach initial listener
+  attachSelectAllListener();
 });
 
 // Render subscription summary cards
@@ -613,33 +602,60 @@ function updateFloatingStatus() {
   }
 }
 
+// Rebuild a single checkbox icon so FA Kit re-renders correctly
+function rebuildCheckboxIcon(checkbox) {
+  const label = checkbox.closest('.bp-checkbox');
+  if (!label) return;
+  const existing = label.querySelector('.bp-checkbox-icon') || label.querySelector('svg[data-icon]');
+  if (existing) existing.remove();
+  let iconClass = checkbox.checked ? 'fa-solid fa-square-check' : 'fa-regular fa-square';
+  const icon = document.createElement('i');
+  icon.className = 'bp-checkbox-icon ' + iconClass;
+  label.appendChild(icon);
+}
+
+// Rebuild the Select All header checkbox
+function rebuildSelectAllHeader() {
+  const th = document.getElementById('selectAllTh');
+  if (!th) return;
+  const allCbs = document.querySelectorAll('.user-checkbox');
+  const checkedCount = document.querySelectorAll('.user-checkbox:checked').length;
+  
+  let isAll = checkedCount === allCbs.length && allCbs.length > 0;
+  let isIndet = checkedCount > 0 && checkedCount < allCbs.length;
+  let iconClass = 'fa-regular fa-square';
+  let labelExtra = '';
+  if (isIndet) { iconClass = 'fa-solid fa-square-minus'; labelExtra = ' bp-checkbox--indeterminate'; }
+  else if (isAll) { iconClass = 'fa-solid fa-square-check'; }
+  
+  th.innerHTML = '<label class="bp-checkbox' + labelExtra + '"><input type="checkbox" id="selectAll"' +
+    (isAll ? ' checked' : '') + '><i class="bp-checkbox-icon ' + iconClass + '"></i></label>';
+  if (isIndet) document.getElementById('selectAll').indeterminate = true;
+  attachSelectAllListener();
+}
+
+function attachSelectAllListener() {
+  const sa = document.getElementById('selectAll');
+  if (!sa) return;
+  sa.addEventListener('change', function() {
+    const isChecked = this.checked;
+    document.querySelectorAll('.user-checkbox').forEach(cb => {
+      cb.checked = isChecked;
+      rebuildCheckboxIcon(cb);
+    });
+    rebuildSelectAllHeader();
+    updateSelectedUsers();
+  });
+}
+
 // Update selected users and button states
 function updateSelectedUsers() {
   const checkboxes = document.querySelectorAll('.user-checkbox:checked');
   const allCheckboxes = document.querySelectorAll('.user-checkbox');
   selectedUsers = Array.from(checkboxes).map(cb => cb.dataset.userId);
   
-  // Update Select All checkbox state
-  const selectAllCheckbox = document.getElementById('selectAll');
-  const selectAllIcon = document.getElementById('selectAllIcon');
-  if (checkboxes.length === 0) {
-    selectAllCheckbox.checked = false;
-    selectAllCheckbox.indeterminate = false;
-    if (selectAllIcon) selectAllIcon.className = 'fa-regular fa-square bp-checkbox-icon';
-  } else if (checkboxes.length === allCheckboxes.length) {
-    selectAllCheckbox.checked = true;
-    selectAllCheckbox.indeterminate = false;
-    if (selectAllIcon) selectAllIcon.className = 'fa-solid fa-square-check bp-checkbox-icon';
-  } else {
-    selectAllCheckbox.checked = false;
-    selectAllCheckbox.indeterminate = true;
-    if (selectAllIcon) selectAllIcon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
-  }
-
-  allCheckboxes.forEach(cb => {
-    const icon = cb.nextElementSibling;
-    if (icon) icon.className = cb.checked ? 'fa-solid fa-square-check bp-checkbox-icon' : 'fa-regular fa-square bp-checkbox-icon';
-  });
+  rebuildSelectAllHeader();
+  allCheckboxes.forEach(cb => rebuildCheckboxIcon(cb));
   
   const addBtn = document.getElementById('addLicenseBtn');
   const removeBtn = document.getElementById('removeLicenseBtn');
@@ -827,9 +843,7 @@ function bulkRemoveLicenses() {
       renderSummaryCards();
       renderUserTable();
       selectedUsers = [];
-      document.getElementById('selectAll').checked = false;
-      const selectAllIcon = document.getElementById('selectAllIcon');
-      if (selectAllIcon) selectAllIcon.className = 'fa-regular fa-square bp-checkbox-icon';
+      rebuildSelectAllHeader();
     }
   }
 }

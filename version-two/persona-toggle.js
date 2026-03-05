@@ -54,19 +54,22 @@
   }
 
   function syncCheckboxIcon(checkbox) {
-    var icon = checkbox.closest('.bp-checkbox');
-    icon = icon ? icon.querySelector('.bp-checkbox-icon') : null;
-    if (!icon) {
-      icon = checkbox.nextElementSibling;
-      if (!icon || !icon.classList.contains('bp-checkbox-icon')) return;
-    }
+    var label = checkbox.closest('.bp-checkbox');
+    if (!label) return;
+    var existing = label.querySelector('.bp-checkbox-icon') || label.querySelector('svg[data-icon]');
+    if (existing) existing.remove();
+
+    var iconClass = 'fa-regular fa-square';
     if (checkbox.indeterminate) {
-      icon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
-    } else if (checkbox.checked) {
-      icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+      iconClass = 'fa-solid fa-square-minus';
+      label.classList.add('bp-checkbox--indeterminate');
     } else {
-      icon.className = 'fa-regular fa-square bp-checkbox-icon';
+      label.classList.remove('bp-checkbox--indeterminate');
+      if (checkbox.checked) iconClass = 'fa-solid fa-square-check';
     }
+    var icon = document.createElement('i');
+    icon.className = 'bp-checkbox-icon ' + iconClass;
+    label.appendChild(icon);
   }
 
   function initCheckboxes() {

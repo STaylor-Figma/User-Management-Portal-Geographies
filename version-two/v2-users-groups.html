@@ -1481,7 +1481,7 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width: 40px;"><label class="bp-checkbox"><input type="checkbox" id="selectAllUsers"><i class="fa-regular fa-square bp-checkbox-icon" id="selectAllUsersIcon"></i></label></th>
+              <th style="width: 40px;" id="selectAllUsersTh"><label class="bp-checkbox"><input type="checkbox" id="selectAllUsers"><i class="fa-regular fa-square bp-checkbox-icon"></i></label></th>
               <th style="width: 240px;">User Name</th>
               <th>Project Intelligence</th>
               <th>Bid Management</th>
@@ -1966,55 +1966,71 @@ document.querySelectorAll('.tab').forEach(tab => {
 });
 
 // Checkbox management
-const selectAllCheckbox = document.getElementById('selectAllUsers');
-const selectAllIcon = document.getElementById('selectAllUsersIcon');
 const userCheckboxes = document.querySelectorAll('.user-checkbox');
 const manageSelectedBtn = document.getElementById('manageSelectedBtn');
 
-function updateCheckboxIcon(checkbox) {
-  const icon = checkbox.closest('.bp-checkbox')?.querySelector('.bp-checkbox-icon');
-  if (!icon) return;
+function rebuildCheckboxIcon(checkbox) {
+  const label = checkbox.closest('.bp-checkbox');
+  if (!label) return;
+  const existing = label.querySelector('.bp-checkbox-icon') || label.querySelector('svg[data-icon]');
+  if (existing) existing.remove();
+  
+  let iconClass = 'fa-regular fa-square';
   if (checkbox.indeterminate) {
-    icon.className = 'fa-solid fa-square-minus bp-checkbox-icon';
-  } else if (checkbox.checked) {
-    icon.className = 'fa-solid fa-square-check bp-checkbox-icon';
+    iconClass = 'fa-solid fa-square-minus';
+    label.classList.add('bp-checkbox--indeterminate');
   } else {
-    icon.className = 'fa-regular fa-square bp-checkbox-icon';
+    label.classList.remove('bp-checkbox--indeterminate');
+    if (checkbox.checked) iconClass = 'fa-solid fa-square-check';
   }
+  const icon = document.createElement('i');
+  icon.className = 'bp-checkbox-icon ' + iconClass;
+  label.appendChild(icon);
 }
 
-selectAllCheckbox.addEventListener('change', function() {
-  userCheckboxes.forEach(checkbox => {
-    checkbox.checked = this.checked;
-    updateCheckboxIcon(checkbox);
+function rebuildSelectAllHeader() {
+  const th = document.getElementById('selectAllUsersTh');
+  if (!th) return;
+  const total = userCheckboxes.length;
+  const checkedCount = Array.from(userCheckboxes).filter(cb => cb.checked).length;
+  
+  let isAll = checkedCount === total && total > 0;
+  let isIndet = checkedCount > 0 && checkedCount < total;
+  let iconClass = 'fa-regular fa-square';
+  let labelExtra = '';
+  if (isIndet) { iconClass = 'fa-solid fa-square-minus'; labelExtra = ' bp-checkbox--indeterminate'; }
+  else if (isAll) { iconClass = 'fa-solid fa-square-check'; }
+  
+  th.innerHTML = '<label class="bp-checkbox' + labelExtra + '"><input type="checkbox" id="selectAllUsers"' +
+    (isAll ? ' checked' : '') + '><i class="bp-checkbox-icon ' + iconClass + '"></i></label>';
+  if (isIndet) document.getElementById('selectAllUsers').indeterminate = true;
+  
+  document.getElementById('selectAllUsers').addEventListener('change', function() {
+    userCheckboxes.forEach(cb => {
+      cb.checked = this.checked;
+      rebuildCheckboxIcon(cb);
+    });
+    rebuildSelectAllHeader();
+    updateManageButton();
   });
-  updateCheckboxIcon(this);
+}
+
+document.getElementById('selectAllUsers').addEventListener('change', function() {
+  userCheckboxes.forEach(cb => {
+    cb.checked = this.checked;
+    rebuildCheckboxIcon(cb);
+  });
+  rebuildSelectAllHeader();
   updateManageButton();
 });
 
 userCheckboxes.forEach(checkbox => {
   checkbox.addEventListener('change', function() {
-    updateCheckboxIcon(this);
-    updateSelectAllState();
+    rebuildCheckboxIcon(this);
+    rebuildSelectAllHeader();
     updateManageButton();
   });
 });
-
-function updateSelectAllState() {
-  const total = userCheckboxes.length;
-  const checkedCount = Array.from(userCheckboxes).filter(cb => cb.checked).length;
-  if (checkedCount === 0) {
-    selectAllCheckbox.checked = false;
-    selectAllCheckbox.indeterminate = false;
-  } else if (checkedCount === total) {
-    selectAllCheckbox.checked = true;
-    selectAllCheckbox.indeterminate = false;
-  } else {
-    selectAllCheckbox.checked = false;
-    selectAllCheckbox.indeterminate = true;
-  }
-  updateCheckboxIcon(selectAllCheckbox);
-}
 
 function updateManageButton() {
   const anyChecked = Array.from(userCheckboxes).some(cb => cb.checked);
