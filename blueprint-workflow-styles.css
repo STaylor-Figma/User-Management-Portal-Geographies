@@ -528,6 +528,7 @@ h1 {
 .tab.active:hover {
   color: var(--tab-text-color-selected-hover);
 }
+.tab-count,
 .tab-counter {
   background: var(--tab-count-background);
   padding: var(--tab-count-padding-vertical) var(--tab-count-padding-horizontal);
@@ -542,13 +543,16 @@ h1 {
   justify-content: center;
   transition: background var(--tab-hover-duration) var(--tab-hover-easing);
 }
+.tab:hover .tab-count,
 .tab:hover .tab-counter {
   background: var(--tab-count-background-hover);
 }
+.tab.active .tab-count,
 .tab.active .tab-counter {
   background: var(--tab-count-background-selected);
   color: var(--tab-count-text-color-selected);
 }
+.tab.active:hover .tab-count,
 .tab.active:hover .tab-counter {
   background: var(--tab-count-background-selected-hover);
 }

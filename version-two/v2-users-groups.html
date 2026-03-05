@@ -14,70 +14,7 @@
 
 .content { padding: 0 20px; }
 
-/* Tabs */
-.tabs-container { 
-  display: flex; 
-  gap: 20px; 
-  border-bottom: 2px solid var(--neutral-300); 
-  margin-bottom: 24px;
-  align-items: flex-start;
-}
-.tab { 
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 2px; 
-  cursor: pointer;
-  transition: color 200ms ease-out, border-color 200ms ease-out;
-  font-family: var(--font-family-blueprintfont);
-  font-size: var(--font-size-300);
-  font-weight: var(--font-weight-text-medium);
-  line-height: 16px;
-  color: var(--neutral-600);
-  background: transparent;
-  border: none;
-  border-bottom: 4px solid transparent;
-}
-.tab:hover { 
-  color: var(--primary-400); 
-}
-.tab:hover .tab-count {
-  background: var(--neutral-300);
-}
-.tab.active { 
-  font-weight: var(--font-weight-text-bold); 
-  border-bottom: 4px solid var(--neutral-600);
-  color: var(--neutral-600);
-}
-.tab.active:hover { 
-  color: var(--primary-400); 
-}
-.tab:focus-visible {
-  outline: 2px solid var(--primary-100);
-  box-shadow: 0 0 4px 2px var(--neutral-500);
-}
-.tab-count { 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 6px; 
-  border-radius: 30px; 
-  font-family: var(--font-family-blueprintfont);
-  font-size: 12px; 
-  font-weight: 600; 
-  line-height: 14px;
-  background: var(--neutral-200);
-  color: var(--neutral-600);
-  min-width: 20px;
-  max-height: 20px;
-}
-.tab.active .tab-count {
-  background: var(--primary-500);
-  color: var(--neutral-0);
-}
-.tab.active:hover .tab-count {
-  background: var(--primary-400);
-}
+/* Tabs — uses shared blueprint-workflow-styles.css */
 
 /* Action Bar */
 .action-bar { 
@@ -1413,7 +1350,7 @@
     <div class="container">
 
     <!-- Tabs -->
-    <div class="tabs-container">
+    <div class="tabs">
       <button class="tab active" data-tab="users">
         Organization Users
         <span class="tab-count">10</span>
