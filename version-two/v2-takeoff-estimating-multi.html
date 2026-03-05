@@ -545,10 +545,14 @@ function renderUserTable() {
       </td>
       <td>${user.lastAccess}</td>
       <td>
-        ${!user.desktopLicense && !user.webLicense 
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${(!user.desktopLicense || !user.webLicense)
           ? `<button class="action-btn add" onclick="openAssignModal('${user.id}')">+ Add</button>`
-          : `<button class="action-btn remove" onclick="openRemoveModal('${user.id}', 'desktop')">Remove</button>`
-        }
+          : ''}
+        ${(user.desktopLicense || user.webLicense)
+          ? `<button class="action-btn remove" onclick="openRemoveModal('${user.id}')">Remove</button>`
+          : ''}
+        </div>
       </td>
     </tr>
   `).join('');
@@ -662,7 +666,7 @@ function updateSelectedUsers() {
   
   const hasUsersWithoutLicense = selectedUsers.some(id => {
     const user = users.find(u => u.id === id);
-    return !user.desktopLicense && !user.webLicense;
+    return !user.desktopLicense || !user.webLicense;
   });
   
   const hasUsersWithLicense = selectedUsers.some(id => {
@@ -775,15 +779,49 @@ function confirmAssignLicense() {
 
 // Remove License Modal
 function openRemoveModal(userId, licenseType) {
-  currentRemoveUser = { userId, licenseType };
   const user = users.find(u => u.id === userId);
   
-  const licenseName = licenseType === 'desktop' 
-    ? user.desktopLicense || user.webLicense 
-    : user.webLicense || user.desktopLicense;
+  if (!licenseType && user.desktopLicense && user.webLicense) {
+    currentRemoveUser = { userId, licenseType: null };
+    document.getElementById('removeUserName').textContent = user.name;
+    document.getElementById('removeLicenseName').textContent = user.desktopLicense + ' & ' + user.webLicense;
+    
+    const pickerHtml = `<div style="margin:16px 0;text-align:left;">
+      <p style="font-weight:600;margin-bottom:8px;">Which license to remove?</p>
+      <label style="display:flex;align-items:center;gap:8px;padding:8px;cursor:pointer;border:1px solid var(--neutral-300);border-radius:var(--radius-sm);margin-bottom:8px;">
+        <input type="radio" name="removeLicenseType" value="desktop" checked> Desktop — ${user.desktopLicense}
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;padding:8px;cursor:pointer;border:1px solid var(--neutral-300);border-radius:var(--radius-sm);margin-bottom:8px;">
+        <input type="radio" name="removeLicenseType" value="web"> Web — ${user.webLicense}
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;padding:8px;cursor:pointer;border:1px solid var(--neutral-300);border-radius:var(--radius-sm);">
+        <input type="radio" name="removeLicenseType" value="both"> Remove both
+      </label>
+    </div>`;
+    
+    let container = document.getElementById('removeLicensePicker');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'removeLicensePicker';
+      document.getElementById('removeLicenseName').parentElement.insertBefore(container, document.getElementById('removeLicenseName').nextSibling);
+    }
+    container.innerHTML = pickerHtml;
+    document.getElementById('removeLicenseModal').classList.add('show');
+    return;
+  }
+  
+  if (!licenseType) {
+    licenseType = user.desktopLicense ? 'desktop' : 'web';
+  }
+  currentRemoveUser = { userId, licenseType };
+  const licenseName = licenseType === 'desktop' ? user.desktopLicense : user.webLicense;
   
   document.getElementById('removeUserName').textContent = user.name;
   document.getElementById('removeLicenseName').textContent = licenseName;
+  
+  const picker = document.getElementById('removeLicensePicker');
+  if (picker) picker.innerHTML = '';
+  
   document.getElementById('removeLicenseModal').classList.add('show');
 }
 
@@ -796,12 +834,28 @@ function confirmRemoveLicense() {
   const { userId } = currentRemoveUser;
   const user = users.find(u => u.id === userId);
   
-  // Determine which license to remove
-  if (user.desktopLicense) {
+  const pickerRadio = document.querySelector('input[name="removeLicenseType"]:checked');
+  let licenseType = currentRemoveUser.licenseType;
+  if (pickerRadio) {
+    licenseType = pickerRadio.value;
+  }
+  
+  if (licenseType === 'both' || !licenseType && !pickerRadio) {
+    if (user.desktopLicense) {
+      const tier = subscriptions.find(s => s.tierName === user.desktopLicense && s.appType === 'desktop');
+      if (tier) tier.assignedSeats--;
+      user.desktopLicense = null;
+    }
+    if (user.webLicense) {
+      const tier = subscriptions.find(s => s.tierName === user.webLicense && s.appType === 'web');
+      if (tier) tier.assignedSeats--;
+      user.webLicense = null;
+    }
+  } else if (licenseType === 'desktop' && user.desktopLicense) {
     const tier = subscriptions.find(s => s.tierName === user.desktopLicense && s.appType === 'desktop');
     if (tier) tier.assignedSeats--;
     user.desktopLicense = null;
-  } else if (user.webLicense) {
+  } else if (licenseType === 'web' && user.webLicense) {
     const tier = subscriptions.find(s => s.tierName === user.webLicense && s.appType === 'web');
     if (tier) tier.assignedSeats--;
     user.webLicense = null;
