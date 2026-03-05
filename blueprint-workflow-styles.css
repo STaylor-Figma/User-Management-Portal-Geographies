@@ -1143,7 +1143,8 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   background: rgba(0, 0, 0, 0.5);
   z-index: 9998;
 }
-.drawer-overlay.active {
+.drawer-overlay.active,
+.drawer-overlay.show {
   display: block;
 }
 
@@ -1164,7 +1165,8 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   display: flex;
   flex-direction: column;
 }
-.drawer.active {
+.drawer.active,
+.drawer.show {
   right: 0;
 }
 
@@ -1181,7 +1183,8 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
   align-items: center;
   justify-content: center;
 }
-.modal.active {
+.modal.active,
+.modal.show {
   display: flex;
 }
 .modal-content {
