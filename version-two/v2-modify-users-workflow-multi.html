@@ -485,10 +485,11 @@ function render() {
         zoneHtml = '<span class="zone-badge">Full Access</span>';
       }
     } else if(u.accessType === 'modified') {
+      var tooltipText = getModifiedTooltip(u);
       if(u.subscription === 'Pro') {
-        zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">PRO - ' + u.zoneCount + '</span></span>';
+        zoneHtml = '<span class="zone-badge" style="position:relative;cursor:pointer;" title="' + tooltipText + '">Modified <span class="zone-counter">PRO - ' + u.zoneCount + '</span></span>';
       } else {
-        zoneHtml = '<span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
+        zoneHtml = '<span class="zone-badge" style="position:relative;cursor:pointer;" title="' + tooltipText + '">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
       }
     } else {
       zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
@@ -749,6 +750,28 @@ function updateUserHeaderState() {
   }
 }
 
+// Build tooltip text for Modified users showing their zone/county breakdown
+function getModifiedTooltip(user) {
+  if(!user.assignedCounties) return '';
+  var zoneMap = {};
+  for(var key in user.assignedCounties) {
+    if(user.assignedCounties[key]) {
+      var parts = key.split('-');
+      var zoneId = parseInt(parts[0]);
+      if(!zoneMap[zoneId]) zoneMap[zoneId] = 0;
+      zoneMap[zoneId]++;
+    }
+  }
+  var lines = [];
+  for(var zId in zoneMap) {
+    var zone = data.zones.find(function(z) { return z.id === parseInt(zId); });
+    if(zone) {
+      lines.push(zone.name + ': ' + zoneMap[zId] + ' of ' + zone.counties.length + ' counties');
+    }
+  }
+  return lines.length > 0 ? lines.join(' | ') : 'Modified access';
+}
+
 // Zone checkbox state
 function getZoneCheckboxState(zoneId){
   var zone = data.zones.find(z => z.id === zoneId);
@@ -828,22 +851,25 @@ function toggleSelectAll(){
 }
 
 // Add selected users (assign subscriptions)
-function addSelectedUsers() {
+function addSelectedUsers(subType) {
   var selectedUsers = [];
   for(var i = 0; i < data.users.length; i++) {
     if(sel.users[data.users[i].id] && data.users[i].accessType === 'none') {
       selectedUsers.push(data.users[i].name);
-      // Update user to Full Access
       data.users[i].zones = 'Full Access';
       data.users[i].accessType = 'full';
       data.users[i].zoneCount = null;
       data.users[i].assignedCounties = {};
+      data.users[i].subscription = subType || 'Starter';
     }
   }
   
   if(selectedUsers.length > 0) {
-    alert('Added subscription and Full Access for: ' + selectedUsers.join(', '));
-    // Clear selections and re-render
+    var modal = document.getElementById('confirmationModal');
+    var message = document.getElementById('confirmationMessage');
+    message.innerHTML = '<strong>' + selectedUsers.join(', ') + '</strong> ' +
+      (selectedUsers.length === 1 ? 'has' : 'have') + ' been assigned Full Access to the ' + (subType || 'Starter') + ' subscription.';
+    modal.classList.add('show');
     sel.users = {};
     sel.counties = {};
     render();
@@ -929,6 +955,10 @@ function removeUser(userId) {
     var user = data.users.find(u => u.id === userId);
     if(user) {
       user.zones = 'No Access';
+      user.accessType = 'none';
+      user.zoneCount = 0;
+      user.assignedCounties = {};
+      user.subscription = null;
       user.disabled = true;
       sel.users[userId] = false;
       render();
@@ -946,6 +976,7 @@ function save(){
   }
   
   // Get selected geography summary
+  var totalSelectedCounties = 0;
   for(var i=0; i<data.zones.length; i++){
     var z = data.zones[i];
     var selectedCounties = [];
@@ -953,6 +984,7 @@ function save(){
       if(sel.counties[z.id+'-'+j]) selectedCounties.push(z.counties[j]);
     }
     if(selectedCounties.length > 0){
+      totalSelectedCounties += selectedCounties.length;
       if(selectedCounties.length === z.counties.length){
         selections.push(z.name + ' (All ' + z.counties.length + ' counties)');
       } else {
@@ -961,17 +993,43 @@ function save(){
     }
   }
   
-  // Show modal
-  document.getElementById('msg').innerHTML = 
-    'Geography assigned to: ' + un.join(', ') + '<br><br>Selections: ' + selections.join(', ');
-  document.getElementById('modal').className = 'modal show';
-  
-  // Update user data
-  for(var i=0; i<data.users.length; i++){
-    if(sel.users[data.users[i].id]){
-      data.users[i].zones = 'Modified ' + selections.length;
+  // Build the new assignedCounties map from current selections
+  var newAssignedCounties = {};
+  for(var key in sel.counties) {
+    if(sel.counties[key]) {
+      newAssignedCounties[key] = true;
     }
   }
+  
+  // Check if all counties in all zones are selected (= full access)
+  var allCountiesTotal = 0;
+  for(var i=0; i<data.zones.length; i++){
+    allCountiesTotal += data.zones[i].counties.length;
+  }
+  var isFullAccess = (totalSelectedCounties === allCountiesTotal);
+  
+  // Update user data with proper accessType, zoneCount, and assignedCounties
+  for(var i=0; i<data.users.length; i++){
+    if(sel.users[data.users[i].id]){
+      if(isFullAccess) {
+        data.users[i].zones = 'Full Access';
+        data.users[i].accessType = 'full';
+        data.users[i].zoneCount = null;
+        data.users[i].assignedCounties = {};
+      } else {
+        data.users[i].zones = 'Modified';
+        data.users[i].accessType = 'modified';
+        data.users[i].zoneCount = totalSelectedCounties;
+        data.users[i].assignedCounties = JSON.parse(JSON.stringify(newAssignedCounties));
+      }
+    }
+  }
+  
+  // Show modal
+  document.getElementById('msg').innerHTML = 
+    'Geography updated for: <strong>' + un.join(', ') + '</strong><br><br>' +
+    '<strong>Selections:</strong><br>' + selections.join('<br>');
+  document.getElementById('modal').className = 'modal show';
 }
 
 // Close modal
