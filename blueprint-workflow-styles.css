@@ -591,6 +591,141 @@ h1 {
   display: flex;
 }
 
+/* ============================================================================
+   BLUEPRINT FORM ELEMENTS — per Label Atom + Input Field Molecule specs
+   ============================================================================ */
+
+/* Form labels — per Label Atom spec */
+.form-label,
+.bp-label {
+  display: block;
+  font-family: var(--font-family-blueprintfont);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 12px;
+  color: var(--neutral-600);
+  margin-bottom: 4px;
+}
+.form-label .required,
+.bp-label .required {
+  color: #b70900;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* Select dropdowns — per Input Field Molecule spec (adapted) */
+.form-select,
+.bp-select {
+  width: 100%;
+  height: 40px;
+  padding: 0 8px;
+  background: var(--primary-10);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-600);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color 200ms ease-out, background-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+.form-select:hover,
+.bp-select:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  border-width: 2px;
+  padding: 0 7px;
+}
+.form-select:focus,
+.bp-select:focus {
+  outline: none;
+  border-color: var(--primary-100);
+  border-width: 2px;
+  padding: 0 7px;
+  box-shadow: 0 0 4px 2px var(--neutral-500);
+}
+
+/* Input fields */
+.bp-input,
+.form-input,
+.field-input,
+.invite-form-input,
+.form-textarea {
+  width: 100%;
+  height: 40px;
+  background: var(--primary-10);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--radius-sm);
+  padding: 0 8px;
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-text-medium);
+  line-height: var(--line-height-medium);
+  color: var(--neutral-600);
+  box-sizing: border-box;
+  transition: border-color 200ms ease-out, border-width 200ms ease-out, background-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+.form-textarea {
+  height: auto;
+  min-height: 105px;
+  padding: 8px;
+  resize: vertical;
+}
+.bp-input::placeholder,
+.form-input::placeholder,
+.field-input::placeholder,
+.invite-form-input::placeholder,
+.form-textarea::placeholder {
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300);
+  font-weight: 300;
+  font-style: italic;
+  line-height: var(--line-height-medium);
+  color: var(--neutral-500);
+}
+.bp-input:hover,
+.form-input:hover,
+.field-input:hover,
+.invite-form-input:hover,
+.form-textarea:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  border-width: 2px;
+  padding: 0 7px;
+}
+.form-textarea:hover {
+  padding: 7px;
+}
+.bp-input:focus,
+.form-input:focus,
+.field-input:focus,
+.invite-form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  background: var(--primary-10);
+  border-color: var(--primary-100);
+  border-width: 2px;
+  padding: 0 7px;
+  box-shadow: 0 0 4px 2px var(--neutral-500);
+}
+.form-textarea:focus {
+  padding: 7px;
+}
+.bp-input:disabled,
+.form-input:disabled,
+.field-input:disabled,
+.invite-form-input:disabled,
+.form-textarea:disabled {
+  background: var(--neutral-100);
+  border-color: var(--neutral-300);
+  color: var(--neutral-400);
+  cursor: not-allowed;
+}
+
 /* Search Box */
 .search-box { 
   padding: var(--spacing-small-500); 
@@ -600,11 +735,36 @@ h1 {
 }
 .search-box input { 
   width: 100%; 
-  padding: var(--spacing-micro-200) var(--spacing-micro-200) var(--spacing-micro-200) 35px; 
-  border: 1px solid var(--neutral-300); 
+  height: 40px;
+  padding: 0 8px 0 35px;
+  background: var(--primary-10);
+  border: 1px solid var(--neutral-400); 
   border-radius: var(--radius-sm); 
-  font-size: var(--font-size-200); 
-  color: var(--neutral-600); 
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-300); 
+  font-weight: var(--font-weight-text-medium);
+  color: var(--neutral-600);
+  box-sizing: border-box;
+  transition: border-color 200ms ease-out, background-color 200ms ease-out, box-shadow 200ms ease-out;
+}
+.search-box input::placeholder {
+  font-weight: 300;
+  font-style: italic;
+  color: var(--neutral-500);
+}
+.search-box input:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  border-width: 2px;
+  padding: 0 7px 0 34px;
+}
+.search-box input:focus {
+  outline: none;
+  background: var(--primary-10);
+  border-color: var(--primary-100);
+  border-width: 2px;
+  padding: 0 7px 0 34px;
+  box-shadow: 0 0 4px 2px var(--neutral-500);
 }
 .search-icon { 
   position: absolute; 

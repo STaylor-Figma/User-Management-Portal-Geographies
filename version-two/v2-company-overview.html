@@ -634,18 +634,18 @@ function loadIndividualMode() {
         <div style="display: flex; gap: var(--spacing-small-250);">
           <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
             <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">First Name <span style="color: #b70900;">*</span></label>
-            <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="First Name">
+            <input type="text" class="bp-input" placeholder="First Name">
           </div>
           <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
             <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Last Name <span style="color: #b70900;">*</span></label>
-            <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="Last Name">
+            <input type="text" class="bp-input" placeholder="Last Name">
           </div>
         </div>
         <div style="display: flex; gap: var(--spacing-small-250);">
           <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
             <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Role</label>
             <div style="position: relative;">
-              <select style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: 3px 7px 0; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-400); width: 100%; cursor: pointer; transition: all 200ms ease-out; appearance: none;">
+              <select class="form-select" style="appearance: none; cursor: pointer;">
                 <option>Team Member</option>
               </select>
               <i class="fa-regular fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: var(--font-size-300); color: var(--neutral-500); pointer-events: none;"></i>
@@ -653,16 +653,16 @@ function loadIndividualMode() {
           </div>
           <div style="width: 204px; display: flex; flex-direction: column; gap: 3px;">
             <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Title</label>
-            <input type="text" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="Title">
+            <input type="text" class="bp-input" placeholder="Title">
           </div>
         </div>
         <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
           <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Email Address <span style="color: #b70900;">*</span></label>
-          <input type="email" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="username@email.com">
+          <input type="email" class="bp-input" placeholder="username@email.com">
         </div>
         <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">
           <label style="font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-bold); font-size: var(--font-size-200); line-height: 14px; color: var(--neutral-600);">Phone Number</label>
-          <input type="tel" style="background: #fffffa; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); height: 32px; padding: var(--spacing-micro-200) 7px; font-family: var(--font-family-blueprintfont); font-weight: var(--font-weight-text-medium); font-size: var(--font-size-300); line-height: 16px; color: var(--neutral-600); width: 100%;" placeholder="(000) 000-0000">
+          <input type="tel" class="bp-input" placeholder="(000) 000-0000">
         </div>
       </div>
     </div>

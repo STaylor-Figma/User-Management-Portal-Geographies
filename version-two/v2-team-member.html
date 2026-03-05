@@ -227,29 +227,38 @@
 .agent-input {
   flex: 1;
   height: 40px;
-  border: 1px solid var(--neutral-300);
+  border: 1px solid var(--neutral-400);
   border-radius: var(--radius-sm);
-  padding: var(--spacing-micro-200) var(--spacing-small-300);
+  padding: 0 8px;
   font-family: var(--font-family-blueprintfont);
   font-size: var(--font-size-300);
   font-weight: var(--font-weight-text-medium);
+  line-height: var(--line-height-medium);
   color: var(--neutral-600);
   background: var(--primary-10);
-  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+  box-sizing: border-box;
+  transition: border-color 200ms ease-out, border-width 200ms ease-out, background-color 200ms ease-out, box-shadow 200ms ease-out;
 }
 
 .agent-input::placeholder {
   font-style: italic;
-  color: var(--neutral-400);
-  font-weight: var(--font-weight-text-light);
+  font-weight: 300;
+  color: var(--neutral-500);
 }
 
-.agent-input:hover { border-color: var(--primary-500); }
+.agent-input:hover {
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  border-width: 2px;
+  padding: 0 7px;
+}
 
 .agent-input:focus {
   outline: none;
-  border-color: var(--primary-500);
+  background: var(--primary-10);
+  border-color: var(--primary-100);
   border-width: 2px;
+  padding: 0 7px;
   box-shadow: 0 0 4px 2px var(--neutral-500);
 }
 
