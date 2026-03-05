@@ -79,7 +79,51 @@
   color: var(--primary-500);
 }
 
-/* Page-specific overrides for Blueprint Design System */
+/* Blueprint Tooltip Atom */
+.bp-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.bp-tooltip-wrap .bp-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: var(--neutral-500);
+  color: var(--neutral-0);
+  font-family: var(--font-family-blueprintfont);
+  font-size: var(--font-size-200);
+  font-weight: var(--font-weight-text-semi-bold);
+  line-height: var(--line-height-small);
+  padding: var(--spacing-micro-200);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 150ms ease-out, visibility 150ms ease-out;
+}
+.bp-tooltip-wrap .bp-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--neutral-500);
+}
+.bp-tooltip-wrap:hover .bp-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.bp-tooltip--multiline {
+  white-space: normal;
+  min-width: 180px;
+  max-width: 300px;
+  text-align: left;
+}
 </style>
 </head>
 <body>
@@ -485,11 +529,13 @@ function render() {
         zoneHtml = '<span class="zone-badge">Full Access</span>';
       }
     } else if(u.accessType === 'modified') {
-      var tooltipText = getModifiedTooltip(u);
+      var tooltipLines = getModifiedTooltipLines(u);
       if(u.subscription === 'Pro') {
-        zoneHtml = '<span class="zone-badge" style="position:relative;cursor:pointer;" title="' + tooltipText + '">Modified <span class="zone-counter">PRO - ' + u.zoneCount + '</span></span>';
+        zoneHtml = '<span class="bp-tooltip-wrap"><span class="zone-badge">Modified <span class="zone-counter">PRO - ' + u.zoneCount + '</span></span>';
+        zoneHtml += '<span class="bp-tooltip bp-tooltip--multiline">' + tooltipLines + '</span></span>';
       } else {
-        zoneHtml = '<span class="zone-badge" style="position:relative;cursor:pointer;" title="' + tooltipText + '">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
+        zoneHtml = '<span class="bp-tooltip-wrap"><span class="zone-badge">Modified <span class="zone-counter">' + u.zoneCount + '</span></span>';
+        zoneHtml += '<span class="bp-tooltip bp-tooltip--multiline">' + tooltipLines + '</span></span>';
       }
     } else {
       zoneHtml = '<span class="zone-badge">' + u.zones + '</span>';
@@ -750,9 +796,9 @@ function updateUserHeaderState() {
   }
 }
 
-// Build tooltip text for Modified users showing their zone/county breakdown
-function getModifiedTooltip(user) {
-  if(!user.assignedCounties) return '';
+// Build tooltip HTML for Modified users showing their zone/county breakdown
+function getModifiedTooltipLines(user) {
+  if(!user.assignedCounties) return 'Modified access';
   var zoneMap = {};
   for(var key in user.assignedCounties) {
     if(user.assignedCounties[key]) {
@@ -769,7 +815,7 @@ function getModifiedTooltip(user) {
       lines.push(zone.name + ': ' + zoneMap[zId] + ' of ' + zone.counties.length + ' counties');
     }
   }
-  return lines.length > 0 ? lines.join(' | ') : 'Modified access';
+  return lines.length > 0 ? lines.join('<br>') : 'Modified access';
 }
 
 // Zone checkbox state
