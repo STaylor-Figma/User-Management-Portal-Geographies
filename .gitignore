@@ -18,3 +18,4 @@ playwright-report/
 # Backup files
 *.backup
 .vercel
+SESSION_SUMMARY.md
